@@ -578,23 +578,38 @@ export default function EliteTempoLanding() {
           the initial HTML for crawlers rather than behind JavaScript. */}
       <section id="faq" className="mx-auto max-w-3xl px-6 py-20">
         <Reveal>
-          <h2 className="text-center text-2xl font-extrabold sm:text-3xl" style={{ color: INK }}>
-            Golf swing tempo, answered
+          {/* Last word in gold, the way ReciMe puts the last word of its FAQ
+              heading in brand blue. */}
+          <h2 className="text-center text-3xl font-extrabold sm:text-4xl" style={{ color: INK }}>
+            Golf swing tempo,{" "}
+            <span style={{ color: ACCENT }}>answered</span>
           </h2>
-          <div className="mt-8 flex flex-col gap-3">
+
+          {/* Hairline-divided rows rather than a stack of cards, matching ReciMe:
+              the questions carry the eye down a single column instead of being
+              chopped into seven boxes. borderTop on the wrapper draws the rule
+              above the first row so the set reads as one list. Still native
+              <details>, so every answer stays in the initial HTML for crawlers. */}
+          <div className="mt-10" style={{ borderTop: `1px solid ${HAIRLINE}` }}>
             {FAQS.map(({ q, a }) => (
-              <details
-                key={q}
-                className="group rounded-2xl px-5 py-4"
-                style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
-              >
-                <summary
-                  className="cursor-pointer list-none text-base font-bold marker:content-none"
-                  style={{ color: INK }}
-                >
-                  {q}
+              <details key={q} className="group" style={{ borderBottom: `1px solid ${HAIRLINE}` }}>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 marker:content-none">
+                  <span className="text-base font-bold sm:text-lg" style={{ color: INK }}>
+                    {q}
+                  </span>
+                  {/* + when closed, minus sign when open. U+2212 MINUS SIGN, an icon
+                      inside an aria-hidden span, not prose punctuation, so the copy
+                      rule on em and en dashes does not apply. */}
+                  <span
+                    className="shrink-0 text-2xl font-light leading-none"
+                    style={{ color: ACCENT }}
+                    aria-hidden
+                  >
+                    <span className="group-open:hidden">+</span>
+                    <span className="hidden group-open:inline">&#8722;</span>
+                  </span>
                 </summary>
-                <p className="mt-3 text-sm leading-relaxed" style={{ color: MUTED }}>
+                <p className="pb-5 pr-10 text-sm leading-relaxed" style={{ color: MUTED }}>
                   {a}
                 </p>
               </details>
