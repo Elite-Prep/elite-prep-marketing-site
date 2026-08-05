@@ -19,21 +19,78 @@ const HAIRLINE = "#242732";
 
 const APP_STORE_URL = "https://apps.apple.com/app/elite-tempo/id6779226434";
 
+/* Prices and trial length are verified against App Store Connect, not copied from
+   older marketing text. Yearly is $24.99 for new customers as of 2026-07-31 (the
+   $19.99 point survives only as a preserved price for existing subscribers), monthly
+   is $5.99, both carry a 14-day free trial, and the lifetime non-consumable is
+   retired — PaywallView no longer offers it, so the page must not advertise it. */
+const PRICE_YEARLY = "$24.99";
+const PRICE_MONTHLY = "$5.99";
+const TRIAL_DAYS = 14;
+
+/* The <title> is what Google prints as the blue link, so it names the category
+   rather than leading with the tagline. The tagline still carries the social cards
+   and the on-page <h1>, where it does the persuading. */
 export const metadata: Metadata = {
-  title: "Elite Tempo. Copy the greats. Copy your best.",
+  title: "Elite Tempo | Golf Swing Tempo Trainer for iPhone",
   description:
-    "Golf tempo, timed by hand to 1/100s. Match the greats, then record your own swing and let the app find takeaway, top, and impact automatically. Train hands-free with the beats in your headphones. Try it free for 7 days, then $19.99 a year, or $49.99 for life.",
+    `Golf swing tempo trainer. Match the hand-timed tempo of Tiger, Rory and Couples to 1/100s, then record your own swing and let the app find takeaway, top and impact automatically. Train hands-free with the beats in your headphones. Free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month.`,
+  alternates: { canonical: "/elite-tempo" },
+  keywords: [
+    "golf swing tempo",
+    "golf tempo trainer",
+    "tour tempo",
+    "swing tempo app",
+    "golf metronome",
+    "3 to 1 tempo ratio",
+  ],
   openGraph: {
     title: "Elite Tempo. Copy the greats. Copy your best.",
     description:
-      "Golf tempo, timed by hand to 1/100s. Record your swing and the app times it automatically. Train hands-free with beats in your headphones. Free for 7 days, then $19.99 a year or $49.99 once.",
+      `Golf tempo, timed by hand to 1/100s. Record your swing and the app times it automatically. Train hands-free with beats in your headphones. Free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month.`,
   },
   twitter: {
     card: "summary_large_image",
     title: "Elite Tempo. Copy the greats. Copy your best.",
-    description: "Golf tempo, timed by hand to 1/100s. Auto swing capture, hands-free. Free 7-day trial, then $19.99 a year or $49.99 for life.",
+    description: `Golf tempo, timed by hand to 1/100s. Auto swing capture, hands-free. Free ${TRIAL_DAYS}-day trial, then ${PRICE_YEARLY} a year.`,
   },
 };
+
+/* Answers the questions people actually search, which "Elite Tempo" is not. Every
+   one of these is lifted from the People Also Ask box on "elite tempo golf" and
+   "tour tempo", so they are known real queries rather than guesses. Rendered as
+   visible copy AND as FAQPage structured data, because AI answer engines quote the
+   markup and Google builds the expandable sub-rows from it. */
+const FAQS: { q: string; a: string }[] = [
+  {
+    q: "What is golf swing tempo?",
+    a: "Tempo is the ratio between the time your backswing takes and the time your downswing takes, not how fast you swing overall. Tour players are remarkably consistent at it, which is why it is trainable: you are copying a rhythm, not a speed.",
+  },
+  {
+    q: "What is the 3 to 1 tempo ratio?",
+    a: "Most tour players take about three times as long to complete the backswing as the downswing — a 3:1 ratio, often counted as 24 frames back and 8 frames down at 30fps. Elite Tempo plays that ratio as three beats so you can feel it instead of counting it.",
+  },
+  {
+    q: "What is Rory McIlroy's swing tempo?",
+    a: "Elite Tempo hand-times real broadcast footage to 1/100 of a second. Rory's 2014 PGA Championship driver swing comes in at 3.0, against Tiger's 3.17 at the 2000 U.S. Open and Fred Couples' 2.75 at the 1992 Masters. You can train against any of them.",
+  },
+  {
+    q: "Does a golf tempo trainer actually work?",
+    a: "Tempo is one of the few parts of the swing you can change without rebuilding your mechanics, because it is timing rather than positions. The catch with most tools is that they only give you a target. Elite Tempo also records your own swing and times it automatically, so you can see whether you actually matched the target.",
+  },
+  {
+    q: "How is Elite Tempo different from a metronome?",
+    a: "A metronome gives you an even beat. A golf swing is not even — the backswing is roughly three times the downswing — so Elite Tempo plays beats spaced at real tour ratios and then measures your swing against them. It finds your takeaway, top and impact from video without you tapping anything.",
+  },
+  {
+    q: "How much does Elite Tempo cost?",
+    a: `Elite Tempo is free to download and free to try for ${TRIAL_DAYS} days. After that it is ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month, and you can cancel anytime.`,
+  },
+  {
+    q: "Do I need any extra hardware?",
+    a: "No. It runs on the iPhone you already own. Record a swing with the camera or import a clip you already have. Apple Watch and a lock-screen Live Activity are included if you want to train hands-free.",
+  },
+];
 
 // Real, hand-timed shots — the "see the best at their best" proof row.
 const GREATS = [
@@ -43,9 +100,76 @@ const GREATS = [
   { who: "Adam Scott", meta: "2013 Masters · Fairway wood", ratio: 2.84 },
 ];
 
+/* Machine-readable statement of what this thing is. The page had no structured data
+   at all, which is why Google and the AI answer engines had nothing but the App Store
+   listing to work from. No aggregateRating on purpose: with 4 ratings it buys nothing,
+   and Google's policy wants marked-up ratings visible on the page. */
+const STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MobileApplication",
+      "@id": "https://www.eliteprep.app/elite-tempo#app",
+      name: "Elite Tempo",
+      alternateName: "Elite Tempo — Golf Swing Tempo Trainer",
+      applicationCategory: "SportsApplication",
+      applicationSubCategory: "Golf Swing Tempo Trainer",
+      operatingSystem: "iOS 17.0 or later",
+      url: "https://www.eliteprep.app/elite-tempo",
+      downloadUrl: APP_STORE_URL,
+      installUrl: APP_STORE_URL,
+      description:
+        "Golf swing tempo trainer for iPhone. Match the hand-timed tempo of tour players to 1/100 of a second, then record your own swing and have takeaway, top and impact found automatically.",
+      featureList: [
+        "Hand-timed tempo library of famous tour swings",
+        "Automatic swing timing from video, no tapping",
+        "Side-by-side swing comparison",
+        "Hands-free training with beats in your headphones",
+        "Apple Watch and lock-screen Live Activity",
+      ],
+      publisher: {
+        "@type": "Organization",
+        name: "Elite Prep, LLC",
+        url: "https://www.eliteprep.app",
+      },
+      offers: [
+        {
+          "@type": "Offer",
+          name: "Elite Tempo Pro, Yearly",
+          price: "24.99",
+          priceCurrency: "USD",
+          category: "subscription",
+          url: APP_STORE_URL,
+        },
+        {
+          "@type": "Offer",
+          name: "Elite Tempo Pro, Monthly",
+          price: "5.99",
+          priceCurrency: "USD",
+          category: "subscription",
+          url: APP_STORE_URL,
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.eliteprep.app/elite-tempo#faq",
+      mainEntity: FAQS.map(({ q, a }) => ({
+        "@type": "Question",
+        name: q,
+        acceptedAnswer: { "@type": "Answer", text: a },
+      })),
+    },
+  ],
+};
+
 export default function EliteTempoLanding() {
   return (
     <main style={{ background: BG, color: INK }} className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
+      />
       {/* Nav */}
       <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
         <Wordmark />
@@ -84,7 +208,7 @@ export default function EliteTempoLanding() {
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <AppStoreButton />
                 <span className="text-sm" style={{ color: MUTED }}>
-                  Free to try · <strong style={{ color: INK }}>7 days free</strong>, then $19.99/yr · or $49.99 for life
+                  Free to try · <strong style={{ color: INK }}>{TRIAL_DAYS} days free</strong>, then {PRICE_YEARLY}/yr · or {PRICE_MONTHLY}/mo
                 </span>
               </div>
             </div>
@@ -280,7 +404,9 @@ export default function EliteTempoLanding() {
 
       <Divider />
 
-      {/* Pricing — free to download; go Pro via lifetime (hero) or a yearly plan with a 7-day free trial */}
+      {/* Pricing — free to download, then a 14-day free trial into yearly or monthly.
+          Lifetime used to be the hero price here and had to go: it is retired in the
+          app, so advertising it sent people to a paywall that could not sell it. */}
       <section className="mx-auto max-w-5xl px-6 py-20">
         <Reveal>
           <div
@@ -291,29 +417,29 @@ export default function EliteTempoLanding() {
               Free to download
             </p>
 
-            {/* Lifetime — the hero price */}
+            {/* Yearly — now the hero price, since it is what most people buy */}
             <div className="mt-5 flex items-end justify-center gap-2">
               <span className="text-6xl font-extrabold leading-none" style={{ color: INK }}>
-                $49.99
+                {PRICE_YEARLY}
               </span>
               <span className="pb-1 text-lg font-bold" style={{ color: ACCENT }}>
-                for life
+                a year
               </span>
             </div>
             <p className="mt-2 text-sm font-semibold" style={{ color: MUTED }}>
-              Pay once. Yours forever, no renewals.
+              Free for {TRIAL_DAYS} days first. Cancel anytime.
             </p>
 
-            {/* Yearly — lower-commitment way in, with a free trial */}
+            {/* Monthly — the lower-commitment way in */}
             <div
               className="mx-auto mt-6 max-w-xs rounded-2xl px-4 py-3"
               style={{ background: BG, border: `1px solid ${HAIRLINE}` }}
             >
               <p className="text-sm font-bold" style={{ color: INK }}>
-                Or start free for 7 days
+                Or {PRICE_MONTHLY} a month
               </p>
               <p className="mt-0.5 text-xs font-semibold" style={{ color: MUTED }}>
-                Then $19.99 a year. Cancel anytime.
+                Same {TRIAL_DAYS}-day free trial. Cancel anytime.
               </p>
             </div>
 
@@ -340,6 +466,38 @@ export default function EliteTempoLanding() {
             <p className="mt-4 text-xs" style={{ color: MUTED }}>
               Start free. Play a tempo in every area and time one of your own swings before you decide.
             </p>
+          </div>
+        </Reveal>
+      </section>
+
+      <Divider />
+
+      {/* FAQ — the real SEO surface. Nobody searches "Elite Tempo"; they search
+          "what is the 3 to 1 tempo ratio". Native <details> so the answers are in
+          the initial HTML for crawlers rather than behind JavaScript. */}
+      <section className="mx-auto max-w-3xl px-6 py-20">
+        <Reveal>
+          <h2 className="text-center text-2xl font-extrabold sm:text-3xl" style={{ color: INK }}>
+            Golf swing tempo, answered
+          </h2>
+          <div className="mt-8 flex flex-col gap-3">
+            {FAQS.map(({ q, a }) => (
+              <details
+                key={q}
+                className="group rounded-2xl px-5 py-4"
+                style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
+              >
+                <summary
+                  className="cursor-pointer list-none text-base font-bold marker:content-none"
+                  style={{ color: INK }}
+                >
+                  {q}
+                </summary>
+                <p className="mt-3 text-sm leading-relaxed" style={{ color: MUTED }}>
+                  {a}
+                </p>
+              </details>
+            ))}
           </div>
         </Reveal>
       </section>
