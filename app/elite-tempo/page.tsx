@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Reveal from "../components/Reveal";
 import EmailCapture from "./EmailCapture";
-import CountUp from "./CountUp";
 import BeatTicks from "./BeatTicks";
 import BudFlank from "./BudFlank";
 
@@ -135,10 +134,13 @@ const FAQS: { q: string; a: string }[] = [
    already drifts. Deriving from the raw marks keeps the site and the app agreeing
    to the digit. */
 const GREATS = [
-  { who: "Tiger Woods", meta: "2000 Open Championship · Driver", start: 0, top: 0.8238, impact: 1.047 },
-  { who: "Rory McIlroy", meta: "2014 PGA Championship · Driver", start: 1.62, top: 2.251, impact: 2.509 },
-  { who: "Fred Couples", meta: "1992 Masters · Fairway wood", start: 3.47, top: 4.366, impact: 4.634 },
-  { who: "Adam Scott", meta: "2002 Qatar Masters · Fairway wood", start: 0, top: 0.8209, impact: 1.09 },
+  /* meta is deliberately terse: the full events are The Open Championship, the PGA
+     Championship, The Masters and the Qatar Masters, but spelled out they wrapped to
+     two lines on every card. The app's own cards use the same "2000 · DRIVER" shape. */
+  { who: "Tiger Woods", meta: "2000 Open · Driver", start: 0, top: 0.8238, impact: 1.047 },
+  { who: "Rory McIlroy", meta: "2014 PGA · Driver", start: 1.62, top: 2.251, impact: 2.509 },
+  { who: "Fred Couples", meta: "1992 Masters · Wood", start: 3.47, top: 4.366, impact: 4.634 },
+  { who: "Adam Scott", meta: "2002 Qatar · Wood", start: 0, top: 0.8209, impact: 1.09 },
 ].map((g) => {
   const back = g.top - g.start;
   const down = g.impact - g.top;
@@ -319,7 +321,13 @@ export default function EliteTempoLanding() {
         </div>
       </section>
 
-      {/* Stat band — the three numbers. Labels and order follow the app's own
+      {/* Stat band — the three numbers. Rendered, never animated. CountUp counted
+          these up from zero on scroll, which meant any renderer that snapshotted
+          early captured a fraction of the real figure: Google indexed Tiger's 3.69
+          ratio as "0.74:1", and three separate screenshot passes here caught
+          "0.33:1", "0.13:1" and "0.09s". A measurement that displays wrong most of
+          the time it is looked at is worse than a static one, and these are the
+          numbers the whole page is about. Labels and order follow the app's own
           ThreeNumbersView: tempo ratio, total swing duration, then the two halves
           timed separately. The third cell is the pair, not a fourth number, which
           is why the app calls it "Backswing, downswing" on one row. */}
@@ -330,25 +338,22 @@ export default function EliteTempoLanding() {
             style={{ background: HAIRLINE, border: `1px solid ${HAIRLINE}` }}
           >
             <StatCell
-              big={<CountUp value={HERO.ratio} decimals={2} suffix=":1" />}
+              big={<>{HERO.ratio.toFixed(2)}:1</>}
               label="Tempo ratio"
-              sub="Backswing divided by downswing. The rhythm of the swing."
             />
             <StatCell
-              big={<CountUp value={HERO.total} decimals={2} suffix="s" />}
+              big={<>{HERO.total.toFixed(2)}s</>}
               label="Total swing duration"
-              sub="Start of takeaway to impact, timed by hand to 1/100s."
             />
             <StatCell
               big={
                 <>
-                  <CountUp value={HERO.back} decimals={2} suffix="s" />
+                  <>{HERO.back.toFixed(2)}s</>
                   <span style={{ color: MUTED }}> / </span>
-                  <CountUp value={HERO.down} decimals={2} suffix="s" />
+                  <>{HERO.down.toFixed(2)}s</>
                 </>
               }
               label="Backswing, downswing"
-              sub="The two halves, timed separately."
             />
           </div>
           <p className="mt-5 text-center text-sm" style={{ color: MUTED }}>
@@ -384,15 +389,13 @@ export default function EliteTempoLanding() {
                   style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
                 >
                   <p className="text-2xl font-extrabold tabular-nums" style={{ color: ACCENT, fontVariantNumeric: "tabular-nums" }}>
-                    <CountUp value={g.ratio} decimals={2} suffix=":1" />
+                    <>{g.ratio.toFixed(2)}:1</>
                   </p>
                   <p className="mt-1.5 text-sm font-bold" style={{ color: INK }}>{g.who}</p>
+                  {/* One line, not three. The backswing and downswing split lives in
+                      the stat band above; repeating it on all four cards was the
+                      clutter. */}
                   <p className="text-xs" style={{ color: MUTED }}>{g.meta}</p>
-                  {/* The two halves, so the ratio above is shown to be measured
-                      rather than asserted. */}
-                  <p className="mt-1 text-xs tabular-nums" style={{ color: MUTED, fontVariantNumeric: "tabular-nums" }}>
-                    {g.back.toFixed(2)}s back · {g.down.toFixed(2)}s down
-                  </p>
                 </div>
               ))}
             </div>
@@ -867,7 +870,10 @@ function PhoneStage({
   );
 }
 
-function StatCell({ big, label, sub }: { big: React.ReactNode; label: string; sub: string }) {
+/* Number and label only. The explanatory sub-lines are gone: three of them side
+   by side turned a glanceable band into a paragraph, and each label already says
+   what its number is. */
+function StatCell({ big, label }: { big: React.ReactNode; label: string }) {
   return (
     <div className="px-8 py-10 text-center" style={{ background: BG }}>
       <p
@@ -878,9 +884,6 @@ function StatCell({ big, label, sub }: { big: React.ReactNode; label: string; su
       </p>
       <p className="mt-3 text-xs font-bold uppercase tracking-[0.18em]" style={{ color: INK }}>
         {label}
-      </p>
-      <p className="mx-auto mt-2 max-w-xs text-sm" style={{ color: MUTED }}>
-        {sub}
       </p>
     </div>
   );
