@@ -31,9 +31,12 @@ const HAIRLINE = "#30343E";
    deep links like /elite-tempo#compare still work, they are just not all in the bar.
    Pricing and FAQ are what people hunt for; the greats is the marquee feature. */
 const SECTIONS = [
-  { id: "greats", label: "The greats" },
+  { id: "greats", label: "The Greats" },
+  /* Features points at the automatic-capture section: it is the first feature
+     section that is not already its own link, since The Greats takes that slot. */
+  { id: "your-swing", label: "Features" },
   { id: "pricing", label: "Pricing" },
-  { id: "faq", label: "FAQ" },
+  { id: "faq", label: "FAQs" },
 ];
 
 const APP_STORE_URL = "https://apps.apple.com/app/elite-tempo/id6779226434";
@@ -190,7 +193,23 @@ const STRUCTURED_DATA = {
 
 export default function EliteTempoLanding() {
   return (
-    <main style={{ background: BG, color: INK }} className="min-h-screen">
+    /* The app's canvas, ported. Theme.swift is a ZStack of bg plus
+       RadialGradient(accent.opacity(0.06) to clear, center: .topTrailing,
+       endRadius: 620), described there as "a hint of warmth, not a brown wash".
+       Opacity is kept at exactly 0.06 on purpose: DESIGN.md records a heavier pass
+       (0.16 over a 520pt radius, plus a second linear wash) that "tinted the whole
+       upper screen brown, the exact failure Theme.canvas warns about", and was
+       pulled back. The radius is scaled up for a desktop viewport but stays a
+       corner glow that fades out well before mid-page, so 8000px of page below it
+       is untinted rather than washed. */
+    <main
+      style={{
+        background: `radial-gradient(1200px 900px at 100% 0%, rgba(255, 179, 0, 0.06), rgba(255, 179, 0, 0) 70%), ${BG}`,
+        backgroundRepeat: "no-repeat",
+        color: INK,
+      }}
+      className="min-h-screen"
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
@@ -214,19 +233,24 @@ export default function EliteTempoLanding() {
                 <a
                   key={id}
                   href={`#${id}`}
-                  className="text-sm font-semibold transition-colors duration-150 hover:text-[#FFB300]"
+                  className="text-sm font-bold transition-colors duration-150 hover:text-[#FFB300]"
                   style={{ color: INK }}
                 >
                   {label}
                 </a>
               ))}
             </nav>
+            {/* Outlined, not a filled gold pill. Same reasoning the homepage nav
+                already records for its Sign up button: the header CTA is the
+                SECONDARY surface, and the filled treatment belongs to the
+                in-content App Store buttons that actually convert. It also keeps
+                gold rarer, which is the point of the gold rule. */}
             <a
               href={APP_STORE_URL}
-              className="shrink-0 rounded-full px-5 py-2.5 text-sm font-bold transition duration-200 hover:scale-[1.04] hover:shadow-[0_8px_26px_-8px_rgba(255,179,0,0.55)] active:scale-[0.98]"
-              style={{ background: ACCENT, color: ON_ACCENT }}
+              className="shrink-0 whitespace-nowrap rounded-full border px-5 py-2.5 text-sm font-bold transition duration-200 hover:bg-white/10 active:scale-[0.98]"
+              style={{ borderColor: INK, color: INK }}
             >
-              Download
+              Try now for free
             </a>
           </div>
         </div>
@@ -670,8 +694,13 @@ function AppStoreButton() {
   return (
     <a
       href={APP_STORE_URL}
+      /* Was #000000 on a #0B0B0C canvas: 1.04:1, so the badge was invisible apart
+         from its border and only the faint outline said "button". Apple's marketing
+         guidelines offer a black and a white badge and ask for the white one on dark
+         backgrounds, which is also 19.4:1 here. Now that the header CTA is outlined,
+         this is the one filled button on the page, which is the right hierarchy. */
       className="inline-flex items-center gap-2.5 rounded-xl px-5 py-3 transition duration-200 hover:scale-[1.03] active:scale-[0.98]"
-      style={{ background: "#000000", border: "1px solid #34343A", color: "#FFFFFF" }}
+      style={{ background: "#FFFFFF", color: "#0B0B0C" }}
       aria-label="Download Elite Tempo on the App Store"
     >
       <svg width="22" height="26" viewBox="0 0 384 512" fill="currentColor" aria-hidden>
