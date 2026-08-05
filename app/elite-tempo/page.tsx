@@ -24,12 +24,14 @@ const MUTED = "#8F929C";
 const CARD = "#1B1E26";
 const HAIRLINE = "#30343E";
 
-/* Section links for the sticky header, ReciMe style. Order matches the page. */
+/* Three links, not six. ReciMe's header carries exactly three (FAQs, Gift Cards,
+   Log In) plus one button, clustered hard right with a wide empty gap after the
+   logo, and that space is what makes it read as calm. Six grey links spread across
+   the middle read as a dense strip instead. The ids stay on all seven sections, so
+   deep links like /elite-tempo#compare still work, they are just not all in the bar.
+   Pricing and FAQ are what people hunt for; the greats is the marquee feature. */
 const SECTIONS = [
   { id: "greats", label: "The greats" },
-  { id: "your-swing", label: "Your swing" },
-  { id: "compare", label: "Compare" },
-  { id: "routine", label: "Routine" },
   { id: "pricing", label: "Pricing" },
   { id: "faq", label: "FAQ" },
 ];
@@ -195,27 +197,32 @@ export default function EliteTempoLanding() {
         className="sticky top-0 z-50 backdrop-blur-md"
         style={{ background: "rgba(11, 11, 12, 0.85)", borderBottom: `1px solid ${HAIRLINE}` }}
       >
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-6 px-6 py-4">
+        {/* Wordmark hard left, everything else hard right, so the gap between them
+            does the work. The links are INK rather than MUTED: grey made them read
+            as disabled next to a saturated gold pill. */}
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
           <Wordmark />
-          <nav aria-label="Page sections" className="hidden items-center gap-6 lg:flex">
-            {SECTIONS.map(({ id, label }) => (
-              <a
-                key={id}
-                href={`#${id}`}
-                className="text-sm font-semibold transition-colors duration-150 hover:text-[#FFB300]"
-                style={{ color: MUTED }}
-              >
-                {label}
-              </a>
-            ))}
-          </nav>
-          <a
-            href={APP_STORE_URL}
-            className="shrink-0 rounded-full px-5 py-2.5 text-sm font-bold transition duration-200 hover:scale-[1.04] hover:shadow-[0_8px_26px_-8px_rgba(255,179,0,0.55)] active:scale-[0.98]"
-            style={{ background: ACCENT, color: ON_ACCENT }}
-          >
-            Download
-          </a>
+          <div className="flex items-center gap-8 sm:gap-10">
+            <nav aria-label="Page sections" className="hidden items-center gap-8 md:flex">
+              {SECTIONS.map(({ id, label }) => (
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  className="text-sm font-semibold transition-colors duration-150 hover:text-[#FFB300]"
+                  style={{ color: INK }}
+                >
+                  {label}
+                </a>
+              ))}
+            </nav>
+            <a
+              href={APP_STORE_URL}
+              className="shrink-0 rounded-full px-5 py-2.5 text-sm font-bold transition duration-200 hover:scale-[1.04] hover:shadow-[0_8px_26px_-8px_rgba(255,179,0,0.55)] active:scale-[0.98]"
+              style={{ background: ACCENT, color: ON_ACCENT }}
+            >
+              Download
+            </a>
+          </div>
         </div>
       </header>
 
