@@ -240,15 +240,17 @@ export default function EliteTempoLanding() {
                 </a>
               ))}
             </nav>
-            {/* Outlined, not a filled gold pill. Same reasoning the homepage nav
-                already records for its Sign up button: the header CTA is the
-                SECONDARY surface, and the filled treatment belongs to the
-                in-content App Store buttons that actually convert. It also keeps
-                gold rarer, which is the point of the gold rule. */}
+            {/* Gold outline, not a filled gold pill. Outlined keeps the header the
+                SECONDARY surface, the same reasoning the homepage nav records for
+                its Sign up button, so the filled white App Store badges in the page
+                body stay the primary convert action. Gold border and gold ink is
+                the form DESIGN.md reserves in the app, but the website already
+                carries gold as ink on every section eyebrow and in the h1, so this
+                is consistent with the site rather than a new deviation. */}
             <a
               href={APP_STORE_URL}
-              className="shrink-0 whitespace-nowrap rounded-full border px-5 py-2.5 text-sm font-bold transition duration-200 hover:bg-white/10 active:scale-[0.98]"
-              style={{ borderColor: INK, color: INK }}
+              className="shrink-0 whitespace-nowrap rounded-full border px-5 py-2.5 text-sm font-bold transition duration-200 hover:bg-[rgba(255,179,0,0.12)] active:scale-[0.98]"
+              style={{ borderColor: ACCENT, color: ACCENT }}
             >
               Try now for free
             </a>
