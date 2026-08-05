@@ -13,8 +13,11 @@ const ACCENT = "#FFB300";
 const ON_ACCENT = "#0B0B0C";
 const INK = "#F3F5F9";
 const MUTED = "#8F929C";
-const CARD = "#151720";
-const HAIRLINE = "#242732";
+/* Kept in step with page.tsx, which now matches Theme.swift. This file carries
+   its own copies because it is a client component; if the palette moves again,
+   both places move. */
+const CARD = "#1B1E26";
+const HAIRLINE = "#30343E";
 
 function isValidEmail(raw: string) {
   const s = raw.trim();
