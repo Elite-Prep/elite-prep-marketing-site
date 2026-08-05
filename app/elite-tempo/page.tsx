@@ -100,7 +100,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "What is Rory McIlroy's swing tempo?",
-    a: "Elite Tempo hand-times real broadcast footage to 1/100 of a second. Rory's 2014 PGA Championship driver swing comes in at 3.0, against Tiger's 3.17 at the 2000 U.S. Open and Fred Couples' 2.75 at the 1992 Masters. You can train against any of them.",
+    a: "Elite Tempo hand-times real broadcast footage to 1/100 of a second. Rory's 2014 PGA Championship driver swing is a 0.63s backswing and a 0.26s downswing, so a 2.45:1 ratio over 0.89s. Compare that with Tiger's 3.69:1 driver at the 2000 Open Championship and Fred Couples' 3.34:1 fairway wood at the 1992 Masters. You can train against any of them.",
   },
   {
     q: "Does a golf tempo trainer actually work?",
@@ -120,13 +120,36 @@ const FAQS: { q: string; a: string }[] = [
   },
 ];
 
-// Real, hand-timed shots — the "see the best at their best" proof row.
+/* Real, hand-timed shots, taken from the app's own seed data
+   (EliteTempoCore/Resources/seed-presets.json) rather than retyped. Every figure
+   here previously disagreed with the app: Tiger was listed at 3.17 for a "2000
+   U.S. Open" driver that is actually The Open Championship at 3.69, Rory at 3.0
+   against a real 2.45, Couples at 2.75 against a real 3.34, and Adam Scott as a
+   "2013 Masters" wood when the library has 2002 Qatar Masters at 3.05. No 3.17
+   exists anywhere in the data. The app is the hand-timing source of truth, so
+   these now match it, and startS/topS/impactS are carried so the backswing and
+   downswing can be shown rather than derived from a rounded ratio. */
+/* Raw startS/topS/impactS copied verbatim from seed-presets.json, then run through
+   the same arithmetic as TempoMath.tempo(). Rounding the timestamps first is what
+   NOT to do: 0.824/0.223 rounds to 3.70 where the app stores 3.69, so a 3dp copy
+   already drifts. Deriving from the raw marks keeps the site and the app agreeing
+   to the digit. */
 const GREATS = [
-  { who: "Tiger Woods", meta: "2000 U.S. Open · Driver", ratio: 3.17 },
-  { who: "Rory McIlroy", meta: "2014 PGA · Driver", ratio: 3.0 },
-  { who: "Fred Couples", meta: "1992 Masters · Fairway wood", ratio: 2.75 },
-  { who: "Adam Scott", meta: "2013 Masters · Fairway wood", ratio: 2.84 },
-];
+  { who: "Tiger Woods", meta: "2000 Open Championship · Driver", start: 0, top: 0.8238, impact: 1.047 },
+  { who: "Rory McIlroy", meta: "2014 PGA Championship · Driver", start: 1.62, top: 2.251, impact: 2.509 },
+  { who: "Fred Couples", meta: "1992 Masters · Fairway wood", start: 3.47, top: 4.366, impact: 4.634 },
+  { who: "Adam Scott", meta: "2002 Qatar Masters · Fairway wood", start: 0, top: 0.8209, impact: 1.09 },
+].map((g) => {
+  const back = g.top - g.start;
+  const down = g.impact - g.top;
+  return { ...g, back, down, total: g.impact - g.start, ratio: back / down };
+});
+
+/* The headline swing: Tiger's 2000 Open Championship driver, the app's marquee
+   preset. All three numbers come off the same two marks, so the band cannot
+   contradict itself the way the old hardcoded 0.96s / 3.17:1 pair did, since
+   neither of those figures existed anywhere in the app's data. */
+const HERO = GREATS[0];
 
 /* Machine-readable statement of what this thing is. The page had no structured data
    at all, which is why Google and the AI answer engines had nothing but the App Store
@@ -296,26 +319,40 @@ export default function EliteTempoLanding() {
         </div>
       </section>
 
-      {/* Stat band — the two numbers */}
+      {/* Stat band — the three numbers. Labels and order follow the app's own
+          ThreeNumbersView: tempo ratio, total swing duration, then the two halves
+          timed separately. The third cell is the pair, not a fourth number, which
+          is why the app calls it "Backswing, downswing" on one row. */}
       <section className="mx-auto max-w-5xl px-6 py-12">
         <Reveal>
           <div
-            className="grid gap-px overflow-hidden rounded-3xl sm:grid-cols-2"
+            className="grid gap-px overflow-hidden rounded-3xl sm:grid-cols-3"
             style={{ background: HAIRLINE, border: `1px solid ${HAIRLINE}` }}
           >
             <StatCell
-              big={<CountUp value={0.96} decimals={2} suffix="s" />}
-              label="Start to impact"
-              sub="Exact swing duration, timed by hand to 1/100s."
+              big={<CountUp value={HERO.ratio} decimals={2} suffix=":1" />}
+              label="Tempo ratio"
+              sub="Backswing divided by downswing. The rhythm of the swing."
             />
             <StatCell
-              big={<CountUp value={3.17} decimals={2} suffix=":1" />}
-              label="Tempo ratio"
-              sub="Backswing to downswing. The rhythm of the swing."
+              big={<CountUp value={HERO.total} decimals={2} suffix="s" />}
+              label="Total swing duration"
+              sub="Start of takeaway to impact, timed by hand to 1/100s."
+            />
+            <StatCell
+              big={
+                <>
+                  <CountUp value={HERO.back} decimals={2} suffix="s" />
+                  <span style={{ color: MUTED }}> / </span>
+                  <CountUp value={HERO.down} decimals={2} suffix="s" />
+                </>
+              }
+              label="Backswing, downswing"
+              sub="The two halves, timed separately."
             />
           </div>
           <p className="mt-5 text-center text-sm" style={{ color: MUTED }}>
-            The two numbers no other app captures.
+            The three numbers no other app captures.
           </p>
         </Reveal>
       </section>
@@ -351,6 +388,11 @@ export default function EliteTempoLanding() {
                   </p>
                   <p className="mt-1.5 text-sm font-bold" style={{ color: INK }}>{g.who}</p>
                   <p className="text-xs" style={{ color: MUTED }}>{g.meta}</p>
+                  {/* The two halves, so the ratio above is shown to be measured
+                      rather than asserted. */}
+                  <p className="mt-1 text-xs tabular-nums" style={{ color: MUTED, fontVariantNumeric: "tabular-nums" }}>
+                    {g.back.toFixed(2)}s back · {g.down.toFixed(2)}s down
+                  </p>
                 </div>
               ))}
             </div>
