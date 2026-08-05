@@ -349,11 +349,12 @@ export default function EliteTempoLanding() {
               big={
                 <>
                   <>{HERO.back.toFixed(2)}s</>
-                  <span style={{ color: MUTED }}> / </span>
+                  <span className="px-1.5 font-normal" style={{ color: MUTED }}>/</span>
                   <>{HERO.down.toFixed(2)}s</>
                 </>
               }
               label="Backswing, downswing"
+              tight
             />
           </div>
           <p className="mt-5 text-center text-sm" style={{ color: MUTED }}>
@@ -872,12 +873,20 @@ function PhoneStage({
 
 /* Number and label only. The explanatory sub-lines are gone: three of them side
    by side turned a glanceable band into a paragraph, and each label already says
-   what its number is. */
-function StatCell({ big, label }: { big: React.ReactNode; label: string }) {
+   what its number is.
+
+   The number sits in a fixed-height flex row so all three LABELS land on the same
+   line. Without it, "0.82s / 0.22s" wrapped to two lines and pushed its label a
+   line lower than the other two. `tight` gives that pair a smaller size and
+   nowrap keeps it on one line, so the fixed height is a guarantee rather than the
+   only thing holding the row together. */
+function StatCell({ big, label, tight }: { big: React.ReactNode; label: string; tight?: boolean }) {
   return (
-    <div className="px-8 py-10 text-center" style={{ background: BG }}>
+    <div className="px-4 py-10 text-center sm:px-6 md:px-8" style={{ background: BG }}>
       <p
-        className="text-5xl font-extrabold tabular-nums"
+        className={`flex h-12 items-center justify-center whitespace-nowrap font-extrabold tabular-nums md:h-14 ${
+          tight ? "text-xl sm:text-2xl md:text-4xl" : "text-3xl sm:text-4xl md:text-5xl"
+        }`}
         style={{ color: ACCENT, fontVariantNumeric: "tabular-nums" }}
       >
         {big}
