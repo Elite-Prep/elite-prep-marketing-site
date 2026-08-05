@@ -68,7 +68,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "What is the 3 to 1 tempo ratio?",
-    a: "Most tour players take about three times as long to complete the backswing as the downswing — a 3:1 ratio, often counted as 24 frames back and 8 frames down at 30fps. Elite Tempo plays that ratio as three beats so you can feel it instead of counting it.",
+    a: "Most tour players take about three times as long to complete the backswing as the downswing, a 3:1 ratio, often counted as 24 frames back and 8 frames down at 30fps. Elite Tempo plays that ratio as three beats so you can feel it instead of counting it.",
   },
   {
     q: "What is Rory McIlroy's swing tempo?",
@@ -80,7 +80,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "How is Elite Tempo different from a metronome?",
-    a: "A metronome gives you an even beat. A golf swing is not even — the backswing is roughly three times the downswing — so Elite Tempo plays beats spaced at real tour ratios and then measures your swing against them. It finds your takeaway, top and impact from video without you tapping anything.",
+    a: "A metronome gives you an even beat. A golf swing is not even. The backswing is roughly three times the downswing, so Elite Tempo plays beats spaced at real tour ratios and then measures your swing against them. It finds your takeaway, top and impact from video without you tapping anything.",
   },
   {
     q: "How much does Elite Tempo cost?",
@@ -111,7 +111,7 @@ const STRUCTURED_DATA = {
       "@type": "MobileApplication",
       "@id": "https://www.eliteprep.app/elite-tempo#app",
       name: "Elite Tempo",
-      alternateName: "Elite Tempo — Golf Swing Tempo Trainer",
+      alternateName: "Elite Tempo: Golf Swing Tempo Trainer",
       applicationCategory: "SportsApplication",
       applicationSubCategory: "Golf Swing Tempo Trainer",
       operatingSystem: "iOS 17.0 or later",
