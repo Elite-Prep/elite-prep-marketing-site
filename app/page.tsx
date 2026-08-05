@@ -77,7 +77,6 @@ const HOME_SECTIONS = [
   { id: "pillars", label: "How it works" },
   { id: "features", label: "Features" },
   { id: "why", label: "Why Elite Prep" },
-  { id: "who", label: "Who it's for" },
 ];
 
 function TopNav() {
@@ -96,13 +95,13 @@ function TopNav() {
         </Link>
         {/* Section links, ReciMe style. Hidden below lg so they never crowd
             Log in / Sign up, which are the actions that matter on a phone. */}
-        <nav aria-label="Page sections" className="hidden items-center gap-6 lg:flex">
+        <nav aria-label="Page sections" className="ml-auto mr-8 hidden items-center gap-8 lg:flex">
           {HOME_SECTIONS.map(({ id, label }) => (
             <a
               key={id}
               href={`#${id}`}
               className="text-sm font-medium transition-colors duration-150"
-              style={{ color: TEXT_BODY }}
+              style={{ color: TEXT_HEAD }}
             >
               {label}
             </a>
