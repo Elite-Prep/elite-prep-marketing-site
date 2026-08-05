@@ -43,9 +43,15 @@ const APP_STORE_URL = "https://apps.apple.com/app/elite-tempo/id6779226434";
    $19.99 point survives only as a preserved price for existing subscribers), monthly
    is $5.99, both carry a 14-day free trial, and the lifetime non-consumable is
    retired — PaywallView no longer offers it, so the page must not advertise it. */
-const PRICE_YEARLY = "$24.99";
-const PRICE_MONTHLY = "$5.99";
+const PRICE_YEARLY_NUM = 24.99;
+const PRICE_MONTHLY_NUM = 5.99;
+const PRICE_YEARLY = `$${PRICE_YEARLY_NUM.toFixed(2)}`;
+const PRICE_MONTHLY = `$${PRICE_MONTHLY_NUM.toFixed(2)}`;
 const TRIAL_DAYS = 14;
+
+/* Derived, never typed by hand, so the badge cannot outlive a price change:
+   $5.99 x 12 = $71.88 against $24.99 is a 65% saving. */
+const YEARLY_SAVING_PCT = Math.round((1 - PRICE_YEARLY_NUM / (PRICE_MONTHLY_NUM * 12)) * 100);
 
 /* The <title> is what Google prints as the blue link, so it names the category
    rather than leading with the tagline. The tagline still carries the social cards
@@ -103,7 +109,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "How much does Elite Tempo cost?",
-    a: `Elite Tempo is free to download and free to try for ${TRIAL_DAYS} days. After that it is ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month, and you can cancel anytime.`,
+    a: `Elite Tempo is free to download and free to try for ${TRIAL_DAYS} days. After that it is ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month, and you can cancel anytime. The yearly plan works out about ${YEARLY_SAVING_PCT}% cheaper than paying monthly.`,
   },
   {
     q: "Do I need any extra hardware?",
@@ -461,30 +467,55 @@ export default function EliteTempoLanding() {
               Free to download
             </p>
 
-            {/* Yearly — now the hero price, since it is what most people buy */}
-            <div className="mt-5 flex items-end justify-center gap-2">
-              <span className="text-6xl font-extrabold leading-none" style={{ color: INK }}>
-                {PRICE_YEARLY}
-              </span>
-              <span className="pb-1 text-lg font-bold" style={{ color: ACCENT }}>
-                a year
-              </span>
-            </div>
-            <p className="mt-2 text-sm font-semibold" style={{ color: MUTED }}>
-              Free for {TRIAL_DAYS} days first. Cancel anytime.
-            </p>
+            {/* Two equal plan boxes, side by side, stacking on a phone. Yearly is
+                marked as the better deal with a gold border and a SAVE badge; the
+                badge is a gold FIELD with black onAccent ink, which is the
+                sanctioned form of gold per DESIGN.md, not gold used as ink on a
+                dark surface. Prices stay INK so the badge is the only thing
+                competing for the eye. grid + h-full keeps both boxes identical
+                whatever the copy length. */}
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <div
+                className="relative flex h-full flex-col rounded-2xl px-6 pb-6 pt-7"
+                style={{ background: BG, border: `1px solid ${ACCENT}` }}
+              >
+                <span
+                  className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.08em]"
+                  style={{ background: ACCENT, color: ON_ACCENT }}
+                >
+                  Save {YEARLY_SAVING_PCT}%
+                </span>
+                <p className="text-xs font-bold uppercase tracking-[0.14em]" style={{ color: MUTED }}>
+                  Yearly
+                </p>
+                <p className="mt-3 text-4xl font-extrabold leading-none" style={{ color: INK }}>
+                  {PRICE_YEARLY}
+                </p>
+                <p className="mt-1.5 text-sm font-bold" style={{ color: MUTED }}>
+                  a year
+                </p>
+                <p className="mt-auto pt-4 text-xs font-semibold" style={{ color: MUTED }}>
+                  Free for {TRIAL_DAYS} days. Cancel anytime.
+                </p>
+              </div>
 
-            {/* Monthly — the lower-commitment way in */}
-            <div
-              className="mx-auto mt-6 max-w-xs rounded-2xl px-4 py-3"
-              style={{ background: BG, border: `1px solid ${HAIRLINE}` }}
-            >
-              <p className="text-sm font-bold" style={{ color: INK }}>
-                Or {PRICE_MONTHLY} a month
-              </p>
-              <p className="mt-0.5 text-xs font-semibold" style={{ color: MUTED }}>
-                Same {TRIAL_DAYS}-day free trial. Cancel anytime.
-              </p>
+              <div
+                className="relative flex h-full flex-col rounded-2xl px-6 pb-6 pt-7"
+                style={{ background: BG, border: `1px solid ${HAIRLINE}` }}
+              >
+                <p className="text-xs font-bold uppercase tracking-[0.14em]" style={{ color: MUTED }}>
+                  Monthly
+                </p>
+                <p className="mt-3 text-4xl font-extrabold leading-none" style={{ color: INK }}>
+                  {PRICE_MONTHLY}
+                </p>
+                <p className="mt-1.5 text-sm font-bold" style={{ color: MUTED }}>
+                  a month
+                </p>
+                <p className="mt-auto pt-4 text-xs font-semibold" style={{ color: MUTED }}>
+                  Free for {TRIAL_DAYS} days. Cancel anytime.
+                </p>
+              </div>
             </div>
 
             <ul className="mx-auto mt-7 flex max-w-xs flex-col gap-2.5 text-left">
