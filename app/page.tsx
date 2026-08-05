@@ -20,7 +20,11 @@ const LOGIN_URL = "https://app.eliteprep.app/login";
 const SIGNUP_URL = "https://app.eliteprep.app/signup";
 
 const PAGE_BG = "#111112";
-const CARD_BORDER = "#2a2a2c";
+/* Was #2a2a2c, only 1.32:1 against PAGE_BG, so card edges barely existed.
+   #3a3a41 measures 1.67:1, matching the relationship the Elite Tempo page now
+   has after aligning to Theme.swift. Body text was measured and left alone:
+   TEXT_BODY is 9.0:1 and TEXT_HEAD 16.6:1, both well clear of WCAG AA. */
+const CARD_BORDER = "#3a3a41";
 const TEXT_HEAD = "#f0f0f0";
 const TEXT_BODY = "#b3b3b3";
 const BRAND = "#9ABBC6";
@@ -68,6 +72,14 @@ export default function Page() {
   );
 }
 
+/* Section links for the sticky header. Order matches the page. */
+const HOME_SECTIONS = [
+  { id: "pillars", label: "How it works" },
+  { id: "features", label: "Features" },
+  { id: "why", label: "Why Elite Prep" },
+  { id: "who", label: "Who it's for" },
+];
+
 function TopNav() {
   return (
     <header
@@ -82,6 +94,20 @@ function TopNav() {
           <span className="sm:hidden"><Logo width={120} /></span>
           <span className="hidden sm:inline-flex"><Logo width={140} /></span>
         </Link>
+        {/* Section links, ReciMe style. Hidden below lg so they never crowd
+            Log in / Sign up, which are the actions that matter on a phone. */}
+        <nav aria-label="Page sections" className="hidden items-center gap-6 lg:flex">
+          {HOME_SECTIONS.map(({ id, label }) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              className="text-sm font-medium transition-colors duration-150"
+              style={{ color: TEXT_BODY }}
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
         <nav className="flex items-center gap-2 sm:gap-3">
           <a
             href={LOGIN_URL}
@@ -247,7 +273,7 @@ function Thesis() {
 
 function Pillars() {
   return (
-    <section
+    <section id="pillars"
       style={{
         background: `
           ${SECTION_TOP_HALO},
@@ -345,7 +371,7 @@ const DETAIL_GROUPS: { tag: string; title: string; items: string[] }[] = [
 function MantraBand() {
   const words = ["Practice", "Play", "Compete", "Learn", "Repeat"];
   return (
-    <section
+    <section id="mantra"
       aria-label="Practice. Play. Compete. Learn. Repeat."
       style={{
         background: "#0d0d0e",
@@ -385,7 +411,7 @@ function MantraBand() {
 
 function FeatureDetail() {
   return (
-    <section style={{ background: PAGE_BG }}>
+    <section id="features" style={{ background: PAGE_BG }}>
       <div className="mx-auto max-w-5xl px-6 py-20 sm:py-28">
         <Reveal>
           <div className="mb-12 max-w-2xl">
@@ -474,7 +500,7 @@ function WhyElitePrep() {
     { feature: "Tracks recovery and sleep", marks: [false, false, false, true] },
   ];
   return (
-    <section
+    <section id="why"
       style={{
         background: `
           ${SECTION_TOP_HALO},
@@ -741,7 +767,7 @@ function CompareMark({
 
 function WhoItsFor() {
   return (
-    <section
+    <section id="who"
       style={{
         background: `
           ${SECTION_TOP_HALO},
@@ -835,7 +861,7 @@ function Audience({
 
 function CtaBand() {
   return (
-    <section className="relative overflow-hidden">
+    <section id="get-started" className="relative overflow-hidden">
       {/* Image bookend with the hero shot, heavily darkened so it reads as
           atmosphere behind the finale (not a literal repeat). */}
       <Image

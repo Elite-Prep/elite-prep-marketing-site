@@ -14,8 +14,25 @@ const ACCENT = "#FFB300";
 const ON_ACCENT = "#0B0B0C";
 const INK = "#F3F5F9";
 const MUTED = "#8F929C";
-const CARD = "#151720";
-const HAIRLINE = "#242732";
+/* CARD and HAIRLINE now match Theme.swift exactly. They were #151720 and
+   #242732, both darker than the app's tokens, which left panels at 1.10:1
+   against the canvas and borders at 1.32:1 -- structure you could barely see.
+   DESIGN.md describes card as "lifted above bg for clear card contrast", so the
+   old values were below the app's own spec rather than a deliberate web choice.
+   Text was measured too and needed nothing: ink is 18.0:1, muted 6.3:1 on the
+   canvas and 5.4:1 on the card, gold 11.0:1, all clear of WCAG AA. */
+const CARD = "#1B1E26";
+const HAIRLINE = "#30343E";
+
+/* Section links for the sticky header, ReciMe style. Order matches the page. */
+const SECTIONS = [
+  { id: "greats", label: "The greats" },
+  { id: "your-swing", label: "Your swing" },
+  { id: "compare", label: "Compare" },
+  { id: "routine", label: "Routine" },
+  { id: "pricing", label: "Pricing" },
+  { id: "faq", label: "FAQ" },
+];
 
 const APP_STORE_URL = "https://apps.apple.com/app/elite-tempo/id6779226434";
 
@@ -170,16 +187,36 @@ export default function EliteTempoLanding() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
       />
-      {/* Nav */}
-      <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-        <Wordmark />
-        <a
-          href={APP_STORE_URL}
-          className="rounded-full px-5 py-2.5 text-sm font-bold transition duration-200 hover:scale-[1.04] hover:shadow-[0_8px_26px_-8px_rgba(255,179,0,0.55)] active:scale-[0.98]"
-          style={{ background: ACCENT, color: ON_ACCENT }}
-        >
-          Download
-        </a>
+      {/* Nav. Sticky so the section links stay reachable after you have jumped,
+          which is the whole point of having them. The links are hidden below lg
+          rather than crammed or hamburgered: the page is short enough to scroll
+          on a phone, and the Download CTA is what matters there. */}
+      <header
+        className="sticky top-0 z-50 backdrop-blur-md"
+        style={{ background: "rgba(11, 11, 12, 0.85)", borderBottom: `1px solid ${HAIRLINE}` }}
+      >
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-6 px-6 py-4">
+          <Wordmark />
+          <nav aria-label="Page sections" className="hidden items-center gap-6 lg:flex">
+            {SECTIONS.map(({ id, label }) => (
+              <a
+                key={id}
+                href={`#${id}`}
+                className="text-sm font-semibold transition-colors duration-150 hover:text-[#FFB300]"
+                style={{ color: MUTED }}
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
+          <a
+            href={APP_STORE_URL}
+            className="shrink-0 rounded-full px-5 py-2.5 text-sm font-bold transition duration-200 hover:scale-[1.04] hover:shadow-[0_8px_26px_-8px_rgba(255,179,0,0.55)] active:scale-[0.98]"
+            style={{ background: ACCENT, color: ON_ACCENT }}
+          >
+            Download
+          </a>
+        </div>
       </header>
 
       {/* Hero */}
@@ -247,7 +284,7 @@ export default function EliteTempoLanding() {
       <Divider />
 
       {/* Time the greats — hand-timed pro tempos, with the in-app beats clip */}
-      <section className="mx-auto max-w-5xl px-6 py-8">
+      <section id="greats" className="mx-auto max-w-5xl px-6 py-8">
         <Reveal>
           <div className="text-center">
             <p className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: ACCENT }}>
@@ -285,7 +322,7 @@ export default function EliteTempoLanding() {
       <Divider />
 
       {/* Time yourself — capture your own swing and groove it on a loop */}
-      <section className="mx-auto max-w-5xl px-6 py-8">
+      <section id="your-swing" className="mx-auto max-w-5xl px-6 py-8">
         <div className="grid items-center gap-12 md:grid-cols-2">
           <Reveal>
             <div>
@@ -314,7 +351,7 @@ export default function EliteTempoLanding() {
       <Divider />
 
       {/* Compare — featured: the self-vs-self side-by-side clip, full visual weight */}
-      <section className="mx-auto max-w-5xl px-6 py-12">
+      <section id="compare" className="mx-auto max-w-5xl px-6 py-12">
         <Reveal>
           <div className="text-center">
             <p className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: ACCENT }}>
@@ -338,7 +375,7 @@ export default function EliteTempoLanding() {
       <Divider />
 
       {/* Time your routine — time and groove the whole pre-shot routine */}
-      <section className="mx-auto max-w-5xl px-6 py-8">
+      <section id="routine" className="mx-auto max-w-5xl px-6 py-8">
         <div className="grid items-center gap-12 md:grid-cols-2">
           <Reveal>
             <div className="md:order-2">
@@ -407,7 +444,7 @@ export default function EliteTempoLanding() {
       {/* Pricing — free to download, then a 14-day free trial into yearly or monthly.
           Lifetime used to be the hero price here and had to go: it is retired in the
           app, so advertising it sent people to a paywall that could not sell it. */}
-      <section className="mx-auto max-w-5xl px-6 py-20">
+      <section id="pricing" className="mx-auto max-w-5xl px-6 py-20">
         <Reveal>
           <div
             className="mx-auto max-w-xl rounded-3xl p-8 text-center sm:p-12"
@@ -475,7 +512,7 @@ export default function EliteTempoLanding() {
       {/* FAQ — the real SEO surface. Nobody searches "Elite Tempo"; they search
           "what is the 3 to 1 tempo ratio". Native <details> so the answers are in
           the initial HTML for crawlers rather than behind JavaScript. */}
-      <section className="mx-auto max-w-3xl px-6 py-20">
+      <section id="faq" className="mx-auto max-w-3xl px-6 py-20">
         <Reveal>
           <h2 className="text-center text-2xl font-extrabold sm:text-3xl" style={{ color: INK }}>
             Golf swing tempo, answered

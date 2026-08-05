@@ -193,6 +193,19 @@ button:active:not(:disabled) {
   outline-offset: 5px;
 }
 
+/* ── In-page section navigation ───────────────────────────────────────────
+   Both headers are sticky and carry links to sections further down the page.
+   scroll-padding-top keeps the target heading from landing underneath the bar,
+   which is the usual failure of anchor links plus a fixed header. Anyone who
+   asked their OS for less motion gets an instant jump instead of the glide. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
 body {
   background: var(--bg);
   color: var(--text-primary);
