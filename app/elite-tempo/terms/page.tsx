@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-import { ACCENT, BG, BODY, INK, MUTED } from "../theme";
+import EliteTempoMark from "../EliteTempoMark";
+import { ACCENT, ACCENT_ALT, BG, INK, MUTED, TRACKING_MARK, W_WORDMARK } from "../theme";
 
 export const metadata = {
   alternates: { canonical: "/elite-tempo/terms" },
@@ -16,15 +17,16 @@ export default function EliteTempoTerms() {
           <Link
             href="/elite-tempo"
             aria-label="Elite Tempo home"
-            className="text-lg font-extrabold"
-            style={{ fontFamily: "var(--font-anton), sans-serif", color: INK }}
+            className="inline-flex items-center gap-2.5 text-[17px] leading-none"
+            style={{ color: INK, fontWeight: W_WORDMARK, letterSpacing: TRACKING_MARK }}
           >
-            ELITE <span style={{ color: ACCENT }}>TEMPO</span>
+            <EliteTempoMark size={19} fill={ACCENT} />
+            ELITE TEMPO
           </Link>
           <Link
             href="/elite-tempo"
-            className="inline-flex items-center gap-2 text-sm hover:opacity-80"
-            style={{ color: ACCENT }}
+            className="inline-flex items-center gap-2 text-sm transition-colors hover:brightness-110"
+            style={{ color: ACCENT_ALT }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -33,14 +35,14 @@ export default function EliteTempoTerms() {
           </Link>
         </div>
 
-        <h1 className="mb-2 text-3xl font-extrabold sm:text-4xl" style={{ color: INK }}>
+        <h1 className="mb-2 text-3xl font-semibold sm:text-4xl" style={{ color: INK }}>
           Terms of Use
         </h1>
         <p className="mb-10 text-sm" style={{ color: MUTED }}>
           Elite Tempo · Effective June 14, 2026
         </p>
 
-        <div className="flex flex-col gap-8 text-sm leading-relaxed" style={{ color: BODY }}>
+        <div className="flex flex-col gap-8 text-sm leading-relaxed" style={{ color: MUTED }}>
           <p>
             These Terms of Use (&quot;Terms&quot;) govern your use of the Elite
             Tempo app published by Elite Prep LLC (&quot;Elite Prep,&quot;
@@ -199,7 +201,7 @@ export default function EliteTempoTerms() {
           <Section title="12. Contact">
             <p>
               Contact us at{" "}
-              <a href="mailto:ebusalacchi@eliteprep.app" style={{ color: ACCENT }}>
+              <a href="mailto:ebusalacchi@eliteprep.app" style={{ color: ACCENT_ALT }}>
                 ebusalacchi@eliteprep.app
               </a>
               . Elite Prep LLC.
@@ -214,7 +216,7 @@ export default function EliteTempoTerms() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="mb-2 text-base font-bold" style={{ color: INK }}>
+      <h2 className="mb-2 text-base font-semibold" style={{ color: INK }}>
         {title}
       </h2>
       {children}

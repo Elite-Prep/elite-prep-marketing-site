@@ -110,14 +110,14 @@ function Step({
       {/* Numbered because these genuinely are sequential — you cannot mark the top
           before the takeaway, and the arithmetic comes last. */}
       <span
-        className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-sm font-extrabold tabular-nums"
+        className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-sm font-semibold tabular-nums"
         style={{ background: ACCENT, color: ON_ACCENT }}
         aria-hidden
       >
         {n}
       </span>
       <div className="min-w-0">
-        <h3 className="text-base font-bold" style={{ color: INK }}>
+        <h3 className="text-base font-semibold" style={{ color: INK }}>
           {title}
         </h3>
         <p className="mt-2 text-base leading-relaxed" style={{ color: MUTED }}>
@@ -143,11 +143,11 @@ export default function HowWeTimeSwings() {
         <Breadcrumbs trail={TRAIL} />
 
         <h1
-          className="mt-6 text-3xl font-extrabold leading-[1.1] sm:text-4xl"
+          className="mt-6 text-3xl font-semibold leading-[1.1] sm:text-4xl"
           style={{ color: INK, textWrap: "balance" }}
         >
           How we time swings to{" "}
-          <span style={{ color: ACCENT }}>1/100 of a second</span>
+          <span style={{ color: INK }}>1/100 of a second</span>
         </h1>
 
         <p className="mt-6 text-lg leading-relaxed" style={{ color: MUTED }}>
@@ -159,7 +159,7 @@ export default function HowWeTimeSwings() {
         </p>
 
         <section className="mt-12">
-          <h2 className="text-2xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
             The method
           </h2>
           <ol className="mt-7 flex flex-col gap-8">
@@ -188,7 +188,7 @@ export default function HowWeTimeSwings() {
             className="mt-10 rounded-2xl p-6 sm:p-8"
             style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
           >
-            <p className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: ACCENT }}>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
               Worked example
             </p>
             <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
@@ -218,7 +218,7 @@ export default function HowWeTimeSwings() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
             Where the 3:1 rule comes from
           </h2>
           <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
@@ -240,7 +240,7 @@ export default function HowWeTimeSwings() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
             What this method cannot do
           </h2>
           <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
@@ -269,14 +269,14 @@ export default function HowWeTimeSwings() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
             Common questions
           </h2>
           <div className="mt-6" style={{ borderTop: `1px solid ${HAIRLINE}` }}>
             {FAQS.map(({ q, a }) => (
               <details key={q} className="group" style={{ borderBottom: `1px solid ${HAIRLINE}` }}>
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 marker:content-none">
-                  <span className="text-base font-bold" style={{ color: INK }}>
+                  <span className="text-base font-semibold" style={{ color: INK }}>
                     {q}
                   </span>
                   <span
@@ -300,7 +300,7 @@ export default function HowWeTimeSwings() {
           className="mt-16 rounded-3xl p-8 text-center"
           style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
         >
-          <h2 className="text-xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-xl font-semibold" style={{ color: INK }}>
             See all {SWINGS.length} measurements
           </h2>
           <p className="mx-auto mt-3 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
@@ -310,8 +310,11 @@ export default function HowWeTimeSwings() {
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/elite-tempo/tempos"
-              className="rounded-full border px-5 py-2.5 text-sm font-bold transition duration-200 hover:bg-[rgba(255,179,0,0.12)]"
-              style={{ borderColor: ACCENT, color: ACCENT }}
+              /* Neutral outline, not gold. It sits beside Apple's white badge, and
+                 the badge has to stay the filled thing on the row — two competing
+                 fills, one of which cannot be restyled, is not a hierarchy. */
+              className="rounded-full border px-5 py-2.5 text-sm font-semibold transition duration-200 hover:bg-[rgba(247,247,247,0.08)]"
+              style={{ borderColor: HAIRLINE, color: INK }}
             >
               Open the tempo library
             </Link>

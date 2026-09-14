@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { FONT_SANS } from "./theme";
 
 /* Scopes the Smart App Banner to the Elite Tempo subtree.
  *
@@ -22,10 +23,18 @@ export const metadata: Metadata = {
   },
 };
 
+/* Elite Tempo's typeface, scoped to Elite Tempo's pages.
+ *
+ * The root layout sets Manrope on <body> for the whole site, and the Elite Prep
+ * homepage genuinely uses Manrope and Anton — that is the parent brand and it is
+ * staying blue. So the app's typeface is applied here, on a wrapper around this
+ * subtree, rather than globally. /elite-tempo and everything under it gets Avenir
+ * Next; / and /reelprep are untouched.
+ */
 export default function EliteTempoLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return <div style={{ fontFamily: FONT_SANS }}>{children}</div>;
 }

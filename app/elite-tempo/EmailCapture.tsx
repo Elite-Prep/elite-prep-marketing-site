@@ -70,7 +70,7 @@ export default function EmailCapture() {
         className="rounded-2xl p-6 text-center"
         style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
       >
-        <p className="text-lg font-bold" style={{ color: INK }}>
+        <p className="text-lg font-semibold" style={{ color: INK }}>
           You&apos;re on the list.
         </p>
         <p className="mt-1 text-sm" style={{ color: MUTED }}>
@@ -111,7 +111,7 @@ export default function EmailCapture() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="rounded-xl px-6 py-3 text-sm font-bold transition active:scale-[0.98] disabled:opacity-60"
+          className="rounded-xl px-6 py-3 text-sm font-semibold transition active:scale-[0.98] disabled:opacity-60"
           style={{ background: ACCENT, color: ON_ACCENT }}
         >
           {status === "submitting" ? "Sending…" : "Send it"}

@@ -84,7 +84,7 @@ function BeatComparison({
 }) {
   return (
     <div>
-      <p className="text-xs font-bold uppercase tracking-[0.14em]" style={{ color: MUTED }}>
+      <p className="text-xs font-semibold uppercase tracking-[0.14em]" style={{ color: MUTED }}>
         {label}
       </p>
       <div className="relative mt-4 h-1 w-full rounded-full" style={{ background: HAIRLINE }} aria-hidden>
@@ -117,7 +117,7 @@ export default function VsMetronome() {
         <Breadcrumbs trail={TRAIL} />
 
         <h1
-          className="mt-6 text-3xl font-extrabold leading-[1.1] sm:text-4xl"
+          className="mt-6 text-3xl font-semibold leading-[1.1] sm:text-4xl"
           style={{ color: INK, textWrap: "balance" }}
         >
           Can you use a metronome for golf swing tempo?
@@ -136,12 +136,12 @@ export default function VsMetronome() {
         >
           <p className="text-base leading-relaxed" style={{ color: INK }}>
             A metronome beats <strong>evenly</strong>. A golf swing is{" "}
-            <strong style={{ color: ACCENT }}>not even</strong>.
+            <strong style={{ color: INK }}>not even</strong>.
           </p>
         </div>
 
         <section className="mt-12">
-          <h2 className="text-2xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
             The same three beats, two ways
           </h2>
           <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
@@ -175,7 +175,7 @@ export default function VsMetronome() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
             What a metronome is genuinely good for
           </h2>
           <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
@@ -196,7 +196,7 @@ export default function VsMetronome() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
             What to use instead
           </h2>
           <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
@@ -208,7 +208,7 @@ export default function VsMetronome() {
             Elite Tempo places them at the intervals of{" "}
             <Link
               href="/elite-tempo/tempos"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#FFB300]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
               style={{ color: INK }}
             >
               {SWINGS.length} specific tour shots
@@ -220,14 +220,14 @@ export default function VsMetronome() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
             Common questions
           </h2>
           <div className="mt-6" style={{ borderTop: `1px solid ${HAIRLINE}` }}>
             {FAQS.map(({ q, a }) => (
               <details key={q} className="group" style={{ borderBottom: `1px solid ${HAIRLINE}` }}>
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 marker:content-none">
-                  <span className="text-base font-bold" style={{ color: INK }}>
+                  <span className="text-base font-semibold" style={{ color: INK }}>
                     {q}
                   </span>
                   <span
@@ -251,7 +251,7 @@ export default function VsMetronome() {
           className="mt-16 rounded-3xl p-8 text-center"
           style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
         >
-          <h2 className="text-xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-xl font-semibold" style={{ color: INK }}>
             Hear an uneven beat.
           </h2>
           <p className="mx-auto mt-3 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
