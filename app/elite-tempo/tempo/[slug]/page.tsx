@@ -7,6 +7,7 @@ import {
   SWINGS,
   fmtRatio,
   fmtSeconds,
+  playerFor,
   shortClub,
   shortEvent,
   swingBySlug,
@@ -190,6 +191,8 @@ export default async function TempoDetail({
 
   const url = `https://www.eliteprep.app/elite-tempo/tempo/${swing.slug}`;
   const footage = `https://www.youtube.com/watch?v=${swing.youtubeID}`;
+  /* Only players with more than one timed shot have a hub page. */
+  const hub = playerFor(swing);
 
   /* Same player elsewhere in the library, then anything else — so every page links
      onward and the sixteen form a connected set rather than sixteen dead ends. */
@@ -314,6 +317,26 @@ export default async function TempoDetail({
             {swing.story}
           </p>
         </section>
+
+        {hub && (
+          <section className="mt-12">
+            <h2 className="text-xl font-semibold" style={{ color: INK }}>
+              {swing.player}&apos;s other swings
+            </h2>
+            <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
+              This is one of {hub.swings.length} of his swings timed here, and they do not all
+              share a tempo — his ratio runs from {fmtRatio(hub.fastest)} to {fmtRatio(hub.slowest)}
+              depending on the club.{" "}
+              <Link
+                href={`/elite-tempo/player/${hub.slug}`}
+                className="font-semibold underline decoration-1 underline-offset-4 transition-colors hover:text-[#B3ECFF]"
+                style={{ color: INK }}
+              >
+                All of {swing.player}&apos;s tempos
+              </Link>
+            </p>
+          </section>
+        )}
 
         <section className="mt-12">
           <h2 className="text-xl font-semibold" style={{ color: INK }}>

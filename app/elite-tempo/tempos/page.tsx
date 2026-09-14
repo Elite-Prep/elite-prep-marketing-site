@@ -4,6 +4,7 @@ import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../Chrome
 import { ACCENT, CARD, HAIRLINE, INK, MUTED } from "../theme";
 import {
   CATEGORIES,
+  PLAYERS,
   SWINGS,
   fmtRatio,
   fmtSeconds,
@@ -230,6 +231,33 @@ export default function TempoLibrary() {
 
         {/* Tables are the one thing on this site allowed to scroll sideways, and
             only inside their own container — the page body never does. */}
+        {/* By player, before the by-club tables. "What is Tiger Woods swing tempo"
+            is a question Google shows in its People Also Ask box; these are the
+            pages that answer it, so they should be the first thing a crawler
+            following this index reaches. */}
+        <section className="mt-12">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
+            By player
+          </h2>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            {PLAYERS.map((p) => (
+              <Link
+                key={p.slug}
+                href={`/elite-tempo/player/${p.slug}`}
+                className="rounded-2xl p-4 transition-all duration-300 hover:scale-[1.02]"
+                style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
+              >
+                <p className="text-sm font-semibold" style={{ color: INK }}>
+                  {p.name}
+                </p>
+                <p className="mt-1 text-xs" style={{ color: MUTED }}>
+                  {p.swings.length} swings · {fmtRatio(p.fastest)} to {fmtRatio(p.slowest)}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
         {CATEGORIES.map((category) => {
           const swings = swingsByCategory(category);
           if (swings.length === 0) return null;
