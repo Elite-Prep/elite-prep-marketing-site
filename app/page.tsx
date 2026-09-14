@@ -5,6 +5,12 @@ import HeroCarousel from "./components/HeroCarousel";
 import Logo from "./components/Logo";
 import FeatureShowcase from "./components/FeatureShowcase";
 import Reveal from "./components/Reveal";
+import {
+  HERO_SWING,
+  SWINGS,
+  fmtRatio,
+  fmtSeconds,
+} from "./elite-tempo/data/tempo-data";
 
 const LOGIN_URL = "https://app.eliteprep.app/login";
 // Conversion CTAs ("Try free for 14 days", "Start free trial", "Sign up")
@@ -116,6 +122,7 @@ export default function Page() {
       <MantraBand />
       <Pillars />
       <FeatureDetail />
+      <EliteTempoBand />
       <WhyElitePrep />
       <WhoItsFor />
       <CtaBand />
@@ -455,6 +462,129 @@ function MantraBand() {
             )}
           </span>
         ))}
+      </div>
+    </section>
+  );
+}
+
+/* Elite Tempo, on the homepage at last.
+ *
+ * Before this, the homepage linked to exactly three places: /privacy, /terms and
+ * itself. It did not link to Elite Tempo at all — the app's name appeared only
+ * inside the structured data, never in anything a person or a crawler could
+ * follow.
+ *
+ * That mattered more than it sounds. The homepage is the only page on this domain
+ * Google rates: it sits at an average position of 6.4 with about 2,000 impressions
+ * a quarter. Every one of those signals stopped there. /elite-tempo existed in the
+ * sitemap, which tells Google a page EXISTS, while a link tells Google it MATTERS —
+ * and Google weighs the second far more heavily. The whole tempo library then hangs
+ * off /elite-tempo, so the entire section was supported by nothing.
+ *
+ * Written in the Elite Prep brand, deliberately: blue, Manrope, Anton for the
+ * heading, the same card chrome as every other section. Elite Tempo's own black and
+ * gold stops at /elite-tempo. This is the parent brand introducing a product, not
+ * the product taking over the parent's page.
+ *
+ * The four numbers come from the tempo library rather than being typed, for the
+ * same reason as everywhere else: a hardcoded 3.69 here would eventually disagree
+ * with the app, which is the bug this whole project has been unpicking.
+ */
+function EliteTempoBand() {
+  const stats = [
+    { value: fmtSeconds(HERO_SWING.back), label: "Backswing" },
+    { value: fmtSeconds(HERO_SWING.down), label: "Downswing" },
+    { value: fmtSeconds(HERO_SWING.total), label: "Total" },
+    { value: fmtRatio(HERO_SWING), label: "Tempo ratio" },
+  ];
+  return (
+    <section
+      id="elite-tempo"
+      style={{
+        background: `
+          ${SECTION_TOP_HALO},
+          ${SECTION_BOTTOM_HALO},
+          ${PAGE_BG}
+        `,
+      }}
+    >
+      <div className="mx-auto max-w-5xl px-6 py-20 sm:py-28">
+        <Reveal>
+          <div className="max-w-2xl">
+            <p
+              className="text-xs font-semibold tracking-wider uppercase"
+              style={{ color: BRAND }}
+            >
+              Also from Elite Prep
+            </p>
+            <h2
+              className="mt-2 text-3xl font-semibold leading-tight sm:text-4xl"
+              style={{ color: TEXT_HEAD, fontFamily: "var(--font-manrope), sans-serif" }}
+            >
+              Elite Tempo, on the App Store.
+            </h2>
+            <p className="mt-4 text-base leading-relaxed sm:text-lg" style={{ color: TEXT_BODY }}>
+              A golf swing tempo trainer for iPhone. {SWINGS.length} tour swings
+              hand-timed from tournament footage to 1/100 of a second — then it
+              records your own swing and finds your takeaway, top and impact
+              automatically, so you can see whether you actually matched it.
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.12}>
+          <div
+            className="mt-10 rounded-2xl p-6 sm:p-8"
+            style={{
+              background: PREMIUM_CARD_BG,
+              border: `1px solid ${CARD_BORDER}`,
+              boxShadow: PREMIUM_CARD_SHADOW,
+            }}
+          >
+            <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: BRAND }}>
+              {HERO_SWING.player}, {HERO_SWING.year} {HERO_SWING.event.replace(/^The /, "")}
+            </p>
+            <div className="mt-5 grid grid-cols-2 gap-6 sm:grid-cols-4">
+              {stats.map((s) => (
+                <div key={s.label}>
+                  <p
+                    className="text-2xl font-semibold tabular-nums sm:text-3xl"
+                    style={{ color: TEXT_HEAD, fontVariantNumeric: "tabular-nums" }}
+                  >
+                    {s.value}
+                  </p>
+                  <p
+                    className="mt-1 text-[11px] font-semibold uppercase tracking-wider"
+                    style={{ color: TEXT_BODY }}
+                  >
+                    {s.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
+            <Link
+              href="/elite-tempo"
+              className="inline-flex items-center gap-2 text-sm font-semibold transition-opacity hover:opacity-80"
+              style={{ color: BRAND }}
+            >
+              About Elite Tempo
+              <ArrowRight size={16} strokeWidth={2.5} />
+            </Link>
+            <Link
+              href="/elite-tempo/tempos"
+              className="inline-flex items-center gap-2 text-sm font-semibold transition-opacity hover:opacity-80"
+              style={{ color: BRAND }}
+            >
+              See all {SWINGS.length} hand-timed swings
+              <ArrowRight size={16} strokeWidth={2.5} />
+            </Link>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
