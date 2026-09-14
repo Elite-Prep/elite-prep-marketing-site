@@ -84,23 +84,21 @@ export async function generateMetadata({
   };
 }
 
-/* The number sits in a fixed-height row so all three labels land on the same line,
-   and `tight` gives the back/down pair a smaller size with nowrap. Without both,
-   "0.63s / 0.26s" wrapped to two lines and pushed its label a line below the other
-   two — the same defect the landing page's stat band already had fixed. */
-function Stat({ value, label, tight }: { value: string; label: string; tight?: boolean }) {
+/* The number sits in a fixed-height row so every label lands on the same line
+   whatever its number renders at. The `tight` variant that used to squeeze a
+   combined "0.63s / 0.26s" onto one line is gone: backswing and downswing now have
+   a cell each, so all four values are the same shape at the same size. */
+function Stat({ value, label }: { value: string; label: string }) {
   return (
-    <div className="px-4 py-8 text-center" style={{ background: BG }}>
+    <div className="px-3 py-8 text-center sm:px-4" style={{ background: BG }}>
       <p
-        className={`flex h-10 items-center justify-center whitespace-nowrap font-extrabold tabular-nums sm:h-12 ${
-          tight ? "text-xl sm:text-2xl" : "text-3xl sm:text-4xl"
-        }`}
+        className="flex h-10 items-center justify-center whitespace-nowrap text-2xl font-extrabold tabular-nums sm:h-12 sm:text-3xl"
         style={{ color: ACCENT, fontVariantNumeric: "tabular-nums" }}
       >
         {value}
       </p>
       <p
-        className="mt-3 text-[10px] font-bold uppercase tracking-[0.18em]"
+        className="mt-3 text-[10px] font-bold uppercase tracking-[0.16em]"
         style={{ color: INK }}
       >
         {label}
@@ -245,17 +243,16 @@ export default async function TempoDetail({
           {answer(swing)}
         </p>
 
+        {/* The same four cells, in the same order, as the landing page and the app's
+            onboarding: the two halves, the whole, then the ratio they make. */}
         <div
-          className="mt-9 grid gap-px overflow-hidden rounded-3xl sm:grid-cols-3"
+          className="mt-9 grid grid-cols-2 gap-px overflow-hidden rounded-3xl md:grid-cols-4"
           style={{ background: HAIRLINE, border: `1px solid ${HAIRLINE}` }}
         >
-          <Stat value={fmtRatio(swing)} label="Tempo ratio" />
+          <Stat value={fmtSeconds(swing.back)} label="Backswing" />
+          <Stat value={fmtSeconds(swing.down)} label="Downswing" />
           <Stat value={fmtSeconds(swing.total)} label="Total duration" />
-          <Stat
-            value={`${fmtSeconds(swing.back)} / ${fmtSeconds(swing.down)}`}
-            label="Back, down"
-            tight
-          />
+          <Stat value={fmtRatio(swing)} label="Tempo ratio" />
         </div>
 
         <section className="mt-12">
@@ -264,7 +261,7 @@ export default async function TempoDetail({
           </h2>
           <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
             Every number above comes from these, and nothing else. Read off the
-            footage frame by frame, in seconds from the start of the clip.
+            footage by hand, in seconds from the start of the clip.
           </p>
           <div
             className="mt-7 rounded-2xl p-6 sm:p-8"

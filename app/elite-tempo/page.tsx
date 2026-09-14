@@ -129,7 +129,7 @@ const FAQS: { q: string; a: string }[] = [
    if the two disagree. See the header of that module for the full story.
 
    HERO_SWING is Tiger's 2000 Open Championship driver, the app's marquee preset:
-   all three numbers in the stat band come off the same two marks, so the band
+   all four numbers in the stat band come off the same three marks, so the band
    cannot contradict itself. */
 const HERO = HERO_SWING;
 
@@ -301,7 +301,7 @@ export default function EliteTempoLanding() {
         </div>
       </section>
 
-      {/* Stat band — the three numbers. Rendered, never animated. CountUp counted
+      {/* Stat band — the four numbers. Rendered, never animated. CountUp counted
           these up from zero on scroll, which meant any renderer that snapshotted
           early captured a fraction of the real figure: Google indexed Tiger's 3.69
           ratio as "0.74:1", and three separate screenshot passes here caught
@@ -318,35 +318,35 @@ export default function EliteTempoLanding() {
               14px grey — the differentiator styled as a footnote. Promoted to the
               section heading, with the shot it is measured from demoted to the
               caption underneath, which is the detail rather than the point. */}
+          {/* Four, not three. The App Store listing headlines "4 metrics no other
+              app captures" and the app's own onboarding lists them one to four, so
+              a site saying "three" was the odd one out — it only got to three by
+              pairing backswing and downswing into a single cell. Same claim, same
+              count, everywhere. */}
           <h2
             className="text-center text-2xl font-extrabold leading-tight sm:text-3xl"
             style={{ color: INK }}
           >
-            The three numbers no other app captures.
+            The four numbers no other app captures.
           </h2>
+          {/* Two-up on a phone, four across from md. The order follows the app's
+              onboarding: the two halves, then the whole, then the ratio they make. */}
           <div
-            className="mt-8 grid gap-px overflow-hidden rounded-3xl sm:grid-cols-3"
+            className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-3xl md:grid-cols-4"
             style={{ background: HAIRLINE, border: `1px solid ${HAIRLINE}` }}
           >
+            <StatCell big={<>{fmtSeconds(HERO.back)}</>} label="Backswing" />
+            <StatCell big={<>{fmtSeconds(HERO.down)}</>} label="Downswing" />
+            <StatCell big={<>{fmtSeconds(HERO.total)}</>} label="Total duration" />
             <StatCell big={<>{fmtRatio(HERO)}</>} label="Tempo ratio" />
-            <StatCell big={<>{fmtSeconds(HERO.total)}</>} label="Total swing duration" />
-            <StatCell
-              big={
-                <>
-                  <>{fmtSeconds(HERO.back)}</>
-                  <span className="px-1.5 font-normal" style={{ color: MUTED }}>/</span>
-                  <>{fmtSeconds(HERO.down)}</>
-                </>
-              }
-              label="Backswing, downswing"
-              tight
-            />
           </div>
           <p className="mt-5 text-center text-sm" style={{ color: MUTED }}>
-            {/* "{year} {event}" runs into "2000 The Open Championship", so the year
-                goes after the event instead. */}
+            {/* The article is in the sentence, so the event's own leading "The" has
+                to come off or it reads "at the The Open Championship". Only the
+                leading article is stripped — the rest of the name stays intact, so
+                "PGA Championship" and "Qatar Masters" still read correctly. */}
             Measured from {HERO.player}&apos;s {HERO.clubLabel.toLowerCase()} at the{" "}
-            {HERO.event}, {HERO.year}.{" "}
+            {HERO.year} {HERO.event.replace(/^The /, "")}.{" "}
             <Link
               href={`/elite-tempo/tempo/${HERO.slug}`}
               className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#FFB300]"
@@ -999,27 +999,29 @@ function ThreeMarks() {
   );
 }
 
-/* Number and label only. The explanatory sub-lines are gone: three of them side
-   by side turned a glanceable band into a paragraph, and each label already says
-   what its number is.
+/* Number and label only. The explanatory sub-lines are gone: side by side they
+   turned a glanceable band into a paragraph, and each label already says what its
+   number is.
 
-   The number sits in a fixed-height flex row so all three LABELS land on the same
-   line. Without it, "0.82s / 0.22s" wrapped to two lines and pushed its label a
-   line lower than the other two. `tight` gives that pair a smaller size and
-   nowrap keeps it on one line, so the fixed height is a guarantee rather than the
-   only thing holding the row together. */
-function StatCell({ big, label, tight }: { big: React.ReactNode; label: string; tight?: boolean }) {
+   The number sits in a fixed-height flex row so every LABEL lands on the same
+   line regardless of how tall its number renders. The `tight` variant is gone
+   with the combined "0.82s / 0.22s" cell it existed for — now that backswing and
+   downswing each have their own cell, all four values are the same shape and can
+   share one size. Sizes step down a notch from the old three-up band because four
+   cells share the same width. */
+function StatCell({ big, label }: { big: React.ReactNode; label: string }) {
   return (
-    <div className="px-4 py-10 text-center sm:px-6 md:px-8" style={{ background: BG }}>
+    <div className="px-3 py-9 text-center sm:px-5 md:px-6" style={{ background: BG }}>
       <p
-        className={`flex h-12 items-center justify-center whitespace-nowrap font-extrabold tabular-nums md:h-14 ${
-          tight ? "text-xl sm:text-2xl md:text-4xl" : "text-3xl sm:text-4xl md:text-5xl"
-        }`}
+        className="flex h-11 items-center justify-center whitespace-nowrap text-2xl font-extrabold tabular-nums sm:text-3xl md:h-12 md:text-4xl"
         style={{ color: ACCENT, fontVariantNumeric: "tabular-nums" }}
       >
         {big}
       </p>
-      <p className="mt-3 text-xs font-bold uppercase tracking-[0.18em]" style={{ color: INK }}>
+      <p
+        className="mt-3 text-[10px] font-bold uppercase tracking-[0.16em] sm:text-xs"
+        style={{ color: INK }}
+      >
         {label}
       </p>
     </div>

@@ -47,7 +47,7 @@ const FAQS = [
   },
   {
     q: "How accurate are the measurements?",
-    a: "Precision is bounded by the source footage. A mark can only be placed on a frame that exists, so on 30fps broadcast video the practical limit is about a thirtieth of a second per mark, and the downswing — the shorter of the two intervals — is where that uncertainty matters most. The marks are published alongside every measurement so the reader can judge them rather than take them on trust.",
+    a: "Precision is bounded by how clearly the footage shows the moment. Marks are stored to 1/100 of a second, but the real uncertainty is larger than that and comes from the video: how many frames per second it was shot at, how much motion blur there is on a clubhead moving at speed, and whether the camera angle makes the top of the backswing unambiguous. The downswing is the shorter of the two intervals, so any uncertainty affects the ratio there most. The marks are published alongside every measurement so a reader can judge them rather than take them on trust.",
   },
   {
     q: "Is the timing done by AI?",
@@ -175,7 +175,7 @@ export default function HowWeTimeSwings() {
               ball. Top is the frame the club stops going back. Impact is the frame
               the clubface meets the ball.
             </Step>
-            <Step n={3} title="Derive everything from those three numbers">
+            <Step n={3} title="Derive everything from those three marks">
               Backswing is top minus takeaway. Downswing is impact minus top. The
               tempo ratio is backswing divided by downswing, and the total duration
               is impact minus takeaway. There is no smoothing, no model and no
@@ -244,11 +244,13 @@ export default function HowWeTimeSwings() {
             What this method cannot do
           </h2>
           <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
-            A mark can only land on a frame that exists. Broadcast footage is
-            commonly 30 frames per second, so each mark carries an uncertainty of
-            up to about a thirtieth of a second, and because the downswing is the
-            shorter interval, that uncertainty lands hardest on it. Higher-frame-rate
-            footage tightens this; nothing eliminates it.
+            Marks are stored to 1/100 of a second, but the honest uncertainty is
+            larger than that, and it comes from the video rather than the timing.
+            Broadcast footage varies in frame rate, a clubhead moving at speed
+            smears across a frame, and the exact moment the club stops going back
+            is not always a clean edge. Because the downswing is the shorter of the
+            two intervals, whatever uncertainty exists lands hardest on the ratio.
+            Higher-frame-rate footage tightens this; nothing eliminates it.
           </p>
           <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
             Two other honest limits. Each figure describes{" "}
