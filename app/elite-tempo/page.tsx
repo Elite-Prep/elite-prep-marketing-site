@@ -4,24 +4,24 @@ import Reveal from "../components/Reveal";
 import EmailCapture from "./EmailCapture";
 import BeatTicks from "./BeatTicks";
 import BudFlank from "./BudFlank";
+import TempoListMock from "./TempoListMock";
+import {
+  FEATURED,
+  HERO_SWING,
+  SWINGS,
+  fmtRatio,
+  fmtSeconds,
+} from "./data/tempo-data";
+import {
+  PRICE_MONTHLY,
+  PRICE_YEARLY,
+  TRIAL_DAYS,
+  YEARLY_SAVING_PCT,
+} from "./data/pricing";
+import { ACCENT, APP_STORE_URL, BG, CANVAS_BACKGROUND, CARD, FAINT, HAIRLINE, INK, MUTED, ON_ACCENT } from "./theme";
 
-/* Elite Tempo brand palette — black + amber-gold, mirroring the app's
-   DESIGN.md tokens. Scoped to this page; the rest of the site is Elite
-   Prep blue. */
-const BG = "#0B0B0C";
-const ACCENT = "#FFB300";
-const ON_ACCENT = "#0B0B0C";
-const INK = "#F3F5F9";
-const MUTED = "#8F929C";
-/* CARD and HAIRLINE now match Theme.swift exactly. They were #151720 and
-   #242732, both darker than the app's tokens, which left panels at 1.10:1
-   against the canvas and borders at 1.32:1 -- structure you could barely see.
-   DESIGN.md describes card as "lifted above bg for clear card contrast", so the
-   old values were below the app's own spec rather than a deliberate web choice.
-   Text was measured too and needed nothing: ink is 18.0:1, muted 6.3:1 on the
-   canvas and 5.4:1 on the card, gold 11.0:1, all clear of WCAG AA. */
-const CARD = "#1B1E26";
-const HAIRLINE = "#30343E";
+/* Palette and App Store URL come from `theme`; see that module for the contrast
+   measurements behind each token. */
 
 /* Three links, not six. ReciMe's header carries exactly three (FAQs, Gift Cards,
    Log In) plus one button, clustered hard right with a wide empty gap after the
@@ -38,22 +38,10 @@ const SECTIONS = [
   { id: "faq", label: "FAQs" },
 ];
 
-const APP_STORE_URL = "https://apps.apple.com/app/elite-tempo/id6779226434";
 
-/* Prices and trial length are verified against App Store Connect, not copied from
-   older marketing text. Yearly is $24.99 for new customers as of 2026-07-31 (the
-   $19.99 point survives only as a preserved price for existing subscribers), monthly
-   is $5.99, both carry a 14-day free trial, and the lifetime non-consumable is
-   retired — PaywallView no longer offers it, so the page must not advertise it. */
-const PRICE_YEARLY_NUM = 24.99;
-const PRICE_MONTHLY_NUM = 5.99;
-const PRICE_YEARLY = `$${PRICE_YEARLY_NUM.toFixed(2)}`;
-const PRICE_MONTHLY = `$${PRICE_MONTHLY_NUM.toFixed(2)}`;
-const TRIAL_DAYS = 14;
-
-/* Derived, never typed by hand, so the badge cannot outlive a price change:
-   $5.99 x 12 = $71.88 against $24.99 is a 65% saving. */
-const YEARLY_SAVING_PCT = Math.round((1 - PRICE_YEARLY_NUM / (PRICE_MONTHLY_NUM * 12)) * 100);
+/* Prices, trial length and the saving badge now live in `data/pricing`, shared with
+   the Open Graph card — which had its own hardcoded copy of the same sentence and
+   was still advertising a 7-day trial at $19.99/yr plus a retired lifetime unlock. */
 
 /* The <title> is what Google prints as the blue link, so it names the category
    rather than leading with the tagline. The tagline still carries the social cards
@@ -83,6 +71,12 @@ export const metadata: Metadata = {
   },
 };
 
+/* Named shots the copy below quotes by name. Pulled from the library so the prose
+   and the cards can never disagree; declared above FAQS because that array reads
+   them at module load. */
+const RORY = FEATURED[1];
+const COUPLES = FEATURED[2];
+
 /* Answers the questions people actually search, which "Elite Tempo" is not. Every
    one of these is lifted from the People Also Ask box on "elite tempo golf" and
    "tour tempo", so they are known real queries rather than guesses. Rendered as
@@ -99,7 +93,17 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "What is Rory McIlroy's swing tempo?",
-    a: "Elite Tempo hand-times real broadcast footage to 1/100 of a second. Rory's 2014 PGA Championship driver swing is a 0.63s backswing and a 0.26s downswing, so a 2.45:1 ratio over 0.89s. Compare that with Tiger's 3.69:1 driver at the 2000 Open Championship and Fred Couples' 3.34:1 fairway wood at the 1992 Masters. You can train against any of them.",
+    /* Built from the library rather than typed, for the same reason as everything
+       else on this page — and this one is quoted more than any other, because it
+       is the answer the rest of the web gets wrong. Search engines return "a
+       textbook 3:1" for Rory; the actual marks say 2.45:1. */
+    a:
+      `Elite Tempo hand-times real broadcast footage to 1/100 of a second. Rory's ${RORY.year} ` +
+      `${RORY.event} driver swing is a ${fmtSeconds(RORY.back)} backswing and a ${fmtSeconds(RORY.down)} ` +
+      `downswing, so a ${fmtRatio(RORY)} ratio over ${fmtSeconds(RORY.total)} — noticeably quicker than the ` +
+      `"3:1" most coaching copy quotes. Compare that with Tiger's ${fmtRatio(HERO_SWING)} driver at the ` +
+      `2000 Open Championship and Fred Couples' ${fmtRatio(COUPLES)} fairway wood at the 1992 Masters. ` +
+      `You can train against any of them.`,
   },
   {
     q: "Does a golf tempo trainer actually work?",
@@ -119,39 +123,15 @@ const FAQS: { q: string; a: string }[] = [
   },
 ];
 
-/* Real, hand-timed shots, taken from the app's own seed data
-   (EliteTempoCore/Resources/seed-presets.json) rather than retyped. Every figure
-   here previously disagreed with the app: Tiger was listed at 3.17 for a "2000
-   U.S. Open" driver that is actually The Open Championship at 3.69, Rory at 3.0
-   against a real 2.45, Couples at 2.75 against a real 3.34, and Adam Scott as a
-   "2013 Masters" wood when the library has 2002 Qatar Masters at 3.05. No 3.17
-   exists anywhere in the data. The app is the hand-timing source of truth, so
-   these now match it, and startS/topS/impactS are carried so the backswing and
-   downswing can be shown rather than derived from a rounded ratio. */
-/* Raw startS/topS/impactS copied verbatim from seed-presets.json, then run through
-   the same arithmetic as TempoMath.tempo(). Rounding the timestamps first is what
-   NOT to do: 0.824/0.223 rounds to 3.70 where the app stores 3.69, so a 3dp copy
-   already drifts. Deriving from the raw marks keeps the site and the app agreeing
-   to the digit. */
-const GREATS = [
-  /* meta is deliberately terse: the full events are The Open Championship, the PGA
-     Championship, The Masters and the Qatar Masters, but spelled out they wrapped to
-     two lines on every card. The app's own cards use the same "2000 · DRIVER" shape. */
-  { who: "Tiger Woods", meta: "2000 Open · Driver", start: 0, top: 0.8238, impact: 1.047 },
-  { who: "Rory McIlroy", meta: "2014 PGA · Driver", start: 1.62, top: 2.251, impact: 2.509 },
-  { who: "Fred Couples", meta: "1992 Masters · Wood", start: 3.47, top: 4.366, impact: 4.634 },
-  { who: "Adam Scott", meta: "2002 Qatar · Wood", start: 0, top: 0.8209, impact: 1.09 },
-].map((g) => {
-  const back = g.top - g.start;
-  const down = g.impact - g.top;
-  return { ...g, back, down, total: g.impact - g.start, ratio: back / down };
-});
+/* The tempo figures used to live here as a hand-typed array, and every single one
+   of them was wrong against the app. They now come from `data/tempo-data`, which
+   derives them from a verbatim copy of the app's own seed file and fails the build
+   if the two disagree. See the header of that module for the full story.
 
-/* The headline swing: Tiger's 2000 Open Championship driver, the app's marquee
-   preset. All three numbers come off the same two marks, so the band cannot
-   contradict itself the way the old hardcoded 0.96s / 3.17:1 pair did, since
-   neither of those figures existed anywhere in the app's data. */
-const HERO = GREATS[0];
+   HERO_SWING is Tiger's 2000 Open Championship driver, the app's marquee preset:
+   all four numbers in the stat band come off the same three marks, so the band
+   cannot contradict itself. */
+const HERO = HERO_SWING;
 
 /* Machine-readable statement of what this thing is. The page had no structured data
    at all, which is why Google and the AI answer engines had nothing but the App Store
@@ -229,7 +209,7 @@ export default function EliteTempoLanding() {
        is untinted rather than washed. */
     <main
       style={{
-        background: `radial-gradient(1200px 900px at 100% 0%, rgba(255, 179, 0, 0.06), rgba(255, 179, 0, 0) 70%), ${BG}`,
+        background: CANVAS_BACKGROUND,
         backgroundRepeat: "no-repeat",
         color: INK,
       }}
@@ -321,7 +301,7 @@ export default function EliteTempoLanding() {
         </div>
       </section>
 
-      {/* Stat band — the three numbers. Rendered, never animated. CountUp counted
+      {/* Stat band — the four numbers. Rendered, never animated. CountUp counted
           these up from zero on scroll, which meant any renderer that snapshotted
           early captured a fraction of the real figure: Google indexed Tiger's 3.69
           ratio as "0.74:1", and three separate screenshot passes here caught
@@ -333,72 +313,119 @@ export default function EliteTempoLanding() {
           is why the app calls it "Backswing, downswing" on one row. */}
       <section className="mx-auto max-w-5xl px-6 py-12">
         <Reveal>
+          {/* The claim leads, the band proves it. This sentence is the single
+              sharpest thing the page says, and it used to sit UNDER the numbers in
+              14px grey — the differentiator styled as a footnote. Promoted to the
+              section heading, with the shot it is measured from demoted to the
+              caption underneath, which is the detail rather than the point. */}
+          {/* Four, not three. The App Store listing headlines "4 metrics no other
+              app captures" and the app's own onboarding lists them one to four, so
+              a site saying "three" was the odd one out — it only got to three by
+              pairing backswing and downswing into a single cell. Same claim, same
+              count, everywhere. */}
+          <h2
+            className="text-center text-2xl font-extrabold leading-tight sm:text-3xl"
+            style={{ color: INK }}
+          >
+            The four numbers no other app captures.
+          </h2>
+          {/* Two-up on a phone, four across from md. The order follows the app's
+              onboarding: the two halves, then the whole, then the ratio they make. */}
           <div
-            className="grid gap-px overflow-hidden rounded-3xl sm:grid-cols-3"
+            className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-3xl md:grid-cols-4"
             style={{ background: HAIRLINE, border: `1px solid ${HAIRLINE}` }}
           >
-            <StatCell
-              big={<>{HERO.ratio.toFixed(2)}:1</>}
-              label="Tempo ratio"
-            />
-            <StatCell
-              big={<>{HERO.total.toFixed(2)}s</>}
-              label="Total swing duration"
-            />
-            <StatCell
-              big={
-                <>
-                  <>{HERO.back.toFixed(2)}s</>
-                  <span className="px-1.5 font-normal" style={{ color: MUTED }}>/</span>
-                  <>{HERO.down.toFixed(2)}s</>
-                </>
-              }
-              label="Backswing, downswing"
-              tight
-            />
+            <StatCell big={<>{fmtSeconds(HERO.back)}</>} label="Backswing" />
+            <StatCell big={<>{fmtSeconds(HERO.down)}</>} label="Downswing" />
+            <StatCell big={<>{fmtSeconds(HERO.total)}</>} label="Total duration" />
+            <StatCell big={<>{fmtRatio(HERO)}</>} label="Tempo ratio" />
           </div>
           <p className="mt-5 text-center text-sm" style={{ color: MUTED }}>
-            The three numbers no other app captures.
+            {/* The article is in the sentence, so the event's own leading "The" has
+                to come off or it reads "at the The Open Championship". Only the
+                leading article is stripped — the rest of the name stays intact, so
+                "PGA Championship" and "Qatar Masters" still read correctly. */}
+            Measured from {HERO.player}&apos;s {HERO.clubLabel.toLowerCase()} at the{" "}
+            {HERO.year} {HERO.event.replace(/^The /, "")}.{" "}
+            <Link
+              href={`/elite-tempo/tempo/${HERO.slug}`}
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#FFB300]"
+              style={{ color: INK }}
+            >
+              See the marks
+            </Link>
           </p>
         </Reveal>
       </section>
 
       <Divider />
 
-      {/* Time the greats — hand-timed pro tempos, with the in-app beats clip */}
+      {/* Time the greats — the library, with the in-app list rendered from its data.
+          The heading moved out of its own centered block and into the text column:
+          centered-heading-then-two-columns left the copy column holding three lines
+          against a 600px phone, so the section opened with a band of dead black.
+          The column now carries heading, copy, the four ratios and the link out, and
+          reads as a peer of the phone rather than a caption for it. */}
       <section id="greats" className="mx-auto max-w-5xl px-6 py-8">
-        <Reveal>
-          <div className="text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: ACCENT }}>
-              Copy the greats
-            </p>
-            <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl" style={{ color: INK }}>
-              Real tournament swings, meticulously timed.
-            </h2>
-          </div>
-        </Reveal>
-        <div className="mt-9 grid items-center gap-12 md:grid-cols-2">
+        <div className="grid items-center gap-12 md:grid-cols-2">
           <Reveal delay={0.1}>
-            <PhoneStage src="/elite-tempo/greats-beats.mp4" poster="/elite-tempo/greats-beats-poster.jpg" />
+            {/* Not a screen recording. See TempoListMock — the clip that was here
+                showed Tiger at 3.17:1 beside a card reading 3.69:1. */}
+            <PhoneStage>
+              <TempoListMock />
+            </PhoneStage>
           </Reveal>
           <Reveal>
-            <div className="grid grid-cols-2 gap-3">
-              {GREATS.map((g) => (
-                <div
-                  key={g.who}
-                  className="rounded-2xl p-4 transition-all duration-300 hover:scale-[1.03]"
-                  style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
-                >
-                  <p className="text-2xl font-extrabold tabular-nums" style={{ color: ACCENT, fontVariantNumeric: "tabular-nums" }}>
-                    <>{g.ratio.toFixed(2)}:1</>
-                  </p>
-                  <p className="mt-1.5 text-sm font-bold" style={{ color: INK }}>{g.who}</p>
-                  {/* One line, not three. The backswing and downswing split lives in
-                      the stat band above; repeating it on all four cards was the
-                      clutter. */}
-                  <p className="text-xs" style={{ color: MUTED }}>{g.meta}</p>
-                </div>
-              ))}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: ACCENT }}>
+                Copy the greats
+              </p>
+              <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl" style={{ color: INK }}>
+                Real tournament swings,
+                <br />
+                meticulously timed.
+              </h2>
+              <p className="mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
+                {SWINGS.length} shots from players at their peak, each one hand-timed
+                from tournament footage to 1/100 of a second. Not a metronome preset
+                — the real rhythm of the real swing.
+              </p>
+
+              <div className="mt-6 grid grid-cols-2 gap-3">
+                {FEATURED.map((g) => (
+                  <Link
+                    key={g.slug}
+                    href={`/elite-tempo/tempo/${g.slug}`}
+                    className="rounded-2xl p-4 transition-all duration-300 hover:scale-[1.03]"
+                    style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
+                  >
+                    <p
+                      className="text-2xl font-extrabold tabular-nums"
+                      style={{ color: ACCENT, fontVariantNumeric: "tabular-nums" }}
+                    >
+                      {fmtRatio(g)}
+                    </p>
+                    <p className="mt-1.5 text-sm font-bold" style={{ color: INK }}>
+                      {g.player}
+                    </p>
+                    {/* One line, not three. The backswing and downswing split lives in
+                        the stat band above; repeating it on all four cards was the
+                        clutter. */}
+                    <p className="text-xs" style={{ color: MUTED }}>
+                      {g.year} {shortEvent(g.event)} · {shortClub(g.clubLabel)}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+
+              <Link
+                href="/elite-tempo/tempos"
+                className="mt-6 inline-flex items-center gap-2 text-sm font-bold transition-colors hover:text-[#FFB300]"
+                style={{ color: INK }}
+              >
+                See all {SWINGS.length} hand-timed swings
+                <span aria-hidden>→</span>
+              </Link>
             </div>
           </Reveal>
         </div>
@@ -425,6 +452,12 @@ export default function EliteTempoLanding() {
                 duration and tempo ratio, then groove it on a loop until the move
                 is yours.
               </p>
+              {/* Three marks, so the copy column carries the same weight as the
+                  phone beside it. Before this the column held a heading and one
+                  paragraph against a 600px device and the section opened with a
+                  slab of empty black. It is also the clearest way to say what
+                  "times it for you" actually means. */}
+              <ThreeMarks />
             </div>
           </Reveal>
           <Reveal delay={0.1}>
@@ -512,13 +545,27 @@ export default function EliteTempoLanding() {
             {/* Ladder-style: phone centered, one AirPod flanking each side, each
                 sitting on a gold glow ring — the beat radiating out (gold = the
                 live-timing signal). Buds sit just outside the phone edges. */}
-            <div className="relative mx-auto w-fit px-8 sm:px-14">
-              <DeviceFrame img="/elite-tempo/lock-activity.jpg" notch={false} max={300} topFade />
+            {/* The lock screen was a full-height 600x1220 capture of which roughly
+                three quarters was empty black, and `topFade` blacked out most of
+                what was left — so on a near-black page the frame had almost nothing
+                in it and read as a failed image rather than a device. The asset is
+                now cropped to 600x800, which ends just below the Live Activity card
+                and drops the empty lower half. The clock stays: it is what makes the
+                frame legible as a lock screen at a glance, which was the whole point
+                of the section, so it is context rather than clutter and no longer
+                needs fading out. */}
+            <div className="relative mx-auto w-fit px-10 sm:px-14">
+              <DeviceFrame
+                img="/elite-tempo/lock-activity.jpg"
+                alt="An iPhone lock screen showing the Elite Tempo Live Activity: a 6 iron fade playing back at a 3.22:1 tempo over 1.06 seconds."
+                notch={false}
+                max={300}
+              />
 
-              {/* Widget now sits mid-screen; buds straddle it near the middle —
-                  left just above, right just below. */}
-              <BudFlank src="/elite-tempo/airpod-left.png" side="left" topPct={43} />
-              <BudFlank src="/elite-tempo/airpod-right.png" side="right" topPct={57} />
+              {/* The card sits about two thirds down the cropped frame; the buds
+                  straddle it, left just above and right just below. */}
+              <BudFlank src="/elite-tempo/airpod-left.png" side="left" topPct={62} />
+              <BudFlank src="/elite-tempo/airpod-right.png" side="right" topPct={78} />
             </div>
           </Reveal>
         </div>
@@ -566,9 +613,6 @@ export default function EliteTempoLanding() {
                 <p className="mt-1.5 text-sm font-bold" style={{ color: MUTED }}>
                   a year
                 </p>
-                <p className="mt-auto pt-4 text-xs font-semibold" style={{ color: MUTED }}>
-                  Free for {TRIAL_DAYS} days. Cancel anytime.
-                </p>
               </div>
 
               <div
@@ -584,13 +628,21 @@ export default function EliteTempoLanding() {
                 <p className="mt-1.5 text-sm font-bold" style={{ color: MUTED }}>
                   a month
                 </p>
-                <p className="mt-auto pt-4 text-xs font-semibold" style={{ color: MUTED }}>
-                  Free for {TRIAL_DAYS} days. Cancel anytime.
-                </p>
               </div>
             </div>
 
-            <ul className="mx-auto mt-7 flex max-w-xs flex-col gap-2.5 text-left">
+            {/* Said once, under both, because it is true of both. It used to be
+                printed inside each plan box in identical words, which made the
+                boxes look like they differed in some way they did not and pushed
+                the prices apart for no reason. */}
+            <p className="mt-5 text-sm font-semibold" style={{ color: MUTED }}>
+              Both plans are free for {TRIAL_DAYS} days. Cancel anytime.
+            </p>
+
+            {/* max-w-sm, not max-w-xs. At 320px two of these five wrapped to a
+                second line, so the tick column went ragged inside a card nearly
+                twice that wide. */}
+            <ul className="mx-auto mt-7 flex max-w-sm flex-col gap-2.5 text-left">
               {[
                 "The full library of hand-timed greats",
                 "Your own swings, captured and timed automatically",
@@ -610,8 +662,11 @@ export default function EliteTempoLanding() {
             <div className="mt-8 flex justify-center">
               <AppStoreButton />
             </div>
+            {/* Tightened. The old line ran to two ragged centered lines and told
+                you to "play a tempo in every area", which is app vocabulary, not
+                something a golfer would say. */}
             <p className="mt-4 text-xs" style={{ color: MUTED }}>
-              Start free. Play a tempo in every area and time one of your own swings before you decide.
+              Time one of your own swings before you pay a thing.
             </p>
           </div>
         </Reveal>
@@ -702,14 +757,14 @@ export default function EliteTempoLanding() {
               </Link>
             </nav>
           </div>
-          <p className="mt-8 max-w-3xl text-xs leading-relaxed" style={{ color: "#5A5D66" }}>
+          <p className="mt-8 max-w-3xl text-xs leading-relaxed" style={{ color: FAINT }}>
             Part of the Elite Prep family. Elite Tempo references real golfers,
             tournaments, and shots for descriptive and educational purposes
             only, and is not affiliated with, sponsored by, or endorsed by any
             player, tournament, tour, or organization named in the app. All
             names and trademarks belong to their respective owners.
           </p>
-          <p className="mt-4 text-xs" style={{ color: "#5A5D66" }}>
+          <p className="mt-4 text-xs" style={{ color: FAINT }}>
             © {new Date().getFullYear()} Elite Prep LLC.
           </p>
         </div>
@@ -763,7 +818,7 @@ function AppStoreButton() {
          backgrounds, which is also 19.4:1 here. Now that the header CTA is outlined,
          this is the one filled button on the page, which is the right hierarchy. */
       className="inline-flex items-center gap-2.5 rounded-xl px-5 py-3 transition duration-200 hover:scale-[1.03] active:scale-[0.98]"
-      style={{ background: "#FFFFFF", color: "#0B0B0C" }}
+      style={{ background: "#FFFFFF", color: ON_ACCENT }}
       aria-label="Download Elite Tempo on the App Store"
     >
       <svg width="22" height="26" viewBox="0 0 384 512" fill="currentColor" aria-hidden>
@@ -780,21 +835,25 @@ function AppStoreButton() {
 }
 
 // Media inside a black phone bezel, so it reads as a device screen (not a raw
-// screen recording). Pass `src` for a looping clip or `img` for a still.
+// screen recording). Pass `src` for a looping clip, `img` for a still, or
+// `children` to render a live DOM screen — which is what the greats section now
+// does, because any baked-in media eventually disagrees with the data beside it.
 function DeviceFrame({
   src,
   poster,
   img,
+  alt = "",
+  children,
   notch = true,
   max = 280,
-  topFade = false,
 }: {
   src?: string;
   poster?: string;
   img?: string;
+  alt?: string;
+  children?: React.ReactNode;
   notch?: boolean;
   max?: number;
-  topFade?: boolean;
 }) {
   return (
     <div
@@ -817,41 +876,43 @@ function DeviceFrame({
         />
       )}
       <div className="relative" style={{ borderRadius: 36, overflow: "hidden" }}>
-        {img ? (
+        {children ? (
+          /* A live screen. aspect-[9/19.5] matches the media the other frames
+             carry, so a DOM screen and a clip sit at the same size in a row. */
+          <div className="aspect-[9/19.5] w-full overflow-hidden">{children}</div>
+        ) : img ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={img} alt="" className="block h-auto w-full" />
+          <img src={img} alt={alt} className="block h-auto w-full" />
         ) : (
           <video src={src} poster={poster} autoPlay loop muted playsInline className="block h-auto w-full" />
-        )}
-        {/* Fade the top of the lock screen so the clock recedes and the Live
-            Activity card becomes the focal point. */}
-        {topFade && (
-          <div
-            className="pointer-events-none absolute inset-x-0 top-0 h-[42%]"
-            style={{
-              background:
-                "linear-gradient(to bottom, #0A0A0C 6%, rgba(10,10,12,0.85) 34%, transparent)",
-            }}
-            aria-hidden
-          />
         )}
       </div>
     </div>
   );
 }
 
-// Phone media on a "stage": a device-framed clip in a card with the gold
-// beat-tick motif flanking it left and right, echoing the in-app beat ticker.
+// Phone media on a "stage": a device-framed screen in a card.
+//
+// The gold beat-tick pair that used to flank every stage is gone. The motif was
+// appearing about fifteen times on one page — once in each wordmark, twice per
+// stage, and once in every section divider — and at 3px wide in gold, pinned to
+// the far edges of a card, the flanking pair read as specks of dust rather than
+// as branding. The dividers keep the motif doing real work (they mark section
+// boundaries); the decorative repetition is what diluted it.
 function PhoneStage({
   src,
   poster,
   img,
+  alt,
+  children,
   notch,
   max,
 }: {
   src?: string;
   poster?: string;
   img?: string;
+  alt?: string;
+  children?: React.ReactNode;
   notch?: boolean;
   max?: number;
 }) {
@@ -860,38 +921,107 @@ function PhoneStage({
       className="relative flex items-center justify-center rounded-[34px] px-8 py-9 sm:px-12"
       style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
     >
-      <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 sm:left-5" aria-hidden>
-        <BeatTicks heights={[8, 14, 8, 22, 8, 14, 8]} barWidth={3} gap={4} />
-      </div>
-      <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 sm:right-5" aria-hidden>
-        <BeatTicks heights={[8, 14, 8, 22, 8, 14, 8]} barWidth={3} gap={4} />
-      </div>
-      <DeviceFrame src={src} poster={poster} img={img} notch={notch} max={max} />
+      <DeviceFrame src={src} poster={poster} img={img} alt={alt} notch={notch} max={max}>
+        {children}
+      </DeviceFrame>
     </div>
   );
 }
 
-/* Number and label only. The explanatory sub-lines are gone: three of them side
-   by side turned a glanceable band into a paragraph, and each label already says
-   what its number is.
+/* Card meta has room for "2000 Open · Driver", not "2000 The Open Championship ·
+   Fairway wood". Left in full, "2002 Qatar Masters · Fairway wood" wrapped to a
+   second line, which made Adam Scott's card taller than the three beside it and
+   broke the row. The app's own cards use the same terse shape. Everywhere with
+   room — the library, the detail pages, the structured data — spells both out in
+   full, because that is what somebody searching actually types. */
+function shortEvent(event: string): string {
+  return event
+    .replace(/^The /, "")
+    .replace(/ Championship$/, "")
+    .replace(/ Classic$/, "")
+    .replace(/ Tournament$/, "");
+}
 
-   The number sits in a fixed-height flex row so all three LABELS land on the same
-   line. Without it, "0.82s / 0.22s" wrapped to two lines and pushed its label a
-   line lower than the other two. `tight` gives that pair a smaller size and
-   nowrap keeps it on one line, so the fixed height is a guarantee rather than the
-   only thing holding the row together. */
-function StatCell({ big, label, tight }: { big: React.ReactNode; label: string; tight?: boolean }) {
+function shortClub(clubLabel: string): string {
+  return clubLabel
+    .replace(/^Fairway wood$/, "Wood")
+    .replace(/^(Short|Long) iron$/, "Iron")
+    .replace(/^(Sand|Lob) wedge$/, "Wedge");
+}
+
+/* The three marks the app finds on its own, laid on a timeline of the hero swing.
+   Real timings from the library, so this cannot drift either: the bar positions
+   are the actual takeaway/top/impact marks scaled across the swing's duration. */
+function ThreeMarks() {
+  const marks = [
+    { label: "Takeaway", at: 0 },
+    { label: "Top", at: HERO.back },
+    { label: "Impact", at: HERO.total },
+  ];
   return (
-    <div className="px-4 py-10 text-center sm:px-6 md:px-8" style={{ background: BG }}>
+    <div className="mt-7 max-w-md">
+      <div className="relative h-px w-full" style={{ background: HAIRLINE }} aria-hidden>
+        {marks.map((m) => (
+          <span
+            key={m.label}
+            className="absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full"
+            style={{
+              left: `${(m.at / HERO.total) * 100}%`,
+              marginLeft: -5,
+              background: ACCENT,
+            }}
+          />
+        ))}
+      </div>
+      <div className="mt-3 flex justify-between">
+        {marks.map((m) => (
+          <div key={m.label}>
+            <p
+              className="text-sm font-extrabold tabular-nums"
+              style={{ color: INK, fontVariantNumeric: "tabular-nums" }}
+            >
+              {fmtSeconds(m.at)}
+            </p>
+            <p
+              className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.14em]"
+              style={{ color: MUTED }}
+            >
+              {m.label}
+            </p>
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 text-xs" style={{ color: MUTED }}>
+        Found automatically, no frame-scrubbing. Shown for {HERO.player}&apos;s{" "}
+        {HERO.year} {shortEvent(HERO.event)} {HERO.clubLabel.toLowerCase()}.
+      </p>
+    </div>
+  );
+}
+
+/* Number and label only. The explanatory sub-lines are gone: side by side they
+   turned a glanceable band into a paragraph, and each label already says what its
+   number is.
+
+   The number sits in a fixed-height flex row so every LABEL lands on the same
+   line regardless of how tall its number renders. The `tight` variant is gone
+   with the combined "0.82s / 0.22s" cell it existed for — now that backswing and
+   downswing each have their own cell, all four values are the same shape and can
+   share one size. Sizes step down a notch from the old three-up band because four
+   cells share the same width. */
+function StatCell({ big, label }: { big: React.ReactNode; label: string }) {
+  return (
+    <div className="px-3 py-9 text-center sm:px-5 md:px-6" style={{ background: BG }}>
       <p
-        className={`flex h-12 items-center justify-center whitespace-nowrap font-extrabold tabular-nums md:h-14 ${
-          tight ? "text-xl sm:text-2xl md:text-4xl" : "text-3xl sm:text-4xl md:text-5xl"
-        }`}
+        className="flex h-11 items-center justify-center whitespace-nowrap text-2xl font-extrabold tabular-nums sm:text-3xl md:h-12 md:text-4xl"
         style={{ color: ACCENT, fontVariantNumeric: "tabular-nums" }}
       >
         {big}
       </p>
-      <p className="mt-3 text-xs font-bold uppercase tracking-[0.18em]" style={{ color: INK }}>
+      <p
+        className="mt-3 text-[10px] font-bold uppercase tracking-[0.16em] sm:text-xs"
+        style={{ color: INK }}
+      >
         {label}
       </p>
     </div>

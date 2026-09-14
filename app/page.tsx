@@ -55,9 +55,61 @@ const PREMIUM_CARD_SHADOW_BRAND = [
   "0 0 0 1px rgba(154,187,198,0.25)",
 ].join(", ");
 
+/* Who this site belongs to, in a form a search engine can resolve.
+ *
+ * The homepage carried no structured data at all, which is why results for it
+ * print a bare blue link: with no Organization there is no logo beside the
+ * result and nothing for a knowledge panel to attach to, and with no WebSite
+ * there is no sitelinks search box. `sameAs` is what ties this domain to the
+ * App Store listings, so the site and the apps resolve as one entity rather
+ * than three unrelated things with similar names.
+ *
+ * Sitelinks themselves are earned, not declared — Google builds them from site
+ * structure and branded search volume. This is the half that can be declared. */
+const SITE_URL = "https://www.eliteprep.app";
+
+/* eliteprep.app redirects to www.eliteprep.app, so both spellings can end up in
+   an index pointing at the same page. A canonical says which one counts. Set here
+   rather than in the root layout on purpose: a canonical in the layout would
+   apply "/" to every page that does not override it, quietly telling Google that
+   /privacy and /terms are duplicates of the homepage. */
+export const metadata = {
+  alternates: { canonical: "/" },
+};
+
+const ORGANIZATION_SCHEMA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}#organization`,
+      name: "Elite Prep, LLC",
+      alternateName: "Elite Prep",
+      url: SITE_URL,
+      logo: `${SITE_URL}/icon`,
+      description:
+        "Elite Prep builds practice and performance tools for competitive golfers, including Elite Tempo, a golf swing tempo and timing trainer for iPhone.",
+      email: "ebusalacchi@eliteprep.app",
+      sameAs: ["https://apps.apple.com/app/elite-tempo/id6779226434"],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}#website`,
+      url: SITE_URL,
+      name: "Elite Prep",
+      publisher: { "@id": `${SITE_URL}#organization` },
+      inLanguage: "en-US",
+    },
+  ],
+};
+
 export default function Page() {
   return (
     <main className="flex-1" style={{ background: PAGE_BG }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_SCHEMA) }}
+      />
       <TopNav />
       <Hero />
       <Thesis />

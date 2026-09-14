@@ -1,12 +1,9 @@
 import Link from "next/link";
 
-const INK = "#F3F5F9";
-const MUTED = "#8F929C";
-const BODY = "#C9CCD3";
-const ACCENT = "#FFB300";
-const BG = "#0B0B0C";
+import { ACCENT, BG, BODY, INK, MUTED } from "../theme";
 
 export const metadata = {
+  alternates: { canonical: "/elite-tempo/privacy" },
   title: "Elite Tempo Privacy Policy",
   description:
     "How Elite Tempo handles your data. No login, no account, no tracking. Your swing videos stay on your device.",
@@ -66,17 +63,21 @@ export default function EliteTempoPrivacy() {
           <Section title="What we collect">
             <p className="mb-3">
               <strong style={{ color: INK }}>Almost nothing automatically.</strong>{" "}
-              We do not embed third-party analytics, advertising, or tracking
-              SDKs. We do not build an advertising profile of you and we do not
-              track you across other apps or websites. The limited data involved:
+              The app embeds no analytics, advertising, or tracking SDKs at all. We
+              do not build an advertising profile of you and we do not track you
+              across other apps or websites. The limited data involved:
             </p>
             <ul className="flex list-disc flex-col gap-1.5 pl-5">
               <li>
-                <strong style={{ color: INK }}>Purchases.</strong> Your purchase of
-                Elite Tempo Pro, whether the one-time lifetime unlock or the yearly
-                subscription, is processed entirely by Apple through the App Store. We
-                never see your payment-card details. Apple provides only an anonymized
-                record that an entitlement exists, so the app can unlock.
+                {/* The lifetime unlock is retired — PaywallView no longer offers it,
+                    so a policy describing it as a current option was describing a
+                    purchase nobody can make. */}
+                <strong style={{ color: INK }}>Purchases.</strong> Your subscription
+                to Elite Tempo Pro, monthly or yearly, is processed entirely by Apple
+                through the App Store. We never see your payment-card details. Apple
+                provides only an anonymized record that an entitlement exists, so the
+                app can unlock. (Some early customers hold a one-time lifetime unlock,
+                which works the same way.)
               </li>
               <li>
                 <strong style={{ color: INK }}>
@@ -99,6 +100,34 @@ export default function EliteTempoPrivacy() {
                 requires your explicit consent.
               </li>
             </ul>
+          </Section>
+
+          {/* This section is new because the website now measures its own traffic
+              and the policy above promises no tracking. Rather than quietly
+              weakening that promise, the distinction is spelled out: the app still
+              embeds nothing, and the site uses a cookieless first-party counter. If
+              Google Analytics or an ad pixel is ever added, this section stops being
+              accurate and has to be rewritten — along with a consent banner. */}
+          <Section title="This website">
+            <p className="mb-3">
+              The pages on eliteprep.app use{" "}
+              <strong style={{ color: INK }}>Vercel Web Analytics</strong> to count
+              visits, so we can tell which pages people find useful. It records the
+              page visited, the referring site, and coarse details like country,
+              browser and device type.
+            </p>
+            <p className="mb-3">
+              It sets{" "}
+              <strong style={{ color: INK }}>no cookies</strong>, does not use device
+              fingerprinting, does not create a profile of you, and cannot follow you
+              to any other website. The figures we see are aggregate counts, not
+              individual visitors. We do not use Google Analytics, advertising
+              pixels, or any cross-site tracking on this website.
+            </p>
+            <p>
+              If you submit the optional email form on this site, that is covered by
+              the opt-in bullet above.
+            </p>
           </Section>
 
           <Section title="Device permissions">

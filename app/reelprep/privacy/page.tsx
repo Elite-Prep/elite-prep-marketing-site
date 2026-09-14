@@ -11,6 +11,7 @@
 // deletion steps prominently, and state what is deleted, what is kept, and for how long.
 // That is what "Deleting your account and your data" is doing up near the top — do not bury it.
 export const metadata = {
+  alternates: { canonical: "/reelprep/privacy" },
   title: "Reel Prep Privacy Policy",
   description: "How Reel Prep collects, uses, and stores your information, and how to delete it."
 }
@@ -37,6 +38,17 @@ export default function ReelPrepPrivacyPolicy() {
               why, and who else sees it. It covers the Reel Prep mobile app only; Elite Prep&apos;s
               golf performance products are covered by a{" "}
               <a href="/privacy" style={{ color: "var(--brand)" }}>separate policy</a>.
+            </p>
+            {/* This page is served from eliteprep.app, which counts visits. The
+                policy above is about the app, so without this line a visitor
+                reading it would have no disclosure covering the page they are on. */}
+            <p className="mt-3">
+              This page itself is part of the eliteprep.app website, which uses
+              cookieless analytics to count visits. That is described in the{" "}
+              <a href="/privacy" style={{ color: "var(--brand)" }}>
+                Elite Prep privacy policy
+              </a>
+              , under &ldquo;Information we collect automatically&rdquo;.
             </p>
           </Section>
 

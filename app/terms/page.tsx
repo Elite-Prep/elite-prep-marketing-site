@@ -6,6 +6,7 @@ const TEXT_BODY = "#b3b3b3";
 const BRAND = "#9ABBC6";
 
 export const metadata = {
+  alternates: { canonical: "/terms" },
   title: "Terms of Service — Elite Prep",
   description:
     "The agreement governing your access to and use of Elite Prep.",

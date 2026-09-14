@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope, Anton } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -57,6 +58,14 @@ export default function RootLayout({
         style={{ fontFamily: "var(--font-manrope), sans-serif" }}
       >
         {children}
+        {/* The site had no analytics of any kind — no GA, no tag manager, no
+            pixel — so nothing could answer "how many people saw this page and how
+            many tapped Download". Vercel Web Analytics is cookieless and
+            first-party, which is what lets the privacy policy keep promising no
+            third-party tracking (see the Analytics section there); it needs no
+            consent banner for that reason. It only reports once the toggle is on
+            in the Vercel project's Analytics tab. */}
+        <Analytics />
       </body>
     </html>
   );
