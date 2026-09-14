@@ -7,9 +7,12 @@ import {
   SWINGS,
   fmtRatio,
   fmtSeconds,
+  shortClub,
+  shortEvent,
   swingBySlug,
   type Swing,
 } from "../../data/tempo-data";
+import { TITLE_MAX, description as describe } from "../../../seo";
 
 /* One page per hand-timed swing.
  *
@@ -67,8 +70,25 @@ export async function generateMetadata({
   const swing = swingBySlug(slug);
   if (!swing) return {};
 
-  const title = `${swing.player}'s Swing Tempo: ${fmtRatio(swing)} (${swing.year} ${swing.event})`;
-  const description = answer(swing);
+  /* The event name goes in only if it fits. Spelled out in full, the longest of
+     these overflowed by a mile — "Scottie Scheffler's Swing Tempo: 2.60:1 (2024 The
+     Players Championship)" is 71 characters against a ~60 display width, so Google
+     would have cut it after the ratio anyway. Dropping the leading "The" and the
+     word "Championship" recovers most of them; the few that still do not fit keep
+     the player and the ratio, which are the parts worth reading. */
+  const stem = `${swing.player}'s Swing Tempo: ${fmtRatio(swing)}`;
+  const withEvent = `${stem} (${swing.year} ${shortEvent(swing.event)})`;
+  const title = withEvent.length <= TITLE_MAX ? withEvent : stem;
+
+  /* A snippet, not the full answer. `answer()` runs to ~300 characters because it
+     is written for the FAQ block and for answer engines, which have no display
+     limit and reward the detail. Google has one, so the meta description is its own
+     shorter thing: the numbers first, provenance last. */
+  const description = describe(
+    `${swing.player}'s ${swing.year} ${shortEvent(swing.event)} ${shortClub(swing.clubLabel).toLowerCase()}: ` +
+      `${fmtSeconds(swing.back)} backswing, ${fmtSeconds(swing.down)} downswing, ` +
+      `${fmtRatio(swing)} over ${fmtSeconds(swing.total)}. Hand-timed from tournament footage.`,
+  );
 
   return {
     title,

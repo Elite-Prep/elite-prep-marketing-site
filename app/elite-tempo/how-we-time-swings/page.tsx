@@ -3,6 +3,7 @@ import Link from "next/link";
 import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../Chrome";
 import { ACCENT, CARD, HAIRLINE, INK, MUTED, ON_ACCENT } from "../theme";
 import { SWINGS, fmtRatio, fmtSeconds, type Swing } from "../data/tempo-data";
+import { description } from "../../seo";
 
 /* The method page.
  *
@@ -15,8 +16,9 @@ import { SWINGS, fmtRatio, fmtSeconds, type Swing } from "../data/tempo-data";
  */
 
 const TITLE = "How We Time Golf Swings to 1/100 of a Second";
-const DESCRIPTION =
-  "The method behind Elite Tempo's tour swing measurements: which three marks are read off tournament footage, how the tempo ratio is derived from them, what the frame rate of the source video does to precision, and why the published figures differ from the usual 3:1 rule.";
+const DESCRIPTION = description(
+  "How Elite Tempo measures tour swing tempo: the three marks read off tournament footage, the arithmetic, and where the method can be wrong.",
+);
 
 export const metadata: Metadata = {
   title: TITLE,

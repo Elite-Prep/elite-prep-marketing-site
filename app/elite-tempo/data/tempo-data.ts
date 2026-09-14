@@ -200,6 +200,29 @@ for (let i = 0; i < SWINGS.length; i++) {
   }
 }
 
+/* Abbreviations for places a full event or club name will not fit: phone-width
+   cards, rows inside the device mock, and <title> tags, which Google cuts at
+   roughly 60 characters. Everywhere with room — the library table, the detail
+   page body, the structured data — spells both out in full, because the full name
+   is what somebody actually searches for.
+
+   These lived as private copies in page.tsx, TempoListMock and the OG route, and
+   were about to gain a fourth in the detail pages. */
+export function shortEvent(event: string): string {
+  return event
+    .replace(/^The /, "")
+    .replace(/ Championship$/, "")
+    .replace(/ Classic$/, "")
+    .replace(/ Tournament$/, "");
+}
+
+export function shortClub(clubLabel: string): string {
+  return clubLabel
+    .replace(/^Fairway wood$/, "Wood")
+    .replace(/^(Short|Long) iron$/, "Iron")
+    .replace(/^(Sand|Lob) wedge$/, "Wedge");
+}
+
 export function swingBySlug(slug: string): Swing | undefined {
   return SWINGS.find((s) => s.slug === slug);
 }

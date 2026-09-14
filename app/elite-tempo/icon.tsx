@@ -2,7 +2,12 @@ import { ImageResponse } from "next/og";
 import { ACCENT, BG } from "./theme";
 import { MARK_ASPECT, markDataUri } from "./EliteTempoMark";
 
-export const size = { width: 512, height: 512 };
+/* 192, not 512. Google's favicon guidance asks for a multiple of 48px square
+   (48, 96, 144, 192…) and 512 is not one — 512 ÷ 48 is 10.67. Google will usually
+   resize anyway, but the favicon is the one image that appears beside the result
+   on every search, so it is worth meeting the documented requirement rather than
+   relying on it being forgiving. 192 is 4 × 48 and still sharp on a hidpi tab. */
+export const size = { width: 192, height: 192 };
 export const contentType = "image/png";
 
 /* The favicon, and the logo Google can show beside a search result.
