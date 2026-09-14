@@ -51,12 +51,25 @@ export default function EliteTempoTerms() {
           </p>
 
           <Section title="1. The app & your license">
+            {/* This paragraph used to open with a plain-English product pitch:
+                "Elite Tempo is a golf tempo and timing trainer: it plays the
+                hand-timed tempo of real, notable golf swings and lets you time and
+                review your own swings."
+
+                That was the best description of the product anywhere on the site,
+                and it was sitting in the legal page — so when someone searched
+                "elite tempo golf", Google served THIS page above /elite-tempo and
+                pulled that sentence as the snippet. It was not wrong to do so; it
+                was picking the best answer available.
+
+                A terms page should read as terms. The product description now lives
+                on the pages that are meant to rank for it. */}
             <p>
-              Elite Tempo is a golf tempo and timing trainer: it plays the
-              hand-timed tempo of real, notable golf swings and lets you time and
-              review your own swings. We grant you a personal, non-exclusive, non-transferable,
-              revocable license to use the app for your own non-commercial use,
-              subject to these Terms and Apple&apos;s rules.
+              Elite Prep LLC licenses the Elite Tempo iOS application
+              (the &quot;app&quot;) to you on the terms set out here. We grant you a
+              personal, non-exclusive, non-transferable, revocable license to use the
+              app for your own non-commercial use, subject to these Terms and
+              Apple&apos;s rules.
             </p>
           </Section>
 
