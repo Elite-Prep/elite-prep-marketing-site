@@ -1,12 +1,19 @@
 import { ImageResponse } from "next/og";
 import { ACCENT, BG } from "./theme";
+import { MARK_ASPECT, markDataUri } from "./EliteTempoMark";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-// Elite Tempo touch icon: gold beat-tick equalizer on near-black.
+/* The touch icon — what appears if someone adds the page to their home screen.
+ *
+ * This one matters more than most: it can end up sitting on the same home screen
+ * as the real app. Showing a different logo there would be the clearest possible
+ * version of the problem this change exists to fix, so it is the app icon's own
+ * artwork at the same proportions.
+ */
 export default function AppleIcon() {
-  const bars = [52, 88, 128, 88, 52];
+  const markHeight = Math.round(size.height * 0.42);
   return new ImageResponse(
     (
       <div
@@ -16,15 +23,18 @@ export default function AppleIcon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: 11,
           background: BG,
         }}
       >
-        {bars.map((h, i) => (
-          <div key={i} style={{ width: 18, height: h, borderRadius: 9, background: ACCENT }} />
-        ))}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={markDataUri(ACCENT)}
+          width={Math.round(markHeight * MARK_ASPECT)}
+          height={markHeight}
+          alt=""
+        />
       </div>
     ),
-    { ...size }
+    { ...size },
   );
 }

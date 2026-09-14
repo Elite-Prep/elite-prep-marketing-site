@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Anton } from "next/font/google";
+import { Manrope, Anton, Nunito_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
@@ -13,6 +13,22 @@ const anton = Anton({
   variable: "--font-anton",
   subsets: ["latin"],
   weight: "400",
+});
+
+/* The Elite Tempo pages set everything in Avenir Next, which is preinstalled on
+   iOS and macOS — so most visitors to a page about an iPhone app get the real
+   typeface with nothing to download. This is the fallback for everyone else: the
+   closest match on Google Fonts in proportion and x-height.
+
+   Loaded here rather than in the Elite Tempo layout because `next/font` has to be
+   called at module scope in a file that is not re-rendered. Only 400 and 600 are
+   requested — the app's entire weight scale, and asking for more would ship bytes
+   nothing is allowed to use. */
+const nunitoSans = Nunito_Sans({
+  variable: "--font-nunito-sans",
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  display: "swap",
 });
 
 const SITE_URL = "https://www.eliteprep.app";
@@ -52,7 +68,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${anton.variable} h-full`}>
+    <html
+      lang="en"
+      className={`${manrope.variable} ${anton.variable} ${nunitoSans.variable} h-full`}
+    >
       <body
         className="min-h-full flex flex-col"
         style={{ fontFamily: "var(--font-manrope), sans-serif" }}

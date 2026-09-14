@@ -92,13 +92,13 @@ function Stat({ value, label }: { value: string; label: string }) {
   return (
     <div className="px-3 py-8 text-center sm:px-4" style={{ background: BG }}>
       <p
-        className="flex h-10 items-center justify-center whitespace-nowrap text-2xl font-extrabold tabular-nums sm:h-12 sm:text-3xl"
-        style={{ color: ACCENT, fontVariantNumeric: "tabular-nums" }}
+        className="flex h-10 items-center justify-center whitespace-nowrap text-2xl font-semibold tabular-nums sm:h-12 sm:text-3xl"
+        style={{ color: INK, fontVariantNumeric: "tabular-nums" }}
       >
         {value}
       </p>
       <p
-        className="mt-3 text-[10px] font-bold uppercase tracking-[0.16em]"
+        className="mt-3 text-[10px] font-semibold uppercase tracking-[0.16em]"
         style={{ color: INK }}
       >
         {label}
@@ -135,13 +135,13 @@ function Marks({ swing }: { swing: Swing }) {
         {marks.map((m) => (
           <div key={m.label} className="min-w-0">
             <p
-              className="text-base font-extrabold tabular-nums"
+              className="text-base font-semibold tabular-nums"
               style={{ color: INK, fontVariantNumeric: "tabular-nums" }}
             >
               {fmtSeconds(m.at)}
             </p>
             <p
-              className="mt-1 text-[10px] font-bold uppercase tracking-[0.14em]"
+              className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em]"
               style={{ color: MUTED }}
             >
               {m.label}
@@ -228,13 +228,13 @@ export default async function TempoDetail({
         <Breadcrumbs trail={trail} />
 
         <p
-          className="mt-6 text-xs font-bold uppercase tracking-[0.18em]"
-          style={{ color: ACCENT }}
+          className="mt-6 text-xs font-semibold uppercase tracking-[0.18em]"
+          style={{ color: MUTED }}
         >
           {swing.category} · {swing.clubLabel}
         </p>
         <h1
-          className="mt-3 text-3xl font-extrabold leading-[1.1] sm:text-4xl"
+          className="mt-3 text-3xl font-semibold leading-[1.1] sm:text-4xl"
           style={{ color: INK, textWrap: "balance" }}
         >
           {question(swing)}
@@ -256,7 +256,7 @@ export default async function TempoDetail({
         </div>
 
         <section className="mt-12">
-          <h2 className="text-xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-xl font-semibold" style={{ color: INK }}>
             The three marks
           </h2>
           <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
@@ -275,7 +275,7 @@ export default async function TempoDetail({
               href={footage}
               rel="noopener nofollow"
               target="_blank"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#FFB300]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
               style={{ color: INK }}
             >
               {swing.year} {swing.event}
@@ -287,7 +287,7 @@ export default async function TempoDetail({
         </section>
 
         <section className="mt-12">
-          <h2 className="text-xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-xl font-semibold" style={{ color: INK }}>
             The shot
           </h2>
           <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
@@ -296,7 +296,7 @@ export default async function TempoDetail({
         </section>
 
         <section className="mt-12">
-          <h2 className="text-xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-xl font-semibold" style={{ color: INK }}>
             How this compares to &ldquo;3 to 1&rdquo;
           </h2>
           <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
@@ -305,7 +305,7 @@ export default async function TempoDetail({
             that. Across{" "}
             <Link
               href="/elite-tempo/tempos"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#FFB300]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
               style={{ color: INK }}
             >
               the whole library
@@ -317,7 +317,7 @@ export default async function TempoDetail({
 
         {related.length > 0 && (
           <section className="mt-12">
-            <h2 className="text-xl font-extrabold" style={{ color: INK }}>
+            <h2 className="text-xl font-semibold" style={{ color: INK }}>
               More hand-timed swings
             </h2>
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
@@ -329,12 +329,12 @@ export default async function TempoDetail({
                   style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
                 >
                   <p
-                    className="text-2xl font-extrabold tabular-nums"
-                    style={{ color: ACCENT, fontVariantNumeric: "tabular-nums" }}
+                    className="text-2xl font-semibold tabular-nums"
+                    style={{ color: INK, fontVariantNumeric: "tabular-nums" }}
                   >
                     {fmtRatio(r)}
                   </p>
-                  <p className="mt-1.5 text-sm font-bold" style={{ color: INK }}>
+                  <p className="mt-1.5 text-sm font-semibold" style={{ color: INK }}>
                     {r.player}
                   </p>
                   <p className="text-xs" style={{ color: MUTED }}>
@@ -350,7 +350,7 @@ export default async function TempoDetail({
           className="mt-16 rounded-3xl p-8 text-center"
           style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
         >
-          <h2 className="text-xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-xl font-semibold" style={{ color: INK }}>
             Swing to it, don&apos;t just read it.
           </h2>
           <p className="mx-auto mt-3 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>

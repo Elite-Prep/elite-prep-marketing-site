@@ -110,7 +110,7 @@ function Row({ swing }: { swing: Swing }) {
       <td className="py-4 pr-4 align-top">
         <Link
           href={`/elite-tempo/tempo/${swing.slug}`}
-          className="text-sm font-bold hover:text-[#FFB300]"
+          className="text-sm font-semibold hover:text-[#B3ECFF]"
           style={{ color: INK }}
         >
           {swing.player}
@@ -123,8 +123,8 @@ function Row({ swing }: { swing: Swing }) {
         </p>
       </td>
       <td
-        className="py-4 pr-4 text-right align-top text-base font-extrabold tabular-nums"
-        style={{ color: ACCENT, fontVariantNumeric: "tabular-nums" }}
+        className="py-4 pr-4 text-right align-top text-base font-semibold tabular-nums"
+        style={{ color: INK, fontVariantNumeric: "tabular-nums" }}
       >
         {fmtRatio(swing)}
       </td>
@@ -174,11 +174,11 @@ export default function TempoLibrary() {
         <Breadcrumbs trail={TRAIL} />
 
         <h1
-          className="mt-6 max-w-3xl text-3xl font-extrabold leading-[1.1] sm:text-4xl"
+          className="mt-6 max-w-3xl text-3xl font-semibold leading-[1.1] sm:text-4xl"
           style={{ color: INK, textWrap: "balance" }}
         >
           Golf swing tempo, measured:{" "}
-          <span style={{ color: ACCENT }}>{SWINGS.length} tour swings</span>, hand-timed.
+          <span style={{ color: INK }}>{SWINGS.length} tour swings</span>, hand-timed.
         </h1>
 
         <div className="mt-6 max-w-2xl space-y-4 text-base leading-relaxed" style={{ color: MUTED }}>
@@ -193,7 +193,7 @@ export default function TempoLibrary() {
             {SWINGS.length} shots run from{" "}
             <Link
               href={`/elite-tempo/tempo/${fastest.slug}`}
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#FFB300]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
               style={{ color: INK }}
             >
               {fastest.player}&apos;s {fmtRatio(fastest)}
@@ -201,7 +201,7 @@ export default function TempoLibrary() {
             to{" "}
             <Link
               href={`/elite-tempo/tempo/${slowest.slug}`}
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#FFB300]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
               style={{ color: INK }}
             >
               {slowest.player}&apos;s {fmtRatio(slowest)}
@@ -214,7 +214,7 @@ export default function TempoLibrary() {
             backswing, impact — read off tournament video to 1/100 of a second.{" "}
             <Link
               href="/elite-tempo/how-we-time-swings"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#FFB300]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
               style={{ color: INK }}
             >
               How we time swings
@@ -231,8 +231,8 @@ export default function TempoLibrary() {
           return (
             <section key={category} className="mt-12">
               <h2
-                className="text-xs font-bold uppercase tracking-[0.18em]"
-                style={{ color: ACCENT }}
+                className="text-xs font-semibold uppercase tracking-[0.18em]"
+                style={{ color: MUTED }}
               >
                 {category}
               </h2>
@@ -241,37 +241,37 @@ export default function TempoLibrary() {
                   <thead>
                     <tr>
                       <th
-                        className="pb-3 pr-4 text-[10px] font-bold uppercase tracking-[0.14em]"
+                        className="pb-3 pr-4 text-[10px] font-semibold uppercase tracking-[0.14em]"
                         style={{ color: MUTED }}
                       >
                         Shot
                       </th>
                       <th
-                        className="pb-3 pr-4 text-right text-[10px] font-bold uppercase tracking-[0.14em]"
+                        className="pb-3 pr-4 text-right text-[10px] font-semibold uppercase tracking-[0.14em]"
                         style={{ color: MUTED }}
                       >
                         Tempo
                       </th>
                       <th
-                        className="pb-3 pr-4 text-right text-[10px] font-bold uppercase tracking-[0.14em]"
+                        className="pb-3 pr-4 text-right text-[10px] font-semibold uppercase tracking-[0.14em]"
                         style={{ color: MUTED }}
                       >
                         Back
                       </th>
                       <th
-                        className="pb-3 pr-4 text-right text-[10px] font-bold uppercase tracking-[0.14em]"
+                        className="pb-3 pr-4 text-right text-[10px] font-semibold uppercase tracking-[0.14em]"
                         style={{ color: MUTED }}
                       >
                         Down
                       </th>
                       <th
-                        className="pb-3 pr-4 text-right text-[10px] font-bold uppercase tracking-[0.14em]"
+                        className="pb-3 pr-4 text-right text-[10px] font-semibold uppercase tracking-[0.14em]"
                         style={{ color: MUTED }}
                       >
                         Total
                       </th>
                       <th
-                        className="pb-3 text-right text-[10px] font-bold uppercase tracking-[0.14em]"
+                        className="pb-3 text-right text-[10px] font-semibold uppercase tracking-[0.14em]"
                         style={{ color: MUTED }}
                       >
                         vs 3:1
@@ -293,7 +293,7 @@ export default function TempoLibrary() {
           className="mt-16 rounded-3xl p-8 text-center sm:p-10"
           style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
         >
-          <h2 className="text-2xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
             Hear them, then match one.
           </h2>
           <p className="mx-auto mt-3 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>

@@ -91,7 +91,7 @@ function Column({
       className="flex h-full flex-col rounded-2xl p-6"
       style={{ background: CARD, border: `1px solid ${highlight ? ACCENT : HAIRLINE}` }}
     >
-      <h3 className="text-lg font-extrabold" style={{ color: INK }}>
+      <h3 className="text-lg font-semibold" style={{ color: INK }}>
         {name}
       </h3>
       <p className="mt-2 text-sm leading-relaxed" style={{ color: MUTED }}>
@@ -100,7 +100,7 @@ function Column({
       <ul className="mt-5 flex flex-col gap-2.5">
         {points.map((p) => (
           <li key={p} className="flex items-start gap-2.5 text-sm" style={{ color: MUTED }}>
-            <span className="mt-0.5 font-extrabold" style={{ color: ACCENT }} aria-hidden>
+            <span className="mt-0.5 font-semibold" style={{ color: ACCENT }} aria-hidden>
               ·
             </span>
             <span>{p}</span>
@@ -126,7 +126,7 @@ export default function VsTourTempo() {
         <Breadcrumbs trail={TRAIL} />
 
         <h1
-          className="mt-6 text-3xl font-extrabold leading-[1.1] sm:text-4xl"
+          className="mt-6 text-3xl font-semibold leading-[1.1] sm:text-4xl"
           style={{ color: INK, textWrap: "balance" }}
         >
           Elite Tempo vs Tour Tempo
@@ -146,7 +146,7 @@ export default function VsTourTempo() {
           <p className="text-base leading-relaxed" style={{ color: INK }}>
             Tour Tempo gives you a <strong>target</strong> to swing to. Elite Tempo
             gives you a target <em>and</em> a{" "}
-            <strong style={{ color: ACCENT }}>measurement</strong> of what you
+            <strong style={{ color: INK }}>measurement</strong> of what you
             actually did.
           </p>
         </div>
@@ -176,7 +176,7 @@ export default function VsTourTempo() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
             One ratio, or the real ones?
           </h2>
           <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
@@ -189,7 +189,7 @@ export default function VsTourTempo() {
             Timed directly against tournament footage, the shots in{" "}
             <Link
               href="/elite-tempo/tempos"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#FFB300]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
               style={{ color: INK }}
             >
               Elite Tempo&apos;s library
@@ -199,7 +199,7 @@ export default function VsTourTempo() {
             and neither is 3:1 — they are simply different swings.{" "}
             <Link
               href="/elite-tempo/how-we-time-swings"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#FFB300]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
               style={{ color: INK }}
             >
               How the timing is done
@@ -209,12 +209,12 @@ export default function VsTourTempo() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
             Which one suits you
           </h2>
           <div className="mt-6 flex flex-col gap-5">
             <div>
-              <h3 className="text-base font-bold" style={{ color: INK }}>
+              <h3 className="text-base font-semibold" style={{ color: INK }}>
                 Pick Tour Tempo if
               </h3>
               <p className="mt-2 text-base leading-relaxed" style={{ color: MUTED }}>
@@ -224,7 +224,7 @@ export default function VsTourTempo() {
               </p>
             </div>
             <div>
-              <h3 className="text-base font-bold" style={{ color: INK }}>
+              <h3 className="text-base font-semibold" style={{ color: INK }}>
                 Pick Elite Tempo if
               </h3>
               <p className="mt-2 text-base leading-relaxed" style={{ color: MUTED }}>
@@ -238,14 +238,14 @@ export default function VsTourTempo() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
             Common questions
           </h2>
           <div className="mt-6" style={{ borderTop: `1px solid ${HAIRLINE}` }}>
             {FAQS.map(({ q, a }) => (
               <details key={q} className="group" style={{ borderBottom: `1px solid ${HAIRLINE}` }}>
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 marker:content-none">
-                  <span className="text-base font-bold" style={{ color: INK }}>
+                  <span className="text-base font-semibold" style={{ color: INK }}>
                     {q}
                   </span>
                   <span
@@ -276,7 +276,7 @@ export default function VsTourTempo() {
           className="mt-10 rounded-3xl p-8 text-center"
           style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
         >
-          <h2 className="text-xl font-extrabold" style={{ color: INK }}>
+          <h2 className="text-xl font-semibold" style={{ color: INK }}>
             Try it against your own swing.
           </h2>
           <p className="mx-auto mt-3 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>

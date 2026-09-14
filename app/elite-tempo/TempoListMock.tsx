@@ -19,11 +19,12 @@ import { SWINGS, fmtRatio, swingsByCategory } from "./data/tempo-data";
  * web rendering rather than a screenshot.
  */
 
-import { ACCENT, BG, HAIRLINE, INK, MUTED, ON_ACCENT } from "./theme";
+import { ACCENT, BG, CARD, HAIRLINE, INK, MUTED, ON_ACCENT, TRACKING_MARK, W_WORDMARK } from "./theme";
 
-/* One step above BG so a row reads as a row against the phone's canvas. Local
-   because it exists only inside this mock, not in the app's own token set. */
-const ROW = "#16181F";
+/* Rows sit on CARD, which is LIGHTER than the canvas. The old local value was
+   #16181F — darker than the canvas — which inverted the app's own relationship
+   between a surface and the ground it sits on. There is no need for a local
+   token: the app already has one for exactly this. */
 
 function initials(name: string): string {
   return name
@@ -49,14 +50,19 @@ function shortEvent(event: string): string {
 export default function TempoListMock() {
   return (
     <div className="flex h-full flex-col" style={{ background: BG }}>
-      {/* Gold title bar, matching the app's Tempos screen. */}
+      {/* Gold title bar, matching the app's Tempos screen. The top padding clears
+          the device notch drawn by DeviceFrame — that sits 14px down and is 22px
+          tall, so anything above ~40px runs underneath it. The wordmark was
+          colliding with it before. */}
       <div
-        className="px-4 pb-3 pt-5"
+        className="px-4 pb-3 pt-11"
         style={{ background: ACCENT, color: ON_ACCENT }}
       >
+        {/* The same lockup treatment as the real wordmark — Avenir Next Bold at 4%
+            tracking — rather than Anton, which the app does not use anywhere. */}
         <p
-          className="text-[15px] tracking-wide"
-          style={{ fontFamily: "var(--font-anton), sans-serif" }}
+          className="text-[13px] leading-none"
+          style={{ fontWeight: W_WORDMARK, letterSpacing: TRACKING_MARK }}
         >
           ELITE TEMPO
         </p>
@@ -71,12 +77,12 @@ export default function TempoListMock() {
             selected because that is where the four shots below live. */}
         <div
           className="mt-3 flex gap-1 rounded-xl p-1"
-          style={{ background: ROW, border: `1px solid ${HAIRLINE}` }}
+          style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
         >
           {["Off the tee", "Approach", "Short game", "Putting"].map((tab, i) => (
             <span
               key={tab}
-              className="flex-1 rounded-lg py-1.5 text-center text-[9px] font-bold"
+              className="flex-1 rounded-lg py-1.5 text-center text-[9px] font-semibold"
               style={
                 i === 0
                   ? { background: ACCENT, color: ON_ACCENT }
@@ -93,10 +99,10 @@ export default function TempoListMock() {
             <li
               key={s.slug}
               className="flex items-center gap-2.5 rounded-xl px-2.5 py-2.5"
-              style={{ background: ROW, border: `1px solid ${HAIRLINE}` }}
+              style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
             >
               <span
-                className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-[9px] font-bold"
+                className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-[9px] font-semibold"
                 style={{ border: `1px solid ${HAIRLINE}`, color: MUTED }}
                 aria-hidden
               >
@@ -104,7 +110,7 @@ export default function TempoListMock() {
               </span>
               <span className="min-w-0 flex-1">
                 <span
-                  className="block truncate text-[11px] font-bold"
+                  className="block truncate text-[11px] font-semibold"
                   style={{ color: INK }}
                 >
                   {s.player}
@@ -115,8 +121,8 @@ export default function TempoListMock() {
                 </span>
               </span>
               <span
-                className="shrink-0 text-[13px] font-extrabold tabular-nums"
-                style={{ color: ACCENT, fontVariantNumeric: "tabular-nums" }}
+                className="shrink-0 text-[13px] font-semibold tabular-nums"
+                style={{ color: INK, fontVariantNumeric: "tabular-nums" }}
               >
                 {fmtRatio(s)}
               </span>

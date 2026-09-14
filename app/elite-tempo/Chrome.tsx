@@ -1,6 +1,18 @@
 import Link from "next/link";
-import BeatTicks from "./BeatTicks";
-import { ACCENT, APP_STORE_URL, CANVAS_BACKGROUND, FAINT, HAIRLINE, INK, MUTED, ON_ACCENT } from "./theme";
+import EliteTempoMark from "./EliteTempoMark";
+import {
+  ACCENT,
+  APP_STORE_URL,
+  BG,
+  FAINT,
+  HAIRLINE,
+  INK,
+  MUTED,
+  ON_ACCENT,
+  TRACKING_MARK,
+  W_EMPHASIS,
+  W_WORDMARK,
+} from "./theme";
 
 /* Header, footer and page canvas shared by every Elite Tempo page except the
    landing page, which keeps its own copies because its header carries section
@@ -11,25 +23,38 @@ import { ACCENT, APP_STORE_URL, CANVAS_BACKGROUND, FAINT, HAIRLINE, INK, MUTED, 
  * the logo has to be the way back.
  */
 
+/* The lockup: the ET mark, then ELITE TEMPO set in Avenir Next Bold.
+ *
+ * This replaces a wordmark that set the words in Anton with a gold beat-tick
+ * equalizer between them — a motif that appears nowhere in the app, so the website
+ * and the App Store listing were showing two different logos for the same product.
+ *
+ * Both words are INK. "TEMPO" used to be gold, which is the rule this palette
+ * exists to enforce: gold is a field, and gold words next to white words read as
+ * the less important half. In a two-word logotype that is actively wrong — it split
+ * the mark into a bright half and a dim half.
+ *
+ * Tracking is 0.04em, the same 4%-of-size ratio the app spaces it at. */
 export function Wordmark({ href }: { href?: string }) {
-  const mark = (
-    <span
-      className="flex items-center gap-2"
-      style={{ fontFamily: "var(--font-anton), sans-serif" }}
-    >
-      <span className="text-xl tracking-wide" style={{ color: INK }}>
-        ELITE
-      </span>
-      <BeatTicks heights={[7, 12, 7, 17, 7, 12, 7]} barWidth={2.5} gap={2.5} />
-      <span className="text-xl tracking-wide" style={{ color: ACCENT }}>
-        TEMPO
+  const lockup = (
+    <span className="flex items-center gap-2.5">
+      <EliteTempoMark size={22} fill={ACCENT} />
+      <span
+        className="text-[19px] leading-none"
+        style={{
+          color: INK,
+          fontWeight: W_WORDMARK,
+          letterSpacing: TRACKING_MARK,
+        }}
+      >
+        ELITE TEMPO
       </span>
     </span>
   );
-  if (!href) return <span aria-label="Elite Tempo">{mark}</span>;
+  if (!href) return <span aria-label="Elite Tempo">{lockup}</span>;
   return (
     <Link href={href} aria-label="Elite Tempo home">
-      {mark}
+      {lockup}
     </Link>
   );
 }
@@ -63,7 +88,7 @@ function Header() {
   return (
     <header
       className="sticky top-0 z-50 backdrop-blur-md"
-      style={{ background: "rgba(11, 11, 12, 0.85)", borderBottom: `1px solid ${HAIRLINE}` }}
+      style={{ background: "rgba(34, 34, 34, 0.85)", borderBottom: `1px solid ${HAIRLINE}` }}
     >
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <Wordmark href="/elite-tempo" />
@@ -71,30 +96,35 @@ function Header() {
           <nav aria-label="Elite Tempo" className="hidden items-center gap-8 md:flex">
             <Link
               href="/elite-tempo/tempos"
-              className="text-sm font-bold transition-colors duration-150 hover:text-[#FFB300]"
-              style={{ color: INK }}
+              className="text-sm transition-colors duration-150 hover:text-[#B3ECFF]"
+              style={{ color: INK, fontWeight: W_EMPHASIS }}
             >
               Tempo library
             </Link>
             <Link
               href="/elite-tempo#pricing"
-              className="text-sm font-bold transition-colors duration-150 hover:text-[#FFB300]"
-              style={{ color: INK }}
+              className="text-sm transition-colors duration-150 hover:text-[#B3ECFF]"
+              style={{ color: INK, fontWeight: W_EMPHASIS }}
             >
               Pricing
             </Link>
             <Link
               href="/elite-tempo#faq"
-              className="text-sm font-bold transition-colors duration-150 hover:text-[#FFB300]"
-              style={{ color: INK }}
+              className="text-sm transition-colors duration-150 hover:text-[#B3ECFF]"
+              style={{ color: INK, fontWeight: W_EMPHASIS }}
             >
               FAQs
             </Link>
           </nav>
           <a
             href={APP_STORE_URL}
-            className="shrink-0 whitespace-nowrap rounded-full border px-5 py-2.5 text-sm font-bold transition duration-200 hover:bg-[rgba(255,179,0,0.12)] active:scale-[0.98]"
-            style={{ borderColor: ACCENT, color: ACCENT }}
+            /* A gold FIELD with near-black ink, not a gold outline with gold text.
+               The outlined version was gold-as-text twice over — border and label —
+               which is the form the app measured as reading dimmer than the white
+               nav links beside it. Flipped contrast makes it unambiguously the
+               primary thing in the bar. */
+            className="shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 text-sm transition duration-200 hover:brightness-[1.08] active:scale-[0.98]"
+            style={{ background: ACCENT, color: ON_ACCENT, fontWeight: W_EMPHASIS }}
           >
             Try now for free
           </a>
@@ -114,19 +144,19 @@ function Footer() {
             className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm"
             style={{ color: MUTED }}
           >
-            <Link href="/elite-tempo/tempos" className="hover:opacity-80">
+            <Link href="/elite-tempo/tempos" className="transition-colors hover:text-[#B3ECFF]">
               Tempo library
             </Link>
-            <Link href="/elite-tempo/how-we-time-swings" className="hover:opacity-80">
+            <Link href="/elite-tempo/how-we-time-swings" className="transition-colors hover:text-[#B3ECFF]">
               How we time swings
             </Link>
-            <Link href="/elite-tempo/privacy" className="hover:opacity-80">
+            <Link href="/elite-tempo/privacy" className="transition-colors hover:text-[#B3ECFF]">
               Privacy
             </Link>
-            <Link href="/elite-tempo/terms" className="hover:opacity-80">
+            <Link href="/elite-tempo/terms" className="transition-colors hover:text-[#B3ECFF]">
               Terms
             </Link>
-            <a href="mailto:ebusalacchi@eliteprep.app" className="hover:opacity-80">
+            <a href="mailto:ebusalacchi@eliteprep.app" className="transition-colors hover:text-[#B3ECFF]">
               Contact
             </a>
           </nav>
@@ -150,7 +180,7 @@ export default function Chrome({ children }: { children: React.ReactNode }) {
   return (
     <div
       className="flex min-h-screen flex-col"
-      style={{ background: CANVAS_BACKGROUND, backgroundRepeat: "no-repeat", color: INK }}
+      style={{ background: BG, color: INK }}
     >
       <Header />
       <main className="flex-1">{children}</main>
@@ -170,7 +200,7 @@ export function Breadcrumbs({ trail }: { trail: { name: string; href?: string }[
           <li key={crumb.name} className="flex items-center gap-2">
             {i > 0 && <span aria-hidden>/</span>}
             {crumb.href ? (
-              <Link href={crumb.href} className="hover:text-[#FFB300]">
+              <Link href={crumb.href} className="hover:text-[#B3ECFF]">
                 {crumb.name}
               </Link>
             ) : (

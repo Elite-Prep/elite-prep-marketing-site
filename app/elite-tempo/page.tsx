@@ -18,7 +18,21 @@ import {
   TRIAL_DAYS,
   YEARLY_SAVING_PCT,
 } from "./data/pricing";
-import { ACCENT, APP_STORE_URL, BG, CANVAS_BACKGROUND, CARD, FAINT, HAIRLINE, INK, MUTED, ON_ACCENT } from "./theme";
+import EliteTempoMark from "./EliteTempoMark";
+import {
+  ACCENT,
+  ACCENT_ALT,
+  APP_STORE_URL,
+  BG,
+  CARD,
+  FAINT,
+  HAIRLINE,
+  INK,
+  MUTED,
+  ON_ACCENT,
+  TRACKING_MARK,
+  W_WORDMARK,
+} from "./theme";
 
 /* Palette and App Store URL come from `theme`; see that module for the contrast
    measurements behind each token. */
@@ -208,11 +222,11 @@ export default function EliteTempoLanding() {
        corner glow that fades out well before mid-page, so 8000px of page below it
        is untinted rather than washed. */
     <main
-      style={{
-        background: CANVAS_BACKGROUND,
-        backgroundRepeat: "no-repeat",
-        color: INK,
-      }}
+      /* Flat, not a corner glow. The app ran a gradient canvas and retired it
+         in 1.4.12: a gradient makes contrast positional, so you cannot quote a
+         ratio without saying where on the screen it applies. Grey 900 everywhere
+         means ink reads 14.85:1 at every point on the page. */
+      style={{ background: BG, color: INK }}
       className="min-h-screen"
     >
       <script
@@ -225,7 +239,7 @@ export default function EliteTempoLanding() {
           on a phone, and the Download CTA is what matters there. */}
       <header
         className="sticky top-0 z-50 backdrop-blur-md"
-        style={{ background: "rgba(11, 11, 12, 0.85)", borderBottom: `1px solid ${HAIRLINE}` }}
+        style={{ background: "rgba(34, 34, 34, 0.85)", borderBottom: `1px solid ${HAIRLINE}` }}
       >
         {/* Wordmark hard left, everything else hard right, so the gap between them
             does the work. The links are INK rather than MUTED: grey made them read
@@ -238,24 +252,23 @@ export default function EliteTempoLanding() {
                 <a
                   key={id}
                   href={`#${id}`}
-                  className="text-sm font-bold transition-colors duration-150 hover:text-[#FFB300]"
+                  className="text-sm font-semibold transition-colors duration-150 hover:text-[#B3ECFF]"
                   style={{ color: INK }}
                 >
                   {label}
                 </a>
               ))}
             </nav>
-            {/* Gold outline, not a filled gold pill. Outlined keeps the header the
-                SECONDARY surface, the same reasoning the homepage nav records for
-                its Sign up button, so the filled white App Store badges in the page
-                body stay the primary convert action. Gold border and gold ink is
-                the form DESIGN.md reserves in the app, but the website already
-                carries gold as ink on every section eyebrow and in the h1, so this
-                is consistent with the site rather than a new deviation. */}
+            {/* A gold FIELD with near-black ink. This was a gold outline with gold
+                ink, on the reasoning that an outline keeps the header secondary so
+                the white App Store badges stay primary. The hierarchy argument was
+                right; the execution used gold twice as a colour on a dark ground,
+                which the app measures as reading DIMMER than the white nav links
+                beside it. Flipped contrast gets the same hierarchy honestly. */}
             <a
               href={APP_STORE_URL}
-              className="shrink-0 whitespace-nowrap rounded-full border px-5 py-2.5 text-sm font-bold transition duration-200 hover:bg-[rgba(255,179,0,0.12)] active:scale-[0.98]"
-              style={{ borderColor: ACCENT, color: ACCENT }}
+              className="shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 hover:brightness-[1.08] active:scale-[0.98]"
+              style={{ background: ACCENT, color: ON_ACCENT }}
             >
               Try now for free
             </a>
@@ -269,18 +282,18 @@ export default function EliteTempoLanding() {
           <Reveal>
             <div>
               <p
-                className="text-xs font-bold uppercase tracking-[0.18em]"
-                style={{ color: ACCENT }}
+                className="text-xs font-semibold uppercase tracking-[0.18em]"
+                style={{ color: MUTED }}
               >
                 Golf tempo and timing trainer
               </p>
               <h1
-                className="mt-4 text-4xl font-extrabold leading-[1.05] sm:text-5xl"
+                className="mt-4 text-4xl font-semibold leading-[1.05] sm:text-5xl"
                 style={{ color: INK }}
               >
                 Copy the greats.
                 <br />
-                <span style={{ color: ACCENT }}>Copy your best.</span>
+                <span style={{ color: INK }}>Copy your best.</span>
               </h1>
               <p className="mt-5 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
                 Copy the tempo of the greats. Capture your best tempo and
@@ -324,7 +337,7 @@ export default function EliteTempoLanding() {
               pairing backswing and downswing into a single cell. Same claim, same
               count, everywhere. */}
           <h2
-            className="text-center text-2xl font-extrabold leading-tight sm:text-3xl"
+            className="text-center text-2xl font-semibold leading-tight sm:text-3xl"
             style={{ color: INK }}
           >
             The four numbers no other app captures.
@@ -349,7 +362,7 @@ export default function EliteTempoLanding() {
             {HERO.year} {HERO.event.replace(/^The /, "")}.{" "}
             <Link
               href={`/elite-tempo/tempo/${HERO.slug}`}
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#FFB300]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
               style={{ color: INK }}
             >
               See the marks
@@ -377,10 +390,10 @@ export default function EliteTempoLanding() {
           </Reveal>
           <Reveal>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: ACCENT }}>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
                 Copy the greats
               </p>
-              <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl" style={{ color: INK }}>
+              <h2 className="mt-3 text-2xl font-semibold leading-tight sm:text-3xl" style={{ color: INK }}>
                 Real tournament swings,
                 <br />
                 meticulously timed.
@@ -400,12 +413,12 @@ export default function EliteTempoLanding() {
                     style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
                   >
                     <p
-                      className="text-2xl font-extrabold tabular-nums"
-                      style={{ color: ACCENT, fontVariantNumeric: "tabular-nums" }}
+                      className="text-2xl font-semibold tabular-nums"
+                      style={{ color: INK, fontVariantNumeric: "tabular-nums" }}
                     >
                       {fmtRatio(g)}
                     </p>
-                    <p className="mt-1.5 text-sm font-bold" style={{ color: INK }}>
+                    <p className="mt-1.5 text-sm font-semibold" style={{ color: INK }}>
                       {g.player}
                     </p>
                     {/* One line, not three. The backswing and downswing split lives in
@@ -420,7 +433,7 @@ export default function EliteTempoLanding() {
 
               <Link
                 href="/elite-tempo/tempos"
-                className="mt-6 inline-flex items-center gap-2 text-sm font-bold transition-colors hover:text-[#FFB300]"
+                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:text-[#B3ECFF]"
                 style={{ color: INK }}
               >
                 See all {SWINGS.length} hand-timed swings
@@ -438,10 +451,10 @@ export default function EliteTempoLanding() {
         <div className="grid items-center gap-12 md:grid-cols-2">
           <Reveal>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: ACCENT }}>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
                 Automatic capture
               </p>
-              <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl" style={{ color: INK }}>
+              <h2 className="mt-3 text-2xl font-semibold leading-tight sm:text-3xl" style={{ color: INK }}>
                 Just swing.
                 <br />
                 We time it for you.
@@ -472,10 +485,10 @@ export default function EliteTempoLanding() {
       <section id="compare" className="mx-auto max-w-5xl px-6 py-12">
         <Reveal>
           <div className="text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: ACCENT }}>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
               Compare
             </p>
-            <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl" style={{ color: INK }}>
+            <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl" style={{ color: INK }}>
               See the gap, side by side.
             </h2>
             <p className="mx-auto mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
@@ -497,10 +510,10 @@ export default function EliteTempoLanding() {
         <div className="grid items-center gap-12 md:grid-cols-2">
           <Reveal>
             <div className="md:order-2">
-              <p className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: ACCENT }}>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
                 Time your routine
               </p>
-              <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl" style={{ color: INK }}>
+              <h2 className="mt-3 text-2xl font-semibold leading-tight sm:text-3xl" style={{ color: INK }}>
                 Groove the whole
                 <br />
                 pre-shot routine.
@@ -527,10 +540,10 @@ export default function EliteTempoLanding() {
         <div className="grid items-center gap-12 md:grid-cols-2">
           <Reveal>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: ACCENT }}>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
                 Hands-free
               </p>
-              <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl" style={{ color: INK }}>
+              <h2 className="mt-3 text-2xl font-semibold leading-tight sm:text-3xl" style={{ color: INK }}>
                 Beats in your ears.
                 <br />
                 Phone in your bag.
@@ -582,7 +595,7 @@ export default function EliteTempoLanding() {
             className="mx-auto max-w-xl rounded-3xl p-8 text-center sm:p-12"
             style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
           >
-            <p className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: ACCENT }}>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
               Free to download
             </p>
 
@@ -599,18 +612,18 @@ export default function EliteTempoLanding() {
                 style={{ background: BG, border: `1px solid ${ACCENT}` }}
               >
                 <span
-                  className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.08em]"
+                  className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em]"
                   style={{ background: ACCENT, color: ON_ACCENT }}
                 >
                   Save {YEARLY_SAVING_PCT}%
                 </span>
-                <p className="text-xs font-bold uppercase tracking-[0.14em]" style={{ color: MUTED }}>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em]" style={{ color: MUTED }}>
                   Yearly
                 </p>
-                <p className="mt-3 text-4xl font-extrabold leading-none" style={{ color: INK }}>
+                <p className="mt-3 text-4xl font-semibold leading-none" style={{ color: INK }}>
                   {PRICE_YEARLY}
                 </p>
-                <p className="mt-1.5 text-sm font-bold" style={{ color: MUTED }}>
+                <p className="mt-1.5 text-sm font-semibold" style={{ color: MUTED }}>
                   a year
                 </p>
               </div>
@@ -619,13 +632,13 @@ export default function EliteTempoLanding() {
                 className="relative flex h-full flex-col rounded-2xl px-6 pb-6 pt-7"
                 style={{ background: BG, border: `1px solid ${HAIRLINE}` }}
               >
-                <p className="text-xs font-bold uppercase tracking-[0.14em]" style={{ color: MUTED }}>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em]" style={{ color: MUTED }}>
                   Monthly
                 </p>
-                <p className="mt-3 text-4xl font-extrabold leading-none" style={{ color: INK }}>
+                <p className="mt-3 text-4xl font-semibold leading-none" style={{ color: INK }}>
                   {PRICE_MONTHLY}
                 </p>
-                <p className="mt-1.5 text-sm font-bold" style={{ color: MUTED }}>
+                <p className="mt-1.5 text-sm font-semibold" style={{ color: MUTED }}>
                   a month
                 </p>
               </div>
@@ -651,7 +664,7 @@ export default function EliteTempoLanding() {
                 "Lock-screen Live Activity and Apple Watch",
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2.5 text-sm" style={{ color: MUTED }}>
-                  <span className="mt-0.5 font-extrabold" style={{ color: ACCENT }} aria-hidden>
+                  <span className="mt-0.5 font-semibold" style={{ color: ACCENT }} aria-hidden>
                     ✓
                   </span>
                   <span>{f}</span>
@@ -681,9 +694,9 @@ export default function EliteTempoLanding() {
         <Reveal>
           {/* Last word in gold, the way ReciMe puts the last word of its FAQ
               heading in brand blue. */}
-          <h2 className="text-center text-3xl font-extrabold sm:text-4xl" style={{ color: INK }}>
+          <h2 className="text-center text-3xl font-semibold sm:text-4xl" style={{ color: INK }}>
             Golf swing tempo,{" "}
-            <span style={{ color: ACCENT }}>answered</span>
+            <span style={{ color: INK }}>answered</span>
           </h2>
 
           {/* Hairline-divided rows rather than a stack of cards, matching ReciMe:
@@ -695,7 +708,7 @@ export default function EliteTempoLanding() {
             {FAQS.map(({ q, a }) => (
               <details key={q} className="group" style={{ borderBottom: `1px solid ${HAIRLINE}` }}>
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 marker:content-none">
-                  <span className="text-base font-bold sm:text-lg" style={{ color: INK }}>
+                  <span className="text-base font-semibold sm:text-lg" style={{ color: INK }}>
                     {q}
                   </span>
                   {/* + when closed, minus sign when open. U+2212 MINUS SIGN, an icon
@@ -723,7 +736,7 @@ export default function EliteTempoLanding() {
       <section className="mx-auto max-w-2xl px-6 pb-24">
         <Reveal>
           <div className="text-center">
-            <h2 className="text-2xl font-extrabold sm:text-3xl" style={{ color: INK }}>
+            <h2 className="text-2xl font-semibold sm:text-3xl" style={{ color: INK }}>
               Get the Elite Tempo cheat sheet
             </h2>
             <p className="mx-auto mt-3 max-w-md text-base" style={{ color: MUTED }}>
@@ -788,16 +801,15 @@ function Divider() {
 function Wordmark() {
   return (
     <div
-      className="flex items-center gap-2"
-      style={{ fontFamily: "var(--font-anton), sans-serif" }}
+      className="flex items-center gap-2.5"
       aria-label="Elite Tempo"
     >
-      <span className="text-xl tracking-wide" style={{ color: INK }}>
-        ELITE
-      </span>
-      <BeatTicks heights={[7, 12, 7, 17, 7, 12, 7]} barWidth={2.5} gap={2.5} />
-      <span className="text-xl tracking-wide" style={{ color: ACCENT }}>
-        TEMPO
+      <EliteTempoMark size={22} fill={ACCENT} />
+      <span
+        className="text-[19px] leading-none"
+        style={{ color: INK, fontWeight: W_WORDMARK, letterSpacing: TRACKING_MARK }}
+      >
+        ELITE TEMPO
       </span>
     </div>
   );
@@ -977,13 +989,13 @@ function ThreeMarks() {
         {marks.map((m) => (
           <div key={m.label}>
             <p
-              className="text-sm font-extrabold tabular-nums"
+              className="text-sm font-semibold tabular-nums"
               style={{ color: INK, fontVariantNumeric: "tabular-nums" }}
             >
               {fmtSeconds(m.at)}
             </p>
             <p
-              className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.14em]"
+              className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.14em]"
               style={{ color: MUTED }}
             >
               {m.label}
@@ -1013,13 +1025,13 @@ function StatCell({ big, label }: { big: React.ReactNode; label: string }) {
   return (
     <div className="px-3 py-9 text-center sm:px-5 md:px-6" style={{ background: BG }}>
       <p
-        className="flex h-11 items-center justify-center whitespace-nowrap text-2xl font-extrabold tabular-nums sm:text-3xl md:h-12 md:text-4xl"
-        style={{ color: ACCENT, fontVariantNumeric: "tabular-nums" }}
+        className="flex h-11 items-center justify-center whitespace-nowrap text-2xl font-semibold tabular-nums sm:text-3xl md:h-12 md:text-4xl"
+        style={{ color: INK, fontVariantNumeric: "tabular-nums" }}
       >
         {big}
       </p>
       <p
-        className="mt-3 text-[10px] font-bold uppercase tracking-[0.16em] sm:text-xs"
+        className="mt-3 text-[10px] font-semibold uppercase tracking-[0.16em] sm:text-xs"
         style={{ color: INK }}
       >
         {label}
