@@ -11,6 +11,7 @@
 // deletion steps prominently, and state what is deleted, what is kept, and for how long.
 // That is what "Deleting your account and your data" is doing up near the top — do not bury it.
 export const metadata = {
+  alternates: { canonical: "/reelprep/privacy" },
   title: "Reel Prep Privacy Policy",
   description: "How Reel Prep collects, uses, and stores your information, and how to delete it."
 }

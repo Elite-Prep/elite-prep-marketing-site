@@ -7,6 +7,7 @@ const ACCENT = "#FFB300";
 const BG = "#0B0B0C";
 
 export const metadata = {
+  alternates: { canonical: "/elite-tempo/terms" },
   title: "Elite Tempo Terms of Use",
   description: "The terms that govern your use of Elite Tempo.",
 };

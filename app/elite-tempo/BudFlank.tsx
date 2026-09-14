@@ -26,9 +26,16 @@ export default function BudFlank({
 }) {
   const isLeft = side === "left";
   return (
+    /* `left-3` rather than `left-0` on small screens. The rings are centred on a
+       58px-wide bud, so the 126px outer ring reaches 34px past each side of it —
+       and with the bud flush to the container edge that put 34px of ring beyond a
+       viewport with only 24px of page padding. The result was a page that scrolled
+       10px sideways on an iPhone (scrollWidth 400 against a 390 viewport), which
+       reads as a rubber-band wobble. Insetting the bud 12px keeps the whole ring
+       inside the padding; from `sm` up there is room to spare. */
     <div
       className={`pointer-events-none absolute z-10 -translate-y-1/2 ${
-        isLeft ? "left-0 sm:-left-1" : "right-0 sm:-right-1"
+        isLeft ? "left-3 sm:-left-1" : "right-3 sm:-right-1"
       }`}
       style={{ top: `${topPct}%` }}
       aria-hidden

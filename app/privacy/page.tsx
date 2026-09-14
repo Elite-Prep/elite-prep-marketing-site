@@ -6,6 +6,7 @@ const TEXT_BODY = "#b3b3b3";
 const BRAND = "#9ABBC6";
 
 export const metadata = {
+  alternates: { canonical: "/privacy" },
   title: "Privacy Policy — Elite Prep",
   description:
     "How Elite Prep collects, uses, and protects information from athletes and coaches using the Service.",

@@ -1,6 +1,24 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { SWINGS, fmtRatio, swingsByCategory } from "./data/tempo-data";
+
+/* The social card, which was quietly the worst-drifted surface on the whole site.
+ *
+ * It pasted `public/elite-tempo/library.png` — a screenshot taken before the tempo
+ * corrections — into the phone, so every share on X, iMessage, Slack or LinkedIn
+ * broadcast Tiger at 3.17:1 for a "U.S. Open" he did not play that shot at, Rory
+ * at 3.00, Adam Scott at "The Masters 2013", and Cameron Young at "The Players".
+ * Four wrong ratios and three wrong events, on the image most people saw before
+ * they ever reached the page.
+ *
+ * The price pill was worse still: "Free for 7 days · then $19.99/yr or $49.99"
+ * advertised the old trial length, the old yearly price, and a lifetime unlock
+ * that is retired and cannot be bought.
+ *
+ * Both now render from the same modules the pages use, so this card cannot drift
+ * again without the build failing first.
+ */
 
 export const alt = "Elite Tempo. Copy the greats. Copy your best.";
 export const size = { width: 1200, height: 630 };
@@ -9,6 +27,24 @@ export const contentType = "image/png";
 const ACCENT = "#FFB300";
 const INK = "#F3F5F9";
 const MUTED = "#8F929C";
+const ROW = "#16181F";
+const HAIRLINE = "#30343E";
+
+/* Kept in step with the landing page's pricing constants. */
+const TRIAL_DAYS = 14;
+const PRICE_YEARLY = "$24.99";
+const PRICE_MONTHLY = "$5.99";
+
+/* Five rows fill the phone; "Off the tee" is the group the card is about. */
+const SHOWN = swingsByCategory("Off the tee");
+
+function initials(name: string) {
+  return name.split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase();
+}
+
+function shortEvent(event: string) {
+  return event.replace(/^The /, "").replace(/ Championship$/, "");
+}
 
 // Gold beat-tick equalizer, the brand motif.
 function ticks(heights: number[]) {
@@ -25,13 +61,11 @@ export default async function Image() {
   const root = process.cwd();
   const fontDir = (pkg: string) => join(root, "node_modules", "@fontsource", pkg, "files");
 
-  const [shotPng, anton400, manrope400, manrope700] = await Promise.all([
-    readFile(join(root, "public/elite-tempo/library.png")),
+  const [anton400, manrope400, manrope700] = await Promise.all([
     readFile(join(fontDir("anton"), "anton-latin-400-normal.woff")),
     readFile(join(fontDir("manrope"), "manrope-latin-400-normal.woff")),
     readFile(join(fontDir("manrope"), "manrope-latin-700-normal.woff")),
   ]);
-  const shotSrc = `data:image/png;base64,${shotPng.toString("base64")}`;
 
   return new ImageResponse(
     (
@@ -98,7 +132,7 @@ export default async function Image() {
               alignSelf: "flex-start",
             }}
           >
-            Free for 7 days · then $19.99/yr or $49.99
+            {`Free for ${TRIAL_DAYS} days · then ${PRICE_YEARLY}/yr or ${PRICE_MONTHLY}/mo`}
           </div>
         </div>
 
@@ -107,7 +141,9 @@ export default async function Image() {
           <div
             style={{
               width: 300,
-              height: 610,
+              /* Sized to the five rows rather than the card. At 610 the list
+                 ended two-thirds down and the rest was empty black. */
+              height: 500,
               borderRadius: 46,
               background: "#0A0A0C",
               padding: 10,
@@ -116,8 +152,81 @@ export default async function Image() {
               boxShadow: "0 40px 80px -24px rgba(0,0,0,0.8)",
             }}
           >
-            <div style={{ width: "100%", height: "100%", borderRadius: 36, background: "#0a0a0a", overflow: "hidden", display: "flex" }}>
-              <img src={shotSrc} width={280} height={590} alt="" style={{ objectFit: "cover", objectPosition: "top" }} />
+            {/* The Tempos list, drawn from the library rather than pasted in as a
+                screenshot. Satori supports a flexbox subset only, so every node
+                here carries an explicit `display: flex`. */}
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: 36,
+                background: "#0B0B0C",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  background: ACCENT,
+                  padding: "22px 18px 14px 18px",
+                  fontFamily: "Anton",
+                  fontSize: 22,
+                  color: "#0B0B0C",
+                }}
+              >
+                ELITE TEMPO
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", padding: 12 }}>
+                {SHOWN.map((s) => (
+                  <div
+                    key={s.slug}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      background: ROW,
+                      border: `1px solid ${HAIRLINE}`,
+                      borderRadius: 14,
+                      padding: "12px 12px",
+                      marginBottom: 8,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: 34,
+                        height: 34,
+                        borderRadius: 999,
+                        border: `1px solid ${HAIRLINE}`,
+                        color: MUTED,
+                        fontSize: 12,
+                        fontWeight: 700,
+                        marginRight: 10,
+                      }}
+                    >
+                      {initials(s.player)}
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                      <div style={{ display: "flex", color: INK, fontSize: 15, fontWeight: 700 }}>
+                        {s.player}
+                      </div>
+                      <div style={{ display: "flex", color: MUTED, fontSize: 11 }}>
+                        {`${shortEvent(s.event)} · ${s.year}`}
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", color: ACCENT, fontSize: 17, fontWeight: 700 }}>
+                      {fmtRatio(s)}
+                    </div>
+                  </div>
+                ))}
+                <div style={{ display: "flex", color: MUTED, fontSize: 11, paddingLeft: 4, paddingTop: 4 }}>
+                  {`+ ${SWINGS.length - SHOWN.length} more across approach, short game and putting`}
+                </div>
+              </div>
             </div>
           </div>
         </div>
