@@ -3,6 +3,7 @@ import Link from "next/link";
 import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../../Chrome";
 import { ACCENT, CARD, HAIRLINE, INK, MUTED } from "../../theme";
 import { SWINGS, fmtRatio, fmtSeconds } from "../../data/tempo-data";
+import { description } from "../../../seo";
 
 /* "Can I just use a metronome for golf tempo?" is a question people genuinely ask
  * — it is the cheapest possible answer and a fair thing to try first. The page
@@ -13,8 +14,9 @@ import { SWINGS, fmtRatio, fmtSeconds } from "../../data/tempo-data";
  */
 
 const TITLE = "Can You Use a Metronome for Golf Swing Tempo?";
-const DESCRIPTION =
-  "A metronome beats evenly; a golf swing does not. The backswing takes roughly two to four times as long as the downswing, so the beats have to be unevenly spaced. What a metronome can and cannot do for swing tempo, and what to use instead.";
+const DESCRIPTION = description(
+  "A metronome beats evenly; a golf swing does not. Why three even clicks put the top of your backswing in the wrong place, and what to use instead.",
+);
 
 export const metadata: Metadata = {
   title: TITLE,

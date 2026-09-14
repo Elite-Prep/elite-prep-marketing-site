@@ -1,4 +1,4 @@
-import { SWINGS, fmtRatio, swingsByCategory } from "./data/tempo-data";
+import { SWINGS, fmtRatio, shortEvent, swingsByCategory } from "./data/tempo-data";
 
 /* The app's Tempos list, rebuilt in the DOM instead of shown as a screen recording.
  *
@@ -41,11 +41,6 @@ function initials(name: string): string {
    empty black, which looked like the list had failed to load. */
 const SHOWN = swingsByCategory("Off the tee");
 
-/* "The Open Championship" overflows a phone row. The app's own rows abbreviate
-   the same way. */
-function shortEvent(event: string): string {
-  return event.replace(/^The /, "").replace(/ Championship$/, "");
-}
 
 export default function TempoListMock() {
   return (

@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { SWINGS, fmtRatio, swingsByCategory } from "./data/tempo-data";
+import { SWINGS, fmtRatio, shortEvent, swingsByCategory } from "./data/tempo-data";
 import { PRICING_SUMMARY } from "./data/pricing";
 import { ACCENT, BG, CARD, HAIRLINE, INK, MUTED, ON_ACCENT, TRACKING_MARK } from "./theme";
 import { MARK_ASPECT, markDataUri } from "./EliteTempoMark";
@@ -35,9 +35,6 @@ function initials(name: string) {
   return name.split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase();
 }
 
-function shortEvent(event: string) {
-  return event.replace(/^The /, "").replace(/ Championship$/, "");
-}
 
 export default async function Image() {
   const root = process.cwd();

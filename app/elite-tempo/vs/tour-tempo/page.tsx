@@ -3,6 +3,7 @@ import Link from "next/link";
 import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../../Chrome";
 import { ACCENT, CARD, HAIRLINE, INK, MUTED } from "../../theme";
 import { SWINGS, fmtRatio } from "../../data/tempo-data";
+import { description } from "../../../seo";
 
 /* "Tour Tempo alternative" is a real query with buying intent and no good answer.
  *
@@ -20,8 +21,9 @@ import { SWINGS, fmtRatio } from "../../data/tempo-data";
  */
 
 const TITLE = "Elite Tempo vs Tour Tempo: What's Actually Different";
-const DESCRIPTION =
-  "An honest comparison of two golf tempo trainers. Tour Tempo teaches one proven ratio with audio tones; Elite Tempo plays sixteen hand-timed tour swings at their real ratios and then records and times your own swing. What each does well, and which one fits how you practise.";
+const DESCRIPTION = description(
+  "Tour Tempo teaches one proven 3:1 ratio with audio tones. Elite Tempo plays 16 real tour ratios and times your own swing. An honest comparison.",
+);
 
 export const metadata: Metadata = {
   title: TITLE,

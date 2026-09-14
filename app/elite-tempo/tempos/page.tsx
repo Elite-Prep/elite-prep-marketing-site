@@ -10,6 +10,7 @@ import {
   swingsByCategory,
   type Swing,
 } from "../data/tempo-data";
+import { description } from "../../seo";
 
 /* The page this whole site was missing.
  *
@@ -30,8 +31,12 @@ import {
 const RULE_OF_THUMB = 3;
 
 const TITLE = "Golf Swing Tempo: 16 Tour Swings, Hand-Timed";
-const DESCRIPTION =
-  "The backswing and downswing of 16 famous tour shots, hand-timed from tournament footage to 1/100 of a second. Tiger Woods 3.69:1, Rory McIlroy 2.45:1, Fred Couples 3.34:1 — with the raw takeaway, top and impact marks for every swing.";
+/* The snippet leads with the numbers, because a ratio is the thing that makes
+   someone click a result about swing tempo. The long-form version of this claim
+   lives in the Dataset schema below, which has no display limit. */
+const DESCRIPTION = description(
+  `${SWINGS.length} tour swings hand-timed from tournament footage to 1/100s. Tiger 3.69:1, Rory 2.45:1, Couples 3.34:1 — with the raw marks for every swing.`,
+);
 
 export const metadata: Metadata = {
   title: TITLE,

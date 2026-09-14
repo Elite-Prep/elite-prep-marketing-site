@@ -11,6 +11,8 @@ import {
   SWINGS,
   fmtRatio,
   fmtSeconds,
+  shortClub,
+  shortEvent,
 } from "./data/tempo-data";
 import {
   PRICE_MONTHLY,
@@ -33,6 +35,7 @@ import {
   TRACKING_MARK,
   W_WORDMARK,
 } from "./theme";
+import { description } from "../seo";
 
 /* Palette and App Store URL come from `theme`; see that module for the contrast
    measurements behind each token. */
@@ -62,8 +65,11 @@ const SECTIONS = [
    and the on-page <h1>, where it does the persuading. */
 export const metadata: Metadata = {
   title: "Elite Tempo | Golf Swing Tempo Trainer for iPhone",
-  description:
-    `Golf swing tempo trainer. Match the hand-timed tempo of Tiger, Rory and Couples to 1/100s, then record your own swing and let the app find takeaway, top and impact automatically. Train hands-free with the beats in your headphones. Free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month.`,
+  /* Kept under the limit the way Google actually reads it: the strongest specific
+     fact first, because the tail is what gets cut when a phone shows less. */
+  description: description(
+    `Golf swing tempo trainer for iPhone. Match ${SWINGS.length} tour swings hand-timed to 1/100s, then record your own and get your exact ratio. Free for ${TRIAL_DAYS} days.`,
+  ),
   alternates: { canonical: "/elite-tempo" },
   keywords: [
     "golf swing tempo",
@@ -940,26 +946,6 @@ function PhoneStage({
   );
 }
 
-/* Card meta has room for "2000 Open · Driver", not "2000 The Open Championship ·
-   Fairway wood". Left in full, "2002 Qatar Masters · Fairway wood" wrapped to a
-   second line, which made Adam Scott's card taller than the three beside it and
-   broke the row. The app's own cards use the same terse shape. Everywhere with
-   room — the library, the detail pages, the structured data — spells both out in
-   full, because that is what somebody searching actually types. */
-function shortEvent(event: string): string {
-  return event
-    .replace(/^The /, "")
-    .replace(/ Championship$/, "")
-    .replace(/ Classic$/, "")
-    .replace(/ Tournament$/, "");
-}
-
-function shortClub(clubLabel: string): string {
-  return clubLabel
-    .replace(/^Fairway wood$/, "Wood")
-    .replace(/^(Short|Long) iron$/, "Iron")
-    .replace(/^(Sand|Lob) wedge$/, "Wedge");
-}
 
 /* The three marks the app finds on its own, laid on a timeline of the hero swing.
    Real timings from the library, so this cannot drift either: the bar positions

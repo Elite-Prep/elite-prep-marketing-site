@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Manrope, Anton, Nunito_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import { description } from "./seo";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -33,8 +34,11 @@ const nunitoSans = Nunito_Sans({
 
 const SITE_URL = "https://www.eliteprep.app";
 const SITE_TITLE = "Elite Prep — Know what to work on. Know it's working.";
-const SITE_DESCRIPTION =
-  "The complete system competitive golfers use to get ready for every event on their schedule. Plan your practice, build your own drills, track every round shot-by-shot, and see the proof your work is paying off. Starting with golf.";
+/* 229 characters before this, so Google cut it around "track every round" and the
+   payoff never appeared. The snippet now ends on the point. */
+const SITE_DESCRIPTION = description(
+  "The system competitive golfers use to prepare for every event: plan practice, build drills, track rounds shot-by-shot, and see the proof it is working.",
+);
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
