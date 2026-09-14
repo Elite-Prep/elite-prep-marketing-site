@@ -12,24 +12,16 @@ import {
   fmtRatio,
   fmtSeconds,
 } from "./data/tempo-data";
+import {
+  PRICE_MONTHLY,
+  PRICE_YEARLY,
+  TRIAL_DAYS,
+  YEARLY_SAVING_PCT,
+} from "./data/pricing";
+import { ACCENT, APP_STORE_URL, BG, CANVAS_BACKGROUND, CARD, FAINT, HAIRLINE, INK, MUTED, ON_ACCENT } from "./theme";
 
-/* Elite Tempo brand palette — black + amber-gold, mirroring the app's
-   DESIGN.md tokens. Scoped to this page; the rest of the site is Elite
-   Prep blue. */
-const BG = "#0B0B0C";
-const ACCENT = "#FFB300";
-const ON_ACCENT = "#0B0B0C";
-const INK = "#F3F5F9";
-const MUTED = "#8F929C";
-/* CARD and HAIRLINE now match Theme.swift exactly. They were #151720 and
-   #242732, both darker than the app's tokens, which left panels at 1.10:1
-   against the canvas and borders at 1.32:1 -- structure you could barely see.
-   DESIGN.md describes card as "lifted above bg for clear card contrast", so the
-   old values were below the app's own spec rather than a deliberate web choice.
-   Text was measured too and needed nothing: ink is 18.0:1, muted 6.3:1 on the
-   canvas and 5.4:1 on the card, gold 11.0:1, all clear of WCAG AA. */
-const CARD = "#1B1E26";
-const HAIRLINE = "#30343E";
+/* Palette and App Store URL come from `theme`; see that module for the contrast
+   measurements behind each token. */
 
 /* Three links, not six. ReciMe's header carries exactly three (FAQs, Gift Cards,
    Log In) plus one button, clustered hard right with a wide empty gap after the
@@ -46,22 +38,10 @@ const SECTIONS = [
   { id: "faq", label: "FAQs" },
 ];
 
-const APP_STORE_URL = "https://apps.apple.com/app/elite-tempo/id6779226434";
 
-/* Prices and trial length are verified against App Store Connect, not copied from
-   older marketing text. Yearly is $24.99 for new customers as of 2026-07-31 (the
-   $19.99 point survives only as a preserved price for existing subscribers), monthly
-   is $5.99, both carry a 14-day free trial, and the lifetime non-consumable is
-   retired — PaywallView no longer offers it, so the page must not advertise it. */
-const PRICE_YEARLY_NUM = 24.99;
-const PRICE_MONTHLY_NUM = 5.99;
-const PRICE_YEARLY = `$${PRICE_YEARLY_NUM.toFixed(2)}`;
-const PRICE_MONTHLY = `$${PRICE_MONTHLY_NUM.toFixed(2)}`;
-const TRIAL_DAYS = 14;
-
-/* Derived, never typed by hand, so the badge cannot outlive a price change:
-   $5.99 x 12 = $71.88 against $24.99 is a 65% saving. */
-const YEARLY_SAVING_PCT = Math.round((1 - PRICE_YEARLY_NUM / (PRICE_MONTHLY_NUM * 12)) * 100);
+/* Prices, trial length and the saving badge now live in `data/pricing`, shared with
+   the Open Graph card — which had its own hardcoded copy of the same sentence and
+   was still advertising a 7-day trial at $19.99/yr plus a retired lifetime unlock. */
 
 /* The <title> is what Google prints as the blue link, so it names the category
    rather than leading with the tagline. The tagline still carries the social cards
@@ -229,7 +209,7 @@ export default function EliteTempoLanding() {
        is untinted rather than washed. */
     <main
       style={{
-        background: `radial-gradient(1200px 900px at 100% 0%, rgba(255, 179, 0, 0.06), rgba(255, 179, 0, 0) 70%), ${BG}`,
+        background: CANVAS_BACKGROUND,
         backgroundRepeat: "no-repeat",
         color: INK,
       }}
@@ -777,14 +757,14 @@ export default function EliteTempoLanding() {
               </Link>
             </nav>
           </div>
-          <p className="mt-8 max-w-3xl text-xs leading-relaxed" style={{ color: "#5A5D66" }}>
+          <p className="mt-8 max-w-3xl text-xs leading-relaxed" style={{ color: FAINT }}>
             Part of the Elite Prep family. Elite Tempo references real golfers,
             tournaments, and shots for descriptive and educational purposes
             only, and is not affiliated with, sponsored by, or endorsed by any
             player, tournament, tour, or organization named in the app. All
             names and trademarks belong to their respective owners.
           </p>
-          <p className="mt-4 text-xs" style={{ color: "#5A5D66" }}>
+          <p className="mt-4 text-xs" style={{ color: FAINT }}>
             © {new Date().getFullYear()} Elite Prep LLC.
           </p>
         </div>
@@ -838,7 +818,7 @@ function AppStoreButton() {
          backgrounds, which is also 19.4:1 here. Now that the header CTA is outlined,
          this is the one filled button on the page, which is the right hierarchy. */
       className="inline-flex items-center gap-2.5 rounded-xl px-5 py-3 transition duration-200 hover:scale-[1.03] active:scale-[0.98]"
-      style={{ background: "#FFFFFF", color: "#0B0B0C" }}
+      style={{ background: "#FFFFFF", color: ON_ACCENT }}
       aria-label="Download Elite Tempo on the App Store"
     >
       <svg width="22" height="26" viewBox="0 0 384 512" fill="currentColor" aria-hidden>

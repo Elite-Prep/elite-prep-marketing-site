@@ -1,4 +1,4 @@
-const ACCENT = "#FFB300";
+import { ACCENT } from "./theme";
 
 /* An AirPod flanking the phone in the hands-free section, ringed by static gold
    sonar rings — the beat radiating into your ears (Ladder-style).

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../../Chrome";
-import { ACCENT, CARD, HAIRLINE, INK, MUTED } from "../../theme";
+import { ACCENT, BG, CARD, HAIRLINE, INK, MUTED } from "../../theme";
 import {
   SWINGS,
   fmtRatio,
@@ -90,7 +90,7 @@ export async function generateMetadata({
    two — the same defect the landing page's stat band already had fixed. */
 function Stat({ value, label, tight }: { value: string; label: string; tight?: boolean }) {
   return (
-    <div className="px-4 py-8 text-center" style={{ background: "#0B0B0C" }}>
+    <div className="px-4 py-8 text-center" style={{ background: BG }}>
       <p
         className={`flex h-10 items-center justify-center whitespace-nowrap font-extrabold tabular-nums sm:h-12 ${
           tight ? "text-xl sm:text-2xl" : "text-3xl sm:text-4xl"

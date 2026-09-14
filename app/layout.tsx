@@ -20,12 +20,6 @@ const SITE_TITLE = "Elite Prep — Know what to work on. Know it's working.";
 const SITE_DESCRIPTION =
   "The complete system competitive golfers use to get ready for every event on their schedule. Plan your practice, build your own drills, track every round shot-by-shot, and see the proof your work is paying off. Starting with golf.";
 
-/* Elite Tempo's App Store id. The Smart App Banner below is Safari-only and
-   iOS-only, which is exactly the audience: a golfer who lands on a page about an
-   iPhone app, from a phone, gets a one-tap install strip instead of having to
-   find the badge further down the page. */
-const ELITE_TEMPO_APP_ID = "6779226434";
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: SITE_TITLE,
@@ -43,10 +37,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-  },
-  appleWebApp: { capable: false },
-  other: {
-    "apple-itunes-app": `app-id=${ELITE_TEMPO_APP_ID}`,
   },
 };
 

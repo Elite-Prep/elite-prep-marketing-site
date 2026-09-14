@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { ACCENT, BG } from "./theme";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
@@ -16,11 +17,11 @@ export default function AppleIcon() {
           alignItems: "center",
           justifyContent: "center",
           gap: 11,
-          background: "#0B0B0C",
+          background: BG,
         }}
       >
         {bars.map((h, i) => (
-          <div key={i} style={{ width: 18, height: h, borderRadius: 9, background: "#FFB300" }} />
+          <div key={i} style={{ width: 18, height: h, borderRadius: 9, background: ACCENT }} />
         ))}
       </div>
     ),

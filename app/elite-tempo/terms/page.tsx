@@ -1,10 +1,6 @@
 import Link from "next/link";
 
-const INK = "#F3F5F9";
-const MUTED = "#8F929C";
-const BODY = "#C9CCD3";
-const ACCENT = "#FFB300";
-const BG = "#0B0B0C";
+import { ACCENT, BG, BODY, INK, MUTED } from "../theme";
 
 export const metadata = {
   alternates: { canonical: "/elite-tempo/terms" },

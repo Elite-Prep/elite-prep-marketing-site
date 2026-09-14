@@ -19,11 +19,11 @@ import { SWINGS, fmtRatio, swingsByCategory } from "./data/tempo-data";
  * web rendering rather than a screenshot.
  */
 
-const ACCENT = "#FFB300";
-const INK = "#F3F5F9";
-const MUTED = "#8F929C";
+import { ACCENT, BG, HAIRLINE, INK, MUTED, ON_ACCENT } from "./theme";
+
+/* One step above BG so a row reads as a row against the phone's canvas. Local
+   because it exists only inside this mock, not in the app's own token set. */
 const ROW = "#16181F";
-const HAIRLINE = "#30343E";
 
 function initials(name: string): string {
   return name
@@ -48,11 +48,11 @@ function shortEvent(event: string): string {
 
 export default function TempoListMock() {
   return (
-    <div className="flex h-full flex-col" style={{ background: "#0B0B0C" }}>
+    <div className="flex h-full flex-col" style={{ background: BG }}>
       {/* Gold title bar, matching the app's Tempos screen. */}
       <div
         className="px-4 pb-3 pt-5"
-        style={{ background: ACCENT, color: "#0B0B0C" }}
+        style={{ background: ACCENT, color: ON_ACCENT }}
       >
         <p
           className="text-[15px] tracking-wide"
@@ -79,7 +79,7 @@ export default function TempoListMock() {
               className="flex-1 rounded-lg py-1.5 text-center text-[9px] font-bold"
               style={
                 i === 0
-                  ? { background: ACCENT, color: "#0B0B0C" }
+                  ? { background: ACCENT, color: ON_ACCENT }
                   : { color: MUTED }
               }
             >

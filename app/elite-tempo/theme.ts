@@ -23,6 +23,9 @@ export const CARD = "#1B1E26";
 export const HAIRLINE = "#30343E";
 /* Footnote grey — legal lines and copyright, deliberately quieter than MUTED. */
 export const FAINT = "#5A5D66";
+/* Long-form body copy on the privacy and terms pages. Brighter than MUTED, which
+   is sized for short labels and would be tiring over several thousand words. */
+export const BODY = "#C9CCD3";
 
 export const APP_STORE_URL = "https://apps.apple.com/app/elite-tempo/id6779226434";
 export const SITE_URL = "https://www.eliteprep.app";

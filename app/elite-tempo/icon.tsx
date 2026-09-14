@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { ACCENT, BG } from "./theme";
 
 export const size = { width: 512, height: 512 };
 export const contentType = "image/png";
@@ -16,11 +17,11 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           gap: 30,
-          background: "#0B0B0C",
+          background: BG,
         }}
       >
         {bars.map((h, i) => (
-          <div key={i} style={{ width: 50, height: h, borderRadius: 26, background: "#FFB300" }} />
+          <div key={i} style={{ width: 50, height: h, borderRadius: 26, background: ACCENT }} />
         ))}
       </div>
     ),

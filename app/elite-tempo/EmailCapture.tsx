@@ -9,15 +9,11 @@ const SUPABASE_URL = "https://wkvszppmeynyucuybern.supabase.co";
 const SUPABASE_KEY = "sb_publishable_2F9OjhvLad5w2CMEAPUZSA_c-S_D7eZ";
 const TABLE = "elite_tempo_leads";
 
-const ACCENT = "#FFB300";
-const ON_ACCENT = "#0B0B0C";
-const INK = "#F3F5F9";
-const MUTED = "#8F929C";
-/* Kept in step with page.tsx, which now matches Theme.swift. This file carries
-   its own copies because it is a client component; if the palette moves again,
-   both places move. */
-const CARD = "#1B1E26";
-const HAIRLINE = "#30343E";
+/* From the shared token module. These used to be local copies, on the theory that a
+   client component needed its own — it does not: `theme.ts` exports plain constants,
+   which inline into the client bundle exactly like the literals did. Keeping copies
+   only meant a palette change had to be made twice, and the second one got forgotten. */
+import { ACCENT, BG, CARD, HAIRLINE, INK, MUTED, ON_ACCENT } from "./theme";
 
 function isValidEmail(raw: string) {
   const s = raw.trim();
@@ -99,7 +95,7 @@ export default function EmailCapture() {
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
           className="w-full rounded-xl px-4 py-3 text-sm outline-none sm:w-1/3"
-          style={{ background: "#0B0B0C", border: `1px solid ${HAIRLINE}`, color: INK }}
+          style={{ background: BG, border: `1px solid ${HAIRLINE}`, color: INK }}
         />
         <input
           type="email"
@@ -110,7 +106,7 @@ export default function EmailCapture() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full flex-1 rounded-xl px-4 py-3 text-sm outline-none"
-          style={{ background: "#0B0B0C", border: `1px solid ${HAIRLINE}`, color: INK }}
+          style={{ background: BG, border: `1px solid ${HAIRLINE}`, color: INK }}
         />
         <button
           type="submit"

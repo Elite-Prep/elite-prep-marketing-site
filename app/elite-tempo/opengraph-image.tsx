@@ -2,6 +2,8 @@ import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { SWINGS, fmtRatio, swingsByCategory } from "./data/tempo-data";
+import { PRICING_SUMMARY } from "./data/pricing";
+import { ACCENT, BG, HAIRLINE, INK, MUTED, ON_ACCENT } from "./theme";
 
 /* The social card, which was quietly the worst-drifted surface on the whole site.
  *
@@ -24,16 +26,7 @@ export const alt = "Elite Tempo. Copy the greats. Copy your best.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const ACCENT = "#FFB300";
-const INK = "#F3F5F9";
-const MUTED = "#8F929C";
 const ROW = "#16181F";
-const HAIRLINE = "#30343E";
-
-/* Kept in step with the landing page's pricing constants. */
-const TRIAL_DAYS = 14;
-const PRICE_YEARLY = "$24.99";
-const PRICE_MONTHLY = "$5.99";
 
 /* Five rows fill the phone; "Off the tee" is the group the card is about. */
 const SHOWN = swingsByCategory("Off the tee");
@@ -124,7 +117,7 @@ export default async function Image() {
               padding: "12px 22px",
               background: ACCENT,
               borderRadius: 999,
-              color: "#0B0B0C",
+              color: ON_ACCENT,
               fontSize: 18,
               fontWeight: 700,
               letterSpacing: "0.04em",
@@ -132,7 +125,7 @@ export default async function Image() {
               alignSelf: "flex-start",
             }}
           >
-            {`Free for ${TRIAL_DAYS} days · then ${PRICE_YEARLY}/yr or ${PRICE_MONTHLY}/mo`}
+            {PRICING_SUMMARY}
           </div>
         </div>
 
@@ -160,7 +153,7 @@ export default async function Image() {
                 width: "100%",
                 height: "100%",
                 borderRadius: 36,
-                background: "#0B0B0C",
+                background: BG,
                 overflow: "hidden",
                 display: "flex",
                 flexDirection: "column",
@@ -173,7 +166,7 @@ export default async function Image() {
                   padding: "22px 18px 14px 18px",
                   fontFamily: "Anton",
                   fontSize: 22,
-                  color: "#0B0B0C",
+                  color: ON_ACCENT,
                 }}
               >
                 ELITE TEMPO

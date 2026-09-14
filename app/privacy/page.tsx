@@ -113,6 +113,22 @@ export default function PrivacyPolicy() {
                 <strong>Push notification tokens:</strong> if you opt in to
                 push notifications.
               </li>
+              {/* Added when the marketing site gained analytics. The measurement
+                  runs from the root layout, so it applies to every page on
+                  eliteprep.app — including the Elite Tempo and Reel Prep pages —
+                  and this is the policy that covers the website as a whole. If
+                  Google Analytics or an advertising pixel is ever added, this
+                  bullet stops being accurate and needs rewriting, along with a
+                  consent banner for EU visitors. */}
+              <li>
+                <strong>Website analytics:</strong> pages on eliteprep.app use
+                Vercel Web Analytics to count visits — the page viewed, the
+                referring site, and coarse details like country, browser and
+                device type. It sets no cookies, does not fingerprint your
+                device, does not build a profile of you, and cannot follow you to
+                other websites. We see aggregate counts, not individual visitors.
+                We do not use Google Analytics or advertising pixels.
+              </li>
             </ul>
           </Section>
 

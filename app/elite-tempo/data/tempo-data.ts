@@ -186,7 +186,12 @@ for (const s of SWINGS) {
 for (let i = 0; i < SWINGS.length; i++) {
   const derived = round2(SWINGS[i].ratio);
   const stored = presets[i].ratio;
-  if (Math.abs(derived - stored) > 0.011) {
+  /* Exact, not a tolerance. Both sides are ratios rounded to two decimals, so any
+     difference at all is a real disagreement. An earlier version allowed 0.011 of
+     slack, which let a derived 3.69 pass against a stored 3.68 — precisely the
+     one-in-the-last-place drift this guard exists to catch. All 16 shots currently
+     agree to the digit, so exactness costs nothing. */
+  if (derived !== stored) {
     throw new Error(
       `tempo-data: "${SWINGS[i].slug}" derives ${derived.toFixed(2)}:1 from its marks ` +
         `but the app stores ${stored.toFixed(2)}:1. The seed copy is stale or corrupt — ` +

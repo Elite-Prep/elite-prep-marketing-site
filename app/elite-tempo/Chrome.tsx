@@ -1,6 +1,6 @@
 import Link from "next/link";
 import BeatTicks from "./BeatTicks";
-import { ACCENT, CANVAS_BACKGROUND, FAINT, HAIRLINE, INK, MUTED, APP_STORE_URL } from "./theme";
+import { ACCENT, APP_STORE_URL, CANVAS_BACKGROUND, FAINT, HAIRLINE, INK, MUTED, ON_ACCENT } from "./theme";
 
 /* Header, footer and page canvas shared by every Elite Tempo page except the
    landing page, which keeps its own copies because its header carries section
@@ -43,7 +43,7 @@ export function AppStoreButton({ label }: { label?: string }) {
          so only its border said "button". This is the one filled button on a
          page — the header CTA is outlined — which is the right hierarchy. */
       className="inline-flex items-center gap-2.5 rounded-xl px-5 py-3 transition duration-200 hover:scale-[1.03] active:scale-[0.98]"
-      style={{ background: "#FFFFFF", color: "#0B0B0C" }}
+      style={{ background: "#FFFFFF", color: ON_ACCENT }}
       aria-label={label ?? "Download Elite Tempo on the App Store"}
     >
       <svg width="22" height="26" viewBox="0 0 384 512" fill="currentColor" aria-hidden>

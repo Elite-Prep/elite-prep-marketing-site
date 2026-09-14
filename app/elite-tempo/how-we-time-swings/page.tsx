@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../Chrome";
-import { ACCENT, CARD, HAIRLINE, INK, MUTED } from "../theme";
-import { SWINGS, fmtRatio, fmtSeconds } from "../data/tempo-data";
+import { ACCENT, CARD, HAIRLINE, INK, MUTED, ON_ACCENT } from "../theme";
+import { SWINGS, fmtRatio, fmtSeconds, type Swing } from "../data/tempo-data";
 
 /* The method page.
  *
@@ -84,6 +84,18 @@ const STRUCTURED_DATA = {
   ],
 };
 
+/* What you would get if you rounded the raw marks to `places` decimals before
+   doing the arithmetic. This is the drift the page is warning about, computed
+   rather than asserted, so the worked example cannot be wrong. */
+function ratioFromRounded(swing: Swing, places: number): string {
+  const round = (n: number) => Number(n.toFixed(places));
+  const start = round(swing.startS);
+  const top = round(swing.topS);
+  const impact = round(swing.impactS);
+  const ratio = (top - start) / (impact - top);
+  return `${ratio.toFixed(2)}:1`;
+}
+
 function Step({
   n,
   title,
@@ -99,7 +111,7 @@ function Step({
           before the takeaway, and the arithmetic comes last. */}
       <span
         className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-sm font-extrabold tabular-nums"
-        style={{ background: ACCENT, color: "#0B0B0C" }}
+        style={{ background: ACCENT, color: ON_ACCENT }}
         aria-hidden
       >
         {n}
@@ -188,11 +200,19 @@ export default function HowWeTimeSwings() {
               <strong style={{ color: INK }}>{fmtRatio(hero)}</strong> over{" "}
               {fmtSeconds(hero.total)}.
             </p>
+            {/* These three figures are computed, not typed. An earlier version of
+                this paragraph said two-decimal rounding gives 3.70:1, which was
+                wrong twice over — 3.70 is what THREE decimals gives, and two gives
+                3.57. Getting the arithmetic wrong on the page whose entire job is
+                showing the working would have been the worst possible place for it,
+                so the numbers now derive from the same marks as everything else. */}
             <p className="mt-4 text-sm leading-relaxed" style={{ color: MUTED }}>
               Note that the marks carry more decimal places than the published
               figures. That is deliberate: rounding the timestamps before dividing
-              them drifts the answer. Rounding this swing&apos;s marks to two places
-              first gives 3.70:1 where the real marks give {fmtRatio(hero)}.
+              them drifts the answer, and not by a little. Round this swing&apos;s
+              marks to three decimals and you get {ratioFromRounded(hero, 3)};
+              round to two and you get {ratioFromRounded(hero, 2)}. The full-precision
+              marks give {fmtRatio(hero)}.
             </p>
           </div>
         </section>
