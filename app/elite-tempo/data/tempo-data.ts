@@ -231,6 +231,76 @@ export function swingsByCategory(category: Category): Swing[] {
   return SWINGS.filter((s) => s.category === category);
 }
 
+/* ── Players ──────────────────────────────────────────────────────────────
+   Google shows "What is Tiger Woods swing tempo?" and "What is Rory McIlroy's
+   swing tempo?" in its People Also Ask box on a search for this app, so the
+   demand is measured rather than assumed. Those questions are about a PLAYER
+   though, and the library is organised by SHOT — seven separate Tiger pages and
+   nothing that answers the question as asked.
+
+   Only players with more than one timed shot get a page. A hub for someone with a
+   single shot would be a near-copy of that shot's own page, which is thin content
+   in the precise sense Google penalises, and would compete with the better page
+   for the same query. */
+
+export type Player = {
+  name: string;
+  slug: string;
+  swings: Swing[];
+  /* The shot people mean when they say "his tempo" — the driver where there is
+     one, otherwise the longest club timed. */
+  headline: Swing;
+  fastest: Swing;
+  slowest: Swing;
+  /* How far the player's own tempo travels across clubs. The interesting number
+     on these pages: Tiger spans 1.63, Rory 0.06. */
+  spread: number;
+};
+
+export function playerSlug(name: string): string {
+  return slugify(name);
+}
+
+const CLUB_ORDER = ["driver", "wood", "iron", "pitch", "putt"];
+
+export const PLAYERS: Player[] = (() => {
+  const byName = new Map<string, Swing[]>();
+  for (const s of SWINGS) {
+    if (!byName.has(s.player)) byName.set(s.player, []);
+    byName.get(s.player)!.push(s);
+  }
+  return [...byName.entries()]
+    .filter(([, list]) => list.length > 1)
+    .map(([name, list]) => {
+      const sorted = [...list].sort((a, b) => a.ratio - b.ratio);
+      const headline =
+        [...list].sort(
+          (a, b) => CLUB_ORDER.indexOf(a.club) - CLUB_ORDER.indexOf(b.club),
+        )[0];
+      const fastest = sorted[0];
+      const slowest = sorted[sorted.length - 1];
+      return {
+        name,
+        slug: playerSlug(name),
+        swings: list,
+        headline,
+        fastest,
+        slowest,
+        spread: slowest.ratio - fastest.ratio,
+      };
+    })
+    .sort((a, b) => b.swings.length - a.swings.length);
+})();
+
+export function playerBySlug(slug: string): Player | undefined {
+  return PLAYERS.find((p) => p.slug === slug);
+}
+
+/* Every player who has a hub page, so a shot page can link up to it. */
+export function playerFor(swing: Swing): Player | undefined {
+  return PLAYERS.find((p) => p.name === swing.player);
+}
+
 /* Formatting helpers, so a ratio is written the same way in the page copy, the
    tables and the structured data. */
 export const fmtRatio = (s: Swing) => `${s.ratio.toFixed(2)}:1`;

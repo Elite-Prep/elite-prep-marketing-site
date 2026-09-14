@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { SWINGS } from "./elite-tempo/data/tempo-data";
+import { PLAYERS, SWINGS } from "./elite-tempo/data/tempo-data";
 
 const SITE_URL = "https://www.eliteprep.app";
 
@@ -38,5 +38,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...evergreen, ...library];
+  /* Player hubs answer "what is <player>'s swing tempo", which Google shows in its
+     People Also Ask box — higher-volume queries than any individual shot, so they
+     rank alongside the library index rather than below it. */
+  const players: MetadataRoute.Sitemap = PLAYERS.map((player) => ({
+    url: `${SITE_URL}/elite-tempo/player/${player.slug}`,
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority: 0.9,
+  }));
+
+  return [...evergreen, ...library, ...players];
 }
