@@ -53,7 +53,7 @@ const FAQS = [
   },
   {
     q: "Is the timing done by AI?",
-    a: "Not for the tour library. Every shot in it was marked by hand against the footage, because broadcast video changes camera angle, frame rate and shutter speed shot to shot, and an automatic detector trained on clean side-on video does poorly on it. Swings you record in the app are a different case: those are filmed on one camera in good conditions, and the app finds takeaway, top and impact in them automatically.",
+    a: "Not for the tour library. Every shot in it was marked by hand against the footage, because broadcast video changes camera angle, frame rate and shutter speed shot to shot, and an automatic detector trained on clean side-on video does poorly on it. Swings you record in the app are marked the same way, by hand: you place takeaway, top and impact on a frame-accurate scrubber. An automatic detector is in progress but not shipped — on phone video, in changing light, with a clubhead smearing across a frame, a detector that is confidently wrong is worse than a mark you placed yourself.",
   },
 ];
 
