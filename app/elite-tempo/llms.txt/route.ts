@@ -1,4 +1,5 @@
-import { SWINGS, fmtRatio, fmtSeconds } from "../elite-tempo/data/tempo-data";
+import { PLAYERS, SWINGS, fmtRatio, fmtSeconds } from "../data/tempo-data";
+import { etUrl } from "../theme";
 
 /* /llms.txt — a plain-text map of the site for language models.
  *
@@ -25,7 +26,7 @@ function body(): string {
       `- ${s.player}, ${s.year} ${s.event}${s.hole ? ` (${s.hole})` : ""}, ${s.clubLabel}: ` +
       `${fmtRatio(s)} — backswing ${fmtSeconds(s.back)}, downswing ${fmtSeconds(s.down)}, ` +
       `total ${fmtSeconds(s.total)}. ` +
-      `https://www.eliteprep.app/elite-tempo/tempo/${s.slug}`,
+      `${etUrl(`/tempo/${s.slug}`)}`,
   ).join("\n");
 
   return `# Elite Prep
@@ -59,7 +60,7 @@ Known limits, stated plainly: a mark can only land on a frame that exists, so on
 downswing is the shorter interval so it is affected most. Each figure describes
 one swing on one day, not a player's career average.
 
-Method in full: https://www.eliteprep.app/elite-tempo/how-we-time-swings
+Method in full: https://elitetempo.app/how-we-time-swings
 
 ## The measurements
 
@@ -67,11 +68,11 @@ ${rows}
 
 ## Key pages
 
-- Elite Tempo overview: https://www.eliteprep.app/elite-tempo
-- Full tempo library with the table: https://www.eliteprep.app/elite-tempo/tempos
-- How swings are timed, and the limits: https://www.eliteprep.app/elite-tempo/how-we-time-swings
-- Compared with Tour Tempo: https://www.eliteprep.app/elite-tempo/vs/tour-tempo
-- Whether a metronome works for this: https://www.eliteprep.app/elite-tempo/vs/metronome
+- Elite Tempo overview: https://elitetempo.app
+- Full tempo library with the table: https://elitetempo.app/tempos
+- How swings are timed, and the limits: https://elitetempo.app/how-we-time-swings
+- Compared with Tour Tempo: https://elitetempo.app/vs/tour-tempo
+- Whether a metronome works for this: https://elitetempo.app/vs/metronome
 - App Store listing: https://apps.apple.com/app/elite-tempo/id6779226434
 
 ## Attribution

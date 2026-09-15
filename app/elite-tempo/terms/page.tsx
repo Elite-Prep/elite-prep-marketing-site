@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 import EliteTempoMark from "../EliteTempoMark";
-import { ACCENT, ACCENT_ALT, BG, INK, MUTED, TRACKING_MARK, W_WORDMARK } from "../theme";
+import { ACCENT, ACCENT_ALT, BG, INK, MUTED, TRACKING_MARK, W_WORDMARK, etUrl } from "../theme";
 
 export const metadata = {
-  alternates: { canonical: "/elite-tempo/terms" },
+  alternates: { canonical: etUrl("/terms") },
   title: "Elite Tempo Terms of Use",
   description: "The terms that govern your use of Elite Tempo.",
 };

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../Chrome";
-import { ACCENT, CARD, HAIRLINE, INK, MUTED } from "../theme";
+import { ACCENT, CARD, HAIRLINE, INK, MUTED, etUrl } from "../theme";
 import {
   CATEGORIES,
   PLAYERS,
@@ -42,11 +42,11 @@ const DESCRIPTION = description(
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: "/elite-tempo/tempos" },
+  alternates: { canonical: etUrl("/tempos") },
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    url: "/elite-tempo/tempos",
+    url: etUrl("/tempos"),
     type: "article",
   },
   twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
@@ -65,11 +65,11 @@ const STRUCTURED_DATA = {
   "@graph": [
     {
       "@type": "Dataset",
-      "@id": "https://www.eliteprep.app/elite-tempo/tempos#dataset",
+      "@id": "https://elitetempo.app/tempos#dataset",
       name: "Hand-timed golf swing tempo measurements of tour professionals",
       description: DESCRIPTION,
-      url: "https://www.eliteprep.app/elite-tempo/tempos",
-      license: "https://www.eliteprep.app/elite-tempo/terms",
+      url: "https://elitetempo.app/tempos",
+      license: "https://elitetempo.app/terms",
       creator: {
         "@type": "Organization",
         name: "Elite Prep, LLC",
@@ -86,14 +86,14 @@ const STRUCTURED_DATA = {
     },
     {
       "@type": "ItemList",
-      "@id": "https://www.eliteprep.app/elite-tempo/tempos#list",
+      "@id": "https://elitetempo.app/tempos#list",
       name: "Tour swing tempo measurements",
       numberOfItems: SWINGS.length,
       itemListElement: SWINGS.map((s, i) => ({
         "@type": "ListItem",
         position: i + 1,
         name: `${s.player}, ${s.year} ${s.event}, ${s.clubLabel}: ${fmtRatio(s)}`,
-        url: `https://www.eliteprep.app/elite-tempo/tempo/${s.slug}`,
+        url: `https://elitetempo.app/tempo/${s.slug}`,
       })),
     },
     breadcrumbSchema(TRAIL),

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../../Chrome";
-import { ACCENT, BG, CARD, HAIRLINE, INK, MUTED } from "../../theme";
+import { ACCENT, BG, CARD, HAIRLINE, INK, MUTED, etUrl } from "../../theme";
 import {
   SWINGS,
   fmtRatio,
@@ -94,11 +94,11 @@ export async function generateMetadata({
   return {
     title,
     description,
-    alternates: { canonical: `/elite-tempo/tempo/${swing.slug}` },
+    alternates: { canonical: etUrl(`/tempo/${swing.slug}`) },
     openGraph: {
       title,
       description,
-      url: `/elite-tempo/tempo/${swing.slug}`,
+      url: etUrl(`/tempo/${swing.slug}`),
       type: "article",
     },
     twitter: { card: "summary_large_image", title, description },
@@ -189,7 +189,7 @@ export default async function TempoDetail({
     { name: `${swing.player}, ${swing.year}` },
   ];
 
-  const url = `https://www.eliteprep.app/elite-tempo/tempo/${swing.slug}`;
+  const url = `https://elitetempo.app/tempo/${swing.slug}`;
   const footage = `https://www.youtube.com/watch?v=${swing.youtubeID}`;
   /* Only players with more than one timed shot have a hub page. */
   const hub = playerFor(swing);
@@ -217,7 +217,7 @@ export default async function TempoDetail({
         citation: footage,
         isPartOf: {
           "@type": "Dataset",
-          "@id": "https://www.eliteprep.app/elite-tempo/tempos#dataset",
+          "@id": "https://elitetempo.app/tempos#dataset",
         },
         publisher: {
           "@type": "Organization",

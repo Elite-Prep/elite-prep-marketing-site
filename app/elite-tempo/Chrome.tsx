@@ -12,6 +12,7 @@ import {
   TRACKING_MARK,
   W_EMPHASIS,
   W_WORDMARK,
+  etUrl,
 } from "./theme";
 
 /* Header, footer and page canvas shared by every Elite Tempo page except the
@@ -220,7 +221,13 @@ export function breadcrumbSchema(trail: { name: string; href?: string }[]) {
       "@type": "ListItem",
       position: i + 1,
       name: crumb.name,
-      ...(crumb.href ? { item: `${"https://www.eliteprep.app"}${crumb.href}` } : {}),
+      /* Crumb hrefs are still written as /elite-tempo/... because that is where the
+         files live, but the PUBLISHED address is the new host with the prefix
+         stripped. Building the item URL through etUrl keeps the markup pointing at
+         the canonical address rather than the one the router happens to use. */
+      ...(crumb.href
+        ? { item: etUrl(crumb.href.replace(/^\/elite-tempo/, "") || "/") }
+        : {}),
     })),
   };
 }
