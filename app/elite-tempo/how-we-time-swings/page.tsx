@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../Chrome";
-import { ACCENT, CARD, HAIRLINE, INK, MUTED, ON_ACCENT } from "../theme";
+import { ACCENT, CARD, HAIRLINE, INK, MUTED, ON_ACCENT, etUrl } from "../theme";
 import { SWINGS, fmtRatio, fmtSeconds, type Swing } from "../data/tempo-data";
 import { description } from "../../seo";
 
@@ -23,11 +23,11 @@ const DESCRIPTION = description(
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: "/elite-tempo/how-we-time-swings" },
+  alternates: { canonical: etUrl("/how-we-time-swings") },
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    url: "/elite-tempo/how-we-time-swings",
+    url: etUrl("/how-we-time-swings"),
     type: "article",
   },
   twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
@@ -62,10 +62,10 @@ const STRUCTURED_DATA = {
   "@graph": [
     {
       "@type": "TechArticle",
-      "@id": "https://www.eliteprep.app/elite-tempo/how-we-time-swings#article",
+      "@id": "https://elitetempo.app/how-we-time-swings#article",
       headline: TITLE,
       description: DESCRIPTION,
-      url: "https://www.eliteprep.app/elite-tempo/how-we-time-swings",
+      url: "https://elitetempo.app/how-we-time-swings",
       about: { "@type": "Thing", name: "Golf swing tempo measurement" },
       publisher: {
         "@type": "Organization",
@@ -75,7 +75,7 @@ const STRUCTURED_DATA = {
     },
     {
       "@type": "FAQPage",
-      "@id": "https://www.eliteprep.app/elite-tempo/how-we-time-swings#faq",
+      "@id": "https://elitetempo.app/how-we-time-swings#faq",
       mainEntity: FAQS.map(({ q, a }) => ({
         "@type": "Question",
         name: q,

@@ -127,4 +127,29 @@ export const TRACKING_MARK = "0.04em";
 /* ── Misc ────────────────────────────────────────────────────────────────── */
 
 export const APP_STORE_URL = "https://apps.apple.com/app/elite-tempo/id6779226434";
+
+/* Elite Tempo's own domain, as of 2026-09-14.
+ *
+ * These pages used to live at eliteprep.app/elite-tempo/*. They still render from
+ * that subtree — `proxy.ts` rewrites the new host onto it — but every address they
+ * DECLARE has to be the new one, or Google keeps the old URLs as canonical and the
+ * move never takes.
+ *
+ * The reason for moving at all: Google shows one favicon and one site name per
+ * HOSTNAME. On eliteprep.app these pages wore Elite Prep's blue icon and said
+ * "eliteprep.app" in every result, with no per-page override possible. A separate
+ * host is the only way Elite Tempo gets its own identity in search.
+ *
+ * Paths are root-level here: /tempos, not /elite-tempo/tempos. Use `etUrl` rather
+ * than writing these by hand — the prefix exists in the file tree but must never
+ * appear in a published URL. */
+export const ET_SITE_URL = "https://elitetempo.app";
+
+/** An absolute Elite Tempo URL. Pass the ROOT path: `etUrl("/tempos")`. */
+export function etUrl(path = "/"): string {
+  const clean = path === "/" ? "" : path.startsWith("/") ? path : `/${path}`;
+  return `${ET_SITE_URL}${clean}`;
+}
+
+/** Elite Prep's domain — still correct for the homepage and its legal pages. */
 export const SITE_URL = "https://www.eliteprep.app";

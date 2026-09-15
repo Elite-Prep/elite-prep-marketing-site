@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../../Chrome";
-import { ACCENT, CARD, HAIRLINE, INK, MUTED } from "../../theme";
+import { ACCENT, CARD, HAIRLINE, INK, MUTED, etUrl } from "../../theme";
 import { SWINGS, fmtRatio, fmtSeconds } from "../../data/tempo-data";
 import { description } from "../../../seo";
 
@@ -21,8 +21,8 @@ const DESCRIPTION = description(
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: "/elite-tempo/vs/metronome" },
-  openGraph: { title: TITLE, description: DESCRIPTION, url: "/elite-tempo/vs/metronome", type: "article" },
+  alternates: { canonical: etUrl("/vs/metronome") },
+  openGraph: { title: TITLE, description: DESCRIPTION, url: etUrl("/vs/metronome"), type: "article" },
   twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
 };
 
@@ -51,15 +51,15 @@ const STRUCTURED_DATA = {
   "@graph": [
     {
       "@type": "Article",
-      "@id": "https://www.eliteprep.app/elite-tempo/vs/metronome#article",
+      "@id": "https://elitetempo.app/vs/metronome#article",
       headline: TITLE,
       description: DESCRIPTION,
-      url: "https://www.eliteprep.app/elite-tempo/vs/metronome",
+      url: "https://elitetempo.app/vs/metronome",
       publisher: { "@type": "Organization", name: "Elite Prep, LLC", url: "https://www.eliteprep.app" },
     },
     {
       "@type": "FAQPage",
-      "@id": "https://www.eliteprep.app/elite-tempo/vs/metronome#faq",
+      "@id": "https://elitetempo.app/vs/metronome#faq",
       mainEntity: FAQS.map(({ q, a }) => ({
         "@type": "Question",
         name: q,

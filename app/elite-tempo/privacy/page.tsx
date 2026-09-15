@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 import EliteTempoMark from "../EliteTempoMark";
-import { ACCENT, ACCENT_ALT, BG, INK, MUTED, TRACKING_MARK, W_WORDMARK } from "../theme";
+import { ACCENT, ACCENT_ALT, BG, INK, MUTED, TRACKING_MARK, W_WORDMARK, etUrl } from "../theme";
 
 export const metadata = {
-  alternates: { canonical: "/elite-tempo/privacy" },
+  alternates: { canonical: etUrl("/privacy") },
   title: "Elite Tempo Privacy Policy",
   description:
     "How Elite Tempo handles your data. No login, no account, no tracking. Your swing videos stay on your device.",

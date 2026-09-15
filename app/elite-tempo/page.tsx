@@ -34,6 +34,7 @@ import {
   ON_ACCENT,
   TRACKING_MARK,
   W_WORDMARK,
+  etUrl,
 } from "./theme";
 import { description } from "../seo";
 
@@ -70,7 +71,7 @@ export const metadata: Metadata = {
   description: description(
     `Golf swing tempo trainer for iPhone. Match ${SWINGS.length} tour swings hand-timed to 1/100s, then record your own and get your exact ratio. Free for ${TRIAL_DAYS} days.`,
   ),
-  alternates: { canonical: "/elite-tempo" },
+  alternates: { canonical: etUrl() },
   keywords: [
     "golf swing tempo",
     "golf tempo trainer",
@@ -162,13 +163,13 @@ const STRUCTURED_DATA = {
   "@graph": [
     {
       "@type": "MobileApplication",
-      "@id": "https://www.eliteprep.app/elite-tempo#app",
+      "@id": "https://elitetempo.app#app",
       name: "Elite Tempo",
       alternateName: "Elite Tempo: Golf Swing Tempo Trainer",
       applicationCategory: "SportsApplication",
       applicationSubCategory: "Golf Swing Tempo Trainer",
       operatingSystem: "iOS 17.0 or later",
-      url: "https://www.eliteprep.app/elite-tempo",
+      url: "https://elitetempo.app",
       downloadUrl: APP_STORE_URL,
       installUrl: APP_STORE_URL,
       description:
@@ -206,7 +207,7 @@ const STRUCTURED_DATA = {
     },
     {
       "@type": "FAQPage",
-      "@id": "https://www.eliteprep.app/elite-tempo#faq",
+      "@id": "https://elitetempo.app#faq",
       mainEntity: FAQS.map(({ q, a }) => ({
         "@type": "Question",
         name: q,

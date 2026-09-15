@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../../Chrome";
-import { ACCENT, BG, CARD, HAIRLINE, INK, MUTED } from "../../theme";
+import { ACCENT, BG, CARD, HAIRLINE, INK, MUTED, etUrl } from "../../theme";
 import {
   PLAYERS,
   fmtRatio,
@@ -97,11 +97,11 @@ export async function generateMetadata({
   return {
     title,
     description,
-    alternates: { canonical: `/elite-tempo/player/${player.slug}` },
+    alternates: { canonical: etUrl(`/player/${player.slug}`) },
     openGraph: {
       title,
       description,
-      url: `/elite-tempo/player/${player.slug}`,
+      url: etUrl(`/player/${player.slug}`),
       type: "article",
     },
     twitter: { card: "summary_large_image", title, description },
@@ -229,7 +229,7 @@ export default async function PlayerPage({
     { name: "Tempo library", href: "/elite-tempo/tempos" },
     { name: player.name },
   ];
-  const url = `https://www.eliteprep.app/elite-tempo/player/${player.slug}`;
+  const url = `https://elitetempo.app/player/${player.slug}`;
   const h = player.headline;
   const others = PLAYERS.filter((p) => p.slug !== player.slug);
 
@@ -245,7 +245,7 @@ export default async function PlayerPage({
         about: { "@type": "Person", name: player.name },
         isPartOf: {
           "@type": "Dataset",
-          "@id": "https://www.eliteprep.app/elite-tempo/tempos#dataset",
+          "@id": "https://elitetempo.app/tempos#dataset",
         },
         publisher: { "@type": "Organization", name: "Elite Prep, LLC", url: "https://www.eliteprep.app" },
       },
