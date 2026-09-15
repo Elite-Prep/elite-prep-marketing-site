@@ -172,7 +172,7 @@ export default function VsTourTempo() {
               `${SWINGS.length} real tour shots, hand-timed from the footage to 1/100s`,
               `Ratios as they were actually swung — ${fmtRatio(fastest)} to ${fmtRatio(slowest)}, not one number`,
               "Film your swing and mark takeaway, top and impact frame by frame",
-              "Side-by-side comparison, routine timing, Apple Watch and lock screen",
+              "Side-by-side comparison, routine timing, and a lock-screen Live Activity",
             ]}
           />
         </section>

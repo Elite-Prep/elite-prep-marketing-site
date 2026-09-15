@@ -140,7 +140,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Do I need any extra hardware?",
-    a: "No. It runs on the iPhone you already own. Record a swing with the camera or import a clip you already have. Apple Watch and a lock-screen Live Activity are included if you want to train hands-free.",
+    a: "No. It runs on the iPhone you already own. Record a swing with the camera or import a clip you already have. A lock-screen Live Activity shows your tempo while it plays, and it mirrors to the Apple Watch Smart Stack if you wear one — there is no separate Watch app to install.",
   },
 ];
 
@@ -179,7 +179,7 @@ const STRUCTURED_DATA = {
         "Frame-accurate marking of your own swing from video",
         "Side-by-side swing comparison",
         "Hands-free training with beats in your headphones",
-        "Apple Watch and lock-screen Live Activity",
+        "Lock-screen Live Activity, mirrored to the Apple Watch Smart Stack",
       ],
       publisher: {
         "@type": "Organization",
@@ -542,7 +542,8 @@ export default function EliteTempoLanding() {
       <Divider />
 
       {/* Live Activity / lock screen — glanceable timing away from the app.
-          TODO: add an Apple Watch frame alongside once that screenshot lands. */}
+          There is no Watch app to screenshot: the Live Activity is an iOS widget
+          that watchOS 11+ mirrors into the Smart Stack on its own. */}
       <section className="mx-auto max-w-5xl px-6 py-8">
         <div className="grid items-center gap-12 md:grid-cols-2">
           <Reveal>
@@ -557,7 +558,8 @@ export default function EliteTempoLanding() {
               </h2>
               <p className="mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
                 Headphones in, phone in your bag, eyes on the ball. Your tempo
-                stays on the lock screen and Apple Watch, a glance away.
+                stays on the lock screen while it plays, and iOS mirrors it to the
+                Apple Watch Smart Stack, a glance away.
               </p>
             </div>
           </Reveal>
@@ -668,7 +670,7 @@ export default function EliteTempoLanding() {
                 "Your own swings, marked frame by frame and saved",
                 "Side-by-side Compare",
                 "Routines, Watch and Practice",
-                "Lock-screen Live Activity and Apple Watch",
+                "Lock-screen Live Activity, mirrored to Apple Watch",
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2.5 text-sm" style={{ color: MUTED }}>
                   <span className="mt-0.5 font-semibold" style={{ color: ACCENT }} aria-hidden>
