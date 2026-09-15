@@ -49,7 +49,7 @@ import { description } from "../seo";
    Pricing and FAQ are what people hunt for; the greats is the marquee feature. */
 const SECTIONS = [
   { id: "greats", label: "The Greats" },
-  /* Features points at the automatic-capture section: it is the first feature
+  /* Features points at the time-your-own-swing section: it is the first feature
      section that is not already its own link, since The Greats takes that slot. */
   { id: "your-swing", label: "Features" },
   { id: "pricing", label: "Pricing" },
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Elite Tempo. Copy the greats. Copy your best.",
     description:
-      `Golf tempo, timed by hand to 1/100s. Record your swing and the app times it automatically. Train hands-free with beats in your headphones. Free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month.`,
+      `Golf tempo, timed by hand to 1/100s. Film your own swing, mark takeaway, top and impact on a frame-accurate scrubber, and get your four numbers. Train hands-free with beats in your headphones. Free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month.`,
   },
   twitter: {
     card: "summary_large_image",
@@ -128,11 +128,11 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Does a golf tempo trainer actually work?",
-    a: "Tempo is one of the few parts of the swing you can change without rebuilding your mechanics, because it is timing rather than positions. The catch with most tools is that they only give you a target. Elite Tempo also records your own swing and times it automatically, so you can see whether you actually matched the target.",
+    a: "Tempo is one of the few parts of the swing you can change without rebuilding your mechanics, because it is timing rather than positions. The catch with most tools is that they only give you a target. Elite Tempo also lets you film your own swing and mark takeaway, top and impact on it frame by frame, so you can see whether you actually matched the target rather than guessing.",
   },
   {
     q: "How is Elite Tempo different from a metronome?",
-    a: "A metronome gives you an even beat. A golf swing is not even. The backswing is roughly three times the downswing, so Elite Tempo plays beats spaced at real tour ratios and then measures your swing against them. It finds your takeaway, top and impact from video without you tapping anything.",
+    a: "A metronome gives you an even beat. A golf swing is not even. The backswing is roughly three times the downswing, so Elite Tempo plays beats spaced at real tour ratios and then measures your swing against them. You film your own swing and mark takeaway, top and impact on it, so you get your own four numbers to compare against.",
   },
   {
     q: "How much does Elite Tempo cost?",
@@ -173,10 +173,10 @@ const STRUCTURED_DATA = {
       downloadUrl: APP_STORE_URL,
       installUrl: APP_STORE_URL,
       description:
-        "Golf swing tempo trainer for iPhone. Match the hand-timed tempo of tour players to 1/100 of a second, then record your own swing and have takeaway, top and impact found automatically.",
+        "Golf swing tempo trainer for iPhone. Match the hand-timed tempo of tour players to 1/100 of a second, then film your own swing and mark takeaway, top and impact on a frame-accurate scrubber to get your own tempo.",
       featureList: [
         "Hand-timed tempo library of famous tour swings",
-        "Automatic swing timing from video, no tapping",
+        "Frame-accurate marking of your own swing from video",
         "Side-by-side swing comparison",
         "Hands-free training with beats in your headphones",
         "Apple Watch and lock-screen Live Activity",
@@ -459,18 +459,18 @@ export default function EliteTempoLanding() {
           <Reveal>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
-                Automatic capture
+                Time your own swing
               </p>
               <h2 className="mt-3 text-2xl font-semibold leading-tight sm:text-3xl" style={{ color: INK }}>
-                Just swing.
+                Film your swing.
                 <br />
-                We time it for you.
+                Mark three points.
               </h2>
               <p className="mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-                Record a swing and Elite Tempo finds takeaway, top, and impact in
-                seconds, on its own. No tapping, no scrubbing. You get your exact
-                duration and tempo ratio, then groove it on a loop until the move
-                is yours.
+                Takeaway, top of the backswing, impact. A frame-accurate
+                scrubber puts each one exactly where it belongs, so the four
+                numbers you get are measured rather than estimated. Then groove
+                it on a loop until the move is yours.
               </p>
               {/* Three marks, so the copy column carries the same weight as the
                   phone beside it. Before this the column held a heading and one
@@ -665,7 +665,7 @@ export default function EliteTempoLanding() {
             <ul className="mx-auto mt-7 flex max-w-sm flex-col gap-2.5 text-left">
               {[
                 "The full library of hand-timed greats",
-                "Your own swings, captured and timed automatically",
+                "Your own swings, marked frame by frame and saved",
                 "Side-by-side Compare",
                 "Routines, Watch and Practice",
                 "Lock-screen Live Activity and Apple Watch",
@@ -991,7 +991,7 @@ function ThreeMarks() {
         ))}
       </div>
       <p className="mt-4 text-xs" style={{ color: MUTED }}>
-        Found automatically, no frame-scrubbing. Shown for {HERO.player}&apos;s{" "}
+        You place these three yourself, frame by frame. Shown for {HERO.player}&apos;s{" "}
         {HERO.year} {shortEvent(HERO.event)} {HERO.clubLabel.toLowerCase()}.
       </p>
     </div>

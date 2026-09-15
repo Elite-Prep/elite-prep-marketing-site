@@ -41,7 +41,7 @@ const TRAIL = [
 const FAQS = [
   {
     q: "What is the difference between Elite Tempo and Tour Tempo?",
-    a: "Tour Tempo trains you toward a single proven ratio using audio tones — the 3:1 backswing-to-downswing relationship, counted as frames at 30fps. Elite Tempo plays sixteen specific tour swings at the ratios they were actually swung at, which range well either side of 3:1, and then records your own swing and finds takeaway, top and impact in it automatically so you can measure what you did rather than only hear a target.",
+    a: "Tour Tempo trains you toward a single proven ratio using audio tones — the 3:1 backswing-to-downswing relationship, counted as frames at 30fps. Elite Tempo plays sixteen specific tour swings at the ratios they were actually swung at, which range well either side of 3:1, and then lets you film your own swing and mark takeaway, top and impact on it, so you can measure what you did rather than only hear a target.",
   },
   {
     q: "Is Tour Tempo still worth using?",
@@ -171,7 +171,7 @@ export default function VsTourTempo() {
             points={[
               `${SWINGS.length} real tour shots, hand-timed from the footage to 1/100s`,
               `Ratios as they were actually swung — ${fmtRatio(fastest)} to ${fmtRatio(slowest)}, not one number`,
-              "Records your swing and finds takeaway, top and impact automatically",
+              "Film your swing and mark takeaway, top and impact frame by frame",
               "Side-by-side comparison, routine timing, Apple Watch and lock screen",
             ]}
           />
