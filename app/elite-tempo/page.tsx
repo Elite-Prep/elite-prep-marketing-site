@@ -17,6 +17,7 @@ import {
 import {
   PRICE_MONTHLY,
   PRICE_YEARLY,
+  PRICE_YEARLY_NUM,
   TRIAL_DAYS,
   YEARLY_SAVING_PCT,
 } from "./data/pricing";
@@ -190,7 +191,7 @@ const STRUCTURED_DATA = {
         {
           "@type": "Offer",
           name: "Elite Tempo Pro, Yearly",
-          price: "24.99",
+          price: PRICE_YEARLY_NUM.toFixed(2),
           priceCurrency: "USD",
           category: "subscription",
           url: APP_STORE_URL,
