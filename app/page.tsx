@@ -89,7 +89,7 @@ const ORGANIZATION_SCHEMA = {
     {
       "@type": "Organization",
       "@id": `${SITE_URL}#organization`,
-      name: "Elite Prep, LLC",
+      name: "Elite Prep Inc",
       alternateName: "Elite Prep",
       url: SITE_URL,
       logo: `${SITE_URL}/icon`,

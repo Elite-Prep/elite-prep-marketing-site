@@ -170,7 +170,7 @@ function Footer() {
           trademarks belong to their respective owners.
         </p>
         <p className="mt-4 text-xs" style={{ color: FAINT }}>
-          © {new Date().getFullYear()} Elite Prep LLC.
+          © {new Date().getFullYear()} Elite Prep Inc.
         </p>
       </div>
     </footer>

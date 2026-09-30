@@ -69,7 +69,7 @@ const STRUCTURED_DATA = {
       about: { "@type": "Thing", name: "Golf swing tempo measurement" },
       publisher: {
         "@type": "Organization",
-        name: "Elite Prep, LLC",
+        name: "Elite Prep Inc",
         url: "https://www.eliteprep.app",
       },
     },
