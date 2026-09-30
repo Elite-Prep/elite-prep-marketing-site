@@ -217,8 +217,8 @@ export default function EliteTempoPrivacy() {
 
           <Section title="Changes">
             <p>
-              We may update this policy; we&apos;ll revise the effective date above
-              and, for material changes, surface a notice in the app.
+              We may update this policy. When we do, we&apos;ll revise the updated date
+              above and, for material changes, surface a notice in the app.
             </p>
           </Section>
 
