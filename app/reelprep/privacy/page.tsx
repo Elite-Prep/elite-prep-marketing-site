@@ -112,7 +112,8 @@ export default function MockingbirdPrivacyPolicy() {
               Usage events and crash reports, described under{" "}
               <em>Information collected automatically</em>, are not deleted with your account.
               They are linked only to random ids, never to your email address or name, and the
-              services that hold them delete them automatically after a limited time. If you want
+              services that hold them delete them automatically: usage events after up to one year,
+              and crash reports after up to 90 days. If you want
               the usage events linked to your account deleted sooner, email us before you delete
               your account and we will remove them.
             </p>
@@ -254,7 +255,8 @@ export default function MockingbirdPrivacyPolicy() {
               Your library stays until you delete it or close your account. Deleting something you
               saved, or a protocol or collection, removes it from our systems. Deleting your account removes
               your account record and the content attached to it; backups holding copies are
-              overwritten on a rolling basis within 30 days. See{" "}
+              overwritten on a rolling basis within 30 days. Usage events are kept for up to one
+              year and crash reports for up to 90 days. See{" "}
               <em>Deleting your account and your data</em> above for the steps.
             </p>
           </Section>
@@ -278,8 +280,9 @@ export default function MockingbirdPrivacyPolicy() {
 
           <Section title="Security">
             <p>
-              Information is encrypted in transit and at rest, and access to your library is
-              restricted to your own account. Photos you add are the one exception: they are
+              Information is encrypted in transit and at rest. Access to your library is
+              restricted to your own account, or, if you use the app without one, to the
+              anonymous sign in stored on your phone. Photos you add are the one exception: they are
               stored at long, randomly generated web addresses so the app can display them, which
               means anyone who has the exact address could open the image. No system is perfectly secure, so we cannot promise
               absolute protection. We do not hold payment card details, and we do not store
