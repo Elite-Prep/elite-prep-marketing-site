@@ -221,7 +221,7 @@ export default async function TempoDetail({
         },
         publisher: {
           "@type": "Organization",
-          name: "Elite Prep, LLC",
+          name: "Elite Prep Inc",
           url: "https://www.eliteprep.app",
         },
       },

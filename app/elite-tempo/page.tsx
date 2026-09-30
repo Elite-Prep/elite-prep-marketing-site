@@ -184,7 +184,7 @@ const STRUCTURED_DATA = {
       ],
       publisher: {
         "@type": "Organization",
-        name: "Elite Prep, LLC",
+        name: "Elite Prep Inc",
         url: "https://www.eliteprep.app",
       },
       offers: [
@@ -788,7 +788,7 @@ export default function EliteTempoLanding() {
             names and trademarks belong to their respective owners.
           </p>
           <p className="mt-4 text-xs" style={{ color: FAINT }}>
-            © {new Date().getFullYear()} Elite Prep LLC.
+            © {new Date().getFullYear()} Elite Prep Inc.
           </p>
         </div>
       </footer>

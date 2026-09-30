@@ -40,11 +40,11 @@ export default function EliteTempoPrivacy() {
           Privacy Policy
         </h1>
         <p className="mb-3 text-sm" style={{ color: MUTED }}>
-          Elite Tempo · Effective June 14, 2026
+          Elite Tempo · Effective June 14, 2026 · Updated September 30, 2026
         </p>
         <p className="mb-10 text-sm leading-relaxed" style={{ color: MUTED }}>
           Elite Tempo (&quot;the app,&quot; &quot;we,&quot; &quot;us&quot;) is
-          published by Elite Prep LLC (&quot;Elite Prep&quot;). The short version:
+          published by Elite Prep Inc, formerly Elite Prep LLC (&quot;Elite Prep&quot;). The short version:
           <strong style={{ color: INK }}>
             {" "}
             Elite Tempo has no login, no account, and we collect as little as
@@ -217,8 +217,8 @@ export default function EliteTempoPrivacy() {
 
           <Section title="Changes">
             <p>
-              We may update this policy; we&apos;ll revise the effective date above
-              and, for material changes, surface a notice in the app.
+              We may update this policy. When we do, we&apos;ll revise the updated date
+              above and, for material changes, surface a notice in the app.
             </p>
           </Section>
 
@@ -228,7 +228,7 @@ export default function EliteTempoPrivacy() {
               <a href="mailto:ebusalacchi@eliteprep.app" style={{ color: ACCENT_ALT }}>
                 ebusalacchi@eliteprep.app
               </a>
-              . Elite Prep LLC.
+              . Elite Prep Inc.
             </p>
           </Section>
         </div>

@@ -247,7 +247,7 @@ export default async function PlayerPage({
           "@type": "Dataset",
           "@id": "https://elitetempo.app/tempos#dataset",
         },
-        publisher: { "@type": "Organization", name: "Elite Prep, LLC", url: "https://www.eliteprep.app" },
+        publisher: { "@type": "Organization", name: "Elite Prep Inc", url: "https://www.eliteprep.app" },
       },
       {
         /* The People Also Ask box is built from Question/Answer pairs, and this page

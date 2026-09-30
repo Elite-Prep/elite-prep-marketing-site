@@ -39,13 +39,13 @@ export default function EliteTempoTerms() {
           Terms of Use
         </h1>
         <p className="mb-10 text-sm" style={{ color: MUTED }}>
-          Elite Tempo · Effective June 14, 2026
+          Elite Tempo · Effective June 14, 2026 · Updated September 30, 2026
         </p>
 
         <div className="flex flex-col gap-8 text-sm leading-relaxed" style={{ color: MUTED }}>
           <p>
             These Terms of Use (&quot;Terms&quot;) govern your use of the Elite
-            Tempo app published by Elite Prep LLC (&quot;Elite Prep,&quot;
+            Tempo app published by Elite Prep Inc, formerly Elite Prep LLC (&quot;Elite Prep,&quot;
             &quot;we,&quot; &quot;us&quot;). By downloading or using the app, you
             agree to these Terms. If you don&apos;t agree, don&apos;t use the app.
           </p>
@@ -65,7 +65,7 @@ export default function EliteTempoTerms() {
                 A terms page should read as terms. The product description now lives
                 on the pages that are meant to rank for it. */}
             <p>
-              Elite Prep LLC licenses the Elite Tempo iOS application
+              Elite Prep Inc licenses the Elite Tempo iOS application
               (the &quot;app&quot;) to you on the terms set out here. We grant you a
               personal, non-exclusive, non-transferable, revocable license to use the
               app for your own non-commercial use, subject to these Terms and
@@ -217,7 +217,7 @@ export default function EliteTempoTerms() {
               <a href="mailto:ebusalacchi@eliteprep.app" style={{ color: ACCENT_ALT }}>
                 ebusalacchi@eliteprep.app
               </a>
-              . Elite Prep LLC.
+              . Elite Prep Inc.
             </p>
           </Section>
         </div>

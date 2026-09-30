@@ -62,7 +62,7 @@ const STRUCTURED_DATA = {
       headline: TITLE,
       description: DESCRIPTION,
       url: "https://elitetempo.app/vs/tour-tempo",
-      publisher: { "@type": "Organization", name: "Elite Prep, LLC", url: "https://www.eliteprep.app" },
+      publisher: { "@type": "Organization", name: "Elite Prep Inc", url: "https://www.eliteprep.app" },
     },
     {
       "@type": "FAQPage",
