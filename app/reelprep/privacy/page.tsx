@@ -102,10 +102,31 @@ export default function MockingbirdPrivacyPolicy() {
               <li>Your workout history, including logged sets and reps</li>
             </ul>
             <p className="mt-2">
-              Nothing about you is retained for our own use afterwards. Two narrow exceptions: any
-              records we are required by law to keep, and encrypted backups that still hold copies
-              at the moment of deletion. Those are overwritten on a rolling basis and are fully
-              gone within 30 days. We hold no payment details, because the app takes no payments.
+              Nothing in your library is retained for our own use afterwards. Two narrow
+              exceptions: any records we are required by law to keep, and encrypted backups that
+              still hold copies at the moment of deletion. Those are overwritten on a rolling basis
+              and are fully gone within 30 days. We hold no payment details, because the app takes
+              no payments.
+            </p>
+            <p className="mt-2">
+              Usage events and crash reports, described under{" "}
+              <em>Information collected automatically</em>, are not deleted with your account.
+              They are linked only to random ids, never to your email address or name, and the
+              services that hold them delete them automatically after a limited time. If you want
+              the usage events linked to your account deleted sooner, email us before you delete
+              your account and we will remove them.
+            </p>
+
+            <h3 className="text-sm font-semibold mt-4 mb-1.5" style={{ color: "var(--text-primary)" }}>
+              If you use Mockingbird without an account
+            </h3>
+            <p>
+              Your library is stored under an anonymous id instead of an account. You can delete
+              anything you saved from inside the app, and deleting it removes it from our systems.
+              Deleting the app from your phone does not delete what is stored on our servers, so
+              delete your saved items first. To remove everything at once, create an account from
+              your Account page using email or Google, which keeps your library, and then delete
+              that account using the steps above.
             </p>
           </Section>
 
@@ -258,7 +279,9 @@ export default function MockingbirdPrivacyPolicy() {
           <Section title="Security">
             <p>
               Information is encrypted in transit and at rest, and access to your library is
-              restricted to your own account. No system is perfectly secure, so we cannot promise
+              restricted to your own account. Photos you add are the one exception: they are
+              stored at long, randomly generated web addresses so the app can display them, which
+              means anyone who has the exact address could open the image. No system is perfectly secure, so we cannot promise
               absolute protection. We do not hold payment card details, and we do not store
               passwords in a readable form.
             </p>
