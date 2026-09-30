@@ -39,7 +39,7 @@ export default function MockingbirdPrivacyPolicy() {
               follow. This policy explains what the app collects, why, and who else sees
               it. It covers the Mockingbird mobile app only; Elite Prep&apos;s
               golf performance products are covered by a{" "}
-              <a href="/privacy" style={{ color: "var(--brand)" }}>separate policy</a>.
+              <a href="/privacy" className="underline" style={{ color: "var(--brand)" }}>separate policy</a>.
             </p>
             {/* This page is served from eliteprep.app, which counts visits. The
                 policy above is about the app, so without this line a visitor
@@ -47,7 +47,7 @@ export default function MockingbirdPrivacyPolicy() {
             <p className="mt-3">
               This page itself is part of the eliteprep.app website, which uses
               cookieless analytics to count visits. That is described in the{" "}
-              <a href="/privacy" style={{ color: "var(--brand)" }}>
+              <a href="/privacy" className="underline" style={{ color: "var(--brand)" }}>
                 Elite Prep privacy policy
               </a>
               , under &ldquo;Information we collect automatically&rdquo;.
@@ -56,7 +56,7 @@ export default function MockingbirdPrivacyPolicy() {
 
           <Section title="Deleting your account and your data">
             <p>
-              You can delete your Mockingbird account, and everything in it, from inside the app at
+              You can delete your Mockingbird account, and everything in your library, from inside the app at
               any time. You do not need to contact us and you do not need to explain why.
             </p>
 
@@ -74,7 +74,7 @@ export default function MockingbirdPrivacyPolicy() {
             </ol>
             <p className="mt-2">
               If you would rather we did it for you, or you can no longer sign in, email{" "}
-              <a href="mailto:ebusalacchi@eliteprep.app" style={{ color: "var(--brand)" }}>
+              <a href="mailto:ebusalacchi@eliteprep.app" className="underline" style={{ color: "var(--brand)" }}>
                 ebusalacchi@eliteprep.app
               </a>{" "}
               from the address on your account and we will delete it within 30 days.
@@ -265,7 +265,7 @@ export default function MockingbirdPrivacyPolicy() {
             <ul className="list-disc pl-5 flex flex-col gap-1.5">
               <li>You can edit or delete anything you saved, and any protocol or collection, from inside the app.</li>
               <li>
-                You can delete your account and everything in it from your Account page, or by email. See{" "}
+                You can delete your account and everything in your library from your Account page, or by email. See{" "}
                 <em>Deleting your account and your data</em> above.
               </li>
               <li>
@@ -316,7 +316,7 @@ export default function MockingbirdPrivacyPolicy() {
           <Section title="Contact">
             <p>
               For questions, deletion requests, or anything else, write to{" "}
-              <a href="mailto:ebusalacchi@eliteprep.app" style={{ color: "var(--brand)" }}>
+              <a href="mailto:ebusalacchi@eliteprep.app" className="underline" style={{ color: "var(--brand)" }}>
                 ebusalacchi@eliteprep.app
               </a>{" "}
               and we will get back to you.

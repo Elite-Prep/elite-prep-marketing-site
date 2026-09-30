@@ -20,7 +20,7 @@ export default function MockingbirdSupport() {
           <Section title="Contact us">
             <p>
               Email{" "}
-              <a href="mailto:feedback@eliteprep.app" style={{ color: "var(--brand)" }}>
+              <a href="mailto:feedback@eliteprep.app" className="underline" style={{ color: "var(--brand)" }}>
                 feedback@eliteprep.app
               </a>{" "}
               with a question, a problem, or an idea. If an import came out wrong, include the link
@@ -41,7 +41,7 @@ export default function MockingbirdSupport() {
               Open Mockingbird, go to your <strong>Account</strong> page, tap your name at the top,
               then tap <strong>Delete account</strong>. The full details of what is deleted are in
               the{" "}
-              <a href="/reelprep/privacy" style={{ color: "var(--brand)" }}>
+              <a href="/reelprep/privacy" className="underline" style={{ color: "var(--brand)" }}>
                 privacy policy
               </a>
               .
