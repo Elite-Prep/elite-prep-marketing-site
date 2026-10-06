@@ -39,7 +39,7 @@ export default function EliteTempoTerms() {
           Terms of Use
         </h1>
         <p className="mb-10 text-sm" style={{ color: MUTED }}>
-          Elite Tempo · Effective June 14, 2026 · Updated September 30, 2026
+          Elite Tempo · Effective June 14, 2026 · Updated October 6, 2026
         </p>
 
         <div className="flex flex-col gap-8 text-sm leading-relaxed" style={{ color: MUTED }}>
@@ -76,18 +76,20 @@ export default function EliteTempoTerms() {
           <Section title="2. Purchases (Elite Tempo Pro)">
             <p>
               The full library, Time Your Swing, Compare, and Routines are unlocked
-              by &quot;Elite Tempo Pro,&quot; available two ways: a one-time,
-              non-consumable in-app purchase that unlocks the app for life, or an
-              auto-renewable yearly subscription. Both grant the same access.
+              by &quot;Elite Tempo Pro,&quot; an auto-renewable subscription billed
+              monthly or yearly. Both plans grant the same access. Customers who
+              bought the earlier one-time lifetime unlock keep it; it is no longer
+              sold, and it does not renew.
             </p>
             <p>
-              The yearly subscription includes a 7-day free trial for new
-              subscribers. After the trial it renews automatically at the
-              then-current yearly price unless you cancel at least 24 hours before
-              the end of the current period. You can manage or cancel the
-              subscription anytime in your Apple ID settings; canceling stops future
-              renewals, and you keep access through the period you already paid for.
-              The lifetime purchase does not renew.
+              New subscribers may be offered a free trial. Its length and the price
+              that follows are shown on the subscribe screen before you confirm.
+              When a trial ends, the subscription starts and you are charged
+              automatically. After that it renews at the then-current price for
+              your plan unless you cancel at least 24 hours before the end of the
+              current trial or period. You can manage or cancel the subscription
+              anytime in your Apple ID settings; canceling stops future renewals,
+              and you keep access through the period you already paid for.
             </p>
             <p>
               All payments are processed by Apple through your Apple ID; we do not
