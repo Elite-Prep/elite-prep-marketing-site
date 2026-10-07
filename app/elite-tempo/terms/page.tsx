@@ -13,7 +13,7 @@ export default function EliteTempoTerms() {
   return (
     <div className="min-h-screen px-6 py-10" style={{ background: BG }}>
       <div className="mx-auto max-w-2xl">
-        <div className="mb-12 flex items-center justify-between">
+        <div className="mb-12 flex items-center">
           <Link
             href="/elite-tempo"
             aria-label="Elite Tempo home"
@@ -22,16 +22,6 @@ export default function EliteTempoTerms() {
           >
             <EliteTempoMark size={19} fill={ACCENT} />
             ELITE TEMPO
-          </Link>
-          <Link
-            href="/elite-tempo"
-            className="inline-flex items-center gap-2 text-sm transition-colors hover:brightness-110"
-            style={{ color: ACCENT_ALT }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-            Back
           </Link>
         </div>
 
