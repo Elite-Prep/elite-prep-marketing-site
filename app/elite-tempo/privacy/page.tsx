@@ -7,14 +7,14 @@ export const metadata = {
   alternates: { canonical: etUrl("/privacy") },
   title: "Elite Tempo Privacy Policy",
   description:
-    "How Elite Tempo handles your data. No login, no account, no tracking. Your swing videos stay on your device.",
+    "How Elite Tempo handles your data. No login, no account, no advertising or cross-app tracking. Your swing videos stay on your device.",
 };
 
 export default function EliteTempoPrivacy() {
   return (
     <div className="min-h-screen px-6 py-10" style={{ background: BG }}>
       <div className="mx-auto max-w-2xl">
-        <div className="mb-12 flex items-center justify-between">
+        <div className="mb-12 flex items-center">
           <Link
             href="/elite-tempo"
             aria-label="Elite Tempo home"
@@ -24,23 +24,13 @@ export default function EliteTempoPrivacy() {
             <EliteTempoMark size={19} fill={ACCENT} />
             ELITE TEMPO
           </Link>
-          <Link
-            href="/elite-tempo"
-            className="inline-flex items-center gap-2 text-sm transition-colors hover:brightness-110"
-            style={{ color: ACCENT_ALT }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-            Back
-          </Link>
         </div>
 
         <h1 className="mb-2 text-3xl font-semibold sm:text-4xl" style={{ color: INK }}>
           Privacy Policy
         </h1>
         <p className="mb-3 text-sm" style={{ color: MUTED }}>
-          Elite Tempo · Effective June 14, 2026 · Updated September 30, 2026
+          Elite Tempo · Effective June 14, 2026 · Updated October 6, 2026
         </p>
         <p className="mb-10 text-sm leading-relaxed" style={{ color: MUTED }}>
           Elite Tempo (&quot;the app,&quot; &quot;we,&quot; &quot;us&quot;) is
@@ -64,10 +54,10 @@ export default function EliteTempoPrivacy() {
 
           <Section title="What we collect">
             <p className="mb-3">
-              <strong style={{ color: INK }}>Almost nothing automatically.</strong>{" "}
-              The app embeds no analytics, advertising, or tracking SDKs at all. We
-              do not build an advertising profile of you and we do not track you
-              across other apps or websites. The limited data involved:
+              <strong style={{ color: INK }}>Very little, and nothing that identifies you.</strong>{" "}
+              The app has no advertising. We do not build an advertising profile of
+              you, we do not sell data, and we do not track you across other apps or
+              websites. The limited data involved:
             </p>
             <ul className="flex list-disc flex-col gap-1.5 pl-5">
               <li>
@@ -92,6 +82,24 @@ export default function EliteTempoPrivacy() {
                 footage.
               </li>
               <li>
+                <strong style={{ color: INK }}>Anonymous usage statistics.</strong>{" "}
+                The app uses <strong style={{ color: INK }}>TelemetryDeck</strong>, a
+                privacy-focused analytics service, to count how features are used
+                (for example, that a tempo was played or a screen was opened). Each
+                install is represented by an anonymized, hashed identifier. No name,
+                email, Apple ID, advertising identifier, location, or swing video is
+                sent.
+              </li>
+              <li>
+                <strong style={{ color: INK }}>Crash and performance reports.</strong>{" "}
+                If the app crashes or freezes, it sends a diagnostic report to{" "}
+                <strong style={{ color: INK }}>Sentry</strong> so we can fix it. A
+                report includes technical details such as the app version, device
+                model, iOS version, and what the app was doing at the time. It is
+                configured not to include personal information, and it never includes
+                your swing videos.
+              </li>
+              <li>
                 <strong style={{ color: INK }}>
                   Optional email opt-in (only if you choose).
                 </strong>{" "}
@@ -104,12 +112,10 @@ export default function EliteTempoPrivacy() {
             </ul>
           </Section>
 
-          {/* This section is new because the website now measures its own traffic
-              and the policy above promises no tracking. Rather than quietly
-              weakening that promise, the distinction is spelled out: the app still
-              embeds nothing, and the site uses a cookieless first-party counter. If
-              Google Analytics or an ad pixel is ever added, this section stops being
-              accurate and has to be rewritten — along with a consent banner. */}
+          {/* The app sends anonymous usage counts (TelemetryDeck, since PR #56)
+              and crash reports (Sentry, PR #59), described above. The site uses a
+              cookieless first-party counter. If Google Analytics or an ad pixel is
+              ever added, this section has to be rewritten, with a consent banner. */}
           <Section title="This website">
             <p className="mb-3">
               The pages on eliteprep.app use{" "}
@@ -175,6 +181,14 @@ export default function EliteTempoPrivacy() {
               <li>
                 <strong style={{ color: INK }}>Supabase</strong>, our database
                 provider, which stores opt-in contact records on our behalf.
+              </li>
+              <li>
+                <strong style={{ color: INK }}>TelemetryDeck</strong>, which
+                processes the anonymous usage statistics described above.
+              </li>
+              <li>
+                <strong style={{ color: INK }}>Sentry</strong>, which processes crash
+                and performance reports.
               </li>
             </ul>
             <p className="mt-3">We may disclose information if required by law.</p>
