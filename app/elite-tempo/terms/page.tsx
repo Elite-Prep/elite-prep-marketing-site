@@ -29,7 +29,7 @@ export default function EliteTempoTerms() {
           Terms of Use
         </h1>
         <p className="mb-10 text-sm" style={{ color: MUTED }}>
-          Elite Tempo · Effective June 14, 2026 · Updated October 6, 2026
+          Elite Tempo · Effective June 14, 2026 · Updated October 11, 2026
         </p>
 
         <div className="flex flex-col gap-8 text-sm leading-relaxed" style={{ color: MUTED }}>
@@ -40,14 +40,14 @@ export default function EliteTempoTerms() {
             agree to these Terms. If you don&apos;t agree, don&apos;t use the app.
           </p>
 
-          <Section title="1. The app & your license">
+          <Section title="1. The app and your license">
             {/* This paragraph used to open with a plain-English product pitch:
                 "Elite Tempo is a golf tempo and timing trainer: it plays the
                 hand-timed tempo of real, notable golf swings and lets you time and
                 review your own swings."
 
                 That was the best description of the product anywhere on the site,
-                and it was sitting in the legal page — so when someone searched
+                and it was sitting in the legal page, so when someone searched
                 "elite tempo golf", Google served THIS page above /elite-tempo and
                 pulled that sentence as the snippet. It was not wrong to do so; it
                 was picking the best answer available.
@@ -64,28 +64,47 @@ export default function EliteTempoTerms() {
           </Section>
 
           <Section title="2. Purchases (Elite Tempo Pro)">
-            <p>
+            <p className="mb-3">
               The full library, Time Your Swing, Compare, and Routines are unlocked
-              by &quot;Elite Tempo Pro,&quot; an auto-renewable subscription billed
-              monthly or yearly. Both plans grant the same access. Customers who
-              bought the earlier one-time lifetime unlock keep it; it is no longer
-              sold, and it does not renew.
+              by{" "}
+              <strong style={{ color: INK }}>&quot;Elite Tempo Pro,&quot;</strong> an{" "}
+              <strong style={{ color: INK }}>auto-renewable subscription</strong>{" "}
+              offered as a <strong style={{ color: INK }}>monthly</strong> or a{" "}
+              <strong style={{ color: INK }}>yearly</strong> plan. Both plans grant
+              the same access. The price for each plan is shown in the app before
+              you confirm.
             </p>
-            <p>
-              New subscribers may be offered a free trial. Its length and the price
-              that follows are shown on the subscribe screen before you confirm.
-              When a trial ends, the subscription starts and you are charged
-              automatically. After that it renews at the then-current price for
-              your plan unless you cancel at least 24 hours before the end of the
-              current trial or period. You can manage or cancel the subscription
-              anytime in your Apple ID settings; canceling stops future renewals,
-              and you keep access through the period you already paid for.
+            <p className="mb-3">
+              <strong style={{ color: INK }}>Free trial.</strong> New subscribers
+              may be offered a free trial, currently{" "}
+              <strong style={{ color: INK }}>14 days</strong> on either plan. The
+              trial length and the price you will pay after it are shown before you
+              confirm. Starting a trial needs a payment method on your Apple ID.
+              When the trial ends, the subscription starts and{" "}
+              <strong style={{ color: INK }}>you are charged automatically</strong>{" "}
+              unless you cancel at least 24 hours before the trial ends.
+            </p>
+            <p className="mb-3">
+              <strong style={{ color: INK }}>Renewal and canceling.</strong> The
+              subscription{" "}
+              <strong style={{ color: INK }}>renews automatically</strong> at the
+              then-current price for your plan unless you cancel at least 24 hours
+              before the end of the current period. You can manage or cancel anytime
+              in your Apple ID settings. Canceling stops future renewals, and you
+              keep access through the period you already paid for.
+            </p>
+            <p className="mb-3">
+              <strong style={{ color: INK }}>Earlier lifetime purchase.</strong>{" "}
+              Earlier versions of the app sold a one-time lifetime unlock. It is no
+              longer sold, and anyone who already bought it keeps full access. It
+              never renews.
             </p>
             <p>
               All payments are processed by Apple through your Apple ID; we do not
-              handle your payment information. Restoring a previous purchase on a new
-              device is supported in Settings. Refunds are handled by Apple under the
-              App Store terms; we cannot directly issue App Store refunds.
+              handle your payment information. You can restore a previous purchase
+              on a new device in Settings.{" "}
+              <strong style={{ color: INK }}>Refunds are handled by Apple</strong>{" "}
+              under the App Store terms; we cannot issue App Store refunds directly.
             </p>
           </Section>
 
@@ -174,8 +193,9 @@ export default function EliteTempoTerms() {
               </li>
               <li>
                 Apple is not responsible for addressing any claims by you or a third
-                party relating to the app, or for intellectual-property
-                infringement claims regarding the app.
+                party relating to the app (including product liability, legal or
+                regulatory, or consumer protection claims) or for handling
+                intellectual property infringement claims regarding the app.
               </li>
               <li>
                 You represent that you are not located in a U.S.-embargoed country
@@ -188,7 +208,7 @@ export default function EliteTempoTerms() {
             </ul>
           </Section>
 
-          <Section title="10. Changes & termination">
+          <Section title="10. Changes and termination">
             <p>
               We may update these Terms (we&apos;ll revise the date above) and may
               discontinue the app or features. Your license ends if you violate
@@ -205,7 +225,7 @@ export default function EliteTempoTerms() {
 
           <Section title="12. Contact">
             <p>
-              Contact us at{" "}
+              Questions:{" "}
               <a href="mailto:ebusalacchi@eliteprep.app" style={{ color: ACCENT_ALT }}>
                 ebusalacchi@eliteprep.app
               </a>
