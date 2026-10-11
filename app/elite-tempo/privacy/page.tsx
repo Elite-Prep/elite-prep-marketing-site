@@ -30,15 +30,18 @@ export default function EliteTempoPrivacy() {
           Privacy Policy
         </h1>
         <p className="mb-3 text-sm" style={{ color: MUTED }}>
-          Elite Tempo · Effective June 14, 2026 · Updated October 6, 2026
+          Elite Tempo · Effective June 14, 2026 · Updated October 11, 2026
         </p>
         <p className="mb-10 text-sm leading-relaxed" style={{ color: MUTED }}>
           Elite Tempo (&quot;the app,&quot; &quot;we,&quot; &quot;us&quot;) is
-          published by Elite Prep Inc, formerly Elite Prep LLC (&quot;Elite Prep&quot;). The short version:
+          published by Elite Prep Inc, formerly Elite Prep LLC (&quot;Elite Prep&quot;).
+          This policy explains what the app collects and why. The short version:
           <strong style={{ color: INK }}>
             {" "}
-            Elite Tempo has no login, no account, and we collect as little as
-            possible. Your swing videos stay on your device.
+            Elite Tempo has no login and no account. Your swing videos stay on
+            your device. We collect anonymous usage statistics and crash reports
+            so we can tell what is working and fix what breaks, and nothing that
+            identifies you unless you choose to give us your email.
           </strong>
         </p>
 
@@ -46,70 +49,89 @@ export default function EliteTempoPrivacy() {
           <Section title="No account, no sign-in">
             <p>
               Elite Tempo never asks you to create an account or sign in. We do
-              not collect your name, email, or any identifier in order to use the
-              app. Purchases ride on the Apple ID already signed in to your device
-              at the operating-system level.
+              not need your name, email, or any other personal detail for you to
+              use the app or to subscribe. Purchases use the Apple ID already
+              signed in on your device.
             </p>
           </Section>
 
           <Section title="What we collect">
-            <p className="mb-3">
-              <strong style={{ color: INK }}>Very little, and nothing that identifies you.</strong>{" "}
-              The app has no advertising. We do not build an advertising profile of
-              you, we do not sell data, and we do not track you across other apps or
-              websites. The limited data involved:
-            </p>
             <ul className="flex list-disc flex-col gap-1.5 pl-5">
               <li>
-                {/* The lifetime unlock is retired — PaywallView no longer offers it,
-                    so a policy describing it as a current option was describing a
-                    purchase nobody can make. */}
+                <strong style={{ color: INK }}>
+                  Anonymous usage statistics (TelemetryDeck).
+                </strong>{" "}
+                App Store builds of Elite Tempo use{" "}
+                <strong style={{ color: INK }}>TelemetryDeck</strong>, a
+                privacy-focused analytics service, to count how the app is used:
+                for example, that onboarding was finished, a tempo was played, a
+                practice session was completed and how long it lasted, a swing was
+                saved and which club it was labeled with, the subscription screen
+                was shown, or a subscription or free trial was started and which
+                plan it was. Each report also carries the app version, iOS
+                version, device model, and language and region settings. Reports
+                are tied to an{" "}
+                <strong style={{ color: INK }}>anonymized device identifier</strong>,
+                a one-way hash generated on the device, so we can count returning
+                users without knowing who they are. We cannot use it to identify
+                you, and it is not linked to your name, email, or Apple ID.
+              </li>
+              <li>
+                <strong style={{ color: INK }}>
+                  Crash and performance reports (Sentry).
+                </strong>{" "}
+                When the app crashes or freezes, it sends a diagnostic report to{" "}
+                <strong style={{ color: INK }}>Sentry</strong>. The report contains
+                technical details: what the app was doing when it failed, the app
+                version, iOS version, and device model. The app also sends timing
+                measurements of how long screens and tasks take to load, so we can
+                find slow spots. Sentry is set up so these reports do{" "}
+                <strong style={{ color: INK }}>not</strong> include your name,
+                email, IP address, swing videos, or anything else that identifies
+                you.
+              </li>
+              <li>
                 <strong style={{ color: INK }}>Purchases.</strong> Your subscription
-                to Elite Tempo Pro, monthly or yearly, is processed entirely by Apple
-                through the App Store. We never see your payment-card details. Apple
-                provides only an anonymized record that an entitlement exists, so the
-                app can unlock. (Some early customers hold a one-time lifetime unlock,
-                which works the same way.)
+                to Elite Tempo Pro, monthly or yearly, is processed entirely by{" "}
+                <strong style={{ color: INK }}>Apple</strong> through the App Store.
+                We never see your payment card details. Apple tells the app only
+                whether a subscription or past purchase is active, so the app can
+                unlock. See Apple&apos;s privacy policy for how Apple handles
+                payments.
               </li>
               <li>
                 <strong style={{ color: INK }}>
                   Your swing videos and timings (stored on your device).
                 </strong>{" "}
-                Videos and timing data you create in Time Your Swing are stored
-                locally on your device. We do not upload your videos or swing data
-                to any server. Videos you record in the app are also saved to your
-                device&apos;s Photos library, with your permission, so you keep the
-                footage.
-              </li>
-              <li>
-                <strong style={{ color: INK }}>Anonymous usage statistics.</strong>{" "}
-                The app uses <strong style={{ color: INK }}>TelemetryDeck</strong>, a
-                privacy-focused analytics service, to count how features are used
-                (for example, that a tempo was played or a screen was opened). Each
-                install is represented by an anonymized, hashed identifier. No name,
-                email, Apple ID, advertising identifier, location, or swing video is
-                sent.
-              </li>
-              <li>
-                <strong style={{ color: INK }}>Crash and performance reports.</strong>{" "}
-                If the app crashes or freezes, it sends a diagnostic report to{" "}
-                <strong style={{ color: INK }}>Sentry</strong> so we can fix it. A
-                report includes technical details such as the app version, device
-                model, iOS version, and what the app was doing at the time. It is
-                configured not to include personal information, and it never includes
-                your swing videos.
+                When you record or import a swing in Time Your Swing, the video and
+                its timing data (your marks, duration, tempo ratio, and labels) are
+                stored <strong style={{ color: INK }}>only on your device</strong>,
+                inside the app.{" "}
+                <strong style={{ color: INK }}>
+                  We do not upload your videos or swing data to any server.
+                </strong>{" "}
+                They are not sent to us or to any third party. Videos you record in
+                the app are also saved to your device&apos;s Photos library, with
+                your permission, so you keep the footage.
               </li>
               <li>
                 <strong style={{ color: INK }}>
                   Optional email opt-in (only if you choose).
                 </strong>{" "}
-                If you voluntarily submit your first name and email through an
-                opt-in form, we store that, and your consent, in our Elite Prep
-                contact database (hosted on Supabase), tagged as an Elite Tempo
-                contact. Entirely optional, separate from any purchase, and
-                requires your explicit consent.
+                If you choose to submit your first name and email through the
+                opt-in form in the app (for example, to get tips or updates from
+                Elite Prep), we store that first name, email, and your consent in
+                our Elite Prep contact database (hosted on Supabase), tagged as an
+                Elite Tempo contact. This is optional, separate from any purchase,
+                and needs your explicit consent. You can opt out at any time (see
+                &quot;Your choices&quot;).
               </li>
             </ul>
+            <p className="mt-3">
+              We do not show ads, we do not build an advertising profile of you,
+              and we do not track you across other companies&apos; apps or
+              websites.
+            </p>
           </Section>
 
           {/* The app sends anonymous usage counts (TelemetryDeck, since PR #56)
@@ -140,36 +162,53 @@ export default function EliteTempoPrivacy() {
 
           <Section title="Device permissions">
             <p className="mb-3">
-              The app requests these only when you use the relevant feature, and
-              only to make that feature work on your device:
+              The app asks for these only when you use the feature that needs them,
+              and only to make that feature work on your device:
             </p>
             <ul className="flex list-disc flex-col gap-1.5 pl-5">
               <li><strong style={{ color: INK }}>Camera</strong>, to record a swing video.</li>
-              <li><strong style={{ color: INK }}>Microphone</strong>, because recorded videos include audio.</li>
               <li>
-                <strong style={{ color: INK }}>Photo Library (add)</strong>, to
-                save swings you record into your Photos, and to let you import a
-                video you select.
+                <strong style={{ color: INK }}>Microphone</strong>, because recorded
+                videos include audio, and you can record your own voice for routine
+                cues.
+              </li>
+              <li>
+                <strong style={{ color: INK }}>Photo Library (add)</strong>, to save
+                swings you record into your Photos. When you import a video, iOS
+                shows the app only the video you pick.
+              </li>
+              <li>
+                <strong style={{ color: INK }}>Notifications</strong>, if you start a
+                free trial, to remind you before it ends. These reminders are
+                scheduled on your device; nothing is sent through our servers.
               </li>
             </ul>
             <p className="mt-3">
-              Declining a permission simply disables that one capability; the rest
-              of the app works normally.
+              Saying no to a permission turns off only that one feature. The rest of
+              the app works normally.
             </p>
           </Section>
 
           <Section title="How we use data">
             <ul className="flex list-disc flex-col gap-1.5 pl-5">
               <li>
-                To deliver app functionality (unlock the library; compute and play
-                back your swing&apos;s tempo), most of which happens entirely
-                on-device.
+                To make the app work (unlock Pro, and compute and play back your
+                swing&apos;s tempo). Almost all of this happens on your device.
+              </li>
+              <li>
+                To understand which features get used and where people get stuck,
+                using the anonymous usage statistics.
+              </li>
+              <li>
+                To find and fix crashes, freezes, and slow screens, using the crash
+                and performance reports.
               </li>
               <li>
                 If you opted in: to send you Elite Prep tips, content, and product
-                updates by email. We do not sell your information.
+                updates by email.
               </li>
             </ul>
+            <p className="mt-3">We do not sell your information.</p>
           </Section>
 
           <Section title="Sharing">
@@ -180,39 +219,46 @@ export default function EliteTempoPrivacy() {
               <li><strong style={{ color: INK }}>Apple</strong>, as the payment processor and app platform.</li>
               <li>
                 <strong style={{ color: INK }}>Supabase</strong>, our database
-                provider, which stores opt-in contact records on our behalf.
+                provider, which stores opt-in contact records for us.
               </li>
               <li>
                 <strong style={{ color: INK }}>TelemetryDeck</strong>, which
-                processes the anonymous usage statistics described above.
+                processes the anonymous usage statistics.
               </li>
               <li>
                 <strong style={{ color: INK }}>Sentry</strong>, which processes crash
                 and performance reports.
               </li>
             </ul>
-            <p className="mt-3">We may disclose information if required by law.</p>
+            <p className="mt-3">We may disclose information if the law requires it.</p>
           </Section>
 
-          <Section title="Data retention & deletion">
+          <Section title="Data retention and deletion">
             <ul className="flex list-disc flex-col gap-1.5 pl-5">
               <li>
                 <strong style={{ color: INK }}>On-device data</strong> (swing
-                videos, timings) lives only on your device. Delete an individual
-                swing in the app to remove its video and data, or delete the app to
-                remove all of it. We never hold a copy.
+                videos, timings) lives only on your device. Delete a swing in the
+                app to remove its video and data, or delete the app to remove all
+                of it. We never hold a copy.
+              </li>
+              <li>
+                <strong style={{ color: INK }}>Usage statistics and crash reports</strong>{" "}
+                are anonymous and are kept by TelemetryDeck and Sentry under their
+                standard retention periods. Because they are not tied to you, we
+                cannot look up or delete the reports from one person.
               </li>
               <li>
                 <strong style={{ color: INK }}>Email opt-in records</strong> are
-                kept until you ask us to remove them. Use the unsubscribe link in
-                any email or contact us below.
+                kept until you ask us to remove them. To be removed, use the
+                unsubscribe link in any email or contact us (below) and we will
+                delete your record.
               </li>
             </ul>
           </Section>
 
           <Section title="Children">
             <p>
-              Elite Tempo is intended for a general audience and is not directed to
+              Elite Tempo is meant for a general audience and is not directed to
               children under 13. We do not knowingly collect personal information
               from children under 13.
             </p>
@@ -221,18 +267,21 @@ export default function EliteTempoPrivacy() {
           <Section title="Your choices">
             <ul className="flex list-disc flex-col gap-1.5 pl-5">
               <li>
-                Don&apos;t want any data with us? Simply don&apos;t use the optional
-                email opt-in, and we hold nothing about you.
+                If you do not use the optional email opt-in, we hold nothing that
+                identifies you.
               </li>
               <li>Opted in and changed your mind? Unsubscribe or email us to be deleted.</li>
-              <li>Manage Camera / Microphone / Photos permissions anytime in iOS Settings.</li>
+              <li>
+                Manage Camera, Microphone, Photos, and Notifications permissions
+                anytime in iOS Settings.
+              </li>
             </ul>
           </Section>
 
           <Section title="Changes">
             <p>
-              We may update this policy. When we do, we&apos;ll revise the updated date
-              above and, for material changes, surface a notice in the app.
+              We may update this policy. We will change the date above and, for
+              important changes, show a notice in the app.
             </p>
           </Section>
 
