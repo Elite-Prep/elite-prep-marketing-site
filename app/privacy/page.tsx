@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
       <div className="max-w-2xl mx-auto">
         <div className="mb-12 flex items-center justify-between">
           <Link href="/" aria-label="Elite Prep home">
-            <Logo width={120} showBeta={false} />
+            <Logo fontSize={20} />
           </Link>
           <Link
             href="/"
