@@ -1,0 +1,598 @@
+/* Elite Prep homepage. Every value below comes from the phone app's design
+   tokens (Elite-Prep-Web-App-V2: mobile/design/tokens.ts, docs/redesign/SPEC.md).
+   Scoped to .ep so /privacy, /terms, /reelprep and /elite-tempo are untouched.
+   If the app's tokens change, change them here. */
+.ep {
+  --canvas: #0a0b0d;
+  --surface: #15171b;
+  --raised: #1e2127;
+  --hairline: #262a31;
+  --control: #6b7280;
+  --text: #ffffff;
+  --text2: #c4c8d0;
+  --text3: #959aa4;
+  --accent: #1f6fb5;
+  --accent-pressed: #195c97;
+  --accent-text: #5eaef0;
+  --accent-tint: rgba(94, 174, 240, 0.14);
+  --good: #3ddc84;
+  --bad: #ff6b6b;
+  --page: 24px;
+  --section: clamp(72px, 10vw, 128px);
+
+  background: var(--canvas);
+  color: var(--text2);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.ep a:focus-visible,
+.ep button:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 2px;
+}
+
+.ep [id] {
+  scroll-margin-top: 88px;
+}
+
+.ep-wrap {
+  max-width: 1168px;
+  margin-inline: auto;
+  padding-inline: var(--page);
+}
+
+.ep-section {
+  padding-block: var(--section);
+}
+
+.ep-rule {
+  border-top: 1px solid var(--hairline);
+}
+
+/* Type: 400 reads, 600 taps, 700 orients. Nothing under 12. */
+.ep-eyebrow {
+  color: var(--text3);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.ep-h1,
+.ep-h2,
+.ep-h3 {
+  text-wrap: balance;
+}
+
+.ep-h1 {
+  color: var(--text);
+  font-size: clamp(40px, 5.6vw, 64px);
+  line-height: 1.06;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.ep-h2 {
+  color: var(--text);
+  font-size: clamp(30px, 3.8vw, 44px);
+  line-height: 1.14;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.ep-h3 {
+  color: var(--text);
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 700;
+}
+
+.ep-lead {
+  font-size: clamp(16px, 1.5vw, 18px);
+  line-height: 1.6;
+  max-width: 34em;
+}
+
+.ep-foot {
+  color: var(--text3);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+/* Buttons: one filled blue action per section, 56 tall, pill. */
+.ep-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 56px;
+  padding-inline: 32px;
+  border-radius: 999px;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--accent);
+  transition: background-color 150ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.ep-btn:hover {
+  background: var(--accent-pressed);
+}
+
+.ep-btn-small {
+  min-height: 44px;
+  padding-inline: 20px;
+  font-size: 14px;
+  background: transparent;
+  border: 1.5px solid var(--control);
+}
+
+.ep-btn-small:hover {
+  background: var(--raised);
+}
+
+/* Nav */
+.ep-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10, 11, 13, 0.92);
+  border-bottom: 1px solid var(--hairline);
+  backdrop-filter: blur(12px);
+}
+
+.ep-nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 72px;
+}
+
+.ep-nav-links {
+  display: none;
+  gap: 32px;
+  margin-left: auto;
+  margin-right: 16px;
+}
+
+.ep-nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--text2);
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 150ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.ep-nav-link:hover {
+  color: var(--text);
+}
+
+.ep-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Cards */
+.ep-card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 20px;
+  padding: 24px;
+}
+
+/* Phone frame. The screenshot already has its own status bar and island. */
+.ep-phone {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px;
+  border-radius: 48px;
+  background: var(--raised);
+  border: 1px solid #343842;
+}
+
+.ep-phone img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 40px;
+}
+
+/* Hero */
+.ep-hero {
+  overflow: hidden;
+}
+
+.ep-hero-grid {
+  display: grid;
+  gap: 56px;
+  padding-top: clamp(56px, 8vw, 104px);
+}
+
+.ep-hero-copy {
+  padding-bottom: 8px;
+}
+
+.ep-hero-phone {
+  justify-self: center;
+  width: 100%;
+  max-width: 300px;
+  /* Stops above the Home screen's bottom bar, so the phone runs off the fold. */
+  aspect-ratio: 300 / 518;
+  overflow: hidden;
+}
+
+/* Prep % ring: 14 stroke on the raised track, same as the app's HeroRing. */
+.ep-ring {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  margin-inline: auto;
+}
+
+.ep-ring svg {
+  display: block;
+  transform: rotate(-90deg);
+}
+
+.ep-ring-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.ep-ring-number {
+  color: var(--text);
+  font-size: 64px;
+  line-height: 68px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ep-ring-unit {
+  color: var(--text2);
+  font-size: 30px;
+  letter-spacing: 0;
+}
+
+.ep-two {
+  display: grid;
+  gap: 48px;
+  align-items: center;
+}
+
+.ep-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 32px;
+  max-width: 460px;
+}
+
+.ep-tile {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.ep-tile-number {
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Thesis, over the practice video */
+.ep-thesis {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  text-align: center;
+}
+
+.ep-thesis-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -10;
+  background: rgba(10, 11, 13, 0.8);
+}
+
+.ep-thesis p {
+  margin-inline: auto;
+  color: #e2e4e8;
+}
+
+/* Screens rows */
+.ep-rows {
+  display: grid;
+  gap: var(--section);
+  margin-top: 64px;
+}
+
+.ep-row {
+  display: grid;
+  gap: 40px;
+  align-items: center;
+}
+
+.ep-row-phones {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 260px);
+  justify-content: center;
+  gap: 12px;
+}
+
+.ep-row-phones .ep-phone {
+  padding: 5px;
+  border-radius: 34px;
+}
+
+.ep-row-phones .ep-phone img {
+  border-radius: 29px;
+}
+
+.ep-row-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ep-row-list li,
+.ep-card-list li {
+  display: flex;
+  gap: 12px;
+}
+
+.ep-row-list svg,
+.ep-card-list svg {
+  flex-shrink: 0;
+  margin-top: 4px;
+  color: var(--text3);
+}
+
+/* Everything it does */
+.ep-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.ep-card-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+/* Compare */
+.ep-table-wrap {
+  display: none;
+  margin-top: 48px;
+  overflow-x: auto;
+  padding: 0;
+}
+
+.ep-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+}
+
+.ep-table th,
+.ep-table td {
+  padding: 16px 12px;
+  border-top: 1px solid var(--hairline);
+  text-align: center;
+}
+
+.ep-table thead th {
+  border-top: 0;
+  vertical-align: bottom;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
+}
+
+.ep-table th:first-child,
+.ep-table td:first-child {
+  padding-left: 24px;
+  text-align: left;
+  color: var(--text);
+  font-weight: 400;
+}
+
+.ep-table .ep-us {
+  background: var(--raised);
+}
+
+.ep-mark {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.ep-mark-yes {
+  color: var(--text);
+}
+
+.ep-mark-no {
+  color: var(--text3);
+}
+
+.ep-compare-list {
+  margin-top: 40px;
+  padding-block: 4px;
+}
+
+.ep-compare-list li {
+  display: flex;
+  gap: 12px;
+  padding-block: 16px;
+  border-top: 1px solid var(--hairline);
+}
+
+.ep-compare-list li:first-child {
+  border-top: 0;
+}
+
+.ep-compare-title {
+  color: var(--text);
+}
+
+/* Pricing */
+.ep-plans {
+  display: grid;
+  gap: 16px;
+  margin-top: 48px;
+  max-width: 760px;
+}
+
+.ep-plan-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 28px;
+}
+
+.ep-plan-best {
+  border-color: var(--accent-text);
+}
+
+.ep-badge {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--accent-tint);
+  color: var(--accent-text);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+}
+
+.ep-price {
+  margin-top: 12px;
+  color: var(--text);
+  font-size: 44px;
+  line-height: 50px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Closing band */
+.ep-close {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  text-align: center;
+}
+
+.ep-close-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 11, 13, 0.82);
+}
+
+.ep-close-inner {
+  position: relative;
+}
+
+/* Footer */
+.ep-footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 32px;
+}
+
+.ep-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 20px;
+  color: var(--text3);
+  font-size: 13px;
+}
+
+.ep-footer-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.ep-footer-links a:hover {
+  color: var(--text);
+}
+
+@media (min-width: 640px) {
+  .ep-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ep-plans {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
+  .ep-hero-grid {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    align-items: end;
+    gap: 64px;
+  }
+
+  .ep-hero-copy {
+    align-self: center;
+    padding-bottom: 72px;
+  }
+
+  .ep-two {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 72px;
+  }
+
+  .ep-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 72px;
+  }
+
+  .ep-row-flip .ep-row-phones {
+    order: -1;
+  }
+
+  .ep-table-wrap {
+    display: block;
+  }
+
+  .ep-compare-list {
+    display: none;
+  }
+}
+
+@media (min-width: 1000px) {
+  .ep-nav-links {
+    display: flex;
+  }
+
+  .ep-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

@@ -1,65 +1,61 @@
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Trophy, User, Check, X } from "lucide-react";
+import { Check, Minus } from "lucide-react";
+import AppPhone from "./components/AppPhone";
 import HeroCarousel from "./components/HeroCarousel";
 import Logo from "./components/Logo";
-import FeatureShowcase from "./components/FeatureShowcase";
+import PrepRing from "./components/PrepRing";
 import Reveal from "./components/Reveal";
-import {
-  HERO_SWING,
-  SWINGS,
-  fmtRatio,
-  fmtSeconds,
-} from "./elite-tempo/data/tempo-data";
+import "./home.css";
 
 const LOGIN_URL = "https://app.eliteprep.app/login";
-// Conversion CTAs ("Try free for 14 days", "Start free trial", "Sign up")
-// land on /signup — the auth-method chooser (email / Google / Apple).
-//
-// 2026-05-15: changed from /billing back to /signup. The app shipped the
-// magic-moment onboarding reorder — a new visitor now goes
-// signup → role → tier → handicap → readiness-preview → paywall, so the
-// paywall comes AFTER the user has seen their personalized readiness
-// score. Pointing the marketing CTA at /billing sent cold visitors
-// straight to the paywall, skipping signup and the whole onboarding /
-// preview flow. /signup is the correct entry point for the new funnel.
+// Conversion CTAs land on /signup: the app's onboarding runs signup, role, tier,
+// handicap, readiness preview, then paywall. Pointing at /billing would skip it.
 const SIGNUP_URL = "https://app.eliteprep.app/signup";
 
-const PAGE_BG = "#111112";
-/* Was #2a2a2c, only 1.32:1 against PAGE_BG, so card edges barely existed.
-   #3a3a41 measures 1.67:1, matching the relationship the Elite Tempo page now
-   has after aligning to Theme.swift. Body text was measured and left alone:
-   TEXT_BODY is 9.0:1 and TEXT_HEAD 16.6:1, both well clear of WCAG AA. */
-const CARD_BORDER = "#3a3a41";
-const TEXT_HEAD = "#f0f0f0";
-const TEXT_BODY = "#b3b3b3";
-const BRAND = "#9ABBC6";
-const BRAND_DIM = "rgba(154,187,198,0.12)";
+/* Prices and trial terms. Source of truth: Elite-Prep-Web-App-V2
+   resources/lang/en_strings.json (plan_* and trial_terms_hero) and
+   TRIAL_PERIOD_DAYS in lib/stripe.ts. Update here when those change. */
+const MONTHLY_PRICE = "$24.99";
+const YEARLY_PRICE = "$249";
+const YEARLY_PER_MONTH = "$20.75";
+const TRIAL_LINE = `14 days free. No credit card. Then ${MONTHLY_PRICE} a month or ${YEARLY_PRICE} a year.`;
 
-// Soft section transitions — these replace hard 1px borders so adjacent
-// sections bleed into each other with a brand-tinted glow instead of a
-// hard seam. Used as background layers (stack on top of the section bg).
-const SECTION_TOP_HALO =
-  "radial-gradient(ellipse 90% 30% at 50% 0%, rgba(154,187,198,0.07) 0%, transparent 70%)";
-const SECTION_BOTTOM_HALO =
-  "radial-gradient(ellipse 90% 30% at 50% 100%, rgba(154,187,198,0.05) 0%, transparent 70%)";
+const SITE_URL = "https://www.eliteprep.app";
+const PAGE_TITLE = "Elite Prep: Know what to work on. Know it's working.";
+const PAGE_DESCRIPTION =
+  "The system competitive golfers use to prepare for every event: plan practice, build drills, track every round, and see where your work should go.";
 
-// Premium card chrome — gradient fill + top edge highlight + bottom inner
-// shadow + soft drop shadow. Makes feature cards feel like physical objects
-// catching light, not flat bordered rectangles.
-const PREMIUM_CARD_BG =
-  "linear-gradient(180deg, #1d1d20 0%, #161618 100%)";
-const PREMIUM_CARD_SHADOW = [
-  "inset 0 1px 0 rgba(255,255,255,0.06)",
-  "inset 0 -1px 1px rgba(0,0,0,0.35)",
-  "0 14px 32px -10px rgba(0,0,0,0.5)",
-].join(", ");
-const PREMIUM_CARD_SHADOW_BRAND = [
-  "inset 0 1px 0 rgba(154,187,198,0.15)",
-  "inset 0 -1px 1px rgba(0,0,0,0.35)",
-  "0 14px 32px -10px rgba(0,0,0,0.5)",
-  "0 0 0 1px rgba(154,187,198,0.25)",
-].join(", ");
+/* eliteprep.app redirects to www.eliteprep.app, so both spellings can end up in
+   an index pointing at the same page. A canonical says which one counts. Set here
+   rather than in the root layout on purpose: a canonical in the layout would
+   apply "/" to every page that does not override it, quietly telling Google that
+   /privacy and /terms are duplicates of the homepage. */
+export const metadata: Metadata = {
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "Elite Prep",
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    url: SITE_URL,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+  },
+};
+
+/* The browser bar matches the app's canvas. Set on this page, not the root
+   layout, so the Elite Tempo pages keep their own look. */
+export const viewport: Viewport = {
+  themeColor: "#0A0B0D",
+};
 
 /* Who this site belongs to, in a form a search engine can resolve.
  *
@@ -70,18 +66,8 @@ const PREMIUM_CARD_SHADOW_BRAND = [
  * App Store listings, so the site and the apps resolve as one entity rather
  * than three unrelated things with similar names.
  *
- * Sitelinks themselves are earned, not declared — Google builds them from site
+ * Sitelinks themselves are earned, not declared. Google builds them from site
  * structure and branded search volume. This is the half that can be declared. */
-const SITE_URL = "https://www.eliteprep.app";
-
-/* eliteprep.app redirects to www.eliteprep.app, so both spellings can end up in
-   an index pointing at the same page. A canonical says which one counts. Set here
-   rather than in the root layout on purpose: a canonical in the layout would
-   apply "/" to every page that does not override it, quietly telling Google that
-   /privacy and /terms are duplicates of the homepage. */
-export const metadata = {
-  alternates: { canonical: "/" },
-};
 
 const ORGANIZATION_SCHEMA = {
   "@context": "https://schema.org",
@@ -111,7 +97,7 @@ const ORGANIZATION_SCHEMA = {
 
 export default function Page() {
   return (
-    <main className="flex-1" style={{ background: PAGE_BG }}>
+    <main className="ep flex-1">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_SCHEMA) }}
@@ -119,12 +105,13 @@ export default function Page() {
       <TopNav />
       <Hero />
       <Thesis />
-      <MantraBand />
-      <Pillars />
-      <FeatureDetail />
-      <WhyElitePrep />
+      <PrepPercent />
+      <Screens />
+      <Everything />
+      <Compare />
       <WhoItsFor />
-      <CtaBand />
+      <Pricing />
+      <Close />
       <Footer />
     </main>
   );
@@ -132,59 +119,34 @@ export default function Page() {
 
 /* Section links for the sticky header. Order matches the page. */
 const HOME_SECTIONS = [
-  { id: "pillars", label: "How it works" },
+  { id: "how", label: "How it works" },
   { id: "features", label: "Features" },
   { id: "why", label: "Why Elite Prep" },
+  { id: "pricing", label: "Pricing" },
 ];
 
 function TopNav() {
   return (
-    <header
-      className="sticky top-0 z-50 backdrop-blur-md"
-      style={{
-        background: "rgba(17, 17, 18, 0.85)",
-        borderBottom: `1px solid ${CARD_BORDER}`,
-      }}
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" aria-label="Elite Prep home" className="shrink-0 inline-flex items-center min-h-[44px]">
-          <span className="sm:hidden"><Logo width={120} /></span>
-          <span className="hidden sm:inline-flex"><Logo width={140} /></span>
+    <header className="ep-nav">
+      <div className="ep-wrap ep-nav-row">
+        <Link href="/" aria-label="Elite Prep home" className="inline-flex min-h-[44px] shrink-0 items-center">
+          <Logo width={132} showBeta={false} />
         </Link>
-        {/* Section links, ReciMe style. Hidden below lg so they never crowd
-            Log in / Sign up, which are the actions that matter on a phone. */}
-        <nav aria-label="Page sections" className="ml-auto mr-8 hidden items-center gap-8 lg:flex">
+        <nav aria-label="Page sections" className="ep-nav-links">
           {HOME_SECTIONS.map(({ id, label }) => (
-            <a
-              key={id}
-              href={`#${id}`}
-              className="text-sm font-medium transition-colors duration-150"
-              style={{ color: TEXT_HEAD }}
-            >
+            <a key={id} href={`#${id}`} className="ep-nav-link">
               {label}
             </a>
           ))}
         </nav>
-        <nav className="flex items-center gap-2 sm:gap-3">
-          <a
-            href={LOGIN_URL}
-            className="inline-flex min-h-[44px] items-center px-3 text-sm font-medium"
-            style={{ color: TEXT_BODY }}
-          >
+        <div className="ep-nav-actions">
+          <a href={LOGIN_URL} className="ep-nav-link">
             Log in
           </a>
-          {/* Nav Sign up is the SECONDARY brand surface. Filled brand-gradient
-              is reserved for in-content primary CTAs (hero, CtaBand) so the
-              top-right button doesn't compete for the same eye-stop. Brand
-              border keeps the wordmark in dialogue without shouting. */}
-          <a
-            href={SIGNUP_URL}
-            className="inline-flex min-h-[44px] items-center rounded-full border px-4 sm:px-5 text-sm font-semibold transition-colors hover:bg-white/5"
-            style={{ borderColor: BRAND, color: TEXT_HEAD }}
-          >
+          <a href={SIGNUP_URL} className="ep-btn ep-btn-small">
             Sign up
           </a>
-        </nav>
+        </div>
       </div>
     </header>
   );
@@ -192,82 +154,30 @@ function TopNav() {
 
 function Hero() {
   return (
-    <section className="relative isolate overflow-hidden">
-      <HeroCarousel />
-      {/* Mobile: stronger top+bottom letterbox so copy reads everywhere */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 md:hidden"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 55%, rgba(0,0,0,0.6) 100%)",
-        }}
-      />
-      {/* Desktop: lighter, left-darker so the figure stays bright on the right */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 hidden md:block"
-        style={{
-          background: [
-            "linear-gradient(90deg, rgba(17,17,18,0.65) 0%, rgba(17,17,18,0.35) 40%, rgba(17,17,18,0.10) 75%, rgba(17,17,18,0.05) 100%)",
-            "linear-gradient(180deg, rgba(17,17,18,0.20) 0%, rgba(17,17,18,0.40) 50%, rgba(17,17,18,0.92) 100%)",
-          ].join(", "),
-        }}
-      />
-
-      <div className="relative mx-auto flex max-w-6xl flex-col justify-start md:justify-center px-6 pb-24 pt-24 sm:pt-32 min-h-[600px] sm:min-h-[680px] lg:min-h-[760px]">
-        <div className="max-w-3xl">
-          <p
-            className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] sm:text-sm"
-            style={{ color: BRAND, textShadow: "0 1px 8px rgba(0,0,0,0.5)" }}
-          >
-            The prep app for competitive golfers
+    <section className="ep-hero">
+      <div className="ep-wrap ep-hero-grid">
+        <div className="ep-hero-copy">
+          <p className="ep-eyebrow">The prep app for competitive golfers</p>
+          <h1 className="ep-h1 mt-4">Every rep. Every round. Every event. One system.</h1>
+          <p className="ep-lead mt-6">
+            Track your practice, track your rounds, and see how they connect. It
+            all builds into a repeatable system that gets you prepared for every
+            event.
           </p>
-          <h1
-            className="text-5xl leading-[0.95] sm:text-6xl lg:text-[72px]"
-            style={{
-              color: TEXT_HEAD,
-              fontFamily: "var(--font-anton), sans-serif",
-              textTransform: "uppercase",
-              fontWeight: 400,
-              letterSpacing: "0",
-              textShadow: "0 2px 30px rgba(0,0,0,0.55)",
-            }}
-          >
-            Every rep. Every round. Every event. One system.
-          </h1>
-          <p
-            className="mt-6 max-w-xl text-base leading-relaxed sm:text-lg"
-            style={{
-              color: "#d8d8da",
-              textShadow: "0 1px 12px rgba(0,0,0,0.5)",
-            }}
-          >
-            Track your <span style={{ color: TEXT_HEAD }}>practice</span>, track
-            your <span style={{ color: TEXT_HEAD }}>rounds</span>, and see how they
-            connect. It all builds into a repeatable{" "}
-            <span style={{ color: TEXT_HEAD }}>system</span> that gets you the most
-            prepared for every event.
-          </p>
-          {/* Hero text budget: H1 + subhead + CTA group (with pricing +
-              positioning under it as one block). Trust strip used to be a
-              separate visual stop below; consolidated into the CTA group so
-              the eye reads one decision area, not three. */}
-          <div className="mt-8 md:mt-10">
-            <a
-              href={SIGNUP_URL}
-              className="cta-glow inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-base font-semibold md:px-8 md:py-4 md:text-lg"
-              style={{ background: "#ffffff", color: "#111112" }}
-            >
-              Start free <ArrowRight className="h-4 w-4" />
+          <div className="mt-8">
+            <a href={SIGNUP_URL} className="ep-btn">
+              Start free
             </a>
-            <p
-              className="mt-3 text-xs md:text-sm"
-              style={{ color: "#bdbdc0" }}
-            >
-              Then $24.99/month. Cancel anytime.
-            </p>
+            <p className="ep-foot mt-4">{TRIAL_LINE}</p>
           </div>
+        </div>
+        <div className="ep-hero-phone">
+          <AppPhone
+            src="/app-screens/redesign/home.png"
+            alt="Elite Prep Home screen. A ring shows 66% ready for the Spring Invitational, 15 days to go, with 5 of 6 practices and 1 of 3 rounds done. Below it, putting is named as the biggest gap at minus 2.3 strokes a round."
+            sizes="300px"
+            priority
+          />
         </div>
       </div>
     </section>
@@ -276,258 +186,171 @@ function Hero() {
 
 function Thesis() {
   return (
-    <section
-      style={{
-        background: `
-          ${SECTION_TOP_HALO},
-          ${SECTION_BOTTOM_HALO},
-          radial-gradient(ellipse at top, rgba(154,187,198,0.08) 0%, transparent 60%),
-          #0d0d0e
-        `,
-      }}
-    >
-      <div className="mx-auto max-w-4xl px-6 py-24 text-center sm:py-32">
+    <section className="ep-thesis ep-section">
+      <HeroCarousel />
+      <div className="ep-thesis-scrim" aria-hidden />
+      <div className="ep-wrap">
         <Reveal>
-          <p
-            className="text-xs font-semibold tracking-[0.2em] uppercase mb-6"
-            style={{ color: BRAND }}
-          >
-            What we believe
-          </p>
-          <h2
-            className="text-2xl font-semibold leading-[1.15] tracking-tight sm:text-3xl md:text-4xl lg:text-5xl"
-            style={{ color: TEXT_HEAD, fontFamily: "var(--font-manrope), sans-serif" }}
-          >
+          <p className="ep-eyebrow">What we believe</p>
+          <h2 className="ep-h2 mt-4">
             Golf is played on the course.
             <br />
-            <span style={{ fontStyle: "italic" }}>It&rsquo;s won off it.</span>
+            It&rsquo;s won off it.
           </h2>
-          <p
-            className="mx-auto mt-8 max-w-2xl text-left text-base leading-relaxed sm:text-lg"
-            style={{ color: TEXT_BODY }}
-          >
+          <p className="ep-lead mt-6">
             Most of your game gets built in the hours nobody tracks: the range
-            sessions, the short-game grind, the practice rounds, the work with
-            your coach. That&rsquo;s where the real work is. And until now it
-            lived in five different places, or nowhere at all.
+            sessions, the short game work, the practice rounds, the time with
+            your coach. Until now that work lived in five different places, or
+            nowhere at all.
           </p>
-          <p
-            className="mx-auto mt-10 max-w-2xl text-lg sm:text-xl"
-            style={{
-              color: TEXT_HEAD,
-              fontFamily: "var(--font-manrope), sans-serif",
-              fontStyle: "italic",
-            }}
-          >
-            Elite Prep is one system for all of it: the prep a competitive
-            golfer built to stay ready, now an app you can run.
+          <p className="ep-lead mt-4">
+            Elite Prep is one system for all of it: the prep a competitive golfer
+            built to stay ready, now an app you can run.
           </p>
+          <p className="ep-h3 mt-10">Practice. Play. Compete. Learn. Repeat.</p>
         </Reveal>
       </div>
     </section>
   );
 }
 
-function Pillars() {
+function PrepPercent() {
   return (
-    <section id="pillars"
-      style={{
-        background: `
-          ${SECTION_TOP_HALO},
-          ${SECTION_BOTTOM_HALO},
-          #0d0d0e
-        `,
-      }}
-    >
-      <div className="mx-auto max-w-6xl px-6 py-20 sm:py-28">
+    <section className="ep-section">
+      <div className="ep-wrap ep-two">
         <Reveal>
-          <div className="mb-10 max-w-2xl">
-            <p
-              className="text-xs font-semibold tracking-wider uppercase"
-              style={{ color: BRAND }}
-            >
-              How it works
-            </p>
-            <h2
-              className="mt-2 text-3xl font-semibold leading-tight sm:text-4xl"
-              style={{ color: TEXT_HEAD, fontFamily: "var(--font-manrope), sans-serif" }}
-            >
-              Your season, end to end.
-            </h2>
+          <div className="ep-card py-10 text-center">
+            <PrepRing percent={66} />
+            <p className="ep-h3 mt-6">Spring Invitational</p>
+            <p className="mt-1">15 days to go</p>
           </div>
         </Reveal>
-
-        <FeatureShowcase />
+        <Reveal>
+          <p className="ep-eyebrow">Prep %</p>
+          <h2 className="ep-h2 mt-3">One number shows how ready you are for your next event.</h2>
+          <p className="ep-lead mt-6">
+            Add an event and choose how many practices and rounds you want done
+            before it. Elite Prep counts what you log and turns it into one number.
+          </p>
+          <div className="ep-tiles">
+            <div className="ep-tile">
+              <p className="ep-eyebrow">Practices</p>
+              <p className="ep-tile-number">5 of 6</p>
+            </div>
+            <div className="ep-tile">
+              <p className="ep-eyebrow">Rounds</p>
+              <p className="ep-tile-number">1 of 3</p>
+            </div>
+          </div>
+          <p className="ep-foot mt-4">In this example, 6 of 9 planned sessions are done, so you are 66% ready.</p>
+        </Reveal>
       </div>
     </section>
   );
 }
 
-const DETAIL_GROUPS: { tag: string; title: string; items: string[] }[] = [
+const SCREENS: {
+  eyebrow: string;
+  title: string;
+  body: string;
+  points: string[];
+  shots: { src: string; alt: string }[];
+}[] = [
   {
-    tag: "01 / Plan",
-    title: "Set goals and plan your season",
-    items: [
-      "Set your goal",
-      "Full event schedule, with countdowns",
-      "Build your own drills and sessions",
-      "Curated Pro Drills library",
+    eyebrow: "Log",
+    title: "Log your work in about a minute.",
+    body: "One button starts everything. Tap the area you worked on, pick the minutes, and you are done.",
+    points: [
+      "Log practice you already did.",
+      "Start a timer and let the session log itself.",
+      "Add a round, a mental check-in, a journal note, a photo, or an event.",
+    ],
+    shots: [
+      {
+        src: "/app-screens/redesign/log.png",
+        alt: "Elite Prep log menu asking what do you want to log, with tiles for Practice, Round, Start a timer and Mental check-in, and rows for Journal note, Photo or video and Add an event.",
+      },
+      {
+        src: "/app-screens/redesign/practice.png",
+        alt: "Log a practice screen asking what did you work on. Approach is selected with 30 minutes chosen.",
+      },
     ],
   },
   {
-    tag: "02 / Train",
-    title: "Build and run your practice",
-    items: [
-      "AI builds a session from your time and facilities",
-      "Live timer with drill-by-drill callouts",
-      "Import drills from text, photo, or video",
-      "Log practice and training",
+    eyebrow: "Stats",
+    title: "See where you gain and lose strokes.",
+    body: "Strokes gained tells you how each part of your game compares to a benchmark. Elite Prep puts it in one sentence: what is working, and what is costing you the most.",
+    points: [
+      "Compare yourself to Tour, scratch, or a handicap level.",
+      "Split it into off the tee, approach, short game, and putting.",
+      "Follow your scores, greens, fairways, and putts over time.",
+    ],
+    shots: [
+      {
+        src: "/app-screens/redesign/stats.png",
+        alt: "Elite Prep Stats screen showing plus 2.0 strokes gained per round against a 10 handicap, with the sentence: you beat your benchmark overall, putting is where you lose the most.",
+      },
+      {
+        src: "/app-screens/redesign/stats2.png",
+        alt: "Scores chart with an 83.8 average, a best of 81 and a latest of 85, above tiles showing 39% of greens and 52% of fairways.",
+      },
     ],
   },
   {
-    tag: "03 / Play",
-    title: "Track every round in depth",
-    items: [
-      "Game-day rounds, practice rounds, and practice",
-      "Shot by shot, mapped with GPS",
-      "Strokes Gained vs Tour, scratch, or handicap",
-      "Fairways, greens, putts, penalties",
+    eyebrow: "Home",
+    title: "See your week and what is coming up.",
+    body: "Home shows the work you have done and the events on your schedule, so you always know what is next.",
+    points: [
+      "See your practice time for the last 7 days.",
+      "See your rounds and average score for the last 30 days.",
+      "See every upcoming event with its date and course.",
     ],
-  },
-  {
-    tag: "04 / Reflect",
-    title: "Journal, mind, and technique",
-    items: [
-      "Journal your sessions and rounds",
-      "Mental check-ins",
-      "Technique log your coach can write to",
-      "Your record, over time",
-    ],
-  },
-  {
-    tag: "05 / Prove",
-    title: "Prove the work is working",
-    items: [
-      "Your practice next to your performance",
-      "See which work moves your scores",
-      "Know what to shift reps toward",
-    ],
-  },
-  {
-    tag: "06 / Together",
-    title: "Coach and community",
-    items: [
-      "See who else is putting in the work",
-      "Follow, like, and comment",
-      "Leaderboards for volume and consistency",
-      "Connect your coach for assigned work",
+    shots: [
+      {
+        src: "/app-screens/redesign/home2.png",
+        alt: "Home screen tiles showing 2 hours 30 minutes of practice in 7 days and 2 rounds in 30 days, then a Coming up list with the Spring Invitational on November 15 and the Club Championship on December 11.",
+      },
     ],
   },
 ];
 
-function MantraBand() {
-  const words = ["Practice", "Play", "Compete", "Learn", "Repeat"];
+function Screens() {
   return (
-    <section id="mantra"
-      aria-label="Practice. Play. Compete. Learn. Repeat."
-      style={{
-        background: "#0d0d0e",
-        borderTop: `1px solid ${CARD_BORDER}`,
-        borderBottom: `1px solid ${CARD_BORDER}`,
-      }}
-    >
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-x-5 gap-y-2 px-6 py-12 sm:py-14">
-        {words.map((w, i) => (
-          <span key={w} className="flex items-center gap-x-5">
-            <span
-              className="text-xl sm:text-2xl lg:text-3xl"
-              style={{
-                fontFamily: "var(--font-anton), sans-serif",
-                textTransform: "uppercase",
-                color: TEXT_HEAD,
-                letterSpacing: "0.04em",
-              }}
-            >
-              {w}
-            </span>
-            {i < words.length - 1 && (
-              <span
-                aria-hidden
-                className="text-sm sm:text-base"
-                style={{ color: BRAND }}
-              >
-                ●
-              </span>
-            )}
-          </span>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function FeatureDetail() {
-  return (
-    <section id="features" style={{ background: PAGE_BG }}>
-      <div className="mx-auto max-w-5xl px-6 py-20 sm:py-28">
+    <section id="how" className="ep-section ep-rule">
+      <div className="ep-wrap">
         <Reveal>
-          <div className="mb-12 max-w-2xl">
-            <p
-              className="text-xs font-semibold tracking-wider uppercase"
-              style={{ color: BRAND }}
-            >
-              The full system
-            </p>
-            <h2
-              className="mt-2 text-3xl font-semibold leading-tight sm:text-4xl"
-              style={{ color: TEXT_HEAD, fontFamily: "var(--font-manrope), sans-serif" }}
-            >
-              Everything it does.
-            </h2>
-          </div>
+          <p className="ep-eyebrow">How it works</p>
+          <h2 className="ep-h2 mt-3">Your season, end to end.</h2>
         </Reveal>
-        <div>
-          {DETAIL_GROUPS.map((g, i) => (
-            <Reveal key={g.tag} delay={(i % 3) * 0.12}>
-              <div
-                className="grid gap-6 border-t py-10 md:grid-cols-[260px_1fr]"
-                style={{ borderColor: CARD_BORDER }}
-              >
+        <div className="ep-rows">
+          {SCREENS.map((row, i) => (
+            <Reveal key={row.eyebrow}>
+              <div className={`ep-row ${i % 2 === 1 ? "ep-row-flip" : ""}`}>
                 <div>
-                  <p
-                    className="text-xs font-semibold tracking-wider uppercase"
-                    style={{ color: BRAND }}
-                  >
-                    {g.tag}
-                  </p>
-                  <h3
-                    className="mt-2 text-2xl leading-tight"
-                    style={{
-                      color: TEXT_HEAD,
-                      fontFamily: "var(--font-anton), sans-serif",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {g.title}
+                  <p className="ep-eyebrow">{row.eyebrow}</p>
+                  <h3 className="ep-h2 mt-3" style={{ fontSize: "clamp(26px, 3vw, 32px)" }}>
+                    {row.title}
                   </h3>
+                  <p className="ep-lead mt-4">{row.body}</p>
+                  <ul className="ep-row-list mt-6">
+                    {row.points.map((point) => (
+                      <li key={point}>
+                        <Check size={16} strokeWidth={2.5} aria-hidden />
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <ul className="grid gap-x-8 gap-y-3.5 sm:grid-cols-2">
-                  {g.items.map((it) => (
-                    <li
-                      key={it}
-                      className="flex items-start gap-3 text-sm sm:text-base"
-                      style={{ color: TEXT_HEAD }}
-                    >
-                      <Check
-                        size={16}
-                        color={BRAND}
-                        strokeWidth={2.5}
-                        className="mt-1 shrink-0"
-                      />
-                      <span style={{ color: TEXT_BODY }}>{it}</span>
-                    </li>
+                <div className="ep-row-phones">
+                  {row.shots.map((shot) => (
+                    <AppPhone
+                      key={shot.src}
+                      src={shot.src}
+                      alt={shot.alt}
+                      sizes="(max-width: 899px) 45vw, 260px"
+                    />
                   ))}
-                </ul>
+                </div>
               </div>
             </Reveal>
           ))}
@@ -537,438 +360,287 @@ function FeatureDetail() {
   );
 }
 
-function WhyElitePrep() {
-  type CompareValue = true | false;
-  const competitors: { name: string; sub: string; primary?: boolean }[] = [
-    { name: "Elite Prep", sub: "Event-Anchored", primary: true },
-    { name: "Stat Trackers", sub: "Shot & Round Data" },
-    { name: "Coaching Apps", sub: "Video & Comms" },
-    { name: "Wearables", sub: "Recovery & Sleep" },
-  ];
-  const rows: { feature: string; marks: CompareValue[] }[] = [
-    { feature: "Organizes around your event calendar", marks: [true, false, false, false] },
-    { feature: "Builds your practice sessions for you", marks: [true, false, false, false] },
-    { feature: "Build your own drills & sessions", marks: [true, false, true, false] },
-    { feature: "Shot-by-shot rounds with Strokes Gained", marks: [true, true, false, false] },
-    { feature: "Game-day, practice rounds & practice in one place", marks: [true, true, false, false] },
-    { feature: "Captures how practice felt (journal + mental)", marks: [true, false, false, false] },
-    { feature: "Connects your practice to your results", marks: [true, false, false, false] },
-    { feature: "Coach sees training between lessons", marks: [true, false, true, false] },
-    { feature: "Tracks recovery and sleep", marks: [false, false, false, true] },
-  ];
+/* Each line was checked against the app code on 2026-10-31. Claims describe
+   what a person gets after signing up, which is the web app. Do not add a
+   feature here until it has merged to master. */
+const DETAIL_GROUPS: { tag: string; title: string; items: string[] }[] = [
+  {
+    tag: "Plan",
+    title: "Plan your season around your events.",
+    items: [
+      "Set your goal and target handicap.",
+      "Keep every event on one schedule with a countdown.",
+      "Set how many rounds and practices you want before each event.",
+      "See a score forecast for each event, your chance of hitting your target score, and the weather.",
+      "Use the Elite Prep Drills library, or build your own drills and sessions.",
+    ],
+  },
+  {
+    tag: "Train",
+    title: "Build your practice and run it.",
+    items: [
+      "Tell the AI how much time you have and where you can practice. It builds the session.",
+      "Run the session on a live timer, one drill at a time.",
+      "Turn a video, photo, YouTube link, or written description into a drill.",
+      "Log practice, gym work, and mental training.",
+    ],
+  },
+  {
+    tag: "Play",
+    title: "Track every round in depth.",
+    items: [
+      "Log tournament rounds and practice rounds.",
+      "Track shot by shot on a GPS map, or enter just your score.",
+      "See strokes gained against Tour, scratch, or a handicap level.",
+      "Track fairways, greens, putts, and penalties.",
+    ],
+  },
+  {
+    tag: "Reflect",
+    title: "Keep a record of your head and your swing.",
+    items: [
+      "Write a journal note and get a short reply from the AI journal coach.",
+      "Rate your focus, confidence, energy, and more in a mental check-in.",
+      "Keep a technique log that your coach can add notes to.",
+    ],
+  },
+  {
+    tag: "Compare",
+    title: "Check your work against your results.",
+    items: [
+      "See your practice time next to your strokes gained for each area.",
+      "See when your time goes to one area while another costs you the most.",
+      "Know where to shift your reps before the next event.",
+    ],
+  },
+  {
+    tag: "Together",
+    title: "Bring in your coach and other players.",
+    items: [
+      "See who else is putting in the work.",
+      "Follow players, like their work, and comment.",
+      "Climb the leaderboards for practice volume and consistency.",
+      "Connect your coach with a code, then get notes and drills from them.",
+    ],
+  },
+];
+
+function Everything() {
   return (
-    <section id="why"
-      style={{
-        background: `
-          ${SECTION_TOP_HALO},
-          ${SECTION_BOTTOM_HALO},
-          ${PAGE_BG}
-        `,
-      }}
-    >
-    <div className="mx-auto max-w-6xl px-6 py-20 sm:py-28">
-      <Reveal>
-        <div className="mb-12 max-w-3xl">
-          <p
-            className="text-xs font-semibold tracking-wider uppercase mb-3"
-            style={{ color: BRAND }}
-          >
-            How Elite Prep compares
-          </p>
-          <h2
-            className="text-3xl font-semibold leading-[1.05] tracking-tight sm:text-4xl lg:text-5xl"
-            style={{ color: TEXT_HEAD, fontFamily: "var(--font-manrope), sans-serif" }}
-          >
-            Built for the work{" "}
-            <span style={{ color: BRAND, fontStyle: "italic" }}>between events.</span>
-          </h2>
-          <p
-            className="mt-6 max-w-2xl text-base leading-relaxed sm:text-lg"
-            style={{ color: TEXT_BODY }}
-          >
-            Recovery trackers grade your sleep. Stat trackers grade the round
-            you already played. Elite Prep owns the part that decides the
-            outcome: the work between events, and the proof it&rsquo;s working.
-          </p>
+    <section id="features" className="ep-section ep-rule">
+      <div className="ep-wrap">
+        <Reveal>
+          <p className="ep-eyebrow">The full system</p>
+          <h2 className="ep-h2 mt-3">Everything it does.</h2>
+        </Reveal>
+        <div className="ep-grid">
+          {DETAIL_GROUPS.map((group) => (
+            <div key={group.tag} className="ep-card">
+              <p className="ep-eyebrow">{group.tag}</p>
+              <h3 className="ep-h3 mt-2">{group.title}</h3>
+              <ul className="ep-card-list">
+                {group.items.map((item) => (
+                  <li key={item}>
+                    <Check size={16} strokeWidth={2.5} aria-hidden />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-      </Reveal>
-
-      <Reveal>
-      <div
-        className="md:hidden rounded-2xl border overflow-x-clip"
-        style={{
-          borderColor: CARD_BORDER,
-          background: PREMIUM_CARD_BG,
-          boxShadow: PREMIUM_CARD_SHADOW,
-        }}
-      >
-        <table className="w-full border-collapse table-fixed">
-          <colgroup>
-            <col style={{ width: "24%" }} />
-            <col style={{ width: "19%" }} />
-            <col style={{ width: "19%" }} />
-            <col style={{ width: "19%" }} />
-            <col style={{ width: "19%" }} />
-          </colgroup>
-          {/* Sticky thead so column identity stays anchored while scrolling
-              the 10-row table. Site header is ~73px, so we offset under it.
-              Each <th> needs an opaque background or rows scroll through. */}
-          <thead>
-            <tr>
-              <th
-                className="sticky top-[73px] z-10 px-2 py-3 text-left"
-                style={{ background: "#161618" }}
-              />
-              {competitors.map((c) => (
-                <th
-                  key={c.name}
-                  className="sticky top-[73px] z-10 px-1 py-3 text-center align-bottom"
-                  style={{
-                    background: c.primary
-                      ? // Primary column: tinted brand bg layered over opaque card bg
-                        "linear-gradient(rgba(154,187,198,0.12), rgba(154,187,198,0.12)), #161618"
-                      : "#161618",
-                    borderBottom: `2px solid ${c.primary ? BRAND : CARD_BORDER}`,
-                  }}
-                >
-                  <div
-                    className="text-[10px] font-semibold leading-[1.15] tracking-[-0.01em]"
-                    style={{
-                      color: c.primary ? BRAND : TEXT_HEAD,
-                      fontFamily: "var(--font-manrope), sans-serif",
-                    }}
-                  >
-                    {c.name}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.feature}>
-                <td
-                  className="px-2 py-3 text-left text-[11px] leading-snug"
-                  style={{
-                    color: TEXT_HEAD,
-                    borderTop: `1px solid ${CARD_BORDER}`,
-                  }}
-                >
-                  {r.feature}
-                </td>
-                {r.marks.map((m, ci) => (
-                  <td
-                    key={ci}
-                    className="px-0 py-3 text-center"
-                    style={{
-                      background:
-                        ci === 0 ? "rgba(154,187,198,0.06)" : "transparent",
-                      borderTop: `1px solid ${CARD_BORDER}`,
-                    }}
-                  >
-                    <CompareMark value={m} size="sm" isPrimary={ci === 0} />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
-      </Reveal>
-
-      <Reveal>
-      <div
-        className="hidden md:block overflow-x-auto rounded-2xl border"
-        style={{
-          borderColor: CARD_BORDER,
-          background: PREMIUM_CARD_BG,
-          boxShadow: PREMIUM_CARD_SHADOW,
-        }}
-      >
-        <table className="w-full min-w-[640px] border-collapse">
-          <thead>
-            <tr>
-              <th className="w-[34%] px-6 py-5 text-left" />
-              {competitors.map((c) => (
-                <th
-                  key={c.name}
-                  className="px-3 py-5 text-center align-bottom"
-                  style={{
-                    background: c.primary
-                      ? "rgba(154,187,198,0.12)"
-                      : "transparent",
-                    borderBottom: `2px solid ${c.primary ? BRAND : CARD_BORDER}`,
-                  }}
-                >
-                  <div
-                    className="text-sm font-semibold sm:text-base"
-                    style={{
-                      color: c.primary ? BRAND : TEXT_HEAD,
-                      fontFamily: "var(--font-manrope), sans-serif",
-                    }}
-                  >
-                    {c.name}
-                  </div>
-                  <div
-                    className="mt-1 text-[10px] font-medium uppercase tracking-[0.1em]"
-                    style={{ color: TEXT_BODY }}
-                  >
-                    {c.sub}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.feature}>
-                <td
-                  className="px-6 py-4 text-left text-sm sm:text-base"
-                  style={{
-                    color: TEXT_HEAD,
-                    borderTop: `1px solid ${CARD_BORDER}`,
-                  }}
-                >
-                  {r.feature}
-                </td>
-                {r.marks.map((m, ci) => (
-                  <td
-                    key={ci}
-                    className="px-3 py-4 text-center"
-                    style={{
-                      background:
-                        ci === 0 ? "rgba(154,187,198,0.06)" : "transparent",
-                      borderTop: `1px solid ${CARD_BORDER}`,
-                    }}
-                  >
-                    <CompareMark value={m} isPrimary={ci === 0} />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      </Reveal>
-
-    </div>
     </section>
   );
 }
 
-function CompareMark({
-  value,
-  size = "md",
-  isPrimary = false,
-}: {
-  value: true | false;
-  size?: "sm" | "md";
-  isPrimary?: boolean;
-}) {
-  const box = size === "sm" ? "h-5 w-5" : "h-7 w-7";
-  const icon = size === "sm" ? 10 : 14;
-  const glowRadius = size === "sm" ? 10 : 16;
+const COMPETITORS = ["Elite Prep", "Stat trackers", "Coaching apps", "Wearables"];
 
-  if (value === true && isPrimary) {
-    // Elite Prep column — lit, high-contrast glow. The mark is the
-    // visual anchor of the table: eye lands on the glow before reading.
-    return (
-      <span
-        className={`inline-flex ${box} items-center justify-center rounded-md`}
-        style={{
-          background: BRAND,
-          color: "#0a0f14",
-          boxShadow: [
-            `0 0 0 ${size === "sm" ? 2 : 3}px rgba(154,187,198,0.22)`,
-            `0 0 ${glowRadius}px 1px rgba(154,187,198,0.55)`,
-            "inset 0 1px 0 rgba(255,255,255,0.35)",
-          ].join(", "),
-        }}
-        aria-label="Yes"
-      >
-        <Check size={icon} strokeWidth={3} />
-      </span>
-    );
+const COMPARE_ROWS: { feature: string; marks: [boolean, boolean, boolean, boolean] }[] = [
+  { feature: "Organizes around your event calendar", marks: [true, false, false, false] },
+  { feature: "Builds your practice sessions for you", marks: [true, false, false, false] },
+  { feature: "Lets you build your own drills and sessions", marks: [true, true, true, false] },
+  { feature: "Tracks rounds shot by shot with strokes gained", marks: [true, true, false, false] },
+  { feature: "Keeps tournament rounds, practice rounds, and practice in one place", marks: [true, true, false, false] },
+  { feature: "Captures how practice felt with a journal and mental check-ins", marks: [true, false, false, false] },
+  { feature: "Compares your practice time to your round results", marks: [true, false, false, false] },
+  { feature: "Shows your coach your training between lessons", marks: [true, true, true, false] },
+  { feature: "Tracks recovery and sleep", marks: [false, false, false, true] },
+];
+
+function compareNote(marks: boolean[]): string {
+  const others = COMPETITORS.slice(1)
+    .filter((_, i) => marks[i + 1])
+    .map((name) => name.toLowerCase());
+  if (!marks[0]) {
+    return `Not in Elite Prep. Use ${others.join(" or ")} for this.`;
   }
+  return others.length > 0 ? `Also in ${others.join(" and ")}.` : "Only in Elite Prep.";
+}
 
-  if (value === true) {
-    // Competitor column — yes but not lit. Readable, intentionally
-    // outshone by the Elite Prep column on the same row.
-    return (
-      <span
-        className={`inline-flex ${box} items-center justify-center rounded-md`}
-        style={{
-          background: "rgba(255,255,255,0.05)",
-          color: TEXT_BODY,
-          border: `1px solid ${CARD_BORDER}`,
-        }}
-        aria-label="Yes"
-      >
-        <Check size={icon} strokeWidth={2.25} />
-      </span>
-    );
-  }
-
-  // No — dim grey X. Pulled darker than before so the row's eye-line
-  // is unambiguously on the lit Elite Prep mark.
-  return (
-    <span
-      className={`inline-flex ${box} items-center justify-center rounded-md`}
-      style={{ color: "#48484c", border: "1px solid rgba(58,58,62,0.6)" }}
-      aria-label="No"
-    >
-      <X size={icon} strokeWidth={2.25} />
+function CompareMark({ value }: { value: boolean }) {
+  return value ? (
+    <span className="ep-mark ep-mark-yes" role="img" aria-label="Yes">
+      <Check size={20} strokeWidth={2.5} aria-hidden />
     </span>
+  ) : (
+    <span className="ep-mark ep-mark-no" role="img" aria-label="No">
+      <Minus size={20} strokeWidth={2} aria-hidden />
+    </span>
+  );
+}
+
+function Compare() {
+  return (
+    <section id="why" className="ep-section ep-rule">
+      <div className="ep-wrap">
+        <Reveal>
+          <p className="ep-eyebrow">How Elite Prep compares</p>
+          <h2 className="ep-h2 mt-3">Built for the work between events.</h2>
+          <p className="ep-lead mt-6">
+            Recovery trackers grade your sleep. Stat trackers grade the round you
+            already played. Elite Prep is built for the part that decides the
+            outcome: the work between events.
+          </p>
+        </Reveal>
+        <div className="ep-card ep-table-wrap">
+          <table className="ep-table">
+            <thead>
+              <tr>
+                <th scope="col">
+                  <span className="sr-only">Feature</span>
+                </th>
+                {COMPETITORS.map((name, i) => (
+                  <th key={name} scope="col" className={i === 0 ? "ep-us" : undefined}>
+                    {name}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {COMPARE_ROWS.map((row) => (
+                <tr key={row.feature}>
+                  <th scope="row">{row.feature}</th>
+                  {row.marks.map((mark, i) => (
+                    <td key={COMPETITORS[i]} className={i === 0 ? "ep-us" : undefined}>
+                      <CompareMark value={mark} />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {/* Five columns do not fit a phone without shrinking text under 12px,
+            so phones get the same facts as a list. */}
+        <ul className="ep-card ep-compare-list">
+          {COMPARE_ROWS.map((row) => (
+            <li key={row.feature}>
+              <CompareMark value={row.marks[0]} />
+              <div>
+                <p className="ep-compare-title">{row.feature}</p>
+                <p className="ep-foot mt-1">{compareNote(row.marks)}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }
 
 function WhoItsFor() {
   return (
-    <section id="who"
-      style={{
-        background: `
-          ${SECTION_TOP_HALO},
-          ${SECTION_BOTTOM_HALO},
-          ${PAGE_BG}
-        `,
-      }}
-    >
-    <div className="mx-auto max-w-6xl px-6 py-20 sm:py-28">
-      <Reveal>
-        <div className="mb-12 max-w-2xl">
-          <p
-            className="text-xs font-semibold tracking-wider uppercase mb-3"
-            style={{ color: BRAND }}
-          >
-            Who it's for
-          </p>
-          <h2
-            className="text-3xl font-semibold leading-tight sm:text-4xl"
-            style={{ color: TEXT_HEAD, fontFamily: "var(--font-manrope), sans-serif" }}
-          >
-            For athletes who take the work seriously
-            <br />and the coaches in their corner.
+    <section id="who" className="ep-section ep-rule">
+      <div className="ep-wrap">
+        <Reveal>
+          <p className="ep-eyebrow">Who it&rsquo;s for</p>
+          <h2 className="ep-h2 mt-3">
+            For athletes who take the work seriously and the coaches in their corner.
           </h2>
+        </Reveal>
+        <div className="ep-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))" }}>
+          <div className="ep-card">
+            <h3 className="ep-h3">Athletes</h3>
+            <p className="mt-3">
+              Junior, collegiate, amateur, and professional golfers who care about
+              the work between events. Walk into every event knowing you put in
+              the right prep.
+            </p>
+          </div>
+          <div className="ep-card">
+            <h3 className="ep-h3">Coaches</h3>
+            <p className="mt-3">
+              See what happens between lessons. Send technique notes and drills to
+              your students, see which of those drills they finished, and follow
+              their recent activity. Coach tools run in your web browser.
+            </p>
+          </div>
         </div>
-      </Reveal>
-      <div className="grid gap-6 md:grid-cols-2">
-        <Reveal delay={0}>
-          <Audience
-            Icon={Trophy}
-            title="Individual athletes"
-            body="Junior, collegiate, amateur, pro. Anyone who cares about the work between events. Walk into every event knowing you put in the right prep."
-            primary
-          />
-        </Reveal>
-        <Reveal delay={0.1}>
-          <Audience
-            Icon={User}
-            title="Individual coaches"
-            body="The gap between lessons stops being a black box. Every practice, training block, and competitive rep: logged, scored, and shared with you."
-            primary
-          />
-        </Reveal>
       </div>
-    </div>
     </section>
   );
 }
 
-function Audience({
-  Icon,
-  title,
-  body,
-  primary,
-}: {
-  Icon: typeof Trophy;
-  title: string;
-  body: string;
-  primary?: boolean;
-}) {
+function Pricing() {
   return (
-    <div
-      className="rounded-3xl border p-8"
-      style={{
-        borderColor: primary ? "rgba(154,187,198,0.35)" : CARD_BORDER,
-        background: PREMIUM_CARD_BG,
-        boxShadow: primary ? PREMIUM_CARD_SHADOW_BRAND : PREMIUM_CARD_SHADOW,
-      }}
-    >
-      <div
-        className="flex h-11 w-11 items-center justify-center rounded-2xl mb-5"
-        style={{ background: BRAND_DIM }}
-      >
-        <Icon size={20} color={BRAND} strokeWidth={1.75} />
+    <section id="pricing" className="ep-section ep-rule">
+      <div className="ep-wrap">
+        <Reveal>
+          <p className="ep-eyebrow">Pricing</p>
+          <h2 className="ep-h2 mt-3">Try it free for 14 days.</h2>
+          <p className="ep-lead mt-6">
+            Both plans include every feature. You do not need a credit card to start. Cancel anytime.
+          </p>
+        </Reveal>
+        <div className="ep-plans">
+          <div className="ep-card ep-plan-best">
+            <div className="ep-plan-top">
+              <h3 className="ep-h3">Yearly</h3>
+              <span className="ep-badge">Best value</span>
+            </div>
+            <p className="ep-price">{YEARLY_PRICE}</p>
+            <p className="mt-1">per year</p>
+            <p className="ep-foot mt-3">{YEARLY_PER_MONTH} a month. 2 months free.</p>
+          </div>
+          <div className="ep-card">
+            <div className="ep-plan-top">
+              <h3 className="ep-h3">Monthly</h3>
+            </div>
+            <p className="ep-price">{MONTHLY_PRICE}</p>
+            <p className="mt-1">per month</p>
+          </div>
+        </div>
+        <a href={SIGNUP_URL} className="ep-btn mt-8">
+          Start free
+        </a>
+        <p className="ep-foot mt-6 max-w-[42em]">
+          The screens on this page are from the Elite Prep phone app, which is in
+          testing and not in the app stores yet. When you sign up today, you use
+          Elite Prep in your web browser on any phone or computer.
+        </p>
       </div>
-      <h3
-        className="text-xl font-semibold sm:text-2xl"
-        style={{ color: TEXT_HEAD, fontFamily: "var(--font-manrope), sans-serif" }}
-      >
-        {title}
-      </h3>
-      <p
-        className="mt-3 text-sm leading-relaxed sm:text-base"
-        style={{ color: TEXT_BODY }}
-      >
-        {body}
-      </p>
-    </div>
+    </section>
   );
 }
 
-function CtaBand() {
+function Close() {
   return (
-    <section id="get-started" className="relative overflow-hidden">
-      {/* Image bookend with the hero shot, heavily darkened so it reads as
-          atmosphere behind the finale (not a literal repeat). */}
-      <Image
-        src="/hero/tee-shot-c.jpg"
-        alt=""
-        aria-hidden
-        fill
-        className="object-cover object-[center_60%]"
-        sizes="100vw"
-      />
-      <div
-        className="absolute inset-0"
-        aria-hidden
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(13,13,14,0.88) 0%, rgba(13,13,14,0.74) 45%, rgba(13,13,14,0.94) 100%)",
-        }}
-      />
-      <div className="relative mx-auto max-w-4xl px-6 py-28 text-center sm:py-36">
+    <section id="get-started" className="ep-close ep-section">
+      <Image src="/hero/tee-shot-c.jpg" alt="" aria-hidden fill className="object-cover object-[center_60%]" sizes="100vw" />
+      <div className="ep-close-scrim" aria-hidden />
+      <div className="ep-wrap ep-close-inner">
         <Reveal>
-          <p
-            className="text-xs font-semibold tracking-wider uppercase"
-            style={{ color: BRAND }}
-          >
-            Your season starts now
-          </p>
-          <h2
-            className="mt-4 text-4xl leading-[1.02] sm:text-5xl lg:text-6xl"
-            style={{
-              color: TEXT_HEAD,
-              fontFamily: "var(--font-anton), sans-serif",
-              textTransform: "uppercase",
-              textShadow: "0 2px 30px rgba(0,0,0,0.5)",
-            }}
-          >
+          <h2 className="ep-h2">
             Know what to work on.
             <br />
             Know it&rsquo;s working.
           </h2>
-          <div className="mt-9 flex justify-center">
-            <a
-              href={SIGNUP_URL}
-              className="cta-glow inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-semibold"
-              style={{ background: "#ffffff", color: "#111112" }}
-            >
-              Start free <ArrowRight className="h-5 w-5" />
-            </a>
-          </div>
-          <p className="mt-5 text-sm" style={{ color: TEXT_BODY }}>
-            14 days free, then $24.99/mo. Cancel anytime.
+          <a href={SIGNUP_URL} className="ep-btn mt-8">
+            Start free
+          </a>
+          <p className="ep-foot mt-4" style={{ color: "var(--text2)" }}>
+            {TRIAL_LINE}
           </p>
         </Reveal>
       </div>
@@ -978,45 +650,16 @@ function CtaBand() {
 
 function Footer() {
   return (
-    <footer
-      className="mx-auto max-w-6xl px-6 py-10"
-      style={{ borderTop: `1px solid ${CARD_BORDER}` }}
-    >
-      <div className="flex flex-row items-center justify-between gap-4">
+    <footer className="ep-rule">
+      <div className="ep-wrap ep-footer-row">
         <Logo width={90} showBeta={false} />
-        <div
-          className="flex flex-wrap items-center justify-end gap-x-4 gap-y-1 text-xs sm:text-sm"
-          style={{ color: TEXT_BODY }}
-        >
-          <Link
-            href="/privacy"
-            className="inline-flex min-h-[44px] items-center px-1 hover:opacity-80"
-          >
-            Privacy
-          </Link>
-          <Link
-            href="/terms"
-            className="inline-flex min-h-[44px] items-center px-1 hover:opacity-80"
-          >
-            Terms
-          </Link>
-          {/* The one link from here to Elite Tempo, and it is here for a specific
-              reason: elitetempo.app launched with no backlinks at all, and this is
-              a domain Google already crawls. A single link from an indexed site is
-              one of the only signals a new domain has on day one.
-
-              Deliberately a plain footer line rather than the homepage section that
-              used to sit above the comparison table — Elite Prep is not a shipped
-              product and has no business marketing one. */}
-          <a
-            href="https://elitetempo.app"
-            className="inline-flex min-h-[44px] items-center px-1 hover:opacity-80"
-          >
-            Elite Tempo
-          </a>
-          <span style={{ color: TEXT_BODY }}>
-            © {new Date().getFullYear()} Elite Prep Inc.
-          </span>
+        <div className="ep-footer-links">
+          <Link href="/privacy">Privacy</Link>
+          <Link href="/terms">Terms</Link>
+          {/* The one link from here to Elite Tempo. elitetempo.app launched with no
+              backlinks, and this is a domain Google already crawls. */}
+          <a href="https://elitetempo.app">Elite Tempo</a>
+          <span>© {new Date().getFullYear()} Elite Prep Inc.</span>
         </div>
       </div>
     </footer>
