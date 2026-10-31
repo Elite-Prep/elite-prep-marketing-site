@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { GROWTH_MARK_PATH, GROWTH_MARK_VIEWBOX } from "./components/GrowthMarkPath";
 
 export const alt =
   "Elite Prep: Walk into your event ready. Track how you prepare and how you perform.";
@@ -48,15 +49,13 @@ export default async function Image() {
             position: "relative",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 40 }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-              <div style={{ width: 30, height: 12, borderRadius: 6, background: "#5EAEF0" }} />
-              <div style={{ width: 41, height: 12, borderRadius: 6, background: "#FFFFFF" }} />
-              <div style={{ width: 52, height: 12, borderRadius: 6, background: "#FFFFFF" }} />
-            </div>
-            <div style={{ display: "flex", gap: 14, fontFamily: "Anton", fontSize: 46, letterSpacing: "0.01em" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 40 }}>
+            <svg width={56} height={56} viewBox={GROWTH_MARK_VIEWBOX}>
+              <path fillRule="evenodd" fill="#FFFFFF" d={GROWTH_MARK_PATH} />
+            </svg>
+            <div style={{ display: "flex", gap: 12, fontFamily: "Anton", fontSize: 46, letterSpacing: "0.4px" }}>
               <span style={{ color: "#FFFFFF" }}>ELITE</span>
-              <span style={{ color: "#5EAEF0" }}>PREP</span>
+              <span style={{ color: "#FFFFFF" }}>PREP</span>
             </div>
           </div>
 
