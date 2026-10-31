@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 export const alt =
-  "Elite Prep — Walk into your event ready. Track how you prepare and how you perform.";
+  "Elite Prep: Walk into your event ready. Track how you prepare and how you perform.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -12,12 +12,13 @@ export default async function Image() {
   const fontDir = (pkg: string) =>
     join(root, "node_modules", "@fontsource", pkg, "files");
 
-  const [screenshotPng, anton400, manrope400, manrope500] =
+  const [screenshotPng, anton400, manrope400, manrope500, manrope700] =
     await Promise.all([
-      readFile(join(root, "public/app-screens/hero-dashboard.png")),
+      readFile(join(root, "public/app-screens/redesign/home.png")),
       readFile(join(fontDir("anton"), "anton-latin-400-normal.woff")),
       readFile(join(fontDir("manrope"), "manrope-latin-400-normal.woff")),
       readFile(join(fontDir("manrope"), "manrope-latin-500-normal.woff")),
+      readFile(join(fontDir("manrope"), "manrope-latin-700-normal.woff")),
     ]);
 
   const screenshotSrc = `data:image/png;base64,${screenshotPng.toString("base64")}`;
@@ -30,22 +31,12 @@ export default async function Image() {
           height: "100%",
           display: "flex",
           background:
-            "linear-gradient(135deg, #0d0d0e 0%, #15151a 50%, #1a1a22 100%)",
+            "#0A0B0D",
           fontFamily: "Manrope",
           position: "relative",
+          overflow: "hidden",
         }}
       >
-        {/* Subtle brand wash from the right */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            background:
-              "linear-gradient(90deg, transparent 40%, rgba(154,187,198,0.10) 100%)",
-          }}
-        />
-
         {/* Left: text content */}
         <div
           style={{
@@ -59,25 +50,23 @@ export default async function Image() {
         >
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 40 }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-              <div style={{ width: 30, height: 12, borderRadius: 6, background: "#3A8AB5" }} />
-              <div style={{ width: 41, height: 12, borderRadius: 6, background: "#f0f0f0" }} />
-              <div style={{ width: 52, height: 12, borderRadius: 6, background: "#f0f0f0" }} />
+              <div style={{ width: 30, height: 12, borderRadius: 6, background: "#5EAEF0" }} />
+              <div style={{ width: 41, height: 12, borderRadius: 6, background: "#FFFFFF" }} />
+              <div style={{ width: 52, height: 12, borderRadius: 6, background: "#FFFFFF" }} />
             </div>
             <div style={{ display: "flex", gap: 14, fontFamily: "Anton", fontSize: 46, letterSpacing: "0.01em" }}>
-              <span style={{ color: "#f0f0f0" }}>ELITE</span>
-              <span style={{ color: "#3A8AB5" }}>PREP</span>
+              <span style={{ color: "#FFFFFF" }}>ELITE</span>
+              <span style={{ color: "#5EAEF0" }}>PREP</span>
             </div>
           </div>
 
           <div
             style={{
-              fontFamily: "Anton",
-              fontSize: 88,
-              lineHeight: 0.95,
-              color: "#f0f0f0",
-              fontWeight: 400,
-              letterSpacing: 0,
-              textTransform: "uppercase",
+              fontSize: 72,
+              lineHeight: 1.08,
+              color: "#FFFFFF",
+              fontWeight: 700,
+              letterSpacing: "-0.03em",
               display: "flex",
               maxWidth: 580,
             }}
@@ -88,7 +77,7 @@ export default async function Image() {
           <div
             style={{
               fontSize: 26,
-              color: "#b3b3b3",
+              color: "#C4C8D0",
               marginTop: 28,
               lineHeight: 1.4,
               display: "flex",
@@ -96,24 +85,19 @@ export default async function Image() {
               fontWeight: 400,
             }}
           >
-            Track how you prepare and how you perform — in one place.
+            Track how you prepare and how you perform in one place.
           </div>
 
           <div
             style={{
-              marginTop: 36,
-              padding: "10px 18px",
-              background: "rgba(154,187,198,0.18)",
-              borderRadius: 999,
-              color: "#9ABBC6",
-              fontSize: 14,
+              marginTop: 28,
+              color: "#C4C8D0",
+              fontSize: 20,
               fontWeight: 500,
-              letterSpacing: "0.18em",
               display: "flex",
-              alignSelf: "flex-start",
             }}
           >
-            FREE DURING BETA
+            14 days free. No credit card.
           </div>
         </div>
 
@@ -121,20 +105,21 @@ export default async function Image() {
         <div
           style={{
             display: "flex",
-            alignItems: "center",
+            alignItems: "flex-start",
             justifyContent: "center",
             flex: 1,
-            paddingRight: 80,
+            paddingTop: 46,
+            paddingRight: 60,
             position: "relative",
           }}
         >
           <div
             style={{
-              width: 280,
-              height: 580,
+              width: 360,
+              height: 760,
               borderRadius: 40,
               background:
-                "linear-gradient(135deg, #2a2a2c 0%, #18181a 60%, #2a2a2c 100%)",
+                "#1E2127",
               padding: 10,
               display: "flex",
               boxShadow:
@@ -146,7 +131,7 @@ export default async function Image() {
                 width: "100%",
                 height: "100%",
                 borderRadius: 32,
-                background: "#0a0a0a",
+                background: "#0A0B0D",
                 overflow: "hidden",
                 display: "flex",
                 position: "relative",
@@ -154,8 +139,8 @@ export default async function Image() {
             >
               <img
                 src={screenshotSrc}
-                width={260}
-                height={560}
+                width={340}
+                height={739}
                 alt=""
                 style={{
                   objectFit: "cover",
@@ -187,6 +172,12 @@ export default async function Image() {
           data: manrope500,
           style: "normal",
           weight: 500,
+        },
+        {
+          name: "Manrope",
+          data: manrope700,
+          style: "normal",
+          weight: 700,
         },
       ],
     },
