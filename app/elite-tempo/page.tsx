@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import EmailCapture from "./EmailCapture";
 import TimingPlayer, { type TimingShot } from "./TimingPlayer";
 import {
   FEATURED,
@@ -454,17 +453,6 @@ export default function EliteTempoLanding() {
             </details>
           ))}
         </div>
-      </section>
-
-      {/* Cheat sheet email capture */}
-      <section className="mx-auto max-w-[780px] px-4 pb-16 sm:px-12 sm:pb-28">
-        <h2 className="text-[28px] font-semibold leading-tight">
-          Get the Elite Tempo cheat sheet
-        </h2>
-        <p className="mb-5 mt-2.5" style={{ color: MUTED }}>
-          The timing and ratio of golf&apos;s most famous swings, free, in your inbox.
-        </p>
-        <EmailCapture />
       </section>
 
       {/* Footer */}
