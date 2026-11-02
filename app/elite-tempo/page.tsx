@@ -1,18 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Reveal from "../components/Reveal";
 import EmailCapture from "./EmailCapture";
-import BeatTicks from "./BeatTicks";
-import BudFlank from "./BudFlank";
-import TempoListMock from "./TempoListMock";
+import TimingPlayer, { type TimingShot } from "./TimingPlayer";
 import {
   FEATURED,
+  GREATS_ROWS,
   HERO_SWING,
   SWINGS,
+  TIMING_BY_AREA,
   fmtRatio,
   fmtSeconds,
-  shortClub,
-  shortEvent,
 } from "./data/tempo-data";
 import {
   PRICE_MONTHLY,
@@ -28,7 +25,7 @@ import {
   APP_STORE_URL,
   BG,
   CARD,
-  FAINT,
+  FONT_NUMERALS,
   HAIRLINE,
   INK,
   MUTED,
@@ -41,22 +38,6 @@ import { description } from "../seo";
 
 /* Palette and App Store URL come from `theme`; see that module for the contrast
    measurements behind each token. */
-
-/* Three links, not six. ReciMe's header carries exactly three (FAQs, Gift Cards,
-   Log In) plus one button, clustered hard right with a wide empty gap after the
-   logo, and that space is what makes it read as calm. Six grey links spread across
-   the middle read as a dense strip instead. The ids stay on all seven sections, so
-   deep links like /elite-tempo#compare still work, they are just not all in the bar.
-   Pricing and FAQ are what people hunt for; the greats is the marquee feature. */
-const SECTIONS = [
-  { id: "greats", label: "The Greats" },
-  /* Features points at the time-your-own-swing section: it is the first feature
-     section that is not already its own link, since The Greats takes that slot. */
-  { id: "your-swing", label: "Features" },
-  { id: "pricing", label: "Pricing" },
-  { id: "faq", label: "FAQs" },
-];
-
 
 /* Prices, trial length and the saving badge now live in `data/pricing`, shared with
    the Open Graph card — which had its own hardcoded copy of the same sentence and
@@ -111,7 +92,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "What is golf swing tempo?",
-    a: "Tempo is the ratio between the time your backswing takes and the time your downswing takes, not how fast you swing overall. Tour players are remarkably consistent at it, which is why it is trainable: you are copying a rhythm, not a speed.",
+    a: "Tempo is the ratio between the time your backswing takes and the time your downswing takes, not how fast you swing overall. Tour players are remarkably consistent at it, which is why it is trainable: you are copying timing, not speed.",
   },
   {
     q: "What is the 3 to 1 tempo ratio?",
@@ -126,7 +107,7 @@ const FAQS: { q: string; a: string }[] = [
     a:
       `Elite Tempo hand-times real broadcast footage to 1/100 of a second. Rory's ${RORY.year} ` +
       `${RORY.event} driver swing is a ${fmtSeconds(RORY.back)} backswing and a ${fmtSeconds(RORY.down)} ` +
-      `downswing, so a ${fmtRatio(RORY)} ratio over ${fmtSeconds(RORY.total)} — noticeably quicker than the ` +
+      `downswing, so a ${fmtRatio(RORY)} ratio over ${fmtSeconds(RORY.total)}, noticeably quicker than the ` +
       `"3:1" most coaching copy quotes. Compare that with Tiger's ${fmtRatio(HERO_SWING)} driver at the ` +
       `2000 Open Championship and Fred Couples' ${fmtRatio(COUPLES)} fairway wood at the 1992 Masters. ` +
       `You can train against any of them.`,
@@ -145,24 +126,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Do I need any extra hardware?",
-    a: "No. It runs on the iPhone you already own. Record a swing with the camera or import a clip you already have. A lock-screen Live Activity shows your tempo while it plays, and it mirrors to the Apple Watch Smart Stack if you wear one — there is no separate Watch app to install.",
-  },
-];
-
-/* The page's three promises. Copy for the two things that come from somewhere else
-   (your best swing, the greats); groove for the routine, which is already yours. */
-const BENEFITS: { title: string; body: string }[] = [
-  {
-    title: "Copy your best.",
-    body: "Train to the tempo of your own best swing, so you don't have to change it.",
-  },
-  {
-    title: "Copy the greats.",
-    body: "Swing to the real tempo of Tiger Woods, Rory McIlroy, and Adam Scott, hand-timed from tournament footage.",
-  },
-  {
-    title: "Groove your routine.",
-    body: "Great players do the same pre-shot routine every time, even under pressure. Film yours and practice until it never changes.",
+    a: "No. It runs on the iPhone you already own. Record a swing with the camera or import a clip you already have. A lock-screen Live Activity shows your tempo while it plays, and it mirrors to the Apple Watch Smart Stack if you wear one. There is no separate Watch app to install.",
   },
 ];
 
@@ -240,595 +204,275 @@ const STRUCTURED_DATA = {
   ],
 };
 
+/* One size for every section heading and one for body copy, so hierarchy comes from
+   a small scale rather than a new size per section. Benchmarked 2026-11-02: this page
+   used 14 text sizes; Bevel uses 7, Apple Watch 8, Cal AI 9. */
+const H2 = "text-[clamp(32px,4vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em]";
+const SECTION = "mx-auto max-w-[1280px] px-4 pb-16 sm:px-12 sm:pb-28";
+const SPLIT = `${SECTION} flex flex-wrap items-center gap-x-16 gap-y-8`;
+const MEDIA_FRAME = "overflow-hidden rounded-[20px]";
+
+const TIMING_SHOTS: TimingShot[] = TIMING_BY_AREA.map((s) => ({
+  area: s.category,
+  player: s.player,
+  detail: `${s.clubLabel} at the ${s.year} ${s.event.replace(/^The /, "")}`,
+  back: s.back,
+  down: s.down,
+  total: s.total,
+  ratio: fmtRatio(s),
+}));
+
+const LONGEST_GREAT = Math.max(...GREATS_ROWS.map((s) => s.total));
+
 export default function EliteTempoLanding() {
   return (
-    /* The app's canvas, ported. Theme.swift is a ZStack of bg plus
-       RadialGradient(accent.opacity(0.06) to clear, center: .topTrailing,
-       endRadius: 620), described there as "a hint of warmth, not a brown wash".
-       Opacity is kept at exactly 0.06 on purpose: DESIGN.md records a heavier pass
-       (0.16 over a 520pt radius, plus a second linear wash) that "tinted the whole
-       upper screen brown, the exact failure Theme.canvas warns about", and was
-       pulled back. The radius is scaled up for a desktop viewport but stays a
-       corner glow that fades out well before mid-page, so 8000px of page below it
-       is untinted rather than washed. */
-    <main
-      /* Flat, not a corner glow. The app ran a gradient canvas and retired it
-         in 1.4.12: a gradient makes contrast positional, so you cannot quote a
-         ratio without saying where on the screen it applies. Grey 900 everywhere
-         means ink reads 14.85:1 at every point on the page. */
-      style={{ background: BG, color: INK }}
-      className="min-h-screen"
-    >
+    /* Flat, not a corner glow. The app ran a gradient canvas and retired it in
+       1.4.12: a gradient makes contrast positional, so you cannot quote a ratio
+       without saying where on the screen it applies. One ground from top to bottom;
+       only panels step up to CARD. */
+    <main style={{ background: BG, color: INK }} className="min-h-screen overflow-hidden text-lg">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
       />
-      {/* Nav. Sticky so the section links stay reachable after you have jumped,
-          which is the whole point of having them. The links are hidden below lg
-          rather than crammed or hamburgered: the page is short enough to scroll
-          on a phone, and the Download CTA is what matters there. */}
+
       <header
         className="sticky top-0 z-50 backdrop-blur-md"
-        style={{ background: "rgba(34, 34, 34, 0.85)", borderBottom: `1px solid ${HAIRLINE}` }}
+        style={{ background: "rgba(34, 34, 34, 0.85)" }}
       >
-        {/* Wordmark hard left, everything else hard right, so the gap between them
-            does the work. The links are INK rather than MUTED: grey made them read
-            as disabled next to a saturated gold pill. */}
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-4 py-4 sm:px-12">
           <Wordmark />
-          <div className="flex items-center gap-8 sm:gap-10">
-            <nav aria-label="Page sections" className="hidden items-center gap-8 md:flex">
-              {SECTIONS.map(({ id, label }) => (
-                <a
-                  key={id}
-                  href={`#${id}`}
-                  className="text-sm font-semibold transition-colors duration-150 hover:text-[#B3ECFF]"
-                  style={{ color: INK }}
-                >
-                  {label}
-                </a>
-              ))}
-            </nav>
-            {/* A gold FIELD with near-black ink. This was a gold outline with gold
-                ink, on the reasoning that an outline keeps the header secondary so
-                the white App Store badges stay primary. The hierarchy argument was
-                right; the execution used gold twice as a colour on a dark ground,
-                which the app measures as reading DIMMER than the white nav links
-                beside it. Flipped contrast gets the same hierarchy honestly. */}
-            <a
-              href={APP_STORE_URL}
-              className="shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 hover:brightness-[1.08] active:scale-[0.98]"
-              style={{ background: ACCENT, color: ON_ACCENT }}
-            >
-              Try now for free
-            </a>
-          </div>
+          <a
+            href={APP_STORE_URL}
+            className="shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 text-[15px] font-semibold transition duration-200 hover:brightness-[1.08] active:scale-[0.98]"
+            style={{ background: ACCENT, color: ON_ACCENT }}
+          >
+            Try now for free
+          </a>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="mx-auto max-w-5xl px-6 pb-8 pt-10 sm:pt-16">
-        <div className="grid items-center gap-10 md:grid-cols-2">
-          <Reveal>
-            <div>
-              <p
-                className="text-xs font-semibold uppercase tracking-[0.18em]"
-                style={{ color: MUTED }}
-              >
-                Golf tempo and routine trainer
-              </p>
-              <h1
-                className="mt-4 text-[8.4vw] font-semibold leading-[1.05] sm:text-5xl"
-                style={{ color: INK }}
-              >
-                Copy your best.
-                <br />
-                Copy the greats.
-                <br />
-                Groove your routine.
-              </h1>
-              <p className="mt-5 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-                Film your swing and your pre-shot routine, then practice until
-                you can repeat them on the course.
-              </p>
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <AppStoreButton />
-                <span className="text-sm" style={{ color: MUTED }}>
-                  Free to try · <strong style={{ color: INK }}>{TRIAL_DAYS} days free</strong>, then {PRICE_YEARLY}/yr · or {PRICE_MONTHLY}/mo
-                </span>
-              </div>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <PhoneStage src="/elite-tempo/hero-loop.mp4" poster="/elite-tempo/hero-loop-poster.jpg" />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* The three reasons to buy, in the order the rest of the page takes them. */}
-      <section className="mx-auto max-w-5xl px-6 pb-4 pt-12">
-        <Reveal>
-          <div className="grid gap-4 md:grid-cols-3">
-            {BENEFITS.map(({ title, body }) => (
-              <div
-                key={title}
-                className="rounded-3xl p-7"
-                style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
-              >
-                <h2 className="text-xl font-semibold leading-tight" style={{ color: INK }}>
-                  {title}
-                </h2>
-                <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
-                  {body}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-      </section>
-
-      {/* Stat band — the four numbers. Rendered, never animated. CountUp counted
-          these up from zero on scroll, which meant any renderer that snapshotted
-          early captured a fraction of the real figure: Google indexed Tiger's 3.69
-          ratio as "0.74:1", and three separate screenshot passes here caught
-          "0.33:1", "0.13:1" and "0.09s". A measurement that displays wrong most of
-          the time it is looked at is worse than a static one, and these are the
-          numbers the whole page is about. Labels and order follow the app's own
-          ThreeNumbersView: tempo ratio, total swing duration, then the two halves
-          timed separately. The third cell is the pair, not a fourth number, which
-          is why the app calls it "Backswing, downswing" on one row. */}
-      <section className="mx-auto max-w-5xl px-6 py-12">
-        <Reveal>
-          {/* The claim leads, the band proves it. This sentence is the single
-              sharpest thing the page says, and it used to sit UNDER the numbers in
-              14px grey — the differentiator styled as a footnote. Promoted to the
-              section heading, with the shot it is measured from demoted to the
-              caption underneath, which is the detail rather than the point. */}
-          {/* Four, not three. The app's own onboarding lists them one to four, so a
-              site saying "three" was the odd one out: it only got to three by
-              pairing backswing and downswing into a single cell. */}
-          <h2
-            className="text-center text-2xl font-semibold leading-tight sm:text-3xl"
-            style={{ color: INK }}
-          >
-            Four numbers that show your real timing.
-          </h2>
-          {/* Two-up on a phone, four across from md. The order follows the app's
-              onboarding: the two halves, then the whole, then the ratio they make. */}
-          <div
-            className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-3xl md:grid-cols-4"
-            style={{ background: HAIRLINE, border: `1px solid ${HAIRLINE}` }}
-          >
-            <StatCell big={<>{fmtSeconds(HERO.back)}</>} label="Backswing" />
-            <StatCell big={<>{fmtSeconds(HERO.down)}</>} label="Downswing" />
-            <StatCell big={<>{fmtSeconds(HERO.total)}</>} label="Total duration" />
-            <StatCell big={<>{fmtRatio(HERO)}</>} label="Tempo ratio" />
-          </div>
-          <p className="mt-5 text-center text-sm" style={{ color: MUTED }}>
-            {/* The article is in the sentence, so the event's own leading "The" has
-                to come off or it reads "at the The Open Championship". Only the
-                leading article is stripped — the rest of the name stays intact, so
-                "PGA Championship" and "Qatar Masters" still read correctly. */}
-            Measured from {HERO.player}&apos;s {HERO.clubLabel.toLowerCase()} at the{" "}
-            {HERO.year} {HERO.event.replace(/^The /, "")}.{" "}
-            <Link
-              href={`/elite-tempo/tempo/${HERO.slug}`}
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
-              style={{ color: INK }}
-            >
-              See the marks
-            </Link>
+      <section className={`${SPLIT} pt-6`}>
+        <div className="min-w-0 flex-[1_1_640px]">
+          <h1 className="text-[clamp(34px,9.2vw,64px)] font-semibold leading-[1.06] tracking-[-0.025em]">
+            Copy your best.
+            <br />
+            Copy the greats.
+            <br />
+            Groove your routine.
+          </h1>
+          <p className="mt-6 max-w-[32em]" style={{ color: MUTED }}>
+            Time your swing and your pre-shot routine, from the tee to the green.
+            Then repeat them on the course.
           </p>
-        </Reveal>
-      </section>
-
-      <Divider />
-
-      {/* Time yourself — capture your own swing and groove it on a loop */}
-      <section id="your-swing" className="mx-auto max-w-5xl px-6 py-8">
-        <div className="grid items-center gap-12 md:grid-cols-2">
-          <Reveal>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
-                Time your own swing
-              </p>
-              <h2 className="mt-3 text-2xl font-semibold leading-tight sm:text-3xl" style={{ color: INK }}>
-                Copy your best swing.
-              </h2>
-              <p className="mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-                Other tempo apps make you pick a ratio, then change your swing
-                to fit it. Here you start with your best swing. Mark takeaway,
-                top, and impact, then groove your own tempo on a loop.
-              </p>
-              {/* Three marks, so the copy column carries the same weight as the
-                  phone beside it. Before this the column held a heading and one
-                  paragraph against a 600px device and the section opened with a
-                  slab of empty black. It is also the clearest way to say what
-                  "times it for you" actually means. */}
-              <ThreeMarks />
-            </div>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <PhoneStage src="/elite-tempo/swing-loop.mp4" poster="/elite-tempo/swing-loop-poster.jpg" />
-          </Reveal>
+          <AppStoreBadge className="mt-8" />
+          <p className="mt-3.5 text-[15px]" style={{ color: MUTED }}>
+            {TRIAL_DAYS} days free, then {PRICE_YEARLY} a year or {PRICE_MONTHLY} a month
+          </p>
+        </div>
+        <div
+          className={`${MEDIA_FRAME} aspect-[440/580] min-w-0 flex-[1_1_400px]`}
+          style={{ background: CARD }}
+        >
+          <LoopVideo
+            name="hero-loop"
+            label="A golfer swinging, with his tempo ratio and swing time shown on screen."
+            position="center 21.7%"
+          />
         </div>
       </section>
 
-      <Divider />
-
-      {/* Compare — featured: the self-vs-self side-by-side clip, full visual weight */}
-      <section id="compare" className="mx-auto max-w-5xl px-6 py-12">
-        <Reveal>
-          <div className="text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
-              Compare
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl" style={{ color: INK }}>
-              See the gap, side by side.
-            </h2>
-            <p className="mx-auto mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-              Put two swings side by side, and see what changed between your best
-              shot and your last one.
-            </p>
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div className="mt-9 flex justify-center">
-            <PhoneStage src="/elite-tempo/compare-loop.mp4" poster="/elite-tempo/compare-loop-poster.jpg" max={340} />
-          </div>
-        </Reveal>
+      {/* The whole game, playable. Same clock for all four tabs. */}
+      <section id="timing" className={SECTION}>
+        <h2 className={H2}>Time every part of your game.</h2>
+        <p className="mt-4 max-w-[34em]" style={{ color: MUTED }}>
+          Pick a part of the game, press play, and hear the timing of a real tournament
+          shot.
+        </p>
+        <TimingPlayer shots={TIMING_SHOTS} />
+        <p className="mt-5" style={{ color: MUTED }}>
+          On the range, keep your phone in your bag and hear your timing through your
+          headphones.
+        </p>
       </section>
 
-      <Divider />
-
-      {/* Time the greats — the library, with the in-app list rendered from its data.
-          The heading moved out of its own centered block and into the text column:
-          centered-heading-then-two-columns left the copy column holding three lines
-          against a 600px phone, so the section opened with a band of dead black.
-          The column now carries heading, copy, the four ratios and the link out, and
-          reads as a peer of the phone rather than a caption for it. */}
-      <section id="greats" className="mx-auto max-w-5xl px-6 py-8">
-        <div className="grid items-center gap-12 md:grid-cols-2">
-          <Reveal delay={0.1}>
-            {/* Not a screen recording. See TempoListMock — the clip that was here
-                showed Tiger at 3.17:1 beside a card reading 3.69:1. */}
-            <PhoneStage>
-              <TempoListMock />
-            </PhoneStage>
-          </Reveal>
-          <Reveal>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
-                The greats
-              </p>
-              <h2 className="mt-3 text-2xl font-semibold leading-tight sm:text-3xl" style={{ color: INK }}>
-                Copy the best players
-                <br />
-                in the world.
-              </h2>
-              <p className="mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-                Rory&apos;s driver swing takes {RORY.total.toFixed(2)} seconds.
-                Tiger&apos;s took {HERO.total.toFixed(2)}. Train to {SWINGS.length} real
-                tournament shots, each hand-timed to 1/100 of a second.
-              </p>
-
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                {FEATURED.map((g) => (
-                  <Link
-                    key={g.slug}
-                    href={`/elite-tempo/tempo/${g.slug}`}
-                    className="rounded-2xl p-4 transition-all duration-300 hover:scale-[1.03]"
-                    style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
-                  >
-                    <p
-                      className="text-2xl font-semibold tabular-nums"
-                      style={{ color: INK, fontVariantNumeric: "tabular-nums" }}
-                    >
-                      {fmtRatio(g)}
-                    </p>
-                    <p className="mt-1.5 text-sm font-semibold" style={{ color: INK }}>
-                      {g.player}
-                    </p>
-                    {/* One line, not three. The backswing and downswing split lives in
-                        the stat band above; repeating it on all four cards was the
-                        clutter. */}
-                    <p className="text-xs" style={{ color: MUTED }}>
-                      {g.year} {shortEvent(g.event)} · {shortClub(g.clubLabel)}
-                    </p>
-                  </Link>
-                ))}
-              </div>
-
-              <Link
-                href="/elite-tempo/tempos"
-                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:text-[#B3ECFF]"
-                style={{ color: INK }}
-              >
-                See all {SWINGS.length} hand-timed swings
-                <span aria-hidden>→</span>
-              </Link>
-            </div>
-          </Reveal>
+      {/* Copy your best */}
+      <section id="your-swing" className={SPLIT}>
+        <div className="min-w-0 flex-[1_1_420px]">
+          <h2 className={H2}>Copy your best swing.</h2>
+          <p className="mt-4 max-w-[32em]" style={{ color: MUTED }}>
+            Other tempo apps make you pick a ratio, then change your swing to fit it.
+            Here you start with your best swing. Mark takeaway, top, and impact, then
+            groove your own tempo on a loop.
+          </p>
+          <p id="compare" className="mt-3.5 max-w-[32em]" style={{ color: MUTED }}>
+            Put two swings side by side, and see what changed between your best shot and
+            your last one.
+          </p>
+        </div>
+        <div className="grid min-w-0 flex-[1_1_480px] grid-cols-2 gap-3 sm:gap-6">
+          <ScreenVideo
+            name="swing-loop"
+            label="The Elite Tempo app playing back a golfer's own swing and tempo ratio."
+          />
+          <ScreenVideo
+            name="compare-loop"
+            label="Two swings compared in the Elite Tempo app, one above the other."
+          />
         </div>
       </section>
 
-      <Divider />
-
-      {/* Time your routine — time and groove the whole pre-shot routine */}
-      <section id="routine" className="mx-auto max-w-5xl px-6 py-8">
-        <div className="grid items-center gap-12 md:grid-cols-2">
-          <Reveal>
-            <div className="md:order-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
-                Time your routine
-              </p>
-              <h2 className="mt-3 text-2xl font-semibold leading-tight sm:text-3xl" style={{ color: INK }}>
-                Groove your
-                <br />
-                pre-shot routine.
-              </h2>
-              <p className="mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-                Your routine is what carries your practice game to the course. Film
-                it from start to impact, check it against your best one, and repeat it
-                the same way every time. See if it fits the 40 seconds recommended by
-                the USGA and The R&amp;A.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="md:order-1">
-              <PhoneStage src="/elite-tempo/routine-loop.mp4" poster="/elite-tempo/routine-loop-poster.jpg" />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <Divider />
-
-      {/* Live Activity / lock screen — glanceable timing away from the app.
-          There is no Watch app to screenshot: the Live Activity is an iOS widget
-          that watchOS 11+ mirrors into the Smart Stack on its own. */}
-      <section className="mx-auto max-w-5xl px-6 py-8">
-        <div className="grid items-center gap-12 md:grid-cols-2">
-          <Reveal>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
-                Hands-free
-              </p>
-              <h2 className="mt-3 text-2xl font-semibold leading-tight sm:text-3xl" style={{ color: INK }}>
-                Beats in your ears.
-                <br />
-                Phone in your bag.
-              </h2>
-              <p className="mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-                Headphones in, phone in your bag, eyes on the ball. Your tempo
-                stays on the lock screen while it plays, and iOS mirrors it to the
-                Apple Watch Smart Stack, a glance away.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.1}>
-            {/* Ladder-style: phone centered, one AirPod flanking each side, each
-                sitting on a gold glow ring — the beat radiating out (gold = the
-                live-timing signal). Buds sit just outside the phone edges. */}
-            {/* The lock screen was a full-height 600x1220 capture of which roughly
-                three quarters was empty black, and `topFade` blacked out most of
-                what was left — so on a near-black page the frame had almost nothing
-                in it and read as a failed image rather than a device. The asset is
-                now cropped to 600x800, which ends just below the Live Activity card
-                and drops the empty lower half. The clock stays: it is what makes the
-                frame legible as a lock screen at a glance, which was the whole point
-                of the section, so it is context rather than clutter and no longer
-                needs fading out. */}
-            <div className="relative mx-auto w-fit px-10 sm:px-14">
-              <DeviceFrame
-                img="/elite-tempo/lock-activity.jpg"
-                alt="An iPhone lock screen showing the Elite Tempo Live Activity: a 6 iron fade playing back at a 3.22:1 tempo over 1.06 seconds."
-                notch={false}
-                max={300}
-              />
-
-              {/* The card sits about two thirds down the cropped frame; the buds
-                  straddle it, left just above and right just below. */}
-              <BudFlank src="/elite-tempo/airpod-left.png" side="left" topPct={62} />
-              <BudFlank src="/elite-tempo/airpod-right.png" side="right" topPct={78} />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <Divider />
-
-      {/* Pricing — free to download, then a 14-day free trial into yearly or monthly.
-          Lifetime used to be the hero price here and had to go: it is retired in the
-          app, so advertising it sent people to a paywall that could not sell it. */}
-      <section id="pricing" className="mx-auto max-w-5xl px-6 py-20">
-        <Reveal>
-          <div
-            className="mx-auto max-w-xl rounded-3xl p-8 text-center sm:p-12"
-            style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
-          >
-            <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
-              Free to download
-            </p>
-
-            {/* Two equal plan boxes, side by side, stacking on a phone. Yearly is
-                marked as the better deal with a gold border and a SAVE badge; the
-                badge is a gold FIELD with black onAccent ink, which is the
-                sanctioned form of gold per DESIGN.md, not gold used as ink on a
-                dark surface. Prices stay INK so the badge is the only thing
-                competing for the eye. grid + h-full keeps both boxes identical
-                whatever the copy length. */}
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <div
-                className="relative flex h-full flex-col rounded-2xl px-6 pb-6 pt-7"
-                style={{ background: BG, border: `1px solid ${ACCENT}` }}
+      {/* Copy the greats */}
+      <section id="greats" className={SECTION}>
+        <h2 className={H2}>Copy the best players in the world.</h2>
+        <p className="mt-4 max-w-[34em]" style={{ color: MUTED }}>
+          Rory&apos;s driver swing takes {RORY.total.toFixed(2)} seconds. Tiger&apos;s took{" "}
+          {HERO.total.toFixed(2)}. Train to {SWINGS.length} real tournament shots, each
+          hand-timed to 1/100 of a second.
+        </p>
+        <div className="mt-8" style={{ borderTop: `1px solid ${HAIRLINE}` }}>
+          {GREATS_ROWS.map((g) => (
+            <Link
+              key={g.slug}
+              href={`/elite-tempo/tempo/${g.slug}`}
+              className="grid items-center gap-x-8 gap-y-2.5 py-[18px] transition-colors hover:text-[#B3ECFF] md:grid-cols-3"
+              style={{ borderBottom: `1px solid ${HAIRLINE}` }}
+            >
+              <span>
+                <span className="block font-semibold">{g.player}</span>
+                <span className="block text-[15px]" style={{ color: MUTED }}>
+                  {g.clubLabel}, {g.year} {g.event.replace(/^The /, "")}
+                </span>
+              </span>
+              <span
+                className="flex h-3.5"
+                role="img"
+                aria-label={`Backswing ${fmtSeconds(g.back)}, downswing ${fmtSeconds(g.down)}.`}
               >
                 <span
-                  className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em]"
-                  style={{ background: ACCENT, color: ON_ACCENT }}
-                >
-                  Save {YEARLY_SAVING_PCT}%
-                </span>
-                <p className="text-xs font-semibold uppercase tracking-[0.14em]" style={{ color: MUTED }}>
-                  Yearly
-                </p>
-                <p className="mt-3 text-4xl font-semibold leading-none" style={{ color: INK }}>
-                  {PRICE_YEARLY}
-                </p>
-                <p className="mt-1.5 text-sm font-semibold" style={{ color: MUTED }}>
-                  a year
-                </p>
-              </div>
-
-              <div
-                className="relative flex h-full flex-col rounded-2xl px-6 pb-6 pt-7"
-                style={{ background: BG, border: `1px solid ${HAIRLINE}` }}
+                  style={{ width: `${(g.back / LONGEST_GREAT) * 100}%`, background: MUTED }}
+                />
+                <span
+                  style={{ width: `${(g.down / LONGEST_GREAT) * 100}%`, background: ACCENT }}
+                />
+              </span>
+              <span
+                className="text-[28px] font-semibold"
+                style={{ fontFamily: FONT_NUMERALS, fontVariantNumeric: "tabular-nums" }}
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.14em]" style={{ color: MUTED }}>
-                  Monthly
-                </p>
-                <p className="mt-3 text-4xl font-semibold leading-none" style={{ color: INK }}>
-                  {PRICE_MONTHLY}
-                </p>
-                <p className="mt-1.5 text-sm font-semibold" style={{ color: MUTED }}>
-                  a month
-                </p>
-              </div>
-            </div>
-
-            {/* Said once, under both, because it is true of both. It used to be
-                printed inside each plan box in identical words, which made the
-                boxes look like they differed in some way they did not and pushed
-                the prices apart for no reason. */}
-            <p className="mt-5 text-sm font-semibold" style={{ color: MUTED }}>
-              Both plans are free for {TRIAL_DAYS} days. Cancel anytime.
-            </p>
-
-            {/* max-w-sm, not max-w-xs. At 320px two of these five wrapped to a
-                second line, so the tick column went ragged inside a card nearly
-                twice that wide. */}
-            <ul className="mx-auto mt-7 flex max-w-sm flex-col gap-2.5 text-left">
-              {[
-                "The full library of hand-timed greats",
-                "Your own swings, marked frame by frame and saved",
-                "Side-by-side Compare",
-                "Routines, Watch and Practice",
-                "Lock-screen Live Activity, mirrored to Apple Watch",
-              ].map((f) => (
-                <li key={f} className="flex items-start gap-2.5 text-sm" style={{ color: MUTED }}>
-                  <span className="mt-0.5 font-semibold" style={{ color: ACCENT }} aria-hidden>
-                    ✓
-                  </span>
-                  <span>{f}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-8 flex justify-center">
-              <AppStoreButton />
-            </div>
-            {/* Tightened. The old line ran to two ragged centered lines and told
-                you to "play a tempo in every area", which is app vocabulary, not
-                something a golfer would say. */}
-            <p className="mt-4 text-xs" style={{ color: MUTED }}>
-              Time one of your own swings before you pay a thing.
-            </p>
-          </div>
-        </Reveal>
+                {fmtRatio(g)}
+              </span>
+            </Link>
+          ))}
+        </div>
+        <Link
+          href="/elite-tempo/tempos"
+          className="mt-6 inline-block text-[15px] font-semibold underline underline-offset-4"
+          style={{ color: ACCENT_ALT }}
+        >
+          See all {SWINGS.length} hand-timed swings
+        </Link>
       </section>
 
-      <Divider />
-
-      {/* Why it exists. No customer quote yet: only real ones go here. */}
-      <section className="mx-auto max-w-2xl px-6 py-10 text-center">
-        <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
-            Why we built it
+      {/* Groove your routine */}
+      <section id="routine" className={SPLIT}>
+        <div className="flex min-w-0 flex-[1_1_420px] justify-center">
+          <div className="w-full max-w-[290px]">
+            <ScreenVideo
+              name="routine-loop"
+              label="A golfer's full pre-shot routine playing in the Elite Tempo app with a live timer."
+            />
+          </div>
+        </div>
+        <div className="min-w-0 flex-[1_1_420px]">
+          <h2 className={H2}>Groove your pre-shot routine.</h2>
+          <p className="mt-4 max-w-[32em]" style={{ color: MUTED }}>
+            Your routine is what carries your practice game to the course. Film it from
+            start to impact, check it against your best one, and repeat it the same way
+            every time.
           </p>
-          <p className="mt-4 text-xl font-semibold leading-snug sm:text-2xl" style={{ color: INK }}>
-            Every tempo app made me pick a ratio, and I always ended up changing my
-            swing to fit it. I wanted to copy my own best swing and the best players
-            in the world, so we built that.
+          <p className="mt-3.5 max-w-[32em]" style={{ color: MUTED }}>
+            See if it fits the 40 seconds recommended by the USGA and The R&amp;A.
           </p>
-          <p className="mt-4 text-sm" style={{ color: MUTED }}>
-            Eric Busalacchi, Elite Tempo
-          </p>
-        </Reveal>
+        </div>
       </section>
 
-      <Divider />
-
-      {/* FAQ — the real SEO surface. Nobody searches "Elite Tempo"; they search
-          "what is the 3 to 1 tempo ratio". Native <details> so the answers are in
-          the initial HTML for crawlers rather than behind JavaScript. */}
-      <section id="faq" className="mx-auto max-w-3xl px-6 py-20">
-        <Reveal>
-          {/* Last word in gold, the way ReciMe puts the last word of its FAQ
-              heading in brand blue. */}
-          <h2 className="text-center text-3xl font-semibold sm:text-4xl" style={{ color: INK }}>
-            Golf swing tempo,{" "}
-            <span style={{ color: INK }}>answered</span>
-          </h2>
-
-          {/* Hairline-divided rows rather than a stack of cards, matching ReciMe:
-              the questions carry the eye down a single column instead of being
-              chopped into seven boxes. borderTop on the wrapper draws the rule
-              above the first row so the set reads as one list. Still native
-              <details>, so every answer stays in the initial HTML for crawlers. */}
-          <div className="mt-10" style={{ borderTop: `1px solid ${HAIRLINE}` }}>
-            {FAQS.map(({ q, a }) => (
-              <details key={q} className="group" style={{ borderBottom: `1px solid ${HAIRLINE}` }}>
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 marker:content-none">
-                  <span className="text-base font-semibold sm:text-lg" style={{ color: INK }}>
-                    {q}
-                  </span>
-                  {/* + when closed, minus sign when open. U+2212 MINUS SIGN, an icon
-                      inside an aria-hidden span, not prose punctuation, so the copy
-                      rule on em and en dashes does not apply. */}
-                  <span
-                    className="shrink-0 text-2xl font-light leading-none"
-                    style={{ color: ACCENT }}
-                    aria-hidden
-                  >
-                    <span className="group-open:hidden">+</span>
-                    <span className="hidden group-open:inline">&#8722;</span>
-                  </span>
-                </summary>
-                <p className="pb-5 pr-10 text-sm leading-relaxed" style={{ color: MUTED }}>
-                  {a}
-                </p>
-              </details>
-            ))}
+      {/* Pricing. Lifetime used to be the hero price here and had to go: it is retired
+          in the app, so advertising it sent people to a paywall that could not sell it. */}
+      <section id="pricing" className={SECTION}>
+        <div
+          className="flex flex-wrap items-center justify-between gap-8 rounded-[20px] p-6 sm:p-12"
+          style={{ background: CARD }}
+        >
+          <div className="min-w-0 flex-[1_1_420px]">
+            <h2 className={H2}>Time your own swing before you pay a thing.</h2>
+            <p className="mt-3.5" style={{ color: MUTED }}>
+              Free for {TRIAL_DAYS} days. Cancel anytime.
+            </p>
           </div>
-        </Reveal>
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-6">
+            <Price amount={PRICE_YEARLY} note={`a year, save ${YEARLY_SAVING_PCT}%`} />
+            <Price amount={PRICE_MONTHLY} note="a month" />
+            <AppStoreBadge />
+          </div>
+        </div>
+      </section>
+
+      {/* Why we built it. No customer quote yet: only real ones go here. */}
+      <section className="mx-auto max-w-[780px] px-4 pb-16 sm:px-12 sm:pb-28">
+        <p className="text-[28px] font-semibold leading-[1.3] tracking-[-0.01em]">
+          Every tempo app made me pick a ratio, and I always ended up changing my swing to
+          fit it. I wanted to copy my own best swing and the best players in the world, so
+          we built that.
+        </p>
+        <p className="mt-3.5 text-[15px]" style={{ color: MUTED }}>
+          Eric Busalacchi, Elite Tempo
+        </p>
+      </section>
+
+      {/* FAQ — the real SEO surface. Nobody searches "Elite Tempo"; they search "what
+          is the 3 to 1 tempo ratio". Native <details> so the answers are in the initial
+          HTML for crawlers rather than behind JavaScript. */}
+      <section id="faq" className="mx-auto max-w-[780px] px-4 pb-16 sm:px-12 sm:pb-28">
+        <h2 className={H2}>Questions</h2>
+        <div className="mt-6" style={{ borderTop: `1px solid ${HAIRLINE}` }}>
+          {FAQS.map(({ q, a }) => (
+            <details key={q} className="group" style={{ borderBottom: `1px solid ${HAIRLINE}` }}>
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-4 marker:content-none">
+                <span className="font-semibold">{q}</span>
+                {/* + when closed, minus sign when open. U+2212 MINUS SIGN, an icon
+                    inside an aria-hidden span, not prose punctuation. */}
+                <span className="shrink-0 text-2xl font-light leading-none" style={{ color: ACCENT }} aria-hidden>
+                  <span className="group-open:hidden">+</span>
+                  <span className="hidden group-open:inline">&#8722;</span>
+                </span>
+              </summary>
+              <p className="pb-5 pr-10" style={{ color: MUTED }}>
+                {a}
+              </p>
+            </details>
+          ))}
+        </div>
       </section>
 
       {/* Cheat sheet email capture */}
-      <section className="mx-auto max-w-2xl px-6 pb-24">
-        <Reveal>
-          <div className="text-center">
-            <h2 className="text-2xl font-semibold sm:text-3xl" style={{ color: INK }}>
-              Get the Elite Tempo cheat sheet
-            </h2>
-            <p className="mx-auto mt-3 max-w-md text-base" style={{ color: MUTED }}>
-              The duration and ratio of golf&apos;s most famous swings, free,
-              straight to your inbox.
-            </p>
-          </div>
-          <div className="mt-7">
-            <EmailCapture />
-          </div>
-        </Reveal>
+      <section className="mx-auto max-w-[780px] px-4 pb-16 sm:px-12 sm:pb-28">
+        <h2 className="text-[28px] font-semibold leading-tight">
+          Get the Elite Tempo cheat sheet
+        </h2>
+        <p className="mb-5 mt-2.5" style={{ color: MUTED }}>
+          The timing and ratio of golf&apos;s most famous swings, free, in your inbox.
+        </p>
+        <EmailCapture />
       </section>
 
       {/* Footer */}
       <footer style={{ borderTop: `1px solid ${HAIRLINE}` }}>
-        <div className="mx-auto max-w-5xl px-6 py-10">
+        <div className="mx-auto max-w-[1280px] px-4 py-10 sm:px-12">
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
             <Wordmark />
-            <nav className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm" style={{ color: MUTED }}>
+            <nav className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[15px]" style={{ color: MUTED }}>
               <Link href="/elite-tempo/privacy" className="hover:opacity-80">
                 Privacy
               </Link>
@@ -843,14 +487,14 @@ export default function EliteTempoLanding() {
               </Link>
             </nav>
           </div>
-          <p className="mt-8 max-w-3xl text-xs leading-relaxed" style={{ color: FAINT }}>
+          <p className="mt-6 max-w-[62em] text-[15px]" style={{ color: MUTED }}>
             Part of the Elite Prep family. Elite Tempo references real golfers,
-            tournaments, and shots for descriptive and educational purposes
-            only, and is not affiliated with, sponsored by, or endorsed by any
-            player, tournament, tour, or organization named in the app. All
-            names and trademarks belong to their respective owners.
+            tournaments, and shots for descriptive and educational purposes only, and is
+            not affiliated with, sponsored by, or endorsed by any player, tournament,
+            tour, or organization named in the app. All names and trademarks belong to
+            their respective owners.
           </p>
-          <p className="mt-4 text-xs" style={{ color: FAINT }}>
+          <p className="mt-2.5 text-[15px]" style={{ color: MUTED }}>
             © {new Date().getFullYear()} Elite Prep Inc.
           </p>
         </div>
@@ -861,22 +505,9 @@ export default function EliteTempoLanding() {
 
 /* ── Pieces ─────────────────────────────────────────────────────────────── */
 
-// Animated beat-tick equalizer between sections — the brand's "this is running"
-// signal, doubling as connective tissue that breaks up the vertical rhythm.
-function Divider() {
-  return (
-    <div className="flex justify-center py-4 sm:py-6" aria-hidden>
-      <BeatTicks heights={[10, 18, 10, 28, 10, 18, 10]} barWidth={4} gap={5} />
-    </div>
-  );
-}
-
 function Wordmark() {
   return (
-    <div
-      className="flex items-center gap-2.5"
-      aria-label="Elite Tempo"
-    >
+    <div className="flex items-center gap-2.5" aria-label="Elite Tempo">
       <EliteTempoMark size={22} fill={ACCENT} />
       <span
         className="text-[19px] leading-none"
@@ -888,207 +519,67 @@ function Wordmark() {
   );
 }
 
-// The official "Download on the App Store" lockup: black badge, white Apple
-// glyph + text. Apple's guidelines forbid recoloring their badge or building a
-// custom one with their logo, so the primary CTA uses the standard black badge
-// (a thin border lifts it off the near-black canvas). Drop in Apple's exact SVG
-// asset later if you want it pixel-identical.
-function AppStoreButton() {
+/* Apple's own white badge, downloaded unchanged from their badge tool. Apple asks for
+   the white version on dark backgrounds and does not allow a rebuilt one. */
+function AppStoreBadge({ className = "" }: { className?: string }) {
   return (
     <a
       href={APP_STORE_URL}
-      /* Was #000000 on a #0B0B0C canvas: 1.04:1, so the badge was invisible apart
-         from its border and only the faint outline said "button". Apple's marketing
-         guidelines offer a black and a white badge and ask for the white one on dark
-         backgrounds, which is also 19.4:1 here. Now that the header CTA is outlined,
-         this is the one filled button on the page, which is the right hierarchy. */
-      className="inline-flex items-center gap-2.5 rounded-xl px-5 py-3 transition duration-200 hover:scale-[1.03] active:scale-[0.98]"
-      style={{ background: "#FFFFFF", color: ON_ACCENT }}
-      aria-label="Download Elite Tempo on the App Store"
+      className={`inline-block transition duration-200 hover:brightness-95 ${className}`}
     >
-      <svg width="22" height="26" viewBox="0 0 384 512" fill="currentColor" aria-hidden>
-        <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
-      </svg>
-      <span className="text-left leading-none">
-        <span className="block text-[11px] leading-tight opacity-90">Download on the</span>
-        <span className="block text-[19px] font-semibold leading-tight tracking-tight">
-          App Store
-        </span>
-      </span>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/elite-tempo/app-store-badge.svg"
+        alt="Download on the App Store"
+        width={168}
+        height={56}
+        className="block h-14 w-auto"
+      />
     </a>
   );
 }
 
-// Media inside a black phone bezel, so it reads as a device screen (not a raw
-// screen recording). Pass `src` for a looping clip, `img` for a still, or
-// `children` to render a live DOM screen — which is what the greats section now
-// does, because any baked-in media eventually disagrees with the data beside it.
-function DeviceFrame({
-  src,
-  poster,
-  img,
-  alt = "",
-  children,
-  notch = true,
-  max = 280,
-}: {
-  src?: string;
-  poster?: string;
-  img?: string;
-  alt?: string;
-  children?: React.ReactNode;
-  notch?: boolean;
-  max?: number;
-}) {
+function LoopVideo({ name, label, position }: { name: string; label: string; position: string }) {
   return (
-    <div
-      className="relative transition-all duration-300 will-change-transform hover:scale-[1.02]"
-      style={{
-        maxWidth: max,
-        width: "100%",
-        background: "#0A0A0C",
-        borderRadius: 44,
-        padding: 9,
-        border: "1px solid #2C2C33",
-        boxShadow: "0 34px 90px -32px rgba(0,0,0,0.85)",
-      }}
-    >
-      {notch && (
-        <div
-          className="absolute left-1/2 top-[14px] z-10 -translate-x-1/2"
-          style={{ width: 84, height: 22, background: "#0A0A0C", borderRadius: 999 }}
-          aria-hidden
-        />
-      )}
-      <div className="relative" style={{ borderRadius: 36, overflow: "hidden" }}>
-        {children ? (
-          /* A live screen. aspect-[9/19.5] matches the media the other frames
-             carry, so a DOM screen and a clip sit at the same size in a row. */
-          <div className="aspect-[9/19.5] w-full overflow-hidden">{children}</div>
-        ) : img ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={img} alt={alt} className="block h-auto w-full" />
-        ) : (
-          <video src={src} poster={poster} autoPlay loop muted playsInline className="block h-auto w-full" />
-        )}
-      </div>
+    <video
+      src={`/elite-tempo/${name}.mp4`}
+      poster={`/elite-tempo/${name}-poster.jpg`}
+      autoPlay
+      loop
+      muted
+      playsInline
+      aria-label={label}
+      className="block h-full w-full object-cover"
+      style={{ objectPosition: position }}
+    />
+  );
+}
+
+/* The hero alone is cropped: that shape and position sit between the app's back
+   button and its Beats and Voice controls, so only the golfer and the readouts show. */
+
+/* A screen recording shown whole, at the shape it was filmed. Cropping these cut
+   through the app's own controls and readouts. */
+function ScreenVideo({ name, label }: { name: string; label: string }) {
+  return (
+    <div className={`${MEDIA_FRAME} aspect-[600/1230]`} style={{ background: CARD }}>
+      <LoopVideo name={name} label={label} position="center" />
     </div>
   );
 }
 
-// Phone media on a "stage": a device-framed screen in a card.
-//
-// The gold beat-tick pair that used to flank every stage is gone. The motif was
-// appearing about fifteen times on one page — once in each wordmark, twice per
-// stage, and once in every section divider — and at 3px wide in gold, pinned to
-// the far edges of a card, the flanking pair read as specks of dust rather than
-// as branding. The dividers keep the motif doing real work (they mark section
-// boundaries); the decorative repetition is what diluted it.
-function PhoneStage({
-  src,
-  poster,
-  img,
-  alt,
-  children,
-  notch,
-  max,
-}: {
-  src?: string;
-  poster?: string;
-  img?: string;
-  alt?: string;
-  children?: React.ReactNode;
-  notch?: boolean;
-  max?: number;
-}) {
+function Price({ amount, note }: { amount: string; note: string }) {
   return (
-    <div
-      className="relative flex items-center justify-center rounded-[34px] px-8 py-9 sm:px-12"
-      style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
-    >
-      <DeviceFrame src={src} poster={poster} img={img} alt={alt} notch={notch} max={max}>
-        {children}
-      </DeviceFrame>
-    </div>
-  );
-}
-
-
-/* The three marks the app finds on its own, laid on a timeline of the hero swing.
-   Real timings from the library, so this cannot drift either: the bar positions
-   are the actual takeaway/top/impact marks scaled across the swing's duration. */
-function ThreeMarks() {
-  const marks = [
-    { label: "Takeaway", at: 0 },
-    { label: "Top", at: HERO.back },
-    { label: "Impact", at: HERO.total },
-  ];
-  return (
-    <div className="mt-7 max-w-md">
-      <div className="relative h-px w-full" style={{ background: HAIRLINE }} aria-hidden>
-        {marks.map((m) => (
-          <span
-            key={m.label}
-            className="absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full"
-            style={{
-              left: `${(m.at / HERO.total) * 100}%`,
-              marginLeft: -5,
-              background: ACCENT,
-            }}
-          />
-        ))}
-      </div>
-      <div className="mt-3 flex justify-between">
-        {marks.map((m) => (
-          <div key={m.label}>
-            <p
-              className="text-sm font-semibold tabular-nums"
-              style={{ color: INK, fontVariantNumeric: "tabular-nums" }}
-            >
-              {fmtSeconds(m.at)}
-            </p>
-            <p
-              className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.14em]"
-              style={{ color: MUTED }}
-            >
-              {m.label}
-            </p>
-          </div>
-        ))}
-      </div>
-      <p className="mt-4 text-xs" style={{ color: MUTED }}>
-        You place these three yourself, frame by frame. Shown for {HERO.player}&apos;s{" "}
-        {HERO.year} {shortEvent(HERO.event)} {HERO.clubLabel.toLowerCase()}.
-      </p>
-    </div>
-  );
-}
-
-/* Number and label only. The explanatory sub-lines are gone: side by side they
-   turned a glanceable band into a paragraph, and each label already says what its
-   number is.
-
-   The number sits in a fixed-height flex row so every LABEL lands on the same
-   line regardless of how tall its number renders. The `tight` variant is gone
-   with the combined "0.82s / 0.22s" cell it existed for — now that backswing and
-   downswing each have their own cell, all four values are the same shape and can
-   share one size. Sizes step down a notch from the old three-up band because four
-   cells share the same width. */
-function StatCell({ big, label }: { big: React.ReactNode; label: string }) {
-  return (
-    <div className="px-3 py-9 text-center sm:px-5 md:px-6" style={{ background: BG }}>
-      <p
-        className="flex h-11 items-center justify-center whitespace-nowrap text-2xl font-semibold tabular-nums sm:text-3xl md:h-12 md:text-4xl"
-        style={{ color: INK, fontVariantNumeric: "tabular-nums" }}
+    <p>
+      <span
+        className="block text-[28px] font-semibold leading-tight"
+        style={{ fontFamily: FONT_NUMERALS }}
       >
-        {big}
-      </p>
-      <p
-        className="mt-3 text-[10px] font-semibold uppercase tracking-[0.16em] sm:text-xs"
-        style={{ color: INK }}
-      >
-        {label}
-      </p>
-    </div>
+        {amount}
+      </span>
+      <span className="text-[15px]" style={{ color: MUTED }}>
+        {note}
+      </span>
+    </p>
   );
 }

@@ -362,3 +362,21 @@ export const FEATURED: Swing[] = [
   "fred-couples-1992-the-masters-fairway-wood",
   "adam-scott-2002-qatar-masters-fairway-wood",
 ].map((slug) => requireSwing(slug, "a landing page card"));
+
+/* One real shot for each tab of the landing page's timing player, in the app's own
+   tab order. */
+export const TIMING_BY_AREA: Swing[] = [
+  "tiger-woods-2000-the-open-championship-driver",
+  "tiger-woods-2000-the-memorial-short-iron",
+  "scottie-scheffler-2024-the-players-championship-wedge",
+  "cameron-smith-2022-the-open-championship-putter",
+].map((slug) => requireSwing(slug, "the landing page timing player"));
+
+/* The landing page's comparison rows, chosen to show the widest spread of timing. */
+export const GREATS_ROWS: Swing[] = [
+  "tiger-woods-2000-the-open-championship-driver",
+  "cameron-young-2025-ryder-cup-driver",
+  "fred-couples-1992-the-masters-fairway-wood",
+  "adam-scott-2002-qatar-masters-fairway-wood",
+  "rory-mcilroy-2014-pga-championship-driver",
+].map((slug) => requireSwing(slug, "a landing page comparison row"));
