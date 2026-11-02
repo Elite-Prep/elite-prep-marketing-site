@@ -23,7 +23,7 @@ import { MARK_ASPECT, markDataUri } from "./EliteTempoMark";
  * again without the build failing first.
  */
 
-export const alt = "Elite Tempo. Copy the greats. Copy your best.";
+export const alt = "Elite Tempo. Copy your best. Copy the greats. Groove your routine.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -90,15 +90,17 @@ export default async function Image() {
             style={{
               display: "flex",
               flexDirection: "column",
-              fontSize: 74,
+              fontSize: 60,
               fontWeight: 700,
               lineHeight: 1.08,
+              whiteSpace: "nowrap",
               letterSpacing: "-0.015em",
               color: INK,
             }}
           >
+            <span>Copy your best.</span>
             <span>Copy the greats.</span>
-            <span style={{ color: INK }}>Copy your best.</span>
+            <span style={{ color: INK }}>Groove your routine.</span>
           </div>
 
           <div style={{ display: "flex", fontSize: 27, color: MUTED, marginTop: 28, maxWidth: 600, lineHeight: 1.4 }}>

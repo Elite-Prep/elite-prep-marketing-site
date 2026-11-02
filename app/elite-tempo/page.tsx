@@ -82,13 +82,13 @@ export const metadata: Metadata = {
     "3 to 1 tempo ratio",
   ],
   openGraph: {
-    title: "Elite Tempo. Copy the greats. Copy your best.",
+    title: "Elite Tempo. Copy your best. Copy the greats. Groove your routine.",
     description:
       `Golf tempo, timed by hand to 1/100s. Film your own swing, mark takeaway, top and impact on a frame-accurate scrubber, and get your four numbers. Train hands-free with beats in your headphones. Free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month.`,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Elite Tempo. Copy the greats. Copy your best.",
+    title: "Elite Tempo. Copy your best. Copy the greats. Groove your routine.",
     description: `Golf tempo, timed by hand to 1/100s. Auto swing capture, hands-free. Free ${TRIAL_DAYS}-day trial, then ${PRICE_YEARLY} a year.`,
   },
 };
@@ -105,6 +105,10 @@ const COUPLES = FEATURED[2];
    visible copy AND as FAQPage structured data, because AI answer engines quote the
    markup and Google builds the expandable sub-rows from it. */
 const FAQS: { q: string; a: string }[] = [
+  {
+    q: "Do I have to change my swing?",
+    a: "No. You can train to the tempo of your own best swing.",
+  },
   {
     q: "What is golf swing tempo?",
     a: "Tempo is the ratio between the time your backswing takes and the time your downswing takes, not how fast you swing overall. Tour players are remarkably consistent at it, which is why it is trainable: you are copying a rhythm, not a speed.",
@@ -145,6 +149,23 @@ const FAQS: { q: string; a: string }[] = [
   },
 ];
 
+/* The page's three promises. Copy for the two things that come from somewhere else
+   (your best swing, the greats); groove for the routine, which is already yours. */
+const BENEFITS: { title: string; body: string }[] = [
+  {
+    title: "Copy your best.",
+    body: "Train to the tempo of your own best swing, so you don't have to change it.",
+  },
+  {
+    title: "Copy the greats.",
+    body: "Swing to the real tempo of Tiger Woods, Rory McIlroy, and Adam Scott, hand-timed from tournament footage.",
+  },
+  {
+    title: "Groove your routine.",
+    body: "Great players do the same pre-shot routine every time, even under pressure. Film yours and practice until it never changes.",
+  },
+];
+
 /* The tempo figures used to live here as a hand-typed array, and every single one
    of them was wrong against the app. They now come from `data/tempo-data`, which
    derives them from a verbatim copy of the app's own seed file and fails the build
@@ -179,6 +200,7 @@ const STRUCTURED_DATA = {
         "Hand-timed tempo library of famous tour swings",
         "Frame-accurate marking of your own swing from video",
         "Side-by-side swing comparison",
+        "Pre-shot routine timing with a 40-second pace-of-play timer",
         "Hands-free training with beats in your headphones",
         "Lock-screen Live Activity, mirrored to the Apple Watch Smart Stack",
       ],
@@ -293,19 +315,21 @@ export default function EliteTempoLanding() {
                 className="text-xs font-semibold uppercase tracking-[0.18em]"
                 style={{ color: MUTED }}
               >
-                Golf tempo and timing trainer
+                Golf tempo and routine trainer
               </p>
               <h1
-                className="mt-4 text-4xl font-semibold leading-[1.05] sm:text-5xl"
+                className="mt-4 text-[8.4vw] font-semibold leading-[1.05] sm:text-5xl"
                 style={{ color: INK }}
               >
+                Copy your best.
+                <br />
                 Copy the greats.
                 <br />
-                <span style={{ color: INK }}>Copy your best.</span>
+                Groove your routine.
               </h1>
               <p className="mt-5 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-                Copy the tempo of the greats. Capture your best tempo and
-                routine. Repeat it when it matters most.
+                Film your swing and your pre-shot routine, then practice until
+                you can repeat them on the course.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <AppStoreButton />
@@ -320,6 +344,28 @@ export default function EliteTempoLanding() {
             <PhoneStage src="/elite-tempo/hero-loop.mp4" poster="/elite-tempo/hero-loop-poster.jpg" />
           </Reveal>
         </div>
+      </section>
+
+      {/* The three reasons to buy, in the order the rest of the page takes them. */}
+      <section className="mx-auto max-w-5xl px-6 pb-4 pt-12">
+        <Reveal>
+          <div className="grid gap-4 md:grid-cols-3">
+            {BENEFITS.map(({ title, body }) => (
+              <div
+                key={title}
+                className="rounded-3xl p-7"
+                style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
+              >
+                <h2 className="text-xl font-semibold leading-tight" style={{ color: INK }}>
+                  {title}
+                </h2>
+                <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
+                  {body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </section>
 
       {/* Stat band — the four numbers. Rendered, never animated. CountUp counted
@@ -339,16 +385,14 @@ export default function EliteTempoLanding() {
               14px grey — the differentiator styled as a footnote. Promoted to the
               section heading, with the shot it is measured from demoted to the
               caption underneath, which is the detail rather than the point. */}
-          {/* Four, not three. The App Store listing headlines "4 metrics no other
-              app captures" and the app's own onboarding lists them one to four, so
-              a site saying "three" was the odd one out — it only got to three by
-              pairing backswing and downswing into a single cell. Same claim, same
-              count, everywhere. */}
+          {/* Four, not three. The app's own onboarding lists them one to four, so a
+              site saying "three" was the odd one out: it only got to three by
+              pairing backswing and downswing into a single cell. */}
           <h2
             className="text-center text-2xl font-semibold leading-tight sm:text-3xl"
             style={{ color: INK }}
           >
-            The four numbers no other app captures.
+            Four numbers that show your real timing.
           </h2>
           {/* Two-up on a phone, four across from md. The order follows the app's
               onboarding: the two halves, then the whole, then the ratio they make. */}
@@ -381,6 +425,63 @@ export default function EliteTempoLanding() {
 
       <Divider />
 
+      {/* Time yourself — capture your own swing and groove it on a loop */}
+      <section id="your-swing" className="mx-auto max-w-5xl px-6 py-8">
+        <div className="grid items-center gap-12 md:grid-cols-2">
+          <Reveal>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
+                Time your own swing
+              </p>
+              <h2 className="mt-3 text-2xl font-semibold leading-tight sm:text-3xl" style={{ color: INK }}>
+                Copy your best swing.
+              </h2>
+              <p className="mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
+                Other tempo apps make you pick a ratio, then change your swing
+                to fit it. Here you start with your best swing. Mark takeaway,
+                top, and impact, then groove your own tempo on a loop.
+              </p>
+              {/* Three marks, so the copy column carries the same weight as the
+                  phone beside it. Before this the column held a heading and one
+                  paragraph against a 600px device and the section opened with a
+                  slab of empty black. It is also the clearest way to say what
+                  "times it for you" actually means. */}
+              <ThreeMarks />
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <PhoneStage src="/elite-tempo/swing-loop.mp4" poster="/elite-tempo/swing-loop-poster.jpg" />
+          </Reveal>
+        </div>
+      </section>
+
+      <Divider />
+
+      {/* Compare — featured: the self-vs-self side-by-side clip, full visual weight */}
+      <section id="compare" className="mx-auto max-w-5xl px-6 py-12">
+        <Reveal>
+          <div className="text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
+              Compare
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl" style={{ color: INK }}>
+              See the gap, side by side.
+            </h2>
+            <p className="mx-auto mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
+              Put two swings side by side, and see what changed between your best
+              shot and your last one.
+            </p>
+          </div>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <div className="mt-9 flex justify-center">
+            <PhoneStage src="/elite-tempo/compare-loop.mp4" poster="/elite-tempo/compare-loop-poster.jpg" max={340} />
+          </div>
+        </Reveal>
+      </section>
+
+      <Divider />
+
       {/* Time the greats — the library, with the in-app list rendered from its data.
           The heading moved out of its own centered block and into the text column:
           centered-heading-then-two-columns left the copy column holding three lines
@@ -399,17 +500,17 @@ export default function EliteTempoLanding() {
           <Reveal>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
-                Copy the greats
+                The greats
               </p>
               <h2 className="mt-3 text-2xl font-semibold leading-tight sm:text-3xl" style={{ color: INK }}>
-                Real tournament swings,
+                Copy the best players
                 <br />
-                meticulously timed.
+                in the world.
               </h2>
               <p className="mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-                {SWINGS.length} shots from players at their peak, each one hand-timed
-                from tournament footage to 1/100 of a second. Not a metronome preset
-                — the real rhythm of the real swing.
+                Rory&apos;s driver swing takes {RORY.total.toFixed(2)} seconds.
+                Tiger&apos;s took {HERO.total.toFixed(2)}. Train to {SWINGS.length} real
+                tournament shots, each hand-timed to 1/100 of a second.
               </p>
 
               <div className="mt-6 grid grid-cols-2 gap-3">
@@ -454,65 +555,6 @@ export default function EliteTempoLanding() {
 
       <Divider />
 
-      {/* Time yourself — capture your own swing and groove it on a loop */}
-      <section id="your-swing" className="mx-auto max-w-5xl px-6 py-8">
-        <div className="grid items-center gap-12 md:grid-cols-2">
-          <Reveal>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
-                Time your own swing
-              </p>
-              <h2 className="mt-3 text-2xl font-semibold leading-tight sm:text-3xl" style={{ color: INK }}>
-                Film your swing.
-                <br />
-                Mark three points.
-              </h2>
-              <p className="mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-                Takeaway, top of the backswing, impact. A frame-accurate
-                scrubber puts each one exactly where it belongs, so the four
-                numbers you get are measured rather than estimated. Then groove
-                it on a loop until the move is yours.
-              </p>
-              {/* Three marks, so the copy column carries the same weight as the
-                  phone beside it. Before this the column held a heading and one
-                  paragraph against a 600px device and the section opened with a
-                  slab of empty black. It is also the clearest way to say what
-                  "times it for you" actually means. */}
-              <ThreeMarks />
-            </div>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <PhoneStage src="/elite-tempo/swing-loop.mp4" poster="/elite-tempo/swing-loop-poster.jpg" />
-          </Reveal>
-        </div>
-      </section>
-
-      <Divider />
-
-      {/* Compare — featured: the self-vs-self side-by-side clip, full visual weight */}
-      <section id="compare" className="mx-auto max-w-5xl px-6 py-12">
-        <Reveal>
-          <div className="text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
-              Compare
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl" style={{ color: INK }}>
-              See the gap, side by side.
-            </h2>
-            <p className="mx-auto mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-              Two swings, looping in lockstep. The tempo difference is impossible to miss.
-            </p>
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div className="mt-9 flex justify-center">
-            <PhoneStage src="/elite-tempo/compare-loop.mp4" poster="/elite-tempo/compare-loop-poster.jpg" max={340} />
-          </div>
-        </Reveal>
-      </section>
-
-      <Divider />
-
       {/* Time your routine — time and groove the whole pre-shot routine */}
       <section id="routine" className="mx-auto max-w-5xl px-6 py-8">
         <div className="grid items-center gap-12 md:grid-cols-2">
@@ -522,13 +564,15 @@ export default function EliteTempoLanding() {
                 Time your routine
               </p>
               <h2 className="mt-3 text-2xl font-semibold leading-tight sm:text-3xl" style={{ color: INK }}>
-                Groove the whole
+                Groove your
                 <br />
                 pre-shot routine.
               </h2>
               <p className="mt-4 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-                Time your full routine, then drill it two ways: watch it back live,
-                or practice with a live timer and audible feedback until it&apos;s perfected.
+                Your routine is what carries your practice game to the course. Film
+                it from start to impact, check it against your best one, and repeat it
+                the same way every time. See if it fits the 40 seconds recommended by
+                the USGA and The R&amp;A.
               </p>
             </div>
           </Reveal>
@@ -692,6 +736,25 @@ export default function EliteTempoLanding() {
               Time one of your own swings before you pay a thing.
             </p>
           </div>
+        </Reveal>
+      </section>
+
+      <Divider />
+
+      {/* Why it exists. No customer quote yet: only real ones go here. */}
+      <section className="mx-auto max-w-2xl px-6 py-10 text-center">
+        <Reveal>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
+            Why we built it
+          </p>
+          <p className="mt-4 text-xl font-semibold leading-snug sm:text-2xl" style={{ color: INK }}>
+            Every tempo app made me pick a ratio, and I always ended up changing my
+            swing to fit it. I wanted to copy my own best swing and the best players
+            in the world, so we built that.
+          </p>
+          <p className="mt-4 text-sm" style={{ color: MUTED }}>
+            Eric Busalacchi, Elite Tempo
+          </p>
         </Reveal>
       </section>
 
