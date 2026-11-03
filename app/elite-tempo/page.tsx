@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import DarkTimingPlayer, { type DarkShot } from "./DarkTimingPlayer";
+import LottieLoop from "./LottieLoop";
+import { SPEEDS, TIMER_SCALE_S, routineScene, speedScene, timerScene } from "./motion/scenes";
 import {
   FEATURED,
   GREATS_ROWS,
@@ -63,13 +65,13 @@ export const metadata: Metadata = {
     "3 to 1 tempo ratio",
   ],
   openGraph: {
-    title: "Elite Tempo. Time your entire golf game from routine to impact.",
+    title: "Elite Tempo. Time your entire game from routine to impact.",
     description:
       `Golf tempo, timed by hand to 1/100s. Film your own swing, mark takeaway, top and impact on a frame-accurate scrubber, and get your four numbers. Train hands-free with beats in your headphones. Free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month.`,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Elite Tempo. Time your entire golf game from routine to impact.",
+    title: "Elite Tempo. Time your entire game from routine to impact.",
     description: `Golf tempo, timed by hand to 1/100s. Auto swing capture, hands-free. Free ${TRIAL_DAYS}-day trial, then ${PRICE_YEARLY} a year.`,
   },
 };
@@ -234,6 +236,14 @@ const DARK_SHOTS: DarkShot[] = TIMING_BY_AREA.map((s) => ({
   ratio: fmtRatio(s),
 }));
 
+/* The three animations, built from the same numbers the page prints. The routine
+   figures match the app screens shown beside them: seven steps, 23.9 seconds. */
+const SPEED_SCENE = speedScene(HERO_SWING.back, HERO_SWING.down);
+const ROUTINE_SCENE = routineScene(7, "#453C2C");
+const ROUTINE_S = 23.9;
+const PACE_LIMIT_S = 40;
+const TIMER_SCENE = timerScene(ROUTINE_S, PACE_LIMIT_S, INK);
+
 const WRAP = "mx-auto max-w-[1240px] px-4";
 const H2_BIG = "m-0 text-[clamp(36px,5vw,64px)] font-semibold leading-[1.05] tracking-[-0.03em]";
 const H2_MID = "m-0 text-[clamp(36px,4.4vw,56px)] font-semibold leading-[1.05] tracking-[-0.03em]";
@@ -278,7 +288,7 @@ export default function EliteTempoLanding() {
             <h1 className="m-0 text-[clamp(38px,9vw,80px)] font-semibold leading-[1.02] tracking-[-0.035em]">
               {/* The break only holds once both halves fit on a line; on a phone it
                   stranded a single word on a line of its own. */}
-              Time your entire golf game
+              Time your entire game
               <br className="hidden sm:block" /> from routine to impact.
             </h1>
             <p className={`mx-auto mt-[22px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
@@ -323,7 +333,14 @@ export default function EliteTempoLanding() {
           <TallCard title="Four numbers in every swing" ink="#24412F" bg="linear-gradient(180deg, #DDF3E4 0%, #8FD6A9 100%)" src="detail" alt="Tempo, backswing, downswing and total for one swing in Elite Tempo.">
             Backswing, downswing, total time and tempo, the ratio between the two.
           </TallCard>
-          <TallCard title="Rehearse your routine" ink="#453C2C" bg="linear-gradient(180deg, #F3EEE3 0%, #DCCDB0 100%)" src="practice" alt="Routine practice in Elite Tempo with the current step lit up.">
+          <TallCard
+            title="Rehearse your routine"
+            ink="#453C2C"
+            bg="linear-gradient(180deg, #F3EEE3 0%, #DCCDB0 100%)"
+            src="practice"
+            alt="Routine practice in Elite Tempo with the current step lit up."
+            motion={<LottieLoop scene={ROUTINE_SCENE} label="Seven routine steps lighting up one after another, ending in gold at impact." className="mt-5 w-full max-w-[336px]" />}
+          >
             Each step of your pre-shot routine lights up as you reach it.
           </TallCard>
         </div>
@@ -341,6 +358,16 @@ export default function EliteTempoLanding() {
               Groove a pre-shot routine you can repeat inside the 40 seconds the USGA and The
               R&amp;A recommend, so a quicker pace feels normal.
             </p>
+            <div className="mt-8 max-w-[420px]">
+              <p className="m-0 text-[30px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums]">{ROUTINE_S} s</p>
+              <LottieLoop scene={TIMER_SCENE} label={`A routine of ${ROUTINE_S} seconds filling the bar, short of the ${PACE_LIMIT_S} second limit.`} className="mt-2 w-full" />
+              <div className="relative mt-2 h-5 text-[15px]" style={{ color: "#55565C" }}>
+                <span className="absolute left-0">{(PACE_LIMIT_S - ROUTINE_S).toFixed(1)} s to spare</span>
+                <span className="absolute -translate-x-1/2 whitespace-nowrap" style={{ left: `${(PACE_LIMIT_S / TIMER_SCALE_S) * 100}%` }}>
+                  {PACE_LIMIT_S} s limit
+                </span>
+              </div>
+            </div>
           </div>
           <div className="mx-auto h-[560px] w-[300px] flex-[0_1_300px] self-end">
             <Phone src="routines" alt="Elite Tempo's Routines tab: a 23.9 second average against the 40 second limit." />
@@ -397,6 +424,23 @@ export default function EliteTempoLanding() {
             <p className="mt-4 max-w-[26em] text-[21px] leading-[1.35]" style={{ color: "rgba(255,255,255,0.8)" }}>
               Slow the same timing down to groove the feel, then bring it back to full speed for
               the range or the course.
+            </p>
+            <div className="mt-8 flex max-w-[560px] items-stretch gap-4 text-[15px] [font-variant-numeric:tabular-nums]">
+              <div className="grid shrink-0 grid-rows-3 items-center font-semibold">
+                {SPEEDS.map((sp) => <span key={sp}>{sp * 100}%</span>)}
+              </div>
+              <LottieLoop
+                scene={SPEED_SCENE}
+                label={`Tiger Woods' driver swing filling three bars at 75%, 90% and full speed, the same ${fmtRatio(HERO_SWING)} ratio in each.`}
+                className="min-w-0 flex-1"
+              />
+              <div className="grid shrink-0 grid-rows-3 items-center text-right" style={{ color: "rgba(255,255,255,0.7)" }}>
+                {/* From the rounded total the page prints, so 1.05 at 90% reads 1.17 and the sum checks out. */}
+                {SPEEDS.map((sp) => <span key={sp}>{(Number(HERO_SWING.total.toFixed(2)) / sp).toFixed(2)} s</span>)}
+              </div>
+            </div>
+            <p className="mt-4 text-[15px]" style={{ color: "rgba(255,255,255,0.7)" }}>
+              Tiger&apos;s 2000 Open Championship driver. The same {fmtRatio(HERO_SWING)} ratio at every speed.
             </p>
           </div>
           <div className="mx-auto h-[560px] w-[300px] flex-[0_1_300px] self-end">
@@ -592,6 +636,7 @@ function TallCard({
   bg,
   src,
   alt,
+  motion,
   children,
 }: {
   title: string;
@@ -599,6 +644,7 @@ function TallCard({
   bg: string;
   src: string;
   alt: string;
+  motion?: ReactNode;
   children: ReactNode;
 }) {
   return (
@@ -607,6 +653,7 @@ function TallCard({
       <p className="mt-3 text-[19px] leading-[1.32]" style={{ color: ink }}>
         {children}
       </p>
+      {motion}
       <Phone src={src} alt={alt} className="mx-auto mt-8 w-[270px]" />
     </article>
   );

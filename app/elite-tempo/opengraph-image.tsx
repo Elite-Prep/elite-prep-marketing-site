@@ -23,7 +23,7 @@ import { MARK_ASPECT, markDataUri } from "./EliteTempoMark";
  * again without the build failing first.
  */
 
-export const alt = "Elite Tempo. Time your entire golf game from routine to impact.";
+export const alt = "Elite Tempo. Time your entire game from routine to impact.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -97,9 +97,8 @@ export default async function Image() {
               color: INK,
             }}
           >
-            <span>Time your entire</span>
-            <span>golf game from</span>
-            <span>routine to impact.</span>
+            <span>Time your entire game</span>
+            <span>from routine to impact.</span>
           </div>
 
           <div style={{ display: "flex", fontSize: 27, color: MUTED, marginTop: 28, maxWidth: 600, lineHeight: 1.4 }}>
