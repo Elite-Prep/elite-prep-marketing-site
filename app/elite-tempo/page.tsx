@@ -63,13 +63,13 @@ export const metadata: Metadata = {
     "3 to 1 tempo ratio",
   ],
   openGraph: {
-    title: "Elite Tempo. Time your whole shot, from routine to impact.",
+    title: "Elite Tempo. Time your entire golf game from routine to impact.",
     description:
       `Golf tempo, timed by hand to 1/100s. Film your own swing, mark takeaway, top and impact on a frame-accurate scrubber, and get your four numbers. Train hands-free with beats in your headphones. Free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month.`,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Elite Tempo. Time your whole shot, from routine to impact.",
+    title: "Elite Tempo. Time your entire golf game from routine to impact.",
     description: `Golf tempo, timed by hand to 1/100s. Auto swing capture, hands-free. Free ${TRIAL_DAYS}-day trial, then ${PRICE_YEARLY} a year.`,
   },
 };
@@ -277,8 +277,8 @@ export default function EliteTempoLanding() {
           <div className="px-4 pt-[clamp(36px,5vw,64px)] text-center">
             <h1 className="m-0 text-[clamp(38px,9vw,80px)] font-semibold leading-[1.02] tracking-[-0.035em]">
               {/* The break only holds once both halves fit on a line; on a phone it
-                  stranded "shot," on a line of its own. */}
-              Time your whole shot,
+                  stranded a single word on a line of its own. */}
+              Time your entire golf game
               <br className="hidden sm:block" /> from routine to impact.
             </h1>
             <p className={`mx-auto mt-[22px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
@@ -304,7 +304,7 @@ export default function EliteTempoLanding() {
 
       {/* Every part of the game, playable. */}
       <section className={`${WRAP} pt-[clamp(72px,10vw,136px)] text-center`}>
-        <h2 className={H2_BIG}>Time every part of your game.</h2>
+        <h2 className={H2_BIG}>Every shot has its own timing.</h2>
         <p className={`mx-auto mt-4 max-w-[30em] ${LEDE}`} style={{ color: "#6E6F75" }}>
           Pick a part of the game, press play, and hear the timing of a real tournament shot.
         </p>
