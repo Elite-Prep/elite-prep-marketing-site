@@ -293,8 +293,8 @@ export default function EliteTempoLanding() {
               <br className="hidden sm:block" /> from routine to impact.
             </h1>
             <p className={`mx-auto mt-[22px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
-              For every part of your game: tee shots, approach shots, short game and putting.
-              So you play your best when it matters most.
+              Capture your pre-shot routine, time every step, and train the total timing of every
+              shot, so you play your best when it matters most.
             </p>
             <AppStoreBadge className="mt-7" />
             <p className="mt-3.5 text-[15px]" style={{ color: "#4A4B50" }}>
@@ -325,6 +325,15 @@ export default function EliteTempoLanding() {
           </noscript>
         </section>
       </div>
+
+      {/* The problem, in plain type with no screen: the reason the rest of the page exists. */}
+      <section className="mx-auto max-w-[900px] px-4 pt-[clamp(72px,10vw,136px)] text-center">
+        <h2 className={H2_BIG}>Your timing and routine break down under pressure because you never practiced them.</h2>
+        <p className={`mx-auto mt-5 max-w-[30em] ${LEDE}`} style={{ color: "#6E6F75" }}>
+          Now you can. Film your routine, name each step, and time it until it holds up on the
+          first tee. Practicing your routine inside 40 seconds also means you play faster.
+        </p>
+      </section>
 
       {/* Every part of the game, playable. */}
       <section className={`${WRAP} pt-[clamp(72px,10vw,136px)] text-center`}>
