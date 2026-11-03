@@ -20,7 +20,6 @@ import {
   PRICE_YEARLY,
   PRICE_YEARLY_NUM,
   TRIAL_DAYS,
-  YEARLY_SAVING_PCT,
 } from "./data/pricing";
 import EliteTempoMark from "./EliteTempoMark";
 import {
@@ -82,55 +81,50 @@ export const metadata: Metadata = {
    and the cards can never disagree; declared above FAQS because that array reads
    them at module load. */
 const RORY = FEATURED[1];
-const COUPLES = FEATURED[2];
+const HIDEKI = FEATURED[2];
 
-/* Answers the questions people actually search, which "Elite Tempo" is not. Every
-   one of these is lifted from the People Also Ask box on "elite tempo golf" and
-   "tour tempo", so they are known real queries rather than guesses. Rendered as
-   visible copy AND as FAQPage structured data, because AI answer engines quote the
-   markup and Google builds the expandable sub-rows from it. */
+/* Only questions a golfer deciding whether to download would really ask, or that
+   people search for and get wrong elsewhere (Rory's tempo). Each answer is a few
+   plain sentences. Rendered as visible copy AND as FAQPage structured data,
+   because AI answer engines quote the markup and Google builds the expandable
+   sub-rows from it. Cut on 11-03: "What is golf swing tempo?" (now inside the
+   3 to 1 answer) and the metronome question (it has its own page). */
 const FAQS: { q: string; a: string }[] = [
   {
     q: "Do I have to change my swing?",
-    a: "No. You can train to the tempo of your own best swing.",
+    a: "No. Film your own best swing and train to its timing, or pick a tour player whose timing suits you.",
   },
   {
-    q: "What is golf swing tempo?",
-    a: "Tempo is the ratio between the time your backswing takes and the time your downswing takes, not how fast you swing overall. Tour players are remarkably consistent at it, which is why it is trainable: you are copying timing, not speed.",
+    q: "How do I time my pre-shot routine?",
+    a: "Film your routine once and name each step, like picking a target or a practice swing. Elite Tempo times every step and the total against the 40 seconds the USGA and The R&A recommend. Then practice it hands free: the app hears the strike and tells you whether you were on time.",
   },
   {
     q: "What is the 3 to 1 tempo ratio?",
-    a: "Most tour players take about three times as long to complete the backswing as the downswing, a 3:1 ratio, often counted as 24 frames back and 8 frames down at 30fps. Elite Tempo plays that ratio as three beats so you can feel it instead of counting it.",
+    a: "Tempo is how long your backswing takes compared with your downswing. Most tour players sit near 3 to 1, so the backswing takes about three times as long. Elite Tempo plays that timing as beats in your headphones so you can feel it instead of counting it.",
   },
   {
     q: "What is Rory McIlroy's swing tempo?",
-    /* Built from the library rather than typed, for the same reason as everything
-       else on this page — and this one is quoted more than any other, because it
-       is the answer the rest of the web gets wrong. Search engines return "a
-       textbook 3:1" for Rory; the actual marks say 2.45:1. */
+    /* Built from the library rather than typed, and quoted more than any other
+       answer, because it is the one the rest of the web gets wrong: search engines
+       return "a textbook 3:1" for Rory; the actual marks say 2.45:1. */
     a:
-      `Elite Tempo hand-times real broadcast footage to 1/100 of a second. Rory's ${RORY.year} ` +
-      `${RORY.event} driver swing is a ${fmtSeconds(RORY.back)} backswing and a ${fmtSeconds(RORY.down)} ` +
-      `downswing, so a ${fmtRatio(RORY)} ratio over ${fmtSeconds(RORY.total)}, noticeably quicker than the ` +
-      `"3:1" most coaching copy quotes. Compare that with Tiger's ${fmtRatio(HERO_SWING)} driver at the ` +
-      `2000 Open Championship and Fred Couples' ${fmtRatio(COUPLES)} fairway wood at the 1992 Masters. ` +
-      `You can train against any of them.`,
+      `Rory's ${RORY.year} ${RORY.event} driver swing is a ${fmtSeconds(RORY.back)} backswing and a ` +
+      `${fmtSeconds(RORY.down)} downswing: ${fmtRatio(RORY)} over ${fmtSeconds(RORY.total)}, quicker than the ` +
+      `3:1 most coaching quotes. Tiger's 2000 Open Championship driver is ${fmtRatio(HERO_SWING)} and ` +
+      `Hideki Matsuyama's ${HIDEKI.year} driver is ${fmtRatio(HIDEKI)}. Elite Tempo times each one by hand to ` +
+      `1/100 of a second, and you can train to any of them.`,
   },
   {
     q: "Does a golf tempo trainer actually work?",
-    a: "Tempo is one of the few parts of the swing you can change without rebuilding your mechanics, because it is timing rather than positions. The catch with most tools is that they only give you a target. Elite Tempo also lets you film your own swing and mark takeaway, top and impact on it frame by frame, so you can see whether you actually matched the target rather than guessing.",
+    a: "Timing is one of the few parts of a swing you can change without rebuilding your mechanics. Most tempo apps only play a beat. Elite Tempo also lets you film your swing and mark takeaway, top and impact, so you can see whether you matched it.",
   },
   {
-    q: "How is Elite Tempo different from a metronome?",
-    a: "A metronome gives you an even beat. A golf swing is not even. The backswing is roughly three times the downswing, so Elite Tempo plays beats spaced at real tour ratios and then measures your swing against them. You film your own swing and mark takeaway, top and impact on it, so you get your own four numbers to compare against.",
+    q: "Do I need anything besides my iPhone?",
+    a: "No. Record with the camera or import a clip you already have. While it plays, your tempo shows on the lock screen and on the Apple Watch Smart Stack. Elite Tempo is for iPhone only.",
   },
   {
     q: "How much does Elite Tempo cost?",
-    a: `Elite Tempo is free to download and free to try for ${TRIAL_DAYS} days. After that it is ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month, and you can cancel anytime. The yearly plan works out about ${YEARLY_SAVING_PCT}% cheaper than paying monthly.`,
-  },
-  {
-    q: "Do I need any extra hardware?",
-    a: "No. It runs on the iPhone you already own. Record a swing with the camera or import a clip you already have. A lock-screen Live Activity shows your tempo while it plays, and it mirrors to the Apple Watch Smart Stack if you wear one. There is no separate Watch app to install.",
+    a: `It is free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month. Cancel anytime.`,
   },
 ];
 
@@ -252,7 +246,7 @@ const HERO_SCREENS: { src: string; label: string; alt: string; clip?: string }[]
   { src: "routine", clip: "routine", label: "your routine", alt: "A pre-shot routine in Elite Tempo with its steps on the timeline, 23.9 seconds to impact." },
   { src: "player", clip: "player", label: "your swing", alt: "A golfer's own swing playing in Elite Tempo with tempo 3.0:1." },
   { src: "detail", label: "your four numbers", alt: "A swing's four numbers in Elite Tempo: tempo, backswing, downswing and total." },
-  { src: "pros", label: "the pros", alt: "Elite Tempo's Pros tab: Cameron Young, Tiger Woods, Fred Couples and Rory McIlroy with their tempos." },
+  { src: "pros", label: "the pros", alt: "Elite Tempo's Pros tab: tour players with their tempos." },
   { src: "practice", label: "routine practice", alt: "Routine practice in Elite Tempo with the current step lit up." },
 ];
 

@@ -1,4 +1,4 @@
-import { SWINGS, fmtRatio, shortEvent, swingsByCategory } from "./data/tempo-data";
+import { SWINGS, fmtRatio, shortClub, shortEvent, swingsByCategory } from "./data/tempo-data";
 
 /* The app's Tempos list, rebuilt in the DOM instead of shown as a screen recording.
  *
@@ -111,7 +111,7 @@ export default function TempoListMock() {
                   {s.player}
                 </span>
                 <span className="block truncate text-[9px]" style={{ color: MUTED }}>
-                  {shortEvent(s.event)} · {s.year}
+                  {s.event ? shortEvent(s.event) : shortClub(s.clubLabel)} · {s.year}
                   {s.result ? ` · ${s.result}` : ""}
                 </span>
               </span>

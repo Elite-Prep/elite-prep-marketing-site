@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { SWINGS, fmtRatio, shortEvent, swingsByCategory } from "./data/tempo-data";
+import { SWINGS, fmtRatio, shortClub, shortEvent, swingsByCategory } from "./data/tempo-data";
 import { PRICING_SUMMARY } from "./data/pricing";
 import { ACCENT, BG, CARD, HAIRLINE, INK, MUTED, ON_ACCENT, TRACKING_MARK } from "./theme";
 import { MARK_ASPECT, markDataUri } from "./EliteTempoMark";
@@ -203,7 +203,7 @@ export default async function Image() {
                         {s.player}
                       </div>
                       <div style={{ display: "flex", color: MUTED, fontSize: 11 }}>
-                        {`${shortEvent(s.event)} · ${s.year}`}
+                        {`${s.event ? shortEvent(s.event) : shortClub(s.clubLabel)} · ${s.year}`}
                       </div>
                     </div>
                     <div style={{ display: "flex", color: INK, fontSize: 17, fontWeight: 700 }}>

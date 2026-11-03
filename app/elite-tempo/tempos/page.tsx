@@ -10,6 +10,7 @@ import {
   fmtSeconds,
   swingsByCategory,
   type Swing,
+  whereWhen,
 } from "../data/tempo-data";
 import { description } from "../../seo";
 
@@ -36,7 +37,7 @@ const TITLE = "Golf Swing Tempo: 16 Tour Swings, Hand-Timed";
    someone click a result about swing tempo. The long-form version of this claim
    lives in the Dataset schema below, which has no display limit. */
 const DESCRIPTION = description(
-  `${SWINGS.length} tour swings hand-timed from tournament footage to 1/100s. Tiger 3.69:1, Rory 2.45:1, Couples 3.34:1, with the raw marks for every swing.`,
+  `${SWINGS.length} tour swings hand-timed from tournament footage to 1/100s. Tiger 3.69:1, Rory 2.45:1, Hideki 4.08:1, with the raw marks for every swing.`,
 );
 
 export const metadata: Metadata = {
@@ -92,7 +93,7 @@ const STRUCTURED_DATA = {
       itemListElement: SWINGS.map((s, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        name: `${s.player}, ${s.year} ${s.event}, ${s.clubLabel}: ${fmtRatio(s)}`,
+        name: `${s.player}, ${whereWhen(s)}, ${s.clubLabel}: ${fmtRatio(s)}`,
         url: `https://elitetempo.app/tempo/${s.slug}`,
       })),
     },
@@ -124,7 +125,7 @@ function Row({ swing }: { swing: Swing }) {
         {/* Event first, year after. "2000 The Open Championship" reads as a stumble;
             "The Open Championship, 2000" is how anyone would say it. */}
         <p className="mt-1 text-xs" style={{ color: MUTED }}>
-          {swing.event}, {swing.year}
+          {swing.event ? `${swing.event}, ${swing.year}` : swing.year}
           {swing.hole ? ` · ${swing.hole}` : ""} · {swing.clubLabel}
         </p>
       </td>

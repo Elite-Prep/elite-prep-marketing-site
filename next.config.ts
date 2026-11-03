@@ -48,6 +48,26 @@ const nextConfig: NextConfig = {
         destination: "/terms",
         permanent: true,
       },
+      /* Swing pages retired by the app's 11-03 library change. Fred Couples left
+         the library; Adam Scott's 2002 wood was replaced by his 2022 driver; and
+         "Johnny" Walker was a misspelling of Johnnie Walker. These are the short
+         elitetempo.app paths; the old eliteprep.app/elite-tempo forms reach them
+         through proxy.ts first. */
+      {
+        source: "/tempo/fred-couples-1992-the-masters-fairway-wood",
+        destination: "/tempos",
+        permanent: true,
+      },
+      {
+        source: "/tempo/adam-scott-2002-qatar-masters-fairway-wood",
+        destination: "/tempo/adam-scott-2022-driver",
+        permanent: true,
+      },
+      {
+        source: "/tempo/tiger-woods-2000-johnny-walker-classic-wedge",
+        destination: "/tempo/tiger-woods-2000-johnnie-walker-classic-wedge",
+        permanent: true,
+      },
     ];
   },
 };

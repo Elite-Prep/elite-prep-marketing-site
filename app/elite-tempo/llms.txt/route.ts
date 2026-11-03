@@ -1,4 +1,4 @@
-import { PLAYERS, SWINGS, fmtRatio, fmtSeconds } from "../data/tempo-data";
+import { PLAYERS, SWINGS, fmtRatio, fmtSeconds, whereWhen } from "../data/tempo-data";
 import { etUrl } from "../theme";
 
 /* /llms.txt — a plain-text map of the site for language models.
@@ -23,7 +23,7 @@ export const dynamic = "force-static";
 function body(): string {
   const rows = SWINGS.map(
     (s) =>
-      `- ${s.player}, ${s.year} ${s.event}${s.hole ? ` (${s.hole})` : ""}, ${s.clubLabel}: ` +
+      `- ${s.player}, ${whereWhen(s)}${s.hole ? ` (${s.hole})` : ""}, ${s.clubLabel}: ` +
       `${fmtRatio(s)}, backswing ${fmtSeconds(s.back)}, downswing ${fmtSeconds(s.down)}, ` +
       `total ${fmtSeconds(s.total)}. ` +
       `${etUrl(`/tempo/${s.slug}`)}`,

@@ -33,12 +33,14 @@ type SeedPreset = {
   year: number;
   club: string;
   clubLabel: string;
-  event: string;
+  /* The app now names newer swings by year and club only, so these three are
+     missing on those rows. */
+  event?: string;
   hole?: string;
   round?: string;
   result?: string;
-  tagline: string;
-  story: string;
+  tagline?: string;
+  story?: string;
   youtubeID: string;
   startS: number;
   topS: number;
@@ -111,7 +113,7 @@ function slugify(input: string): string {
    still being unique. PUBLISHED_SLUGS below is what stops that trade-off from
    quietly breaking a live URL later. */
 function baseSlugFor(p: SeedPreset): string {
-  return slugify([p.player, String(p.year), p.event, p.clubLabel].join(" "));
+  return slugify([p.player, String(p.year), p.event, p.clubLabel].filter(Boolean).join(" "));
 }
 
 function slugFor(p: SeedPreset, allPresets: SeedPreset[]): string {
@@ -137,15 +139,17 @@ export const SWINGS: Swing[] = presets.map((p) => {
     slug: slugFor(p, presets),
     player: p.player,
     year: p.year,
-    event: p.event,
+    /* Empty, not undefined, where the app gives no tournament: `whereWhen` below
+       is how every page says when and where a swing was hit. */
+    event: p.event ?? "",
     hole: p.hole,
     round: p.round,
     result: p.result,
     club: p.club,
     clubLabel: p.clubLabel,
     category: CATEGORY_BY_CLUB[p.club] ?? "Approach",
-    tagline: p.tagline,
-    story: p.story,
+    tagline: p.tagline ?? "",
+    story: p.story ?? "",
     youtubeID: p.youtubeID,
     startS: p.startS,
     topS: p.topS,
@@ -221,6 +225,13 @@ export function shortClub(clubLabel: string): string {
     .replace(/^Fairway wood$/, "Wood")
     .replace(/^(Short|Long) iron$/, "Iron")
     .replace(/^(Sand|Lob) wedge$/, "Wedge");
+}
+
+/* "2000 The Open Championship", or just "2022" for a swing the app names by year
+   and club only. `short` uses the abbreviated event for tight spots. */
+export function whereWhen(s: Swing, short = false): string {
+  const event = short ? shortEvent(s.event) : s.event;
+  return event ? `${s.year} ${event}` : String(s.year);
 }
 
 export function swingBySlug(slug: string): Swing | undefined {
@@ -325,7 +336,7 @@ function requireSwing(slug: string, why: string): Swing {
    when new shots ship; never edit an entry to make a red build go green. */
 export const PUBLISHED_SLUGS = [
   "tiger-woods-2000-the-open-championship-driver",
-  "tiger-woods-2000-johnny-walker-classic-wedge",
+  "tiger-woods-2000-johnnie-walker-classic-wedge",
   "tiger-woods-2000-the-memorial-short-iron",
   "tiger-woods-2000-pga-championship-putter-16th",
   "tiger-woods-2000-pga-championship-putter-18th",
@@ -333,8 +344,9 @@ export const PUBLISHED_SLUGS = [
   "tiger-woods-2007-pga-championship-iron",
   "rory-mcilroy-2014-pga-championship-driver",
   "rory-mcilroy-2010-wells-fargo-long-iron",
-  "fred-couples-1992-the-masters-fairway-wood",
-  "adam-scott-2002-qatar-masters-fairway-wood",
+  "adam-scott-2022-driver",
+  "hideki-matsuyama-2022-driver",
+  "hideki-matsuyama-2023-iron",
   "scottie-scheffler-2024-the-players-championship-wedge",
   "cameron-smith-2022-the-open-championship-putter",
   "cameron-young-2025-ryder-cup-driver",
@@ -359,8 +371,8 @@ export const HERO_SWING = requireSwing(
 export const FEATURED: Swing[] = [
   "tiger-woods-2000-the-open-championship-driver",
   "rory-mcilroy-2014-pga-championship-driver",
-  "fred-couples-1992-the-masters-fairway-wood",
-  "adam-scott-2002-qatar-masters-fairway-wood",
+  "hideki-matsuyama-2022-driver",
+  "adam-scott-2022-driver",
 ].map((slug) => requireSwing(slug, "a landing page card"));
 
 /* One real shot for each tab of the landing page's timing player, in the app's own
@@ -376,7 +388,7 @@ export const TIMING_BY_AREA: Swing[] = [
 export const GREATS_ROWS: Swing[] = [
   "tiger-woods-2000-the-open-championship-driver",
   "cameron-young-2025-ryder-cup-driver",
-  "fred-couples-1992-the-masters-fairway-wood",
-  "adam-scott-2002-qatar-masters-fairway-wood",
+  "hideki-matsuyama-2022-driver",
+  "adam-scott-2022-driver",
   "rory-mcilroy-2014-pga-championship-driver",
 ].map((slug) => requireSwing(slug, "a landing page comparison row"));

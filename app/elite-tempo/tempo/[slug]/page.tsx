@@ -12,6 +12,7 @@ import {
   shortEvent,
   swingBySlug,
   type Swing,
+  whereWhen,
 } from "../../data/tempo-data";
 import { TITLE_MAX, description as describe } from "../../../seo";
 
@@ -47,7 +48,7 @@ function question(s: Swing): string {
 
 function answer(s: Swing): string {
   return (
-    `${s.player}'s ${s.year} ${s.event} ${s.clubLabel.toLowerCase()} is a ` +
+    `${s.player}'s ${whereWhen(s)} ${s.clubLabel.toLowerCase()} is a ` +
     `${fmtSeconds(s.back)} backswing into a ${fmtSeconds(s.down)} downswing, a ` +
     `${fmtRatio(s)} tempo ratio over ${fmtSeconds(s.total)} from takeaway to impact. ` +
     `That is ${describeVsRule(s)} the 3:1 ratio usually quoted for tour players. ` +
@@ -78,7 +79,7 @@ export async function generateMetadata({
      word "Championship" recovers most of them; the few that still do not fit keep
      the player and the ratio, which are the parts worth reading. */
   const stem = `${swing.player}'s Swing Tempo: ${fmtRatio(swing)}`;
-  const withEvent = `${stem} (${swing.year} ${shortEvent(swing.event)})`;
+  const withEvent = `${stem} (${whereWhen(swing, true)})`;
   const title = withEvent.length <= TITLE_MAX ? withEvent : stem;
 
   /* A snippet, not the full answer. `answer()` runs to ~300 characters because it
@@ -86,9 +87,9 @@ export async function generateMetadata({
      limit and reward the detail. Google has one, so the meta description is its own
      shorter thing: the numbers first, provenance last. */
   const description = describe(
-    `${swing.player}'s ${swing.year} ${shortEvent(swing.event)} ${shortClub(swing.clubLabel).toLowerCase()}: ` +
+    `${swing.player}'s ${whereWhen(swing, true)} ${shortClub(swing.clubLabel).toLowerCase()}: ` +
       `${fmtSeconds(swing.back)} backswing, ${fmtSeconds(swing.down)} downswing, ` +
-      `${fmtRatio(swing)} over ${fmtSeconds(swing.total)}. Hand-timed from tournament footage.`,
+      `${fmtRatio(swing)} over ${fmtSeconds(swing.total)}. Hand-timed from ${swing.event ? "tournament footage" : "video"}.`,
   );
 
   return {
@@ -301,7 +302,7 @@ export default async function TempoDetail({
               className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
               style={{ color: INK }}
             >
-              {swing.year} {swing.event}
+              {whereWhen(swing)}
               {swing.hole ? `, ${swing.hole}` : ""}
             </a>
             . Raw marks: takeaway {swing.startS}s, top {swing.topS}s, impact{" "}
@@ -309,14 +310,17 @@ export default async function TempoDetail({
           </p>
         </section>
 
-        <section className="mt-12">
-          <h2 className="text-xl font-semibold" style={{ color: INK }}>
-            The shot
-          </h2>
-          <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
-            {swing.story}
-          </p>
-        </section>
+        {/* Newer swings carry no story in the app's library. */}
+        {swing.story && (
+          <section className="mt-12">
+            <h2 className="text-xl font-semibold" style={{ color: INK }}>
+              The shot
+            </h2>
+            <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
+              {swing.story}
+            </p>
+          </section>
+        )}
 
         {hub && (
           <section className="mt-12">

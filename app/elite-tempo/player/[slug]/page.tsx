@@ -12,6 +12,7 @@ import {
   shortEvent,
   type Player,
   type Swing,
+  whereWhen,
 } from "../../data/tempo-data";
 import { TITLE_MAX, description as describe } from "../../../seo";
 
@@ -69,7 +70,7 @@ function answer(p: Player): string {
   return (
     `${possessive(p.name)} ${h.clubLabel.toLowerCase()} tempo is ${fmtRatio(h)}, a ` +
     `${fmtSeconds(h.back)} backswing into a ${fmtSeconds(h.down)} downswing, timed by hand ` +
-    `from his ${h.year} ${shortEvent(h.event)} footage. Across his ${p.swings.length} swings in the ` +
+    `from his ${whereWhen(h, true)} footage. Across his ${p.swings.length} swings in the ` +
     `library his ratio runs from ${fmtRatio(p.fastest)} with a ` +
     `${p.fastest.clubLabel.toLowerCase()} to ${fmtRatio(p.slowest)} with a ` +
     `${p.slowest.clubLabel.toLowerCase()}, so his tempo ${describeSpread(p)} depending on the club.`
@@ -192,7 +193,7 @@ function Row({ swing }: { swing: Swing }) {
           {swing.clubLabel}
         </Link>
         <p className="mt-1 text-xs" style={{ color: MUTED }}>
-          {swing.event}, {swing.year}
+          {swing.event ? `${swing.event}, ${swing.year}` : swing.year}
           {swing.hole ? ` · ${swing.hole}` : ""}
         </p>
       </td>
@@ -299,7 +300,7 @@ export default async function PlayerPage({
           <Stat value={fmtRatio(h)} label={`${shortClub(h.clubLabel)} tempo`} />
         </div>
         <p className="mt-4 text-sm" style={{ color: MUTED }}>
-          From his {h.year} {shortEvent(h.event)} {h.clubLabel.toLowerCase()}.{" "}
+          From his {whereWhen(h, true)} {h.clubLabel.toLowerCase()}.{" "}
           <Link
             href={`/elite-tempo/tempo/${h.slug}`}
             className="font-semibold underline decoration-1 underline-offset-4 transition-colors hover:text-[#1F5FD6]"
