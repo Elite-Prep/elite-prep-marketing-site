@@ -139,9 +139,8 @@ const FAQS: { q: string; a: string }[] = [
    if the two disagree. See the header of that module for the full story.
 
    HERO_SWING is Tiger's 2000 Open Championship driver, the app's marquee preset:
-   all four numbers in the stat band come off the same three marks, so the band
-   cannot contradict itself. */
-const HERO = HERO_SWING;
+   the speed bars and their times all come off the same three marks, so they
+   cannot contradict each other. */
 
 /* Machine-readable statement of what this thing is. The page had no structured data
    at all, which is why Google and the AI answer engines had nothing but the App Store
@@ -293,8 +292,8 @@ export default function EliteTempoLanding() {
               <br className="hidden sm:block" /> from routine to impact.
             </h1>
             <p className={`mx-auto mt-[22px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
-              Capture your pre-shot routine, time every step, and train the total timing of every
-              shot, so you play your best when it matters most.
+              Capture your routine and the total timing of every shot. Play your best when it
+              matters most.
             </p>
             <AppStoreBadge className="mt-7" />
             <p className="mt-3.5 text-[15px]" style={{ color: "#4A4B50" }}>
@@ -330,8 +329,7 @@ export default function EliteTempoLanding() {
       <section className="mx-auto max-w-[900px] px-4 pt-[clamp(72px,10vw,136px)] text-center">
         <h2 className={H2_BIG}>Your timing and routine break down under pressure because you never practiced them.</h2>
         <p className={`mx-auto mt-5 max-w-[30em] ${LEDE}`} style={{ color: "#6E6F75" }}>
-          Now you can. Film your routine, name each step, and time it until it holds up on the
-          first tee. Practicing your routine inside 40 seconds also means you play faster.
+          Now you can. Film your routine, name each step, and time it.
         </p>
       </section>
 
@@ -339,22 +337,19 @@ export default function EliteTempoLanding() {
       <section className={`${WRAP} pt-[clamp(72px,10vw,136px)] text-center`}>
         <h2 className={H2_BIG}>Every shot has its own timing.</h2>
         <p className={`mx-auto mt-4 max-w-[30em] ${LEDE}`} style={{ color: "#6E6F75" }}>
-          Pick a part of the game, press play, and hear the timing of a real tournament shot.
+          Press play to hear a real tournament shot.
         </p>
         <DarkTimingPlayer shots={DARK_SHOTS} />
-        <p className="mt-5" style={{ color: "#6E6F75" }}>
-          On the range, keep your phone in your bag and hear your timing through your headphones.
-        </p>
       </section>
 
       {/* Three tall cards. */}
       <section className={`${WRAP} pt-[clamp(72px,10vw,136px)]`}>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-4">
           <TallCard title="Time your best swings" ink="#47402A" bg="linear-gradient(180deg, #FFF3C4 0%, #FBD860 100%)" src="player" alt="A golfer's own swing playing in Elite Tempo.">
-            Film a swing or pick one from Photos, mark it, and hear your own timing.
+            Film a swing and hear your own timing.
           </TallCard>
           <TallCard title="Four numbers in every swing" ink="#24412F" bg="linear-gradient(180deg, #DDF3E4 0%, #8FD6A9 100%)" src="detail" alt="Tempo, backswing, downswing and total for one swing in Elite Tempo.">
-            Backswing, downswing, total time and tempo, the ratio between the two.
+            Backswing, downswing, total and tempo.
           </TallCard>
           <TallCard
             title="Rehearse your routine"
@@ -364,7 +359,7 @@ export default function EliteTempoLanding() {
             alt="Routine practice in Elite Tempo with the current step lit up."
             motion={<LottieLoop scene={ROUTINE_SCENE} label="Seven routine steps lighting up one after another, ending in gold at impact." className="mt-5 w-full max-w-[336px]" />}
           >
-            Each step of your pre-shot routine lights up as you reach it.
+            Each step lights up as you reach it.
           </TallCard>
         </div>
       </section>
@@ -378,8 +373,7 @@ export default function EliteTempoLanding() {
           <div className="min-w-0 flex-[1_1_400px]">
             <h2 className={H2_MID}>Play faster without feeling rushed.</h2>
             <p className="mt-4 max-w-[26em] text-[21px] leading-[1.35]" style={{ color: "#55565C" }}>
-              Groove a pre-shot routine you can repeat inside the 40 seconds the USGA and The
-              R&amp;A recommend, so a quicker pace feels normal.
+              Fit your routine inside the 40 seconds the USGA and The R&amp;A recommend.
             </p>
             <div className="mt-8 max-w-[420px]">
               <p className="m-0 text-[30px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums]">{ROUTINE_S} s</p>
@@ -403,9 +397,7 @@ export default function EliteTempoLanding() {
         <div className="rounded-[28px] bg-white p-[clamp(32px,5vw,64px)]">
           <h2 className={H2_MID}>Copy the timing of tour players.</h2>
           <p className="mt-4 max-w-[28em] text-[21px] leading-[1.35]" style={{ color: "#55565C" }}>
-            Rory&apos;s driver swing takes {RORY.total.toFixed(2)} seconds. Tiger&apos;s took{" "}
-            {HERO.total.toFixed(2)}. Train to {SWINGS.length} real tournament shots, each hand-timed to
-            1/100 of a second.
+            Train to {SWINGS.length} tournament swings, each timed to 1/100 of a second.
           </p>
           {/* Each bar fills at the speed the swing really took, so the quicker
               swings visibly finish first. */}
@@ -453,8 +445,7 @@ export default function EliteTempoLanding() {
           <div className="min-w-0 flex-[1_1_400px] pb-8">
             <h2 className={H2_MID}>Practice at 75%, 90% or full speed.</h2>
             <p className="mt-4 max-w-[26em] text-[21px] leading-[1.35]" style={{ color: "rgba(255,255,255,0.8)" }}>
-              Slow the same timing down to groove the feel, then bring it back to full speed for
-              the range or the course.
+              Slow it down to groove the feel. Speed it up for the course.
             </p>
             <div className="mt-8 flex max-w-[560px] items-stretch gap-4 text-[15px] [font-variant-numeric:tabular-nums]">
               <div className="grid shrink-0 grid-rows-3 items-center font-semibold">
@@ -471,7 +462,7 @@ export default function EliteTempoLanding() {
               </div>
             </div>
             <p className="mt-4 text-[15px]" style={{ color: "rgba(255,255,255,0.7)" }}>
-              Tiger&apos;s 2000 Open Championship driver. The same {fmtRatio(HERO_SWING)} ratio at every speed.
+              Same {fmtRatio(HERO_SWING)} ratio at every speed.
             </p>
           </div>
           <div className="mx-auto h-[560px] w-[300px] flex-[0_1_300px] self-end">
@@ -484,10 +475,10 @@ export default function EliteTempoLanding() {
       <section className={`${WRAP} pt-4`}>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-4">
           <TallCard title="Keep your weekly streak" ink="#4A3A2A" bg="linear-gradient(180deg, #FFEBDC 0%, #FFC08F 100%)" src="stats" alt="Stats in Elite Tempo: 3 weeks in a row.">
-            Set a weekly goal. One range day a week keeps it going.
+            One range day a week keeps it going.
           </TallCard>
           <TallCard title="Share your timing" ink="#26344F" bg="linear-gradient(180deg, #E4EEFF 0%, #A9C8FF 100%)" src="share" alt="An Elite Tempo share card with a swing's four numbers.">
-            Send your four numbers to a coach or a friend as one clean card.
+            Send your four numbers to your coach.
           </TallCard>
         </div>
       </section>
@@ -521,8 +512,7 @@ export default function EliteTempoLanding() {
         >
           <h2 className={H2_BIG}>
             Time your own swing
-            <br />
-            before you pay a thing.
+            <br className="hidden sm:block" /> before you pay a thing.
           </h2>
           <p className="mt-4 text-[21px]" style={{ color: "#4A4B50" }}>
             Free for {TRIAL_DAYS} days, then {PRICE_YEARLY} a year or {PRICE_MONTHLY} a month. Cancel anytime.
@@ -534,8 +524,8 @@ export default function EliteTempoLanding() {
       {/* Why we built it. */}
       <section className="mx-auto max-w-[760px] px-4 pt-[clamp(72px,10vw,120px)]">
         <p className="m-0 text-[clamp(26px,3vw,34px)] font-semibold leading-[1.22] tracking-[-0.02em]">
-          Every tempo app made me pick a ratio, and I always ended up changing my swing to fit it.
-          I wanted to copy my own best swing and the best players in the world, so we built that.
+          Every tempo app made me change my swing to fit its ratio. So we built one that copies
+          yours.
         </p>
         <p className="mt-3.5 text-base" style={{ color: "#6E6F75" }}>
           Eric, founder of Elite Tempo
