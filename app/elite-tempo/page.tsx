@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import DarkTimingPlayer, { type DarkShot } from "./DarkTimingPlayer";
 import LottieLoop from "./LottieLoop";
+import PlayInView from "./PlayInView";
 import { SPEEDS, TIMER_SCALE_S, routineScene, speedScene, timerScene } from "./motion/scenes";
 import {
   FEATURED,
@@ -300,15 +301,28 @@ export default function EliteTempoLanding() {
               <span style={{ color: INK }} aria-hidden>
                 ★★★★★
               </span>{" "}
-              Rated 5.0 on the App Store. {TRIAL_DAYS} days free.
+              {/* Two whole lines on a phone instead of a wrap that strands "free." */}
+              <span className="whitespace-nowrap">Rated 5.0 on the App Store.</span>{" "}
+              <span className="block whitespace-nowrap sm:inline">{TRIAL_DAYS} days free.</span>
             </p>
           </div>
 
-          <div className="mt-12 flex h-[clamp(440px,62vw,680px)] items-start justify-center">
-            <Phone src="player" alt="A golfer's own swing playing in Elite Tempo with tempo 3.0:1." className="mr-[-40px] mt-20 w-[clamp(170px,24vw,300px)] -rotate-[7deg]" />
-            <Phone src="routine" alt="A pre-shot routine in Elite Tempo with its steps on the timeline, 23.9 seconds to impact." className="z-[1] w-[clamp(200px,28vw,350px)]" />
-            <Phone src="detail" alt="A swing's four numbers in Elite Tempo: tempo, backswing, downswing and total." className="ml-[-40px] mt-20 w-[clamp(170px,24vw,300px)] rotate-[7deg]" />
+          <div id="et-fan" data-fan="wait" suppressHydrationWarning className="mt-12 flex h-[clamp(440px,62vw,680px)] items-start justify-center">
+            <Phone eager src="player" alt="A golfer's own swing playing in Elite Tempo with tempo 3.0:1." className="et-fan et-fan-left mr-[-40px] mt-20 w-[clamp(170px,24vw,300px)] -rotate-[7deg]" />
+            <Phone eager src="routine" alt="A pre-shot routine in Elite Tempo with its steps on the timeline, 23.9 seconds to impact." className="et-fan et-fan-center z-[1] w-[clamp(200px,28vw,350px)]" />
+            <Phone eager src="detail" alt="A swing's four numbers in Elite Tempo: tempo, backswing, downswing and total." className="et-fan et-fan-right ml-[-40px] mt-20 w-[clamp(170px,24vw,300px)] rotate-[7deg]" />
           </div>
+          {/* Starts the fan once the three screens can be drawn, so on a slow
+              connection it does not play to empty frames. Plain script rather than an
+              effect so it does not wait for the page's JavaScript to load. */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(function(){var r=document.getElementById("et-fan");if(!r)return;var go=function(){r.dataset.fan="go"};Promise.all([].map.call(r.querySelectorAll("img"),function(i){return i.decode?i.decode().catch(function(){}):0})).then(function(){requestAnimationFrame(go)});setTimeout(go,2500)})();`,
+            }}
+          />
+          <noscript>
+            <style>{`.et-fan { animation: none !important; }`}</style>
+          </noscript>
         </section>
       </div>
 
@@ -384,7 +398,9 @@ export default function EliteTempoLanding() {
             {HERO.total.toFixed(2)}. Train to {SWINGS.length} real tournament shots, each hand-timed to
             1/100 of a second.
           </p>
-          <div className="mt-8">
+          {/* Each bar fills at the speed the swing really took, so the quicker
+              swings visibly finish first. */}
+          <PlayInView className="mt-8">
             {GREATS_ROWS.map((g) => (
               <Link
                 key={g.slug}
@@ -398,13 +414,19 @@ export default function EliteTempoLanding() {
                   </p>
                 </div>
                 <div className="flex h-3.5" role="img" aria-label={`Backswing ${fmtSeconds(g.back)}, downswing ${fmtSeconds(g.down)}.`}>
-                  <div className="rounded-l-[7px]" style={{ width: `${(g.back / LONGEST_GREAT) * 100}%`, background: INK }} />
-                  <div className="rounded-r-[7px]" style={{ width: `${(g.down / LONGEST_GREAT) * 100}%`, background: "#F9C832" }} />
+                  <div
+                    className="et-timed rounded-l-[7px]"
+                    style={{ width: `${(g.back / LONGEST_GREAT) * 100}%`, background: INK, ["--et-dur" as string]: `${g.back}s`, ["--et-delay" as string]: "0s" }}
+                  />
+                  <div
+                    className="et-timed rounded-r-[7px]"
+                    style={{ width: `${(g.down / LONGEST_GREAT) * 100}%`, background: "#F9C832", ["--et-dur" as string]: `${g.down}s`, ["--et-delay" as string]: `${g.back}s` }}
+                  />
                 </div>
                 <p className="m-0 text-[30px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums]">{fmtRatio(g)}</p>
               </Link>
             ))}
-          </div>
+          </PlayInView>
           <Link href="/elite-tempo/tempos" className="mt-4 inline-block text-[16px] font-semibold underline underline-offset-4">
             See all {SWINGS.length} hand-timed swings
           </Link>
@@ -617,14 +639,33 @@ const IPHONE_CSS = `
 .iphone { position: relative; box-sizing: border-box; padding: 7px; border-radius: 15% / 7.2%; background: linear-gradient(145deg, #9A9A9F 0%, #2A2A2D 22%, #4A4A4F 60%, #18181A 100%); box-shadow: 0 50px 90px -30px rgba(20, 30, 20, 0.5), 0 18px 36px -18px rgba(20, 30, 20, 0.35); }
 .iphone-screen { position: relative; width: 100%; aspect-ratio: 1206 / 2622; border-radius: 13% / 6.2%; overflow: hidden; background: #000; }
 .iphone-screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Hero: the three screens open from a stack into their fan, once, on load. Tailwind's
+   rotate utilities set the rotate property, so the keyframes end on the same values. */
+@keyframes et-fan-left { from { translate: 62% -56px; rotate: 0deg; } to { translate: 0 0; rotate: -7deg; } }
+@keyframes et-fan-right { from { translate: -62% -56px; rotate: 0deg; } to { translate: 0 0; rotate: 7deg; } }
+@keyframes et-fan-center { from { translate: 0 18px; } to { translate: 0 0; } }
+.et-fan { animation: 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both paused; }
+[data-fan="go"] .et-fan { animation-play-state: running; }
+.et-fan-left { animation-name: et-fan-left; }
+.et-fan-right { animation-name: et-fan-right; }
+.et-fan-center { animation-name: et-fan-center; }
+
+/* Tour timing bars, in real time: backswing, then downswing straight after it. */
+[data-motion="armed"] .et-timed { clip-path: inset(0 100% 0 0); }
+[data-motion="play"] .et-timed { clip-path: inset(0 0 0 0); transition: clip-path var(--et-dur) linear calc(var(--et-delay) + 0.2s); }
+
+@media (prefers-reduced-motion: reduce) { .et-fan { animation: none; } }
 `;
 
-function Phone({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
+/* `eager` for the hero's three, which open into their fan on load and need their
+   screens by then; every other phone waits until it is near the viewport. */
+function Phone({ src, alt, className = "", eager = false }: { src: string; alt: string; className?: string; eager?: boolean }) {
   return (
     <div className={`iphone shrink-0 ${className}`}>
       <div className="iphone-screen">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`/elite-tempo/app/${src}.png`} alt={alt} loading="lazy" />
+        <img src={`/elite-tempo/app/${src}.png`} alt={alt} loading={eager ? "eager" : "lazy"} />
       </div>
     </div>
   );
