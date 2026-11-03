@@ -23,7 +23,7 @@ import { MARK_ASPECT, markDataUri } from "./EliteTempoMark";
  * again without the build failing first.
  */
 
-export const alt = "Elite Tempo. Copy your best. Copy the greats. Groove your routine.";
+export const alt = "Elite Tempo. Time your whole shot, from routine to impact.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -72,17 +72,16 @@ export default async function Image() {
           {/* Wordmark */}
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 44 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={markDataUri(ACCENT)} width={36 * MARK_ASPECT} height={36} alt="" />
+            <img src={markDataUri(INK)} width={36 * MARK_ASPECT} height={36} alt="" />
             <div
               style={{
                 display: "flex",
                 fontSize: 34,
                 fontWeight: 700,
                 color: INK,
-                letterSpacing: TRACKING_MARK,
               }}
             >
-              ELITE TEMPO
+              Elite Tempo
             </div>
           </div>
 
@@ -98,13 +97,12 @@ export default async function Image() {
               color: INK,
             }}
           >
-            <span>Copy your best.</span>
-            <span>Copy the greats.</span>
-            <span style={{ color: INK }}>Groove your routine.</span>
+            <span>Time your whole shot,</span>
+            <span>from routine to impact.</span>
           </div>
 
           <div style={{ display: "flex", fontSize: 27, color: MUTED, marginTop: 28, maxWidth: 600, lineHeight: 1.4 }}>
-            Golf tempo, timed by hand to 1/100s.
+            For tee shots, approach shots, short game and putting.
           </div>
 
           <div
