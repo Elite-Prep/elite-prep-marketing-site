@@ -10,7 +10,7 @@ import useReducedMotion from "./useReducedMotion";
    a finger or pointer is on it or it is off screen. Reduce Motion stops the timer,
    the clips and the transitions; swiping and the dots still work. */
 
-const STEP_MS = 3200;
+const STEP_MS = 2500;
 /* Per distance from the front: sideways shift (in phone widths), turn, size, fade.
    Every phone is laid out at the front screen's full size and only ever scaled
    down, because scaling an image up past its laid out size blurs it. The two
