@@ -537,11 +537,9 @@ export default function EliteTempoLanding() {
       {/* Why we built it. */}
       <section className="mx-auto max-w-[760px] px-4 pt-[clamp(72px,10vw,120px)]">
         <p className="m-0 text-[clamp(26px,3vw,34px)] font-semibold leading-[1.22] tracking-[-0.02em]">
-          {/* Same story as the app's founder note: pro golf, metronomes that made him
-              fit his swing to them, and wanting his best timing to hold up under pressure. */}
-          When I played professional golf, every tempo app made me change my swing to fit its
-          beat. I wanted to capture my timing and routine when I was playing my best, and repeat
-          them under pressure. So I built Elite Tempo.
+          {/* The app's founder note, cut to its point: his best timing, held under pressure. */}
+          I built Elite Tempo to capture my timing and routine when I was playing my best, and
+          repeat them under pressure.
         </p>
         <p className="mt-3.5 text-base" style={{ color: "#6E6F75" }}>
           Eric, founder
