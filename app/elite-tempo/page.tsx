@@ -7,7 +7,6 @@ import PlayInView from "./PlayInView";
 import HeroCarousel from "./HeroCarousel";
 import { SPEEDS, TIMER_SCALE_S, routineScene, speedScene, timerScene } from "./motion/scenes";
 import {
-  FEATURED,
   GREATS_ROWS,
   HERO_SWING,
   SWINGS,
@@ -77,18 +76,12 @@ export const metadata: Metadata = {
   },
 };
 
-/* Named shots the copy below quotes by name. Pulled from the library so the prose
-   and the cards can never disagree; declared above FAQS because that array reads
-   them at module load. */
-const RORY = FEATURED[1];
-const HIDEKI = FEATURED[2];
 
-/* Only questions a golfer deciding whether to download would really ask, or that
-   people search for and get wrong elsewhere (Rory's tempo). Each answer is a few
-   plain sentences. Rendered as visible copy AND as FAQPage structured data,
+/* Only questions a golfer deciding whether to download would really ask. Each
+   answer is one to three plain sentences. Player tempo questions (Rory, Tiger)
+   are answered on the player pages, which rank for them on their own. Rendered as visible copy AND as FAQPage structured data,
    because AI answer engines quote the markup and Google builds the expandable
-   sub-rows from it. Cut on 11-03: "What is golf swing tempo?" (now inside the
-   3 to 1 answer) and the metronome question (it has its own page). */
+   sub-rows from it. */
 const FAQS: { q: string; a: string }[] = [
   {
     q: "Do I have to change my swing?",
@@ -96,35 +89,19 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "How do I time my pre-shot routine?",
-    a: "Film your routine once and name each step, like picking a target or a practice swing. Elite Tempo times every step and the total against the 40 seconds the USGA and The R&A recommend. Then practice it hands free: the app hears the strike and tells you whether you were on time.",
+    a: "Film your routine once and name each step, like picking a target or a practice swing. Elite Tempo times every step and the total against the 40 seconds the USGA and The R&A recommend.",
   },
   {
-    q: "What is the 3 to 1 tempo ratio?",
-    a: "Tempo is how long your backswing takes compared with your downswing. Most tour players sit near 3 to 1, so the backswing takes about three times as long. Elite Tempo plays that timing as beats in your headphones so you can feel it instead of counting it.",
-  },
-  {
-    q: "What is Rory McIlroy's swing tempo?",
-    /* Built from the library rather than typed, and quoted more than any other
-       answer, because it is the one the rest of the web gets wrong: search engines
-       return "a textbook 3:1" for Rory; the actual marks say 2.45:1. */
-    a:
-      `Rory's ${RORY.year} ${RORY.event} driver swing is a ${fmtSeconds(RORY.back)} backswing and a ` +
-      `${fmtSeconds(RORY.down)} downswing: ${fmtRatio(RORY)} over ${fmtSeconds(RORY.total)}, quicker than the ` +
-      `3:1 most coaching quotes. Tiger's 2000 Open Championship driver is ${fmtRatio(HERO_SWING)} and ` +
-      `Hideki Matsuyama's ${HIDEKI.year} driver is ${fmtRatio(HIDEKI)}. Elite Tempo times each one by hand to ` +
-      `1/100 of a second, and you can train to any of them.`,
-  },
-  {
-    q: "Does a golf tempo trainer actually work?",
-    a: "Timing is one of the few parts of a swing you can change without rebuilding your mechanics. Most tempo apps only play a beat. Elite Tempo also lets you film your swing and mark takeaway, top and impact, so you can see whether you matched it.",
+    q: "Can I practice without looking at my phone?",
+    a: "Yes. Leave it in your bag and hear your timing as beats in your headphones. During routine practice, the app hears the strike and tells you whether you were on time.",
   },
   {
     q: "Do I need anything besides my iPhone?",
-    a: "No. Record with the camera or import a clip you already have. While it plays, your tempo shows on the lock screen and on the Apple Watch Smart Stack. Elite Tempo is for iPhone only.",
+    a: "No. Record with the camera or import a clip you already have. Elite Tempo is for iPhone only.",
   },
   {
-    q: "How much does Elite Tempo cost?",
-    a: `It is free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month. Cancel anytime.`,
+    q: `How much does it cost?`,
+    a: `It is free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month. Cancel anytime in your iPhone settings.`,
   },
 ];
 
@@ -238,6 +215,51 @@ const ROUTINE_SCENE = routineScene(7, "#453C2C");
 const ROUTINE_S = 23.9;
 const PACE_LIMIT_S = 40;
 const TIMER_SCENE = timerScene(ROUTINE_S, PACE_LIMIT_S, INK);
+
+const FOOTER_COLUMNS = [
+  {
+    title: "Product",
+    links: [
+      { label: "Download app", href: APP_STORE_URL },
+      { label: "Tempo library", href: "/elite-tempo/tempos" },
+      { label: "How we time swings", href: "/elite-tempo/how-we-time-swings" },
+    ],
+  },
+  {
+    title: "Compare",
+    links: [
+      { label: "vs Tour Tempo", href: "/elite-tempo/vs/tour-tempo" },
+      { label: "vs a metronome", href: "/elite-tempo/vs/metronome" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "Contact us", href: "mailto:ebusalacchi@eliteprep.app" },
+      { label: "Terms of Service", href: "/elite-tempo/terms" },
+      { label: "Privacy Policy", href: "/elite-tempo/privacy" },
+    ],
+  },
+];
+
+/* The three live accounts. Icon paths are 24x24 outlines drawn for this page. */
+const SOCIALS = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/elitetempogolf",
+    icon: "M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM17.25 5.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z",
+  },
+  {
+    label: "TikTok",
+    href: "https://www.tiktok.com/@elitetempogolf",
+    icon: "M12.53.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07Z",
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/@elitetempo",
+    icon: "M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z",
+  },
+];
 
 /* The hero carousel's screens, front first. Two carry a few seconds of real app
    recorded from the Simulator: the routine running its timer and steps, and a
@@ -523,39 +545,80 @@ export default function EliteTempoLanding() {
         </p>
       </section>
 
-      {/* FAQ: native details, so the answers are in the HTML for search engines. */}
-      <section id="faq" className="mx-auto max-w-[760px] px-4 pt-[clamp(72px,10vw,120px)]">
-        <h2 className={H2_MID}>Questions</h2>
-        <div className="mt-6">
-          {FAQS.map(({ q, a }) => (
-            <details key={q} className="mb-2 rounded-2xl bg-white px-5">
-              <summary className="cursor-pointer list-none py-4 text-[18px] font-semibold marker:content-none">{q}</summary>
-              <p className="m-0 pb-[18px] text-[17px]" style={{ color: "#55565C" }}>
-                {a}
-              </p>
-            </details>
-          ))}
+      {/* FAQ, laid out like Mobbin's: the heading on the left, plain rounded rows
+          on the right, one way out at the end. Native details, so the answers are
+          in the HTML for search engines. */}
+      <section id="faq" className={`${WRAP} pt-[clamp(72px,10vw,120px)]`}>
+        <div className="grid gap-x-16 gap-y-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+          <h2 className={H2_BIG}>Frequently asked questions</h2>
+          <div>
+            {FAQS.map(({ q, a }) => (
+              <details key={q} className="et-faq mb-3 rounded-2xl bg-white">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 text-[18px] font-semibold marker:content-none [&::-webkit-details-marker]:hidden">
+                  {q}
+                  <svg aria-hidden viewBox="0 0 24 24" width="22" height="22" className="et-chev shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </summary>
+                <p className="m-0 px-6 pb-5 text-[17px] leading-[1.45]" style={{ color: "#55565C" }}>
+                  {a}
+                </p>
+              </details>
+            ))}
+            <p className="mt-6 text-center text-[16px]" style={{ color: "#6E6F75" }}>
+              Still have a question?{" "}
+              <a href="mailto:ebusalacchi@eliteprep.app" className="underline underline-offset-4" style={{ color: INK }}>
+                Email us
+              </a>
+              .
+            </p>
+          </div>
         </div>
       </section>
 
-      <footer className={`${WRAP} pb-10 pt-[clamp(72px,10vw,120px)]`}>
-        <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4">
-          <Wordmark />
-          <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2 text-[15px]" style={{ color: "#55565C" }}>
-            <Link href="/elite-tempo/privacy" className="no-underline">Privacy</Link>
-            <Link href="/elite-tempo/terms" className="no-underline">Terms</Link>
-            <a href="mailto:ebusalacchi@eliteprep.app" className="no-underline">Contact</a>
-            <Link href="/" className="no-underline">Elite Prep</Link>
+      {/* Footer, structured like Bevel's: the mark and copyright on the left, a few
+          short link columns, then the social icons on their own row. */}
+      <footer className={`${WRAP} pb-10 pt-[clamp(96px,12vw,160px)]`}>
+        <div className="flex flex-wrap justify-between gap-x-16 gap-y-12">
+          <div>
+            <Wordmark />
+            <p className="mt-2 text-sm" style={{ color: "#6E6F75" }}>
+              © {new Date().getFullYear()} Elite Prep Inc.
+            </p>
+          </div>
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-16 gap-y-10 sm:grid-cols-3">
+            {FOOTER_COLUMNS.map((col) => (
+              <div key={col.title}>
+                <p className="m-0 text-[16px] font-medium" style={{ color: "#8A8B90" }}>
+                  {col.title}
+                </p>
+                <ul className="m-0 mt-4 list-none space-y-2.5 p-0 text-[16px]">
+                  {col.links.map((l) => (
+                    <li key={l.label}>
+                      <a href={l.href} className="no-underline hover:underline hover:underline-offset-4" style={{ color: INK }}>
+                        {l.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </nav>
         </div>
-        <p className="mt-6 max-w-[62em] text-sm leading-[1.5]" style={{ color: "#6E6F75" }}>
-          Part of the Elite Prep family. Elite Tempo references real golfers, tournaments, and shots
-          for descriptive and educational purposes only, and is not affiliated with, sponsored by, or
-          endorsed by any player, tournament, tour, or organization named in the app. All names and
-          trademarks belong to their respective owners.
-        </p>
-        <p className="mt-2 text-sm" style={{ color: "#6E6F75" }}>
-          © {new Date().getFullYear()} Elite Prep Inc.
+        <div className="mt-14 flex items-center gap-7">
+          {SOCIALS.map((so) => (
+            <a key={so.label} href={so.href} aria-label={`Elite Tempo on ${so.label}`} rel="noopener" target="_blank" className="transition-opacity hover:opacity-60" style={{ color: INK }}>
+              <svg aria-hidden viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d={so.icon} fillRule="evenodd" />
+              </svg>
+            </a>
+          ))}
+        </div>
+        <p className="mt-10 max-w-[62em] text-[13px] leading-[1.5]" style={{ color: "#8A8B90" }}>
+          Elite Tempo references real golfers, tournaments, and shots for descriptive and
+          educational purposes only, and is not affiliated with, sponsored by, or endorsed by any
+          player, tournament, tour, or organization named in the app. All names and trademarks
+          belong to their respective owners.
         </p>
       </footer>
     </main>
@@ -628,6 +691,8 @@ function ScreenVideo({ name, label }: { name: string; label: string }) {
 const IPHONE_CSS = `
 .iphone { position: relative; box-sizing: border-box; padding: 7px; border-radius: 15% / 7.2%; background: linear-gradient(145deg, #9A9A9F 0%, #2A2A2D 22%, #4A4A4F 60%, #18181A 100%); box-shadow: 0 50px 90px -30px rgba(20, 30, 20, 0.5), 0 18px 36px -18px rgba(20, 30, 20, 0.35); }
 .iphone-screen { position: relative; width: 100%; aspect-ratio: 1206 / 2622; border-radius: 13% / 6.2%; overflow: hidden; background: #000; }
+.et-faq[open] .et-chev { transform: rotate(180deg); }
+.et-chev { transition: transform 0.2s ease; }
 .iphone-screen img, .iphone-screen video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* Tour timing bars, in real time: backswing, then downswing straight after it. */

@@ -125,7 +125,48 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
           "radial-gradient(60% 90% at 88% 0%, rgba(249, 200, 50, 0.32) 0%, rgba(249, 200, 50, 0) 70%), radial-gradient(60% 90% at 0% 100%, rgba(38, 160, 96, 0.34) 0%, rgba(38, 160, 96, 0) 70%), #141518",
       }}
     >
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))] gap-5">
+        <Stat value={secs(shot.back)} label="Backswing" className={num} />
+        <Stat value={secs(shot.down)} label="Downswing" className={num} gold />
+        <Stat value={secs(total)} label="Total time" className={num} />
+        <Stat value={shot.ratio} label="Tempo" className={num} />
+      </div>
+      <div
+        className="relative mt-6 h-14"
+        role="img"
+        aria-label={`Timing bar: backswing ${secs(shot.back)}, downswing ${secs(shot.down)}.`}
+      >
+        <div className="absolute inset-x-0 top-5 h-4 rounded-lg" style={{ background: "rgba(255,255,255,0.1)" }} />
+        <div className="et-ease absolute left-0 top-5 h-4 rounded-l-lg bg-white" style={{ width: `${backW}%` }} />
+        <div
+          className="et-ease absolute top-5 h-4 rounded-r-lg"
+          style={{ left: `${backW}%`, width: `${downW}%`, background: "#F9C832" }}
+        />
+        <div
+          className="absolute top-2 -ml-0.5 h-10 w-1 rounded-sm bg-white"
+          style={{ left: `${(head / SCALE) * 100}%` }}
+        />
+      </div>
+      <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p key={`p${area}`} className="et-rise m-0 text-[clamp(30px,3.6vw,44px)] font-semibold leading-[1.1] tracking-[-0.025em]">
+            {shot.player}
+          </p>
+          <p key={`d${area}`} className="et-rise mt-1.5 text-[17px]" style={{ color: "rgba(255,255,255,0.7)", animationDelay: "60ms" }}>
+            {shot.detail}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => (playing ? stop() : play())}
+          className="min-h-[54px] min-w-[156px] cursor-pointer rounded-full border-0 bg-white px-[26px] text-[17px] font-semibold text-[#141518]"
+        >
+          {playing ? "Stop" : "Play timing"}
+        </button>
+      </div>
+      {/* The parts of the game come last: the heading promises four numbers, so
+          the numbers lead and these choose whose numbers they are. */}
+      <div className="mt-8 flex flex-wrap gap-2 border-t pt-6" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
         {shots.map((s, i) => (
           <button
             key={s.area}
@@ -148,45 +189,6 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
             {s.area}
           </button>
         ))}
-      </div>
-      <div className="mt-[clamp(32px,5vw,60px)] flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p key={`p${area}`} className="et-rise m-0 text-[clamp(30px,3.6vw,44px)] font-semibold leading-[1.1] tracking-[-0.025em]">
-            {shot.player}
-          </p>
-          <p key={`d${area}`} className="et-rise mt-1.5 text-[17px]" style={{ color: "rgba(255,255,255,0.7)", animationDelay: "60ms" }}>
-            {shot.detail}
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={() => (playing ? stop() : play())}
-          className="min-h-[54px] min-w-[156px] cursor-pointer rounded-full border-0 bg-white px-[26px] text-[17px] font-semibold text-[#141518]"
-        >
-          {playing ? "Stop" : "Play timing"}
-        </button>
-      </div>
-      <div
-        className="relative mt-7 h-14"
-        role="img"
-        aria-label={`Timing bar: backswing ${secs(shot.back)}, downswing ${secs(shot.down)}.`}
-      >
-        <div className="absolute inset-x-0 top-5 h-4 rounded-lg" style={{ background: "rgba(255,255,255,0.1)" }} />
-        <div className="et-ease absolute left-0 top-5 h-4 rounded-l-lg bg-white" style={{ width: `${backW}%` }} />
-        <div
-          className="et-ease absolute top-5 h-4 rounded-r-lg"
-          style={{ left: `${backW}%`, width: `${downW}%`, background: "#F9C832" }}
-        />
-        <div
-          className="absolute top-2 -ml-0.5 h-10 w-1 rounded-sm bg-white"
-          style={{ left: `${(head / SCALE) * 100}%` }}
-        />
-      </div>
-      <div className="mt-[18px] grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))] gap-5">
-        <Stat value={secs(shot.back)} label="Backswing" className={num} />
-        <Stat value={secs(shot.down)} label="Downswing" className={num} gold />
-        <Stat value={secs(total)} label="Total time" className={num} />
-        <Stat value={shot.ratio} label="Tempo" className={num} />
       </div>
       <style>{ROLL_CSS}</style>
     </div>
