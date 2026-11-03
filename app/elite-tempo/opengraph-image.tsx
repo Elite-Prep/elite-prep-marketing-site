@@ -164,7 +164,7 @@ export default async function Image() {
                   color: ON_ACCENT,
                 }}
               >
-                ELITE TEMPO
+                Elite Tempo
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", padding: 12 }}>
