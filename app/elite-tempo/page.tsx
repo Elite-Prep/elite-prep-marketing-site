@@ -359,10 +359,10 @@ export default function EliteTempoLanding() {
       <section className={`${WRAP} pt-[clamp(72px,10vw,136px)]`}>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-4">
           <TallCard title="Time your best swings" ink="#47402A" bg="linear-gradient(180deg, #FFF3C4 0%, #FBD860 100%)" src="player" alt="A golfer's own swing playing in Elite Tempo.">
-            Film a swing and hear your own timing.
+            Film a swing and groove the timing of your best shots.
           </TallCard>
-          <TallCard title="Find the tour player you match" ink="#24412F" bg="linear-gradient(180deg, #DDF3E4 0%, #8FD6A9 100%)" src="detail" alt="Tempo, backswing, downswing and total for one swing in Elite Tempo, with the closest tour timing.">
-            Your four numbers next to the closest tour timing.
+          <TallCard title="Compare to a tour player's timing" ink="#24412F" bg="linear-gradient(180deg, #DDF3E4 0%, #8FD6A9 100%)" src="detail" alt="A golfer's four timing numbers in Elite Tempo, each next to Adam Scott's.">
+            See how your timing stacks up to the best players in the world.
           </TallCard>
           <TallCard
             title="Rehearse your routine"
