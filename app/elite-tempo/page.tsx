@@ -460,7 +460,7 @@ export default function EliteTempoLanding() {
           I wanted to copy my own best swing and the best players in the world, so we built that.
         </p>
         <p className="mt-3.5 text-base" style={{ color: "#6E6F75" }}>
-          Eric Busalacchi, Elite Tempo
+          Eric, founder of Elite Tempo
         </p>
       </section>
 
