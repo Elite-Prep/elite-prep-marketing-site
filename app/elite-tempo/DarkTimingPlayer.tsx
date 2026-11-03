@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import useReducedMotion from "./useReducedMotion";
 
 export type DarkShot = {
   area: string;
@@ -18,14 +19,37 @@ function secs(n: number) {
   return `${n.toFixed(2)}s`;
 }
 
+/* How long each part of the game shows before the board rolls on to the next. */
+const CYCLE_MS = 4000;
+
 /* Pick a part of the game, press play, and hear a real tournament shot's timing:
-   a tick at takeaway and at the top, a higher one at impact, six times through. */
+   a tick at takeaway and at the top, a higher one at impact, six times through.
+   Until someone touches it, the board rolls through the parts of the game on its
+   own like a scoreboard, while it is on screen; Reduce Motion keeps it still. */
 export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
   const [area, setArea] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [head, setHead] = useState(0);
+  const [touched, setTouched] = useState(false);
+  const [visible, setVisible] = useState(false);
   const raf = useRef<number | null>(null);
   const audio = useRef<AudioContext | null>(null);
+  const box = useRef<HTMLDivElement>(null);
+  const still = useReducedMotion();
+
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    const seen = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.5 });
+    seen.observe(el);
+    return () => seen.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (still || touched || playing || !visible) return;
+    const timer = setInterval(() => setArea((a) => (a + 1) % shots.length), CYCLE_MS);
+    return () => clearInterval(timer);
+  }, [still, touched, playing, visible, shots.length]);
 
   const shot = shots[area];
   const total = shot.back + shot.down;
@@ -56,6 +80,7 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
   }
 
   function play() {
+    setTouched(true);
     const Ctx =
       window.AudioContext ||
       (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
@@ -93,6 +118,7 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
 
   return (
     <div
+      ref={box}
       className="mt-10 rounded-[28px] p-[clamp(22px,4vw,52px)] text-left text-white"
       style={{
         background:
@@ -108,6 +134,7 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
             onClick={() => {
               if (raf.current) cancelAnimationFrame(raf.current);
               raf.current = null;
+              setTouched(true);
               setArea(i);
               setPlaying(false);
               setHead(0);
@@ -124,10 +151,10 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
       </div>
       <div className="mt-[clamp(32px,5vw,60px)] flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="m-0 text-[clamp(30px,3.6vw,44px)] font-semibold leading-[1.1] tracking-[-0.025em]">
+          <p key={`p${area}`} className="et-rise m-0 text-[clamp(30px,3.6vw,44px)] font-semibold leading-[1.1] tracking-[-0.025em]">
             {shot.player}
           </p>
-          <p className="mt-1.5 text-[17px]" style={{ color: "rgba(255,255,255,0.7)" }}>
+          <p key={`d${area}`} className="et-rise mt-1.5 text-[17px]" style={{ color: "rgba(255,255,255,0.7)", animationDelay: "60ms" }}>
             {shot.detail}
           </p>
         </div>
@@ -145,9 +172,9 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
         aria-label={`Timing bar: backswing ${secs(shot.back)}, downswing ${secs(shot.down)}.`}
       >
         <div className="absolute inset-x-0 top-5 h-4 rounded-lg" style={{ background: "rgba(255,255,255,0.1)" }} />
-        <div className="absolute left-0 top-5 h-4 rounded-l-lg bg-white" style={{ width: `${backW}%` }} />
+        <div className="et-ease absolute left-0 top-5 h-4 rounded-l-lg bg-white" style={{ width: `${backW}%` }} />
         <div
-          className="absolute top-5 h-4 rounded-r-lg"
+          className="et-ease absolute top-5 h-4 rounded-r-lg"
           style={{ left: `${backW}%`, width: `${downW}%`, background: "#F9C832" }}
         />
         <div
@@ -161,7 +188,47 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
         <Stat value={secs(total)} label="Total time" className={num} />
         <Stat value={shot.ratio} label="Tempo" className={num} />
       </div>
+      <style>{ROLL_CSS}</style>
     </div>
+  );
+}
+
+const ROLL_CSS = `
+@keyframes et-roll { from { transform: translateY(105%); } to { transform: translateY(0); } }
+@keyframes et-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.et-roll { animation: et-roll 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.et-rise { animation: et-rise 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.et-ease { transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1), left 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+@media (prefers-reduced-motion: reduce) { .et-roll, .et-rise { animation: none; } .et-ease { transition: none; } }
+`;
+
+/* Each character sits in its own clipped slot and rolls up into place when the
+   value changes, left to right, like a scoreboard. Characters that did not change
+   stay put. */
+function Roll({ value }: { value: string }) {
+  /* The value shown before this one, kept with React's "store the previous prop"
+     pattern so only characters that changed roll. */
+  const [shown, setShown] = useState(value);
+  const [before, setBefore] = useState(value);
+  if (shown !== value) {
+    setBefore(shown);
+    setShown(value);
+  }
+  return (
+    <span>
+      <span className="sr-only">{value}</span>
+      {[...value].map((ch, i) => (
+        <span key={i} aria-hidden className="inline-block overflow-hidden align-bottom">
+          <span
+            key={before[i] === ch ? `same${i}` : `${value}${i}`}
+            className={before[i] === ch ? "inline-block" : "et-roll inline-block"}
+            style={{ animationDelay: `${i * 45}ms` }}
+          >
+            {ch}
+          </span>
+        </span>
+      ))}
+    </span>
   );
 }
 
@@ -169,7 +236,7 @@ function Stat({ value, label, className, gold = false }: { value: string; label:
   return (
     <div>
       <p className={className} style={gold ? { color: "#F9C832" } : undefined}>
-        {value}
+        <Roll value={value} />
       </p>
       <p className="mt-1.5 text-base" style={{ color: "rgba(255,255,255,0.7)" }}>
         {label}

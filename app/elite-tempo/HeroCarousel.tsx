@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import useReducedMotion from "./useReducedMotion";
 
 /* The hero's app screens on a 3D ring: the front one sits flat and full size, the
    ones beside it turn away and shrink. It moves on every few seconds, can be swiped
@@ -8,11 +9,13 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
    Reduce Motion stops the timer and the transitions; swiping and the dots still work. */
 
 const STEP_MS = 3200;
-/* Per distance from the front: sideways shift (in phone widths), turn, size, fade. */
+/* Per distance from the front: sideways shift (in phone widths), turn, size, fade.
+   The front screen is magnified and the two beside it kept small so it clearly
+   leads; the outer pair tuck in behind those two instead of widening the ring. */
 const RING = [
-  { x: 0, turn: 0, scale: 1, opacity: 1 },
-  { x: 0.74, turn: 32, scale: 0.8, opacity: 1 },
-  { x: 1.3, turn: 48, scale: 0.64, opacity: 0.55 },
+  { x: 0, turn: 0, scale: 1.1, opacity: 1 },
+  { x: 0.6, turn: 36, scale: 0.7, opacity: 0.92 },
+  { x: 0.74, turn: 50, scale: 0.56, opacity: 0.35 },
 ];
 
 export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; labels: string[] }) {
@@ -20,12 +23,11 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
   const [front, setFront] = useState(0);
   const [held, setHeld] = useState(false);
   const [visible, setVisible] = useState(true);
-  const [still, setStill] = useState(false);
+  const still = useReducedMotion();
   const box = useRef<HTMLDivElement>(null);
   const press = useRef<{ x: number; id: number } | null>(null);
 
   useEffect(() => {
-    setStill(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     const el = box.current;
     if (!el) return;
     const seen = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.2 });
