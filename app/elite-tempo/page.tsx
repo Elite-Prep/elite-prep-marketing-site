@@ -4,6 +4,7 @@ import Link from "next/link";
 import DarkTimingPlayer, { type DarkShot } from "./DarkTimingPlayer";
 import LottieLoop from "./LottieLoop";
 import PlayInView from "./PlayInView";
+import HeroCarousel from "./HeroCarousel";
 import { SPEEDS, TIMER_SCALE_S, routineScene, speedScene, timerScene } from "./motion/scenes";
 import {
   FEATURED,
@@ -244,6 +245,15 @@ const ROUTINE_S = 23.9;
 const PACE_LIMIT_S = 40;
 const TIMER_SCENE = timerScene(ROUTINE_S, PACE_LIMIT_S, INK);
 
+/* The hero carousel's screens, front first. */
+const HERO_SCREENS = [
+  { src: "routine", label: "your routine", alt: "A pre-shot routine in Elite Tempo with its steps on the timeline, 23.9 seconds to impact." },
+  { src: "player", label: "your swing", alt: "A golfer's own swing playing in Elite Tempo with tempo 3.0:1." },
+  { src: "detail", label: "your four numbers", alt: "A swing's four numbers in Elite Tempo: tempo, backswing, downswing and total." },
+  { src: "pros", label: "the pros", alt: "Elite Tempo's Pros tab: Cameron Young, Tiger Woods, Fred Couples and Rory McIlroy with their tempos." },
+  { src: "practice", label: "routine practice", alt: "Routine practice in Elite Tempo with the current step lit up." },
+];
+
 const WRAP = "mx-auto max-w-[1240px] px-4";
 const H2_BIG = "m-0 text-[clamp(36px,5vw,64px)] font-semibold leading-[1.05] tracking-[-0.03em]";
 const H2_MID = "m-0 text-[clamp(36px,4.4vw,56px)] font-semibold leading-[1.05] tracking-[-0.03em]";
@@ -306,26 +316,19 @@ export default function EliteTempoLanding() {
             </p>
           </div>
 
-          <div id="et-fan" data-fan="wait" suppressHydrationWarning className="mt-12 flex h-[clamp(440px,62vw,680px)] items-start justify-center">
-            <Phone eager src="player" alt="A golfer's own swing playing in Elite Tempo with tempo 3.0:1." className="et-fan et-fan-left mr-[-40px] mt-20 w-[clamp(170px,24vw,300px)] -rotate-[7deg]" />
-            <Phone eager src="routine" alt="A pre-shot routine in Elite Tempo with its steps on the timeline, 23.9 seconds to impact." className="et-fan et-fan-center z-[1] w-[clamp(200px,28vw,350px)]" />
-            <Phone eager src="detail" alt="A swing's four numbers in Elite Tempo: tempo, backswing, downswing and total." className="et-fan et-fan-right ml-[-40px] mt-20 w-[clamp(170px,24vw,300px)] rotate-[7deg]" />
-          </div>
-          {/* Starts the fan once the three screens can be drawn, so on a slow
-              connection it does not play to empty frames. Plain script rather than an
-              effect so it does not wait for the page's JavaScript to load. */}
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `(function(){var r=document.getElementById("et-fan");if(!r)return;var go=function(){r.dataset.fan="go"};Promise.all([].map.call(r.querySelectorAll("img"),function(i){return i.decode?i.decode().catch(function(){}):0})).then(function(){requestAnimationFrame(go)});setTimeout(go,2500)})();`,
-            }}
-          />
-          <noscript>
-            <style>{`.et-fan { animation: none !important; }`}</style>
-          </noscript>
+          <HeroCarousel labels={HERO_SCREENS.map((h) => h.label)} slides={HERO_SCREENS.map((h) => <Phone key={h.src} eager src={h.src} alt={h.alt} />)} />
         </section>
       </div>
 
-      {/* The problem, in plain type with no screen: the reason the rest of the page exists. */}
+      {/* Every part of the game, playable. */}
+      <section className={`${WRAP} pt-[clamp(72px,10vw,136px)] text-center`}>
+        <h2 className={H2_BIG}>Four numbers make up your timing.</h2>
+        <DarkTimingPlayer shots={DARK_SHOTS} />
+      </section>
+
+      {/* The problem, in plain type with no screen: the reason the rest of the page exists. It
+          sits after the player so two text blocks never stack, and leads into the
+          routine cards below it. */}
       <section className="mx-auto max-w-[900px] px-4 pt-[clamp(72px,10vw,136px)] text-center">
         <h2 className={H2_BIG}>Your timing and routine break down under pressure because you never practiced them.</h2>
         <p className={`mx-auto mt-5 max-w-[30em] ${LEDE}`} style={{ color: "#6E6F75" }}>
@@ -333,14 +336,6 @@ export default function EliteTempoLanding() {
         </p>
       </section>
 
-      {/* Every part of the game, playable. */}
-      <section className={`${WRAP} pt-[clamp(72px,10vw,136px)] text-center`}>
-        <h2 className={H2_BIG}>Every shot has its own timing.</h2>
-        <p className={`mx-auto mt-4 max-w-[30em] ${LEDE}`} style={{ color: "#6E6F75" }}>
-          Press play to hear a real tournament shot.
-        </p>
-        <DarkTimingPlayer shots={DARK_SHOTS} />
-      </section>
 
       {/* Three tall cards. */}
       <section className={`${WRAP} pt-[clamp(72px,10vw,136px)]`}>
@@ -348,8 +343,8 @@ export default function EliteTempoLanding() {
           <TallCard title="Time your best swings" ink="#47402A" bg="linear-gradient(180deg, #FFF3C4 0%, #FBD860 100%)" src="player" alt="A golfer's own swing playing in Elite Tempo.">
             Film a swing and hear your own timing.
           </TallCard>
-          <TallCard title="Four numbers in every swing" ink="#24412F" bg="linear-gradient(180deg, #DDF3E4 0%, #8FD6A9 100%)" src="detail" alt="Tempo, backswing, downswing and total for one swing in Elite Tempo.">
-            Backswing, downswing, total and tempo.
+          <TallCard title="Find the tour player you match" ink="#24412F" bg="linear-gradient(180deg, #DDF3E4 0%, #8FD6A9 100%)" src="detail" alt="Tempo, backswing, downswing and total for one swing in Elite Tempo, with the closest tour timing.">
+            Your four numbers next to the closest tour timing.
           </TallCard>
           <TallCard
             title="Rehearse your routine"
@@ -639,22 +634,10 @@ const IPHONE_CSS = `
 .iphone-screen { position: relative; width: 100%; aspect-ratio: 1206 / 2622; border-radius: 13% / 6.2%; overflow: hidden; background: #000; }
 .iphone-screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
-/* Hero: the three screens open from a stack into their fan, once, on load. Tailwind's
-   rotate utilities set the rotate property, so the keyframes end on the same values. */
-@keyframes et-fan-left { from { translate: 62% -56px; rotate: 0deg; } to { translate: 0 0; rotate: -7deg; } }
-@keyframes et-fan-right { from { translate: -62% -56px; rotate: 0deg; } to { translate: 0 0; rotate: 7deg; } }
-@keyframes et-fan-center { from { translate: 0 18px; } to { translate: 0 0; } }
-.et-fan { animation: 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both paused; }
-[data-fan="go"] .et-fan { animation-play-state: running; }
-.et-fan-left { animation-name: et-fan-left; }
-.et-fan-right { animation-name: et-fan-right; }
-.et-fan-center { animation-name: et-fan-center; }
-
 /* Tour timing bars, in real time: backswing, then downswing straight after it. */
 [data-motion="armed"] .et-timed { clip-path: inset(0 100% 0 0); }
 [data-motion="play"] .et-timed { clip-path: inset(0 0 0 0); transition: clip-path var(--et-dur) linear calc(var(--et-delay) + 0.2s); }
 
-@media (prefers-reduced-motion: reduce) { .et-fan { animation: none; } }
 `;
 
 /* `eager` for the hero's three, which open into their fan on load and need their
