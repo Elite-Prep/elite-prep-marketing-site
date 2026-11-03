@@ -276,9 +276,10 @@ export default function EliteTempoLanding() {
 
           <div className="px-4 pt-[clamp(36px,5vw,64px)] text-center">
             <h1 className="m-0 text-[clamp(38px,9vw,80px)] font-semibold leading-[1.02] tracking-[-0.035em]">
+              {/* The break only holds once both halves fit on a line; on a phone it
+                  stranded "shot," on a line of its own. */}
               Time your whole shot,
-              <br />
-              from routine to impact.
+              <br className="hidden sm:block" /> from routine to impact.
             </h1>
             <p className={`mx-auto mt-[22px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
               For every part of your game: tee shots, approach shots, short game and putting.
@@ -383,21 +384,23 @@ export default function EliteTempoLanding() {
         </div>
       </section>
 
-      {/* Practice speed. */}
+      {/* Practice speed. Copy first in the source so on a phone it stacks above the
+          screen, which runs taller than its 560px box and would cover the heading;
+          row-reverse keeps the screen on the left once the two sit side by side. */}
       <section className={`${WRAP} pt-4`}>
         <div
-          className="box-border flex min-h-[620px] flex-wrap items-center gap-x-[clamp(32px,6vw,80px)] gap-y-8 overflow-hidden rounded-[28px] px-[clamp(24px,5vw,64px)] pt-[clamp(32px,5vw,64px)] text-white"
+          className="box-border flex min-h-[620px] flex-row-reverse flex-wrap items-center gap-x-[clamp(32px,6vw,80px)] gap-y-8 overflow-hidden rounded-[28px] px-[clamp(24px,5vw,64px)] pt-[clamp(32px,5vw,64px)] text-white"
           style={{ background: "radial-gradient(70% 100% at 80% 100%, #1F9A5E 0%, rgba(31, 154, 94, 0) 75%), #0B2A1E" }}
         >
-          <div className="mx-auto h-[560px] w-[300px] flex-[0_1_300px] self-end">
-            <Phone src="options" alt="Elite Tempo's Player options with speed set to 90%." />
-          </div>
           <div className="min-w-0 flex-[1_1_400px] pb-8">
             <h2 className={H2_MID}>Practice at 75%, 90% or full speed.</h2>
             <p className="mt-4 max-w-[26em] text-[21px] leading-[1.35]" style={{ color: "rgba(255,255,255,0.8)" }}>
               Slow the same timing down to groove the feel, then bring it back to full speed for
               the range or the course.
             </p>
+          </div>
+          <div className="mx-auto h-[560px] w-[300px] flex-[0_1_300px] self-end">
+            <Phone src="options" alt="Elite Tempo's Player options with speed set to 90%." />
           </div>
         </div>
       </section>
