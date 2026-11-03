@@ -245,10 +245,12 @@ const ROUTINE_S = 23.9;
 const PACE_LIMIT_S = 40;
 const TIMER_SCENE = timerScene(ROUTINE_S, PACE_LIMIT_S, INK);
 
-/* The hero carousel's screens, front first. */
-const HERO_SCREENS = [
-  { src: "routine", label: "your routine", alt: "A pre-shot routine in Elite Tempo with its steps on the timeline, 23.9 seconds to impact." },
-  { src: "player", label: "your swing", alt: "A golfer's own swing playing in Elite Tempo with tempo 3.0:1." },
+/* The hero carousel's screens, front first. Two carry a few seconds of real app
+   recorded from the Simulator: the routine running its timer and steps, and a
+   swing playing with its numbers. */
+const HERO_SCREENS: { src: string; label: string; alt: string; clip?: string }[] = [
+  { src: "routine", clip: "routine", label: "your routine", alt: "A pre-shot routine in Elite Tempo with its steps on the timeline, 23.9 seconds to impact." },
+  { src: "player", clip: "player", label: "your swing", alt: "A golfer's own swing playing in Elite Tempo with tempo 3.0:1." },
   { src: "detail", label: "your four numbers", alt: "A swing's four numbers in Elite Tempo: tempo, backswing, downswing and total." },
   { src: "pros", label: "the pros", alt: "Elite Tempo's Pros tab: Cameron Young, Tiger Woods, Fred Couples and Rory McIlroy with their tempos." },
   { src: "practice", label: "routine practice", alt: "Routine practice in Elite Tempo with the current step lit up." },
@@ -316,7 +318,7 @@ export default function EliteTempoLanding() {
             </p>
           </div>
 
-          <HeroCarousel labels={HERO_SCREENS.map((h) => h.label)} slides={HERO_SCREENS.map((h) => <Phone key={h.src} eager src={h.src} alt={h.alt} />)} />
+          <HeroCarousel labels={HERO_SCREENS.map((h) => h.label)} slides={HERO_SCREENS.map((h) => <Phone key={h.src} eager src={h.src} alt={h.alt} clip={h.clip} />)} />
         </section>
       </div>
 
@@ -632,7 +634,7 @@ function ScreenVideo({ name, label }: { name: string; label: string }) {
 const IPHONE_CSS = `
 .iphone { position: relative; box-sizing: border-box; padding: 7px; border-radius: 15% / 7.2%; background: linear-gradient(145deg, #9A9A9F 0%, #2A2A2D 22%, #4A4A4F 60%, #18181A 100%); box-shadow: 0 50px 90px -30px rgba(20, 30, 20, 0.5), 0 18px 36px -18px rgba(20, 30, 20, 0.35); }
 .iphone-screen { position: relative; width: 100%; aspect-ratio: 1206 / 2622; border-radius: 13% / 6.2%; overflow: hidden; background: #000; }
-.iphone-screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.iphone-screen img, .iphone-screen video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* Tour timing bars, in real time: backswing, then downswing straight after it. */
 [data-motion="armed"] .et-timed { clip-path: inset(0 100% 0 0); }
@@ -640,16 +642,31 @@ const IPHONE_CSS = `
 
 `;
 
-/* `eager` for the hero's three, which open into their fan on load and need their
-   screens by then; every other phone waits until it is near the viewport. */
-function Phone({ src, alt, className = "", eager = false }: { src: string; alt: string; className?: string; eager?: boolean }) {
+/* `eager` for the hero's screens, which are on show from the first paint; every
+   other phone waits until it is near the viewport. `clip` names a short silent
+   screen recording that the hero carousel plays when this phone is in front; the
+   still is its poster, so it looks the same until it plays. */
+function Phone({ src, alt, className = "", eager = false, clip }: { src: string; alt: string; className?: string; eager?: boolean; clip?: string }) {
   return (
     <div className={`iphone shrink-0 ${className}`}>
       <div className="iphone-screen">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         {/* 960 wide, cut from the full size App Store screenshots: the old 598 wide
             copies were stretched past their pixels on any sharp screen and read blurry. */}
-        <img src={`/elite-tempo/app/${src}.webp`} alt={alt} width={960} height={2087} loading={eager ? "eager" : "lazy"} />
+        {clip ? (
+          <video
+            src={`/elite-tempo/app/${clip}.mp4`}
+            poster={`/elite-tempo/app/${src}.webp`}
+            aria-label={alt}
+            width={960}
+            height={2087}
+            muted
+            playsInline
+            preload="auto"
+          />
+        ) : (
+          <img src={`/elite-tempo/app/${src}.webp`} alt={alt} width={960} height={2087} loading={eager ? "eager" : "lazy"} />
+        )}
       </div>
     </div>
   );

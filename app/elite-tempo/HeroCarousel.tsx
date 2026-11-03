@@ -4,19 +4,22 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import useReducedMotion from "./useReducedMotion";
 
 /* The hero's app screens on a 3D ring: the front one sits flat and full size, the
-   ones beside it turn away and shrink. It moves on every few seconds, can be swiped
-   or tapped, and pauses while a finger or pointer is on it or it is off screen.
-   Reduce Motion stops the timer and the transitions; swiping and the dots still work. */
+   ones beside it turn away and shrink. A still screen holds for a few seconds; a
+   screen with a clip plays it once, from the start, and the ring turns when it
+   ends. Only the front clip ever plays. It can be swiped or tapped, and waits while
+   a finger or pointer is on it or it is off screen. Reduce Motion stops the timer,
+   the clips and the transitions; swiping and the dots still work. */
 
 const STEP_MS = 3200;
 /* Per distance from the front: sideways shift (in phone widths), turn, size, fade.
    Every phone is laid out at the front screen's full size and only ever scaled
    down, because scaling an image up past its laid out size blurs it. The two
    beside the front are kept small so it clearly leads; the outer pair tuck in
-   behind those two instead of widening the ring. */
+   behind those two instead of widening the ring. The pair beside the front stay
+   fully solid, or the tucked pair ghost through them. */
 const RING = [
   { x: 0, turn: 0, scale: 1, opacity: 1 },
-  { x: 0.55, turn: 36, scale: 0.64, opacity: 0.92 },
+  { x: 0.55, turn: 36, scale: 0.64, opacity: 1 },
   { x: 0.67, turn: 50, scale: 0.51, opacity: 0.35 },
 ];
 
@@ -37,13 +40,62 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
     return () => seen.disconnect();
   }, []);
 
+  /* Read when a still's time is up or a clip ends, rather than restarting either
+     every time a pointer comes and goes. */
+  const heldNow = useRef(false);
   useEffect(() => {
-    if (still || held || !visible) return;
-    const timer = setInterval(() => {
-      if (!document.hidden) setFront((f) => (f + 1) % count);
-    }, STEP_MS);
-    return () => clearInterval(timer);
-  }, [still, held, visible, count]);
+    heldNow.current = held;
+  }, [held]);
+
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    const clips = [...el.querySelectorAll("[data-slide]")].map((s) => s.querySelector("video"));
+    /* A clip that has played reloads so it shows its still again at the side,
+       not the video frame it stopped on. The file comes from the browser's cache. */
+    clips.forEach((v, i) => {
+      if (v && i !== front && (v.currentTime > 0 || !v.paused)) {
+        v.pause();
+        v.load();
+      }
+    });
+    const clip = clips[front];
+    if (still || !visible) {
+      clip?.pause();
+      return;
+    }
+    /* Turns the ring unless someone is holding it; false means try again later. */
+    const turn = () => {
+      if (document.hidden || heldNow.current) return false;
+      setFront((f) => (f + 1) % count);
+      return true;
+    };
+    let timer: number | undefined;
+    const hold = (ms: number) => {
+      timer = window.setTimeout(function tick() {
+        if (!turn()) timer = window.setTimeout(tick, 600);
+      }, ms);
+    };
+    if (!clip) {
+      hold(STEP_MS);
+      return () => clearTimeout(timer);
+    }
+    const ended = () => {
+      if (turn()) return;
+      clip.currentTime = 0;
+      clip.play().catch(() => {});
+    };
+    clip.addEventListener("ended", ended);
+    clip.currentTime = 0;
+    /* A browser can refuse to play, as iOS does in Low Power Mode; the poster then
+       stands in as a still. */
+    clip.play().catch(() => hold(STEP_MS));
+    return () => {
+      clip.removeEventListener("ended", ended);
+      clearTimeout(timer);
+      clip.pause();
+    };
+  }, [front, still, visible, count]);
 
   const go = (by: number) => setFront((f) => (f + by + count) % count);
 
@@ -60,8 +112,9 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
          drag and cancel the swipe. */
       onDragStart={(e) => e.preventDefault()}
       onPointerDown={(e) => {
+        /* No pointer capture: it retargets the click to this box, so the dots and
+           side phones stop working. The image drag above was the only real blocker. */
         press.current = { x: e.clientX, id: e.pointerId };
-        e.currentTarget.setPointerCapture(e.pointerId);
         if (e.pointerType !== "mouse") setHeld(true);
       }}
       onPointerUp={(e) => {
@@ -86,6 +139,7 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
         return (
           <div
             key={i}
+            data-slide
             aria-hidden={offset !== 0}
             onClick={() => offset !== 0 && setFront(i)}
             className={`absolute left-1/2 top-0 w-[clamp(220px,30.8vw,385px)] ${offset === 0 ? "" : "cursor-pointer"}`}
