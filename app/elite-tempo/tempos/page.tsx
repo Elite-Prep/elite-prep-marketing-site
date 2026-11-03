@@ -36,7 +36,7 @@ const TITLE = "Golf Swing Tempo: 16 Tour Swings, Hand-Timed";
    someone click a result about swing tempo. The long-form version of this claim
    lives in the Dataset schema below, which has no display limit. */
 const DESCRIPTION = description(
-  `${SWINGS.length} tour swings hand-timed from tournament footage to 1/100s. Tiger 3.69:1, Rory 2.45:1, Couples 3.34:1 — with the raw marks for every swing.`,
+  `${SWINGS.length} tour swings hand-timed from tournament footage to 1/100s. Tiger 3.69:1, Rory 2.45:1, Couples 3.34:1, with the raw marks for every swing.`,
 );
 
 export const metadata: Metadata = {
@@ -191,7 +191,7 @@ export default function TempoLibrary() {
           <p>
             Swing tempo is the ratio between how long your backswing takes and how
             long your downswing takes. Almost everything written about it quotes the
-            same figure — <strong style={{ color: INK }}>3:1</strong> — as though tour
+            same figure, <strong style={{ color: INK }}>3:1</strong>, as though tour
             players all share one number.
           </p>
           <p>
@@ -216,8 +216,8 @@ export default function TempoLibrary() {
             individual swing.
           </p>
           <p>
-            Every figure below is derived from three marks — takeaway, top of
-            backswing, impact — read off tournament video to 1/100 of a second.{" "}
+            Every figure below is derived from three marks (takeaway, top of
+            backswing and impact) read off tournament video to 1/100 of a second.{" "}
             <Link
               href="/elite-tempo/how-we-time-swings"
               className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"

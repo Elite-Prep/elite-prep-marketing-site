@@ -34,7 +34,7 @@ const TRAIL = [
 const FAQS = [
   {
     q: "Can you use a metronome for golf swing tempo?",
-    a: "Partly. A metronome is excellent for the one thing it does — keeping an even pulse — and you can use it to time a pre-shot routine or to slow your overall pace down. What it cannot do on its own is model a golf swing, because a swing is not even: the backswing takes roughly two to four times as long as the downswing, so three evenly spaced clicks put the top of your backswing in the wrong place.",
+    a: "Partly. A metronome is excellent for the one thing it does, keeping an even pulse, and you can use it to time a pre-shot routine or to slow your overall pace down. What it cannot do on its own is model a golf swing, because a swing is not even: the backswing takes roughly two to four times as long as the downswing, so three evenly spaced clicks put the top of your backswing in the wrong place.",
   },
   {
     q: "How do you set a metronome for a golf swing?",
@@ -42,7 +42,7 @@ const FAQS = [
   },
   {
     q: "What is the correct golf swing tempo ratio?",
-    a: "There is no single correct one. The commonly quoted figure is 3:1 — backswing three times as long as the downswing — but real tour swings measured from tournament footage spread well either side of it. The useful target is a consistent ratio you can repeat, not a specific number copied from someone whose swing is not yours.",
+    a: "There is no single correct one. The commonly quoted figure is 3:1, backswing three times as long as the downswing, but real tour swings measured from tournament footage spread well either side of it. The useful target is a consistent ratio you can repeat, not a specific number copied from someone whose swing is not yours.",
   },
 ];
 
@@ -126,7 +126,7 @@ export default function VsMetronome() {
         </h1>
 
         <p className="mt-6 text-lg leading-relaxed" style={{ color: MUTED }}>
-          Partly — and it is a completely reasonable thing to try, because you
+          Partly, and it is a completely reasonable thing to try, because you
           probably already have one on your phone for free. But there is one
           structural problem with it, and it is worth understanding before you spend
           a season drilling to the wrong rhythm.
@@ -161,7 +161,7 @@ export default function VsMetronome() {
               total={hero.total}
               note={`Three evenly spaced clicks put the top of the backswing exactly halfway through, at ${fmtSeconds(
                 hero.total / 2,
-              )} — a 1:1 tempo. No tour player swings anything like that.`}
+              )}, a 1:1 tempo. No tour player swings anything like that.`}
             />
             <BeatComparison
               label={`${hero.player}, ${hero.year} ${hero.event}`}
@@ -169,7 +169,7 @@ export default function VsMetronome() {
               total={hero.total}
               note={`The real marks put the top at ${fmtSeconds(hero.back)} of a ${fmtSeconds(
                 hero.total,
-              )} swing, leaving ${fmtSeconds(hero.down)} to come down — ${fmtRatio(
+              )} swing, leaving ${fmtSeconds(hero.down)} to come down, ${fmtRatio(
                 hero,
               )}. The third beat arrives much sooner after the second than the second did after the first.`}
             />
@@ -216,7 +216,7 @@ export default function VsMetronome() {
               {SWINGS.length} specific tour shots
             </Link>
             , each hand-timed from the footage, and then records your own swing and
-            finds your takeaway, top and impact in it — so you can compare what you
+            finds your takeaway, top and impact in it, so you can compare what you
             did against what you were aiming at, rather than guessing.
           </p>
         </section>

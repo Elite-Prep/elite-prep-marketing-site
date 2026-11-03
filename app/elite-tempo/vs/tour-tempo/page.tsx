@@ -41,11 +41,11 @@ const TRAIL = [
 const FAQS = [
   {
     q: "What is the difference between Elite Tempo and Tour Tempo?",
-    a: "Tour Tempo trains you toward a single proven ratio using audio tones — the 3:1 backswing-to-downswing relationship, counted as frames at 30fps. Elite Tempo plays sixteen specific tour swings at the ratios they were actually swung at, which range well either side of 3:1, and then lets you film your own swing and mark takeaway, top and impact on it, so you can measure what you did rather than only hear a target.",
+    a: "Tour Tempo trains you toward a single proven ratio using audio tones, the 3:1 backswing-to-downswing relationship, counted as frames at 30fps. Elite Tempo plays sixteen specific tour swings at the ratios they were actually swung at, which range well either side of 3:1, and then lets you film your own swing and mark takeaway, top and impact on it, so you can measure what you did rather than only hear a target.",
   },
   {
     q: "Is Tour Tempo still worth using?",
-    a: "Yes, if what you want is a single tempo to groove. The method has been in use since the early 2000s, it is simple to follow, and a lot of golfers have got results from it. Its strength — one number, drilled repeatedly — is also the thing some players want to go beyond.",
+    a: "Yes, if what you want is a single tempo to groove. The method has been in use since the early 2000s, it is simple to follow, and a lot of golfers have got results from it. Its strength (one number, drilled repeatedly) is also the thing some players want to go beyond.",
   },
   {
     q: "Do I need to choose between them?",
@@ -138,7 +138,7 @@ export default function VsTourTempo() {
           Straight answer first: if you want one proven tempo to drill, Tour Tempo
           does that and has done for twenty years. It is the reason most golfers
           have heard of swing tempo at all. The difference is not that one is
-          better — it is that they answer different questions.
+          better. They answer different questions.
         </p>
 
         <div
@@ -170,7 +170,7 @@ export default function VsTourTempo() {
             highlight
             points={[
               `${SWINGS.length} real tour shots, hand-timed from the footage to 1/100s`,
-              `Ratios as they were actually swung — ${fmtRatio(fastest)} to ${fmtRatio(slowest)}, not one number`,
+              `Ratios as they were actually swung, ${fmtRatio(fastest)} to ${fmtRatio(slowest)}, not one number`,
               "Film your swing and mark takeaway, top and impact frame by frame",
               "Side-by-side comparison, routine timing, and a lock-screen Live Activity",
             ]}
@@ -183,8 +183,8 @@ export default function VsTourTempo() {
           </h2>
           <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
             The 3:1 ratio is a good average and a genuinely useful teaching device.
-            It comes from counting frames — 24 back, 8 down at 30 frames per second
-            — which is easy to do and puts most golfers somewhere sensible.
+            It comes from counting frames (24 back, 8 down at 30 frames per second),
+            which is easy to do and puts most golfers somewhere sensible.
           </p>
           <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
             What counting frames cannot show you is how much real swings differ.
@@ -198,7 +198,7 @@ export default function VsTourTempo() {
             </Link>{" "}
             run from {fastest.player}&apos;s {fmtRatio(fastest)} to{" "}
             {slowest.player}&apos;s {fmtRatio(slowest)}. Neither of those is wrong,
-            and neither is 3:1 — they are simply different swings.{" "}
+            and neither is 3:1. They are simply different swings.{" "}
             <Link
               href="/elite-tempo/how-we-time-swings"
               className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
@@ -231,8 +231,8 @@ export default function VsTourTempo() {
               </h3>
               <p className="mt-2 text-base leading-relaxed" style={{ color: MUTED }}>
                 you want to know your own number. Filming a swing and getting back
-                your exact backswing, downswing and ratio — without scrubbing through
-                frames yourself — is the thing a tones-only trainer cannot do, and it
+                your exact backswing, downswing and ratio, without scrubbing through
+                frames yourself, is the thing a tones-only trainer cannot do, and it
                 is what tells you whether the practice is working.
               </p>
             </div>

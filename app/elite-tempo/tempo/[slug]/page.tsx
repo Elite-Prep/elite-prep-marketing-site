@@ -48,7 +48,7 @@ function question(s: Swing): string {
 function answer(s: Swing): string {
   return (
     `${s.player}'s ${s.year} ${s.event} ${s.clubLabel.toLowerCase()} is a ` +
-    `${fmtSeconds(s.back)} backswing into a ${fmtSeconds(s.down)} downswing — a ` +
+    `${fmtSeconds(s.back)} backswing into a ${fmtSeconds(s.down)} downswing, a ` +
     `${fmtRatio(s)} tempo ratio over ${fmtSeconds(s.total)} from takeaway to impact. ` +
     `That is ${describeVsRule(s)} the 3:1 ratio usually quoted for tour players. ` +
     `Timed by hand from tournament footage to 1/100 of a second.`
@@ -325,7 +325,7 @@ export default async function TempoDetail({
             </h2>
             <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
               This is one of {hub.swings.length} of his swings timed here, and they do not all
-              share a tempo — his ratio runs from {fmtRatio(hub.fastest)} to {fmtRatio(hub.slowest)}
+              share a tempo, his ratio runs from {fmtRatio(hub.fastest)} to {fmtRatio(hub.slowest)}
               depending on the club.{" "}
               <Link
                 href={`/elite-tempo/player/${hub.slug}`}

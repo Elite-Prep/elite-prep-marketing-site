@@ -67,7 +67,7 @@ function describeSpread(p: Player): string {
 function answer(p: Player): string {
   const h = p.headline;
   return (
-    `${possessive(p.name)} ${h.clubLabel.toLowerCase()} tempo is ${fmtRatio(h)} — a ` +
+    `${possessive(p.name)} ${h.clubLabel.toLowerCase()} tempo is ${fmtRatio(h)}, a ` +
     `${fmtSeconds(h.back)} backswing into a ${fmtSeconds(h.down)} downswing, timed by hand ` +
     `from his ${h.year} ${shortEvent(h.event)} footage. Across his ${p.swings.length} swings in the ` +
     `library his ratio runs from ${fmtRatio(p.fastest)} with a ` +
@@ -318,14 +318,14 @@ export default async function PlayerPage({
               <>
                 Remarkably, almost. {possessive(player.name)} ratio shifts by only{" "}
                 {player.spread.toFixed(2)} between his {player.fastest.clubLabel.toLowerCase()} and
-                his {player.slowest.clubLabel.toLowerCase()} — close enough that one number
+                his {player.slowest.clubLabel.toLowerCase()}, close enough that one number
                 genuinely does describe him. That is unusual, and it is the thing worth copying:
                 not the number itself, but the consistency.
               </>
             ) : (
               <>
                 Not really. {possessive(player.name)} ratio travels {player.spread.toFixed(2)} across the
-                clubs timed here — from {fmtRatio(player.fastest)} with a{" "}
+                clubs timed here, from {fmtRatio(player.fastest)} with a{" "}
                 {player.fastest.clubLabel.toLowerCase()} to {fmtRatio(player.slowest)} with a{" "}
                 {player.slowest.clubLabel.toLowerCase()}. &ldquo;A player has a tempo&rdquo; turns
                 out to be a simplification: the club changes it more than most coaching copy admits.

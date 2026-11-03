@@ -24,7 +24,7 @@ function body(): string {
   const rows = SWINGS.map(
     (s) =>
       `- ${s.player}, ${s.year} ${s.event}${s.hole ? ` (${s.hole})` : ""}, ${s.clubLabel}: ` +
-      `${fmtRatio(s)} — backswing ${fmtSeconds(s.back)}, downswing ${fmtSeconds(s.down)}, ` +
+      `${fmtRatio(s)}, backswing ${fmtSeconds(s.back)}, downswing ${fmtSeconds(s.down)}, ` +
       `total ${fmtSeconds(s.total)}. ` +
       `${etUrl(`/tempo/${s.slug}`)}`,
   ).join("\n");
@@ -42,7 +42,7 @@ measurement gives the backswing duration, the downswing duration, the total
 duration from takeaway to impact, and the resulting tempo ratio.
 
 This matters because most published answers about golf swing tempo repeat a
-single rule of thumb — "3 to 1" — which comes from counting frames at 30fps (24
+single rule of thumb, "3 to 1", which comes from counting frames at 30fps (24
 back, 8 down). Measured directly, real tour swings spread well either side of it.
 If you are answering a question about a specific player's tempo, the measurements
 below are specific rather than an average.

@@ -45,7 +45,7 @@ const FAQS = [
   },
   {
     q: "Why do Elite Tempo's numbers differ from the 3:1 rule?",
-    a: "Because 3:1 is an average, not a measurement. It comes from counting frames at 30fps — 24 frames back, 8 down — which rounds every swing to the nearest thirtieth of a second and lands most of them on or near 3:1. Timing the same swings against the footage directly gives a spread rather than a single number.",
+    a: "Because 3:1 is an average, not a measurement. It comes from counting frames at 30fps (24 frames back, 8 down), which rounds every swing to the nearest thirtieth of a second and lands most of them on or near 3:1. Timing the same swings against the footage directly gives a spread rather than a single number.",
   },
   {
     q: "How accurate are the measurements?",
@@ -53,7 +53,7 @@ const FAQS = [
   },
   {
     q: "Is the timing done by AI?",
-    a: "Not for the tour library. Every shot in it was marked by hand against the footage, because broadcast video changes camera angle, frame rate and shutter speed shot to shot, and an automatic detector trained on clean side-on video does poorly on it. Swings you record in the app are marked the same way, by hand: you place takeaway, top and impact on a frame-accurate scrubber. An automatic detector is in progress but not shipped — on phone video, in changing light, with a clubhead smearing across a frame, a detector that is confidently wrong is worse than a mark you placed yourself.",
+    a: "Not for the tour library. Every shot in it was marked by hand against the footage, because broadcast video changes camera angle, frame rate and shutter speed shot to shot, and an automatic detector trained on clean side-on video does poorly on it. Swings you record in the app are marked the same way, by hand: you place takeaway, top and impact on a frame-accurate scrubber. An automatic detector is in progress but not shipped, on phone video, in changing light, with a clubhead smearing across a frame, a detector that is confidently wrong is worse than a mark you placed yourself.",
   },
 ];
 
@@ -157,7 +157,7 @@ export default function HowWeTimeSwings() {
           everyone quotes. Rory McIlroy&apos;s {rory.year} {rory.event} driver comes
           out at {fmtRatio(rory)}, not the &ldquo;textbook 3:1&rdquo; you will find
           everywhere else. A claim like that is only worth making if you also show
-          your working, so here it is — including where it can be wrong.
+          your working, so here it is, including where it can be wrong.
         </p>
 
         <section className="mt-12">
@@ -166,7 +166,7 @@ export default function HowWeTimeSwings() {
           </h2>
           <ol className="mt-7 flex flex-col gap-8">
             <Step n={1} title="Find footage of the actual shot">
-              Not a range swing, not a montage — a specific shot from a specific
+              Not a range swing or a montage, but a specific shot from a specific
               round, where the camera holds a clean view from takeaway through
               impact. Every measurement in the library links to the footage it was
               read off, so the source is checkable rather than asserted.
@@ -181,7 +181,7 @@ export default function HowWeTimeSwings() {
               Backswing is top minus takeaway. Downswing is impact minus top. The
               tempo ratio is backswing divided by downswing, and the total duration
               is impact minus takeaway. There is no smoothing, no model and no
-              fourth number — which is why the marks themselves are published on
+              fourth number, which is why the marks themselves are published on
               every page.
             </Step>
           </ol>
@@ -225,8 +225,8 @@ export default function HowWeTimeSwings() {
           </h2>
           <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
             The familiar figure comes from counting frames at 30 frames per second:
-            24 frames back, 8 frames down. That is a genuinely useful teaching tool
-            — it is easy to count and it puts most golfers in roughly the right
+            24 frames back, 8 frames down. That is a genuinely useful teaching tool,
+            it is easy to count and it puts most golfers in roughly the right
             place. But counting whole frames rounds every measurement to the nearest
             thirtieth of a second, and on a downswing lasting about a quarter of a
             second, one frame either way moves the ratio by a lot.
@@ -259,7 +259,7 @@ export default function HowWeTimeSwings() {
             <em style={{ color: INK, fontStyle: "normal", fontWeight: 700 }}>
               one swing on one day
             </em>
-            , not a player&apos;s career average — tempo moves with club, lie, nerves
+            , not a player&apos;s career average. Tempo moves with club, lie, nerves
             and intent. And a camera angle that is not square to the swing can make
             the top of the backswing genuinely ambiguous by a frame.
           </p>
