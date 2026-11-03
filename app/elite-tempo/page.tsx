@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import TimingPlayer, { type TimingShot } from "./TimingPlayer";
+import DarkTimingPlayer, { type DarkShot } from "./DarkTimingPlayer";
 import {
   FEATURED,
   GREATS_ROWS,
@@ -213,233 +213,265 @@ const SECTION = "mx-auto max-w-[1280px] px-4 pb-16 sm:px-12 sm:pb-28";
 const SPLIT = `${SECTION} flex flex-wrap items-center gap-x-16 gap-y-8`;
 const MEDIA_FRAME = "overflow-hidden rounded-[20px]";
 
-const TIMING_SHOTS: TimingShot[] = TIMING_BY_AREA.map((s) => ({
+
+
+const LONGEST_GREAT = Math.max(...GREATS_ROWS.map((s) => s.total));
+
+/* Real App Store reviews, quoted as written. */
+const REVIEWS = [
+  { title: "Game changer", body: "This is a game changer for tempo training. It’s simple to use, smart and actually useful!", name: "@kgrace" },
+  { title: "Perfect timing, no pun intended", body: "I was just looking to improve my tempo and was strongly suggested this app. I love the ease of use and effectiveness.", name: "StayDialedIn" },
+  { title: "The best golf app!", body: "Highly recommend this app for helping you practice your golf swing. So many cool features!", name: "Tiffneyac" },
+  { title: "Awesome App", body: "Super addicting and surprisingly helpful", name: "Boos59" },
+];
+
+const DARK_SHOTS: DarkShot[] = TIMING_BY_AREA.map((s) => ({
   area: s.category,
   player: s.player,
   detail: `${s.clubLabel} at the ${s.year} ${s.event.replace(/^The /, "")}`,
   back: s.back,
   down: s.down,
-  total: s.total,
   ratio: fmtRatio(s),
 }));
 
-const LONGEST_GREAT = Math.max(...GREATS_ROWS.map((s) => s.total));
+const WRAP = "mx-auto max-w-[1240px] px-4";
+const H2_BIG = "m-0 text-[clamp(36px,5vw,64px)] font-semibold leading-[1.05] tracking-[-0.03em]";
+const H2_MID = "m-0 text-[clamp(36px,4.4vw,56px)] font-semibold leading-[1.05] tracking-[-0.03em]";
+const LEDE = "text-[clamp(19px,1.7vw,23px)] leading-[1.35]";
 
 export default function EliteTempoLanding() {
   return (
-    /* Flat, not a corner glow. The app ran a gradient canvas and retired it in
-       1.4.12: a gradient makes contrast positional, so you cannot quote a ratio
-       without saying where on the screen it applies. One ground from top to bottom;
-       only panels step up to CARD. */
-    <main style={{ background: BG, color: INK }} className="min-h-screen overflow-hidden text-lg">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
-      />
+    <main
+      className="min-h-screen overflow-hidden text-[19px] leading-[1.45] antialiased"
+      style={{ background: "#F6F6F3", color: INK, fontFamily: "-apple-system, 'SF Pro Display', system-ui, 'Helvetica Neue', Arial, sans-serif" }}
+    >
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }} />
+      <style>{IPHONE_CSS}</style>
 
-      <header
-        className="sticky top-0 z-50 backdrop-blur-md"
-        style={{ background: "rgba(245, 246, 243, 0.85)", borderBottom: `1px solid ${HAIRLINE}` }}
-      >
-        <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-4 py-4 sm:px-12">
-          <Wordmark />
-          <a
-            href={APP_STORE_URL}
-            className="shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 text-[15px] font-semibold transition duration-200 hover:opacity-90 active:scale-[0.98]"
-            style={{ background: INK, color: CARD }}
-          >
-            Try it free
-          </a>
-        </div>
-      </header>
+      {/* Hero: the promise, on a gold and green wash, three real screens below it. */}
+      <div className="p-2.5">
+        <section
+          id="top"
+          className="relative overflow-hidden rounded-[28px]"
+          style={{
+            background:
+              "radial-gradient(70% 60% at 50% 78%, #F9C832 0%, rgba(249, 200, 50, 0) 72%), radial-gradient(60% 55% at 6% 100%, rgba(38, 160, 96, 0.6) 0%, rgba(38, 160, 96, 0) 70%), radial-gradient(60% 55% at 94% 100%, rgba(38, 160, 96, 0.6) 0%, rgba(38, 160, 96, 0) 70%), #FFFCF0",
+          }}
+        >
+          <header className="flex justify-center px-4 pt-4">
+            <div className="flex items-center gap-[clamp(20px,6vw,56px)] rounded-full py-[7px] pl-5 pr-[7px]" style={{ background: "rgba(255,255,255,0.72)" }}>
+              <a href="#top" className="flex items-center gap-2 no-underline" aria-label="Elite Tempo home">
+                <EliteTempoMark size={18} fill={INK} />
+                <span className="whitespace-nowrap text-base font-semibold tracking-[0.02em]">Elite Tempo</span>
+              </a>
+              <a
+                href={APP_STORE_URL}
+                className="inline-flex min-h-10 items-center whitespace-nowrap rounded-full px-[18px] text-[15px] font-medium text-white no-underline"
+                style={{ background: INK }}
+              >
+                Try for free
+              </a>
+            </div>
+          </header>
 
-      {/* Hero: the promise. The whole shot, start of routine to impact. */}
-      <section className="relative">
-        <Glow color={ACCENT} />
-        <div className={`${SPLIT} relative pt-10 sm:pt-16`}>
-          <div className="min-w-0 flex-[1_1_560px]">
-            <h1 className="text-[clamp(40px,8vw,72px)] font-semibold leading-[1.04] tracking-[-0.03em]">
-              Time your whole shot, <span style={{ color: GOLD_TEXT }}>from routine to impact.</span>
+          <div className="px-4 pt-[clamp(36px,5vw,64px)] text-center">
+            <h1 className="m-0 text-[clamp(38px,9vw,80px)] font-semibold leading-[1.02] tracking-[-0.035em]">
+              Time your whole shot,
+              <br />
+              from routine to impact.
             </h1>
-            <p className="mt-6 max-w-[30em] text-[20px] leading-[1.5]" style={{ color: MUTED }}>
+            <p className={`mx-auto mt-[22px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
               For every part of your game: tee shots, approach shots, short game and putting.
               So you play your best when it matters most.
             </p>
-            <AppStoreBadge className="mt-8" />
-            <p className="mt-3.5 text-[15px]" style={{ color: MUTED }}>
-              {TRIAL_DAYS} days free, then {PRICE_YEARLY} a year or {PRICE_MONTHLY} a month
+            <AppStoreBadge className="mt-7" />
+            <p className="mt-3.5 text-[15px]" style={{ color: "#4A4B50" }}>
+              <span style={{ color: INK }} aria-hidden>
+                ★★★★★
+              </span>{" "}
+              Rated 5.0 on the App Store. {TRIAL_DAYS} days free.
             </p>
           </div>
-          <div className="flex min-w-0 flex-[1_1_380px] justify-center">
-            <Phone src="routine" alt="A pre-shot routine in Elite Tempo, its steps marked on the video's timeline, 23.9 seconds from start to impact." />
+
+          <div className="mt-12 flex h-[clamp(440px,62vw,680px)] items-start justify-center">
+            <Phone src="player" alt="A golfer's own swing playing in Elite Tempo with tempo 3.0:1." className="mr-[-40px] mt-20 w-[clamp(170px,24vw,300px)] -rotate-[7deg]" />
+            <Phone src="routine" alt="A pre-shot routine in Elite Tempo with its steps on the timeline, 23.9 seconds to impact." className="z-[1] w-[clamp(200px,28vw,350px)]" />
+            <Phone src="detail" alt="A swing's four numbers in Elite Tempo: tempo, backswing, downswing and total." className="ml-[-40px] mt-20 w-[clamp(170px,24vw,300px)] rotate-[7deg]" />
+          </div>
+        </section>
+      </div>
+
+      {/* Every part of the game, playable. */}
+      <section className={`${WRAP} pt-[clamp(72px,10vw,136px)] text-center`}>
+        <h2 className={H2_BIG}>Time every part of your game.</h2>
+        <p className={`mx-auto mt-4 max-w-[30em] ${LEDE}`} style={{ color: "#6E6F75" }}>
+          Pick a part of the game, press play, and hear the timing of a real tournament shot.
+        </p>
+        <DarkTimingPlayer shots={DARK_SHOTS} />
+        <p className="mt-5" style={{ color: "#6E6F75" }}>
+          On the range, keep your phone in your bag and hear your timing through your headphones.
+        </p>
+      </section>
+
+      {/* Three tall cards. */}
+      <section className={`${WRAP} pt-[clamp(72px,10vw,136px)]`}>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-4">
+          <TallCard title="Time your best swings" ink="#47402A" bg="linear-gradient(180deg, #FFF3C4 0%, #FBD860 100%)" src="player" alt="A golfer's own swing playing in Elite Tempo.">
+            Film a swing or pick one from Photos, mark it, and hear your own timing.
+          </TallCard>
+          <TallCard title="Four numbers in every swing" ink="#24412F" bg="linear-gradient(180deg, #DDF3E4 0%, #8FD6A9 100%)" src="detail" alt="Tempo, backswing, downswing and total for one swing in Elite Tempo.">
+            Backswing, downswing, total time and tempo, the ratio between the two.
+          </TallCard>
+          <TallCard title="Rehearse your routine" ink="#453C2C" bg="linear-gradient(180deg, #F3EEE3 0%, #DCCDB0 100%)" src="practice" alt="Routine practice in Elite Tempo with the current step lit up.">
+            Each step of your pre-shot routine lights up as you reach it.
+          </TallCard>
+        </div>
+      </section>
+
+      {/* Pace of play. */}
+      <section className={`${WRAP} pt-4`}>
+        <div
+          className="box-border flex min-h-[620px] flex-wrap items-center gap-x-[clamp(32px,6vw,80px)] gap-y-8 overflow-hidden rounded-[28px] px-[clamp(24px,5vw,64px)] pt-[clamp(32px,5vw,64px)]"
+          style={{ background: "linear-gradient(135deg, #E7F5EC 0%, #FFF6D6 100%)" }}
+        >
+          <div className="min-w-0 flex-[1_1_400px]">
+            <h2 className={H2_MID}>Play faster without feeling rushed.</h2>
+            <p className="mt-4 max-w-[26em] text-[21px] leading-[1.35]" style={{ color: "#55565C" }}>
+              Groove a pre-shot routine you can repeat inside the 40 seconds the USGA and The
+              R&amp;A recommend, so a quicker pace feels normal.
+            </p>
+          </div>
+          <div className="mx-auto h-[560px] w-[300px] flex-[0_1_300px] self-end">
+            <Phone src="routines" alt="Elite Tempo's Routines tab: a 23.9 second average against the 40 second limit." />
           </div>
         </div>
       </section>
 
-      <Feature
-        id="your-swing"
-        title="Time your best swings."
-        image="player"
-        alt="A golfer's own swing playing in Elite Tempo, with tempo 3.0:1 and total time 0.87 seconds."
-        color={ACCENT_ALT}
-      >
-        Film a swing or pick one from Photos. Mark takeaway, top and impact, then hear
-        your own timing on a loop until it is the one you repeat.
-      </Feature>
-
-      <Feature
-        id="numbers"
-        title="Four numbers in every swing."
-        image="detail"
-        alt="A swing's four numbers in Elite Tempo: tempo 3.0:1, backswing 0.65 seconds, downswing 0.22 seconds, total 0.87 seconds."
-        color={GREEN}
-        flip
-      >
-        Backswing, downswing, total time and tempo, the ratio between the two halves.
-        Two swings can share a 3:1 tempo and still take very different times.
-      </Feature>
-
-      {/* Tour players, playable. */}
-      <section id="timing" className="relative">
-        <div className={`${SECTION} relative`}>
-          <h2 className={H2}>Copy the timing of tour players.</h2>
-          <p className="mt-4 max-w-[34em]" style={{ color: MUTED }}>
-            Rory&apos;s driver takes {RORY.total.toFixed(2)} seconds. Tiger&apos;s took{" "}
-            {HERO.total.toFixed(2)}. Press play and hear {SWINGS.length} real tournament
-            shots, each hand-timed to 1/100 of a second.
+      {/* Tour timing. */}
+      <section className={`${WRAP} pt-4`}>
+        <div className="rounded-[28px] bg-white p-[clamp(32px,5vw,64px)]">
+          <h2 className={H2_MID}>Copy the timing of tour players.</h2>
+          <p className="mt-4 max-w-[28em] text-[21px] leading-[1.35]" style={{ color: "#55565C" }}>
+            Rory&apos;s driver swing takes {RORY.total.toFixed(2)} seconds. Tiger&apos;s took{" "}
+            {HERO.total.toFixed(2)}. Train to {SWINGS.length} real tournament shots, each hand-timed to
+            1/100 of a second.
           </p>
-          <TimingPlayer shots={TIMING_SHOTS} />
-          <div className="mt-10" style={{ borderTop: `1px solid ${HAIRLINE}` }}>
+          <div className="mt-8">
             {GREATS_ROWS.map((g) => (
               <Link
                 key={g.slug}
                 href={`/elite-tempo/tempo/${g.slug}`}
-                className="grid items-center gap-x-8 gap-y-2.5 py-[18px] transition-colors hover:text-[#1F5FD6] md:grid-cols-3"
-                style={{ borderBottom: `1px solid ${HAIRLINE}` }}
+                className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,230px),1fr))] items-center gap-x-8 gap-y-2 py-[18px] no-underline"
               >
-                <span>
-                  <span className="block font-semibold">{g.player}</span>
-                  <span className="block text-[15px]" style={{ color: MUTED }}>
+                <div>
+                  <p className="m-0 font-semibold">{g.player}</p>
+                  <p className="m-0 text-[15px]" style={{ color: "#6E6F75" }}>
                     {g.clubLabel}, {g.year} {g.event.replace(/^The /, "")}
-                  </span>
-                </span>
-                <span
-                  className="flex h-1.5 items-center gap-0.5"
-                  role="img"
-                  aria-label={`Backswing ${fmtSeconds(g.back)}, downswing ${fmtSeconds(g.down)}.`}
-                >
-                  <span className="h-full rounded-full" style={{ width: `${(g.back / LONGEST_GREAT) * 100}%`, background: INK }} />
-                  <span className="h-full rounded-full" style={{ width: `${(g.down / LONGEST_GREAT) * 100}%`, background: ACCENT }} />
-                </span>
-                <span
-                  className="text-[28px] font-semibold"
-                  style={{ fontFamily: FONT_NUMERALS, fontVariantNumeric: "tabular-nums" }}
-                >
-                  {fmtRatio(g)}
-                </span>
+                  </p>
+                </div>
+                <div className="flex h-3.5" role="img" aria-label={`Backswing ${fmtSeconds(g.back)}, downswing ${fmtSeconds(g.down)}.`}>
+                  <div className="rounded-l-[7px]" style={{ width: `${(g.back / LONGEST_GREAT) * 100}%`, background: INK }} />
+                  <div className="rounded-r-[7px]" style={{ width: `${(g.down / LONGEST_GREAT) * 100}%`, background: "#F9C832" }} />
+                </div>
+                <p className="m-0 text-[30px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums]">{fmtRatio(g)}</p>
               </Link>
             ))}
           </div>
-          <Link
-            href="/elite-tempo/tempos"
-            className="mt-6 inline-block text-[15px] font-semibold underline underline-offset-4"
-            style={{ color: ACCENT_ALT }}
-          >
+          <Link href="/elite-tempo/tempos" className="mt-4 inline-block text-[16px] font-semibold underline underline-offset-4">
             See all {SWINGS.length} hand-timed swings
           </Link>
         </div>
       </section>
 
-      <Feature
-        id="routine"
-        title="Rehearse every step of your routine."
-        image="practice"
-        alt="Routine practice in Elite Tempo: the clock counts down from the routine's time while the current step, Pick a target, lights up."
-        color={GREEN}
-      >
-        Mark each step of your pre-shot routine on its video, like Pick a target or Walk
-        in. Then practice it hands free: each step lights up as you reach it, a ding plays
-        at impact, and the phone hears your strike and tells you how close you were.
-      </Feature>
-
-      <Feature
-        id="pace"
-        title="Play faster without feeling rushed."
-        image="routines"
-        alt="Elite Tempo's Routines tab: an average routine of 23.9 seconds against the 40 second limit."
-        color={ORANGE}
-        flip
-      >
-        Groove a routine you can repeat inside the 40 seconds the USGA and The R&amp;A
-        recommend, so a quicker pace feels normal instead of hurried.
-      </Feature>
-
-      {/* Three smaller things, side by side. */}
-      <section className={SECTION}>
-        <div className="grid gap-6 md:grid-cols-3">
-          <Small image="options" title="Practice at 75%, 90% or full speed." alt="Player options in Elite Tempo with speed set to 90%.">
-            Slow the same timing down to groove the feel, then bring it back to full speed.
-          </Small>
-          <Small image="stats" title="Keep your weekly streak." alt="Stats in Elite Tempo: 3 weeks in a row, 11 sessions.">
-            Set a weekly goal. One range day a week keeps it going.
-          </Small>
-          <Small image="share" title="Share your timing." alt="An Elite Tempo share card with a swing's tempo, backswing, downswing and total.">
-            Send your four numbers to a coach or a friend as one clean card.
-          </Small>
-        </div>
-      </section>
-
-      {/* Pricing. Lifetime used to be the hero price here and had to go: it is retired
-          in the app, so advertising it sent people to a paywall that could not sell it. */}
-      <section id="pricing" className={SECTION}>
+      {/* Practice speed. */}
+      <section className={`${WRAP} pt-4`}>
         <div
-          className="flex flex-wrap items-center justify-between gap-8 rounded-[28px] p-6 sm:p-12"
-          style={{ background: CARD, boxShadow: "0 20px 50px rgba(20, 21, 24, 0.06)" }}
+          className="box-border flex min-h-[620px] flex-wrap items-center gap-x-[clamp(32px,6vw,80px)] gap-y-8 overflow-hidden rounded-[28px] px-[clamp(24px,5vw,64px)] pt-[clamp(32px,5vw,64px)] text-white"
+          style={{ background: "radial-gradient(70% 100% at 80% 100%, #1F9A5E 0%, rgba(31, 154, 94, 0) 75%), #0B2A1E" }}
         >
-          <div className="min-w-0 flex-[1_1_420px]">
-            <h2 className={H2}>Time your own swing before you pay a thing.</h2>
-            <p className="mt-3.5" style={{ color: MUTED }}>
-              Free for {TRIAL_DAYS} days. Cancel anytime.
+          <div className="mx-auto h-[560px] w-[300px] flex-[0_1_300px] self-end">
+            <Phone src="options" alt="Elite Tempo's Player options with speed set to 90%." />
+          </div>
+          <div className="min-w-0 flex-[1_1_400px] pb-8">
+            <h2 className={H2_MID}>Practice at 75%, 90% or full speed.</h2>
+            <p className="mt-4 max-w-[26em] text-[21px] leading-[1.35]" style={{ color: "rgba(255,255,255,0.8)" }}>
+              Slow the same timing down to groove the feel, then bring it back to full speed for
+              the range or the course.
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-6">
-            <Price amount={PRICE_YEARLY} note={`a year, save ${YEARLY_SAVING_PCT}%`} />
-            <Price amount={PRICE_MONTHLY} note="a month" />
-            <AppStoreBadge />
-          </div>
         </div>
       </section>
 
-      {/* Why we built it. No customer quote yet: only real ones go here. */}
-      <section className="mx-auto max-w-[780px] px-4 pb-16 sm:px-12 sm:pb-28">
-        <p className="text-[28px] font-semibold leading-[1.3] tracking-[-0.01em]">
-          Every tempo app made me pick a ratio, and I always ended up changing my swing to
-          fit it. I wanted to copy my own best swing and the best players in the world, so
-          we built that.
+      {/* Streak and share. */}
+      <section className={`${WRAP} pt-4`}>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-4">
+          <TallCard title="Keep your weekly streak" ink="#4A3A2A" bg="linear-gradient(180deg, #FFEBDC 0%, #FFC08F 100%)" src="stats" alt="Stats in Elite Tempo: 3 weeks in a row.">
+            Set a weekly goal. One range day a week keeps it going.
+          </TallCard>
+          <TallCard title="Share your timing" ink="#26344F" bg="linear-gradient(180deg, #E4EEFF 0%, #A9C8FF 100%)" src="share" alt="An Elite Tempo share card with a swing's four numbers.">
+            Send your four numbers to a coach or a friend as one clean card.
+          </TallCard>
+        </div>
+      </section>
+
+      {/* Reviews. */}
+      <section className="pt-[clamp(72px,10vw,136px)] text-center">
+        <h2 className={`${H2_BIG} mx-4`}>What golfers are saying.</h2>
+        <div className="mx-auto mt-9 box-border grid max-w-[1240px] grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4 px-4 text-left">
+          {REVIEWS.map((r) => (
+            <article key={r.name} className="rounded-3xl bg-white p-6">
+              <p className="m-0 text-[18px] tracking-[2px]" style={{ color: "#E2A500" }} role="img" aria-label="5 stars">
+                ★★★★★
+              </p>
+              <p className="mt-2.5 font-semibold">{r.title}</p>
+              <p className="mt-1.5 text-[17px] leading-[1.38]" style={{ color: "#55565C" }}>
+                {r.body}
+              </p>
+              <p className="mt-3 text-[15px]" style={{ color: "#6E6F75" }}>
+                {r.name}, App Store
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* Pricing. */}
+      <section id="pricing" className={`${WRAP} pt-[clamp(72px,10vw,136px)]`}>
+        <div
+          className="rounded-[28px] px-[clamp(24px,5vw,64px)] py-[clamp(36px,6vw,80px)] text-center"
+          style={{ background: "radial-gradient(70% 100% at 50% 100%, #F9C832 0%, rgba(249, 200, 50, 0) 75%), #FFFCF0" }}
+        >
+          <h2 className={H2_BIG}>
+            Time your own swing
+            <br />
+            before you pay a thing.
+          </h2>
+          <p className="mt-4 text-[21px]" style={{ color: "#4A4B50" }}>
+            Free for {TRIAL_DAYS} days, then {PRICE_YEARLY} a year or {PRICE_MONTHLY} a month. Cancel anytime.
+          </p>
+          <AppStoreBadge className="mt-7" />
+        </div>
+      </section>
+
+      {/* Why we built it. */}
+      <section className="mx-auto max-w-[760px] px-4 pt-[clamp(72px,10vw,120px)]">
+        <p className="m-0 text-[clamp(26px,3vw,34px)] font-semibold leading-[1.22] tracking-[-0.02em]">
+          Every tempo app made me pick a ratio, and I always ended up changing my swing to fit it.
+          I wanted to copy my own best swing and the best players in the world, so we built that.
         </p>
-        <p className="mt-3.5 text-[15px]" style={{ color: MUTED }}>
+        <p className="mt-3.5 text-base" style={{ color: "#6E6F75" }}>
           Eric Busalacchi, Elite Tempo
         </p>
       </section>
 
-      {/* FAQ — the real SEO surface. Nobody searches "Elite Tempo"; they search "what
-          is the 3 to 1 tempo ratio". Native <details> so the answers are in the initial
-          HTML for crawlers rather than behind JavaScript. */}
-      <section id="faq" className="mx-auto max-w-[780px] px-4 pb-16 sm:px-12 sm:pb-28">
-        <h2 className={H2}>Questions</h2>
-        <div className="mt-6" style={{ borderTop: `1px solid ${HAIRLINE}` }}>
+      {/* FAQ: native details, so the answers are in the HTML for search engines. */}
+      <section id="faq" className="mx-auto max-w-[760px] px-4 pt-[clamp(72px,10vw,120px)]">
+        <h2 className={H2_MID}>Questions</h2>
+        <div className="mt-6">
           {FAQS.map(({ q, a }) => (
-            <details key={q} className="group" style={{ borderBottom: `1px solid ${HAIRLINE}` }}>
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-4 marker:content-none">
-                <span className="font-semibold">{q}</span>
-                {/* + when closed, minus sign when open. U+2212 MINUS SIGN, an icon
-                    inside an aria-hidden span, not prose punctuation. */}
-                <span className="shrink-0 text-2xl font-light leading-none" style={{ color: ACCENT }} aria-hidden>
-                  <span className="group-open:hidden">+</span>
-                  <span className="hidden group-open:inline">&#8722;</span>
-                </span>
-              </summary>
-              <p className="pb-5 pr-10" style={{ color: MUTED }}>
+            <details key={q} className="mb-2 rounded-2xl bg-white px-5">
+              <summary className="cursor-pointer list-none py-4 text-[18px] font-semibold marker:content-none">{q}</summary>
+              <p className="m-0 pb-[18px] text-[17px]" style={{ color: "#55565C" }}>
                 {a}
               </p>
             </details>
@@ -447,37 +479,25 @@ export default function EliteTempoLanding() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer style={{ borderTop: `1px solid ${HAIRLINE}` }}>
-        <div className="mx-auto max-w-[1280px] px-4 py-10 sm:px-12">
-          <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
-            <Wordmark />
-            <nav className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[15px]" style={{ color: MUTED }}>
-              <Link href="/elite-tempo/privacy" className="hover:opacity-80">
-                Privacy
-              </Link>
-              <Link href="/elite-tempo/terms" className="hover:opacity-80">
-                Terms
-              </Link>
-              <a href="mailto:ebusalacchi@eliteprep.app" className="hover:opacity-80">
-                Contact
-              </a>
-              <Link href="/" className="hover:opacity-80">
-                Elite Prep
-              </Link>
-            </nav>
-          </div>
-          <p className="mt-6 max-w-[62em] text-[15px]" style={{ color: MUTED }}>
-            Part of the Elite Prep family. Elite Tempo references real golfers,
-            tournaments, and shots for descriptive and educational purposes only, and is
-            not affiliated with, sponsored by, or endorsed by any player, tournament,
-            tour, or organization named in the app. All names and trademarks belong to
-            their respective owners.
-          </p>
-          <p className="mt-2.5 text-[15px]" style={{ color: MUTED }}>
-            © {new Date().getFullYear()} Elite Prep Inc.
-          </p>
+      <footer className={`${WRAP} pb-10 pt-[clamp(72px,10vw,120px)]`}>
+        <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4">
+          <Wordmark />
+          <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2 text-[15px]" style={{ color: "#55565C" }}>
+            <Link href="/elite-tempo/privacy" className="no-underline">Privacy</Link>
+            <Link href="/elite-tempo/terms" className="no-underline">Terms</Link>
+            <a href="mailto:ebusalacchi@eliteprep.app" className="no-underline">Contact</a>
+            <Link href="/" className="no-underline">Elite Prep</Link>
+          </nav>
         </div>
+        <p className="mt-6 max-w-[62em] text-sm leading-[1.5]" style={{ color: "#6E6F75" }}>
+          Part of the Elite Prep family. Elite Tempo references real golfers, tournaments, and shots
+          for descriptive and educational purposes only, and is not affiliated with, sponsored by, or
+          endorsed by any player, tournament, tour, or organization named in the app. All names and
+          trademarks belong to their respective owners.
+        </p>
+        <p className="mt-2 text-sm" style={{ color: "#6E6F75" }}>
+          © {new Date().getFullYear()} Elite Prep Inc.
+        </p>
       </footer>
     </main>
   );
@@ -545,79 +565,47 @@ function ScreenVideo({ name, label }: { name: string; label: string }) {
   );
 }
 
-/* Text gold, darker than the gold field so it reads on the light ground. */
-const GOLD_TEXT = "#B07A00";
-const GREEN = "#1F9D6B";
-const ORANGE = "#EF7D22";
+/* The phone frame: a brushed edge, the screen, and the island. */
+const IPHONE_CSS = `
+.iphone { position: relative; box-sizing: border-box; padding: 7px; border-radius: 15% / 7.2%; background: linear-gradient(145deg, #9A9A9F 0%, #2A2A2D 22%, #4A4A4F 60%, #18181A 100%); box-shadow: 0 50px 90px -30px rgba(20, 30, 20, 0.5), 0 18px 36px -18px rgba(20, 30, 20, 0.35); }
+.iphone-screen { position: relative; width: 100%; aspect-ratio: 1206 / 2622; border-radius: 13% / 6.2%; overflow: hidden; background: #000; }
+.iphone-screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
+`;
 
-/* A soft wash of one color behind the top of a section, the app's glow. */
-function Glow({ color }: { color: string }) {
+function Phone({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
   return (
-    <div
-      aria-hidden
-      className="pointer-events-none absolute inset-x-0 -top-40 h-[900px]"
-      style={{ background: `radial-gradient(45% 45% at 70% 50%, ${color}40 0%, ${color}00 100%)` }}
-    />
-  );
-}
-
-/* A real app screen in an iPhone frame. */
-function Phone({ src, alt, small = false }: { src: string; alt: string; small?: boolean }) {
-  return (
-    <div
-      className={`${small ? "w-full max-w-[260px]" : "w-full max-w-[340px]"} rounded-[48px] p-[10px]`}
-      style={{ background: "#0d0d0f", boxShadow: "0 30px 70px rgba(20, 21, 24, 0.18)" }}
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={`/elite-tempo/app/${src}.png`} alt={alt} className="block w-full rounded-[38px]" loading="lazy" />
+    <div className={`iphone shrink-0 ${className}`}>
+      <div className="iphone-screen">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={`/elite-tempo/app/${src}.png`} alt={alt} loading="lazy" />
+      </div>
     </div>
   );
 }
 
-function Feature({
-  id,
+function TallCard({
   title,
-  image,
+  ink,
+  bg,
+  src,
   alt,
-  color,
-  flip = false,
   children,
 }: {
-  id: string;
   title: string;
-  image: string;
+  ink: string;
+  bg: string;
+  src: string;
   alt: string;
-  color: string;
-  flip?: boolean;
   children: ReactNode;
 }) {
   return (
-    <section id={id} className="relative">
-      <Glow color={color} />
-      <div className={`${SPLIT} relative pt-12 ${flip ? "flex-row-reverse" : ""}`}>
-        <div className="min-w-0 flex-[1_1_420px]">
-          <h2 className={H2}>{title}</h2>
-          <p className="mt-4 max-w-[30em] leading-[1.55]" style={{ color: MUTED }}>
-            {children}
-          </p>
-        </div>
-        <div className="flex min-w-0 flex-[1_1_340px] justify-center">
-          <Phone src={image} alt={alt} />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Small({ image, title, alt, children }: { image: string; title: string; alt: string; children: ReactNode }) {
-  return (
-    <div className="rounded-[28px] p-6" style={{ background: CARD, boxShadow: "0 20px 50px rgba(20, 21, 24, 0.06)" }}>
-      <h3 className="text-[22px] font-semibold leading-tight tracking-[-0.01em]">{title}</h3>
-      <p className="mt-2 text-[16px]" style={{ color: MUTED }}>{children}</p>
-      <div className="mt-6 flex justify-center">
-        <Phone src={image} alt={alt} small />
-      </div>
-    </div>
+    <article className="box-border h-[640px] overflow-hidden rounded-[28px] px-8 pt-8" style={{ background: bg }}>
+      <h2 className="m-0 text-[38px] font-semibold leading-[1.08] tracking-[-0.03em]">{title}</h2>
+      <p className="mt-3 text-[19px] leading-[1.32]" style={{ color: ink }}>
+        {children}
+      </p>
+      <Phone src={src} alt={alt} className="mx-auto mt-8 w-[270px]" />
+    </article>
   );
 }
 

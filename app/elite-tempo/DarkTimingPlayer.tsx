@@ -1,0 +1,179 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+export type DarkShot = {
+  area: string;
+  player: string;
+  detail: string;
+  back: number;
+  down: number;
+  ratio: string;
+};
+
+/* The bar's full width in seconds, so every part of the game is drawn to one scale. */
+const SCALE = 1.2;
+
+function secs(n: number) {
+  return `${n.toFixed(2)}s`;
+}
+
+/* Pick a part of the game, press play, and hear a real tournament shot's timing:
+   a tick at takeaway and at the top, a higher one at impact, six times through. */
+export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
+  const [area, setArea] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const [head, setHead] = useState(0);
+  const raf = useRef<number | null>(null);
+  const audio = useRef<AudioContext | null>(null);
+
+  const shot = shots[area];
+  const total = shot.back + shot.down;
+
+  function stop() {
+    if (raf.current) cancelAnimationFrame(raf.current);
+    raf.current = null;
+    setPlaying(false);
+    setHead(0);
+  }
+
+  useEffect(() => () => {
+    if (raf.current) cancelAnimationFrame(raf.current);
+  }, []);
+
+  function tick(at: number, hard: boolean) {
+    const c = audio.current;
+    if (!c) return;
+    const o = c.createOscillator();
+    const g = c.createGain();
+    o.frequency.value = hard ? 1320 : 880;
+    g.gain.setValueAtTime(0.3, at);
+    g.gain.exponentialRampToValueAtTime(0.001, at + 0.09);
+    o.connect(g);
+    g.connect(c.destination);
+    o.start(at);
+    o.stop(at + 0.1);
+  }
+
+  function play() {
+    const Ctx =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    if (Ctx && !audio.current) audio.current = new Ctx();
+    audio.current?.resume();
+    const gap = 1.1;
+    const start = performance.now() + 120;
+    let nextPass = 0;
+    setPlaying(true);
+    const frame = (now: number) => {
+      const elapsed = (now - start) / 1000;
+      const pass = Math.floor(Math.max(elapsed, 0) / (total + gap));
+      if (pass >= 6) {
+        stop();
+        return;
+      }
+      if (pass >= nextPass && audio.current) {
+        const base = audio.current.currentTime + 0.03;
+        tick(base, false);
+        tick(base + shot.back, false);
+        tick(base + total, true);
+        nextPass = pass + 1;
+      }
+      const t = Math.max(elapsed, 0) - pass * (total + gap);
+      setHead(Math.min(t, total));
+      raf.current = requestAnimationFrame(frame);
+    };
+    raf.current = requestAnimationFrame(frame);
+  }
+
+  const backW = (shot.back / SCALE) * 100;
+  const downW = (shot.down / SCALE) * 100;
+  const num =
+    "m-0 text-[clamp(34px,4.4vw,56px)] font-semibold leading-[1.05] tracking-[-0.03em] [font-variant-numeric:tabular-nums]";
+
+  return (
+    <div
+      className="mt-10 rounded-[28px] p-[clamp(22px,4vw,52px)] text-left text-white"
+      style={{
+        background:
+          "radial-gradient(60% 90% at 88% 0%, rgba(249, 200, 50, 0.32) 0%, rgba(249, 200, 50, 0) 70%), radial-gradient(60% 90% at 0% 100%, rgba(38, 160, 96, 0.34) 0%, rgba(38, 160, 96, 0) 70%), #141518",
+      }}
+    >
+      <div className="flex flex-wrap gap-2">
+        {shots.map((s, i) => (
+          <button
+            key={s.area}
+            type="button"
+            aria-pressed={i === area}
+            onClick={() => {
+              if (raf.current) cancelAnimationFrame(raf.current);
+              raf.current = null;
+              setArea(i);
+              setPlaying(false);
+              setHead(0);
+            }}
+            className="min-h-11 cursor-pointer rounded-full border-0 px-5 text-base font-medium"
+            style={{
+              background: i === area ? "#F7C948" : "rgba(255,255,255,0.1)",
+              color: i === area ? "#141518" : "#FFFFFF",
+            }}
+          >
+            {s.area}
+          </button>
+        ))}
+      </div>
+      <div className="mt-[clamp(32px,5vw,60px)] flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="m-0 text-[clamp(30px,3.6vw,44px)] font-semibold leading-[1.1] tracking-[-0.025em]">
+            {shot.player}
+          </p>
+          <p className="mt-1.5 text-[17px]" style={{ color: "rgba(255,255,255,0.7)" }}>
+            {shot.detail}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => (playing ? stop() : play())}
+          className="min-h-[54px] min-w-[156px] cursor-pointer rounded-full border-0 bg-white px-[26px] text-[17px] font-semibold text-[#141518]"
+        >
+          {playing ? "Stop" : "Play timing"}
+        </button>
+      </div>
+      <div
+        className="relative mt-7 h-14"
+        role="img"
+        aria-label={`Timing bar: backswing ${secs(shot.back)}, downswing ${secs(shot.down)}.`}
+      >
+        <div className="absolute inset-x-0 top-5 h-4 rounded-lg" style={{ background: "rgba(255,255,255,0.1)" }} />
+        <div className="absolute left-0 top-5 h-4 rounded-l-lg bg-white" style={{ width: `${backW}%` }} />
+        <div
+          className="absolute top-5 h-4 rounded-r-lg"
+          style={{ left: `${backW}%`, width: `${downW}%`, background: "#F9C832" }}
+        />
+        <div
+          className="absolute top-2 -ml-0.5 h-10 w-1 rounded-sm bg-white"
+          style={{ left: `${(head / SCALE) * 100}%` }}
+        />
+      </div>
+      <div className="mt-[18px] grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))] gap-5">
+        <Stat value={secs(shot.back)} label="Backswing" className={num} />
+        <Stat value={secs(shot.down)} label="Downswing" className={num} gold />
+        <Stat value={secs(total)} label="Total time" className={num} />
+        <Stat value={shot.ratio} label="Tempo" className={num} />
+      </div>
+    </div>
+  );
+}
+
+function Stat({ value, label, className, gold = false }: { value: string; label: string; className: string; gold?: boolean }) {
+  return (
+    <div>
+      <p className={className} style={gold ? { color: "#F9C832" } : undefined}>
+        {value}
+      </p>
+      <p className="mt-1.5 text-base" style={{ color: "rgba(255,255,255,0.7)" }}>
+        {label}
+      </p>
+    </div>
+  );
+}
