@@ -647,7 +647,9 @@ function Phone({ src, alt, className = "", eager = false }: { src: string; alt: 
     <div className={`iphone shrink-0 ${className}`}>
       <div className="iphone-screen">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`/elite-tempo/app/${src}.png`} alt={alt} loading={eager ? "eager" : "lazy"} />
+        {/* 960 wide, cut from the full size App Store screenshots: the old 598 wide
+            copies were stretched past their pixels on any sharp screen and read blurry. */}
+        <img src={`/elite-tempo/app/${src}.webp`} alt={alt} width={960} height={2087} loading={eager ? "eager" : "lazy"} />
       </div>
     </div>
   );

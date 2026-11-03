@@ -10,12 +10,14 @@ import useReducedMotion from "./useReducedMotion";
 
 const STEP_MS = 3200;
 /* Per distance from the front: sideways shift (in phone widths), turn, size, fade.
-   The front screen is magnified and the two beside it kept small so it clearly
-   leads; the outer pair tuck in behind those two instead of widening the ring. */
+   Every phone is laid out at the front screen's full size and only ever scaled
+   down, because scaling an image up past its laid out size blurs it. The two
+   beside the front are kept small so it clearly leads; the outer pair tuck in
+   behind those two instead of widening the ring. */
 const RING = [
-  { x: 0, turn: 0, scale: 1.1, opacity: 1 },
-  { x: 0.6, turn: 36, scale: 0.7, opacity: 0.92 },
-  { x: 0.74, turn: 50, scale: 0.56, opacity: 0.35 },
+  { x: 0, turn: 0, scale: 1, opacity: 1 },
+  { x: 0.55, turn: 36, scale: 0.64, opacity: 0.92 },
+  { x: 0.67, turn: 50, scale: 0.51, opacity: 0.35 },
 ];
 
 export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; labels: string[] }) {
@@ -86,7 +88,7 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
             key={i}
             aria-hidden={offset !== 0}
             onClick={() => offset !== 0 && setFront(i)}
-            className={`absolute left-1/2 top-0 w-[clamp(200px,28vw,350px)] ${offset === 0 ? "" : "cursor-pointer"}`}
+            className={`absolute left-1/2 top-0 w-[clamp(220px,30.8vw,385px)] ${offset === 0 ? "" : "cursor-pointer"}`}
             style={{
               zIndex: 10 - Math.abs(offset),
               opacity: step.opacity,
