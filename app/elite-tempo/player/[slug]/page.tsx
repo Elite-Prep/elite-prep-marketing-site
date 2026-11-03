@@ -186,7 +186,7 @@ function Row({ swing }: { swing: Swing }) {
       <td className="py-4 pr-4 align-top">
         <Link
           href={`/elite-tempo/tempo/${swing.slug}`}
-          className="text-sm font-semibold transition-colors hover:text-[#B3ECFF]"
+          className="text-sm font-semibold transition-colors hover:text-[#1F5FD6]"
           style={{ color: INK }}
         >
           {swing.clubLabel}
@@ -302,7 +302,7 @@ export default async function PlayerPage({
           From his {h.year} {shortEvent(h.event)} {h.clubLabel.toLowerCase()}.{" "}
           <Link
             href={`/elite-tempo/tempo/${h.slug}`}
-            className="font-semibold underline decoration-1 underline-offset-4 transition-colors hover:text-[#B3ECFF]"
+            className="font-semibold underline decoration-1 underline-offset-4 transition-colors hover:text-[#1F5FD6]"
             style={{ color: INK }}
           >
             See the marks
@@ -371,7 +371,7 @@ export default async function PlayerPage({
             Every figure is derived from three marks read off tournament footage.{" "}
             <Link
               href="/elite-tempo/how-we-time-swings"
-              className="font-semibold underline decoration-1 underline-offset-4 transition-colors hover:text-[#B3ECFF]"
+              className="font-semibold underline decoration-1 underline-offset-4 transition-colors hover:text-[#1F5FD6]"
               style={{ color: INK }}
             >
               How we time swings

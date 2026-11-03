@@ -210,7 +210,7 @@ export default function VsMetronome() {
             Elite Tempo places them at the intervals of{" "}
             <Link
               href="/elite-tempo/tempos"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
               style={{ color: INK }}
             >
               {SWINGS.length} specific tour shots

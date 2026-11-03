@@ -26,7 +26,7 @@
 /* ── Colour ──────────────────────────────────────────────────────────────── */
 
 /** Grey 900. The canvas, flat. */
-export const BG = "#222222";
+export const BG = "#F5F6F3";
 
 /**
  * Yellow (Vivid) 400. A FIELD COLOUR, NEVER TEXT.
@@ -51,7 +51,7 @@ export const ACCENT = "#F7C948";
 
 /** Grey 900 — ink on a gold field, 10.15:1. Deliberately the canvas colour rather
  *  than pure black, so a button reads as a window cut through to the ground. */
-export const ON_ACCENT = "#222222";
+export const ON_ACCENT = "#141518";
 
 /**
  * Light Blue (Vivid) 100. THIS WORD IS TAPPABLE.
@@ -65,20 +65,20 @@ export const ON_ACCENT = "#222222";
  *   - size, weight, position carry IMPORTANCE  -> readouts are INK
  *   - colour carries AFFORDANCE                -> tappable words are ACCENT_ALT
  */
-export const ACCENT_ALT = "#B3ECFF";
+export const ACCENT_ALT = "#1F5FD6";
 
 /** Grey 50. Body copy and every readout. 14.85:1 on the canvas. */
-export const INK = "#F7F7F7";
+export const INK = "#141518";
 /** Grey 300. Secondary copy. 10.21:1. */
-export const MUTED = "#CFCFCF";
+export const MUTED = "#55565C";
 /** Grey 500. Legal lines and copyright — quieter than MUTED by design. */
-export const FAINT = "#7E7E7E";
+export const FAINT = "#8A8B90";
 /** Grey 800. Every card surface. */
-export const CARD = "#3B3B3B";
+export const CARD = "#FFFFFF";
 /** Grey 800. Slide-up and raised surfaces. */
-export const ELEVATED = "#3B3B3B";
+export const ELEVATED = "#FFFFFF";
 /** Grey 700. Borders and rules. */
-export const HAIRLINE = "#515151";
+export const HAIRLINE = "#E6E7E2";
 
 /* ── Type ────────────────────────────────────────────────────────────────── */
 

@@ -113,7 +113,7 @@ function Step({
           before the takeaway, and the arithmetic comes last. */}
       <span
         className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-sm font-semibold tabular-nums"
-        style={{ background: ACCENT, color: ON_ACCENT }}
+        style={{ background: INK, color: "#FFFFFF" }}
         aria-hidden
       >
         {n}

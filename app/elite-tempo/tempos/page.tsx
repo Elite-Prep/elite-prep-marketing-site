@@ -116,7 +116,7 @@ function Row({ swing }: { swing: Swing }) {
       <td className="py-4 pr-4 align-top">
         <Link
           href={`/elite-tempo/tempo/${swing.slug}`}
-          className="text-sm font-semibold hover:text-[#B3ECFF]"
+          className="text-sm font-semibold hover:text-[#1F5FD6]"
           style={{ color: INK }}
         >
           {swing.player}
@@ -199,7 +199,7 @@ export default function TempoLibrary() {
             {SWINGS.length} shots run from{" "}
             <Link
               href={`/elite-tempo/tempo/${fastest.slug}`}
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
               style={{ color: INK }}
             >
               {fastest.player}&apos;s {fmtRatio(fastest)}
@@ -207,7 +207,7 @@ export default function TempoLibrary() {
             to{" "}
             <Link
               href={`/elite-tempo/tempo/${slowest.slug}`}
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
               style={{ color: INK }}
             >
               {slowest.player}&apos;s {fmtRatio(slowest)}
@@ -220,7 +220,7 @@ export default function TempoLibrary() {
             backswing, impact — read off tournament video to 1/100 of a second.{" "}
             <Link
               href="/elite-tempo/how-we-time-swings"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
               style={{ color: INK }}
             >
               How we time swings

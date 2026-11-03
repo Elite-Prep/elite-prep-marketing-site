@@ -191,7 +191,7 @@ export default function VsTourTempo() {
             Timed directly against tournament footage, the shots in{" "}
             <Link
               href="/elite-tempo/tempos"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
               style={{ color: INK }}
             >
               Elite Tempo&apos;s library
@@ -201,7 +201,7 @@ export default function VsTourTempo() {
             and neither is 3:1 — they are simply different swings.{" "}
             <Link
               href="/elite-tempo/how-we-time-swings"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
               style={{ color: INK }}
             >
               How the timing is done

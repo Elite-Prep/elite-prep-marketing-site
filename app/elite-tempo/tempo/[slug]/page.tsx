@@ -298,7 +298,7 @@ export default async function TempoDetail({
               href={footage}
               rel="noopener nofollow"
               target="_blank"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
               style={{ color: INK }}
             >
               {swing.year} {swing.event}
@@ -329,7 +329,7 @@ export default async function TempoDetail({
               depending on the club.{" "}
               <Link
                 href={`/elite-tempo/player/${hub.slug}`}
-                className="font-semibold underline decoration-1 underline-offset-4 transition-colors hover:text-[#B3ECFF]"
+                className="font-semibold underline decoration-1 underline-offset-4 transition-colors hover:text-[#1F5FD6]"
                 style={{ color: INK }}
               >
                 All of {swing.player}&apos;s tempos
@@ -348,7 +348,7 @@ export default async function TempoDetail({
             that. Across{" "}
             <Link
               href="/elite-tempo/tempos"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#B3ECFF]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
               style={{ color: INK }}
             >
               the whole library

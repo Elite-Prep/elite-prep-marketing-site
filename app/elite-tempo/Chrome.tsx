@@ -39,16 +39,9 @@ import {
 export function Wordmark({ href }: { href?: string }) {
   const lockup = (
     <span className="flex items-center gap-2.5">
-      <EliteTempoMark size={22} fill={ACCENT} />
-      <span
-        className="text-[19px] leading-none"
-        style={{
-          color: INK,
-          fontWeight: W_WORDMARK,
-          letterSpacing: TRACKING_MARK,
-        }}
-      >
-        ELITE TEMPO
+      <EliteTempoMark size={22} fill={INK} />
+      <span className="text-[20px] font-semibold leading-none tracking-[-0.01em]" style={{ color: INK }}>
+        Elite Tempo
       </span>
     </span>
   );
@@ -69,7 +62,7 @@ export function AppStoreButton({ label }: { label?: string }) {
          so only its border said "button". This is the one filled button on a
          page — the header CTA is outlined — which is the right hierarchy. */
       className="inline-flex items-center gap-2.5 rounded-xl px-5 py-3 transition duration-200 hover:scale-[1.03] active:scale-[0.98]"
-      style={{ background: "#FFFFFF", color: ON_ACCENT }}
+      style={{ background: INK, color: "#FFFFFF" }}
       aria-label={label ?? "Download Elite Tempo on the App Store"}
     >
       <svg width="22" height="26" viewBox="0 0 384 512" fill="currentColor" aria-hidden>
@@ -89,7 +82,7 @@ function Header() {
   return (
     <header
       className="sticky top-0 z-50 backdrop-blur-md"
-      style={{ background: "rgba(34, 34, 34, 0.85)", borderBottom: `1px solid ${HAIRLINE}` }}
+      style={{ background: "rgba(245, 246, 243, 0.85)", borderBottom: `1px solid ${HAIRLINE}` }}
     >
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <Wordmark href="/elite-tempo" />
@@ -97,21 +90,21 @@ function Header() {
           <nav aria-label="Elite Tempo" className="hidden items-center gap-8 md:flex">
             <Link
               href="/elite-tempo/tempos"
-              className="text-sm transition-colors duration-150 hover:text-[#B3ECFF]"
+              className="text-sm transition-colors duration-150 hover:text-[#1F5FD6]"
               style={{ color: INK, fontWeight: W_EMPHASIS }}
             >
               Tempo library
             </Link>
             <Link
               href="/elite-tempo#pricing"
-              className="text-sm transition-colors duration-150 hover:text-[#B3ECFF]"
+              className="text-sm transition-colors duration-150 hover:text-[#1F5FD6]"
               style={{ color: INK, fontWeight: W_EMPHASIS }}
             >
               Pricing
             </Link>
             <Link
               href="/elite-tempo#faq"
-              className="text-sm transition-colors duration-150 hover:text-[#B3ECFF]"
+              className="text-sm transition-colors duration-150 hover:text-[#1F5FD6]"
               style={{ color: INK, fontWeight: W_EMPHASIS }}
             >
               FAQs
@@ -125,9 +118,9 @@ function Header() {
                nav links beside it. Flipped contrast makes it unambiguously the
                primary thing in the bar. */
             className="shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 text-sm transition duration-200 hover:brightness-[1.08] active:scale-[0.98]"
-            style={{ background: ACCENT, color: ON_ACCENT, fontWeight: W_EMPHASIS }}
+            style={{ background: INK, color: "#FFFFFF", fontWeight: W_EMPHASIS }}
           >
-            Try now for free
+            Try it free
           </a>
         </div>
       </div>
@@ -145,19 +138,19 @@ function Footer() {
             className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm"
             style={{ color: MUTED }}
           >
-            <Link href="/elite-tempo/tempos" className="transition-colors hover:text-[#B3ECFF]">
+            <Link href="/elite-tempo/tempos" className="transition-colors hover:text-[#1F5FD6]">
               Tempo library
             </Link>
-            <Link href="/elite-tempo/how-we-time-swings" className="transition-colors hover:text-[#B3ECFF]">
+            <Link href="/elite-tempo/how-we-time-swings" className="transition-colors hover:text-[#1F5FD6]">
               How we time swings
             </Link>
-            <Link href="/elite-tempo/privacy" className="transition-colors hover:text-[#B3ECFF]">
+            <Link href="/elite-tempo/privacy" className="transition-colors hover:text-[#1F5FD6]">
               Privacy
             </Link>
-            <Link href="/elite-tempo/terms" className="transition-colors hover:text-[#B3ECFF]">
+            <Link href="/elite-tempo/terms" className="transition-colors hover:text-[#1F5FD6]">
               Terms
             </Link>
-            <a href="mailto:ebusalacchi@eliteprep.app" className="transition-colors hover:text-[#B3ECFF]">
+            <a href="mailto:ebusalacchi@eliteprep.app" className="transition-colors hover:text-[#1F5FD6]">
               Contact
             </a>
           </nav>
@@ -201,7 +194,7 @@ export function Breadcrumbs({ trail }: { trail: { name: string; href?: string }[
           <li key={crumb.name} className="flex items-center gap-2">
             {i > 0 && <span aria-hidden>/</span>}
             {crumb.href ? (
-              <Link href={crumb.href} className="hover:text-[#B3ECFF]">
+              <Link href={crumb.href} className="hover:text-[#1F5FD6]">
                 {crumb.name}
               </Link>
             ) : (

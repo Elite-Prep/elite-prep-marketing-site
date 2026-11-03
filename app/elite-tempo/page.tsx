@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import TimingPlayer, { type TimingShot } from "./TimingPlayer";
@@ -62,13 +63,13 @@ export const metadata: Metadata = {
     "3 to 1 tempo ratio",
   ],
   openGraph: {
-    title: "Elite Tempo. Copy your best. Copy the greats. Groove your routine.",
+    title: "Elite Tempo. Time your whole shot, from routine to impact.",
     description:
       `Golf tempo, timed by hand to 1/100s. Film your own swing, mark takeaway, top and impact on a frame-accurate scrubber, and get your four numbers. Train hands-free with beats in your headphones. Free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month.`,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Elite Tempo. Copy your best. Copy the greats. Groove your routine.",
+    title: "Elite Tempo. Time your whole shot, from routine to impact.",
     description: `Golf tempo, timed by hand to 1/100s. Auto swing capture, hands-free. Free ${TRIAL_DAYS}-day trial, then ${PRICE_YEARLY} a year.`,
   },
 };
@@ -163,7 +164,8 @@ const STRUCTURED_DATA = {
         "Hand-timed tempo library of famous tour swings",
         "Frame-accurate marking of your own swing from video",
         "Side-by-side swing comparison",
-        "Pre-shot routine timing with a 40-second pace-of-play timer",
+        "Pre-shot routine timing, step by step, against the 40 seconds the USGA and The R&A recommend",
+        "Hands-free routine practice that hears the strike and scores each try",
         "Hands-free training with beats in your headphones",
         "Lock-screen Live Activity, mirrored to the Apple Watch Smart Stack",
       ],
@@ -237,163 +239,153 @@ export default function EliteTempoLanding() {
 
       <header
         className="sticky top-0 z-50 backdrop-blur-md"
-        style={{ background: "rgba(34, 34, 34, 0.85)" }}
+        style={{ background: "rgba(245, 246, 243, 0.85)", borderBottom: `1px solid ${HAIRLINE}` }}
       >
         <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-4 py-4 sm:px-12">
           <Wordmark />
           <a
             href={APP_STORE_URL}
-            className="shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 text-[15px] font-semibold transition duration-200 hover:brightness-[1.08] active:scale-[0.98]"
-            style={{ background: ACCENT, color: ON_ACCENT }}
+            className="shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 text-[15px] font-semibold transition duration-200 hover:opacity-90 active:scale-[0.98]"
+            style={{ background: INK, color: CARD }}
           >
-            Try now for free
+            Try it free
           </a>
         </div>
       </header>
 
-      {/* Hero */}
-      <section className={`${SPLIT} pt-6`}>
-        <div className="min-w-0 flex-[1_1_640px]">
-          <h1 className="text-[clamp(34px,9.2vw,64px)] font-semibold leading-[1.06] tracking-[-0.025em]">
-            Copy your best.
-            <br />
-            Copy the greats.
-            <br />
-            Groove your routine.
-          </h1>
-          <p className="mt-6 max-w-[32em]" style={{ color: MUTED }}>
-            Time your swing and your pre-shot routine, from the tee to the green.
-            Then repeat them on the course.
-          </p>
-          <AppStoreBadge className="mt-8" />
-          <p className="mt-3.5 text-[15px]" style={{ color: MUTED }}>
-            {TRIAL_DAYS} days free, then {PRICE_YEARLY} a year or {PRICE_MONTHLY} a month
-          </p>
-        </div>
-        <div
-          className={`${MEDIA_FRAME} aspect-[440/580] min-w-0 flex-[1_1_400px]`}
-          style={{ background: CARD }}
-        >
-          <LoopVideo
-            name="hero-loop"
-            label="A golfer swinging, with his tempo ratio and swing time shown on screen."
-            position="center 21.7%"
-          />
-        </div>
-      </section>
-
-      {/* The whole game, playable. Same clock for all four tabs. */}
-      <section id="timing" className={SECTION}>
-        <h2 className={H2}>Time every part of your game.</h2>
-        <p className="mt-4 max-w-[34em]" style={{ color: MUTED }}>
-          Pick a part of the game, press play, and hear the timing of a real tournament
-          shot.
-        </p>
-        <TimingPlayer shots={TIMING_SHOTS} />
-        <p className="mt-5" style={{ color: MUTED }}>
-          On the range, keep your phone in your bag and hear your timing through your
-          headphones.
-        </p>
-      </section>
-
-      {/* Copy your best */}
-      <section id="your-swing" className={SPLIT}>
-        <div className="min-w-0 flex-[1_1_420px]">
-          <h2 className={H2}>Copy your best swing.</h2>
-          <p className="mt-4 max-w-[32em]" style={{ color: MUTED }}>
-            Other tempo apps make you pick a ratio, then change your swing to fit it.
-            Here you start with your best swing. Mark takeaway, top, and impact, then
-            groove your own tempo on a loop.
-          </p>
-          <p id="compare" className="mt-3.5 max-w-[32em]" style={{ color: MUTED }}>
-            Put two swings side by side, and see what changed between your best shot and
-            your last one.
-          </p>
-        </div>
-        <div className="grid min-w-0 flex-[1_1_480px] grid-cols-2 gap-3 sm:gap-6">
-          <ScreenVideo
-            name="swing-loop"
-            label="The Elite Tempo app playing back a golfer's own swing and tempo ratio."
-          />
-          <ScreenVideo
-            name="compare-loop"
-            label="Two swings compared in the Elite Tempo app, one above the other."
-          />
-        </div>
-      </section>
-
-      {/* Copy the greats */}
-      <section id="greats" className={SECTION}>
-        <h2 className={H2}>Copy the best players in the world.</h2>
-        <p className="mt-4 max-w-[34em]" style={{ color: MUTED }}>
-          Rory&apos;s driver swing takes {RORY.total.toFixed(2)} seconds. Tiger&apos;s took{" "}
-          {HERO.total.toFixed(2)}. Train to {SWINGS.length} real tournament shots, each
-          hand-timed to 1/100 of a second.
-        </p>
-        <div className="mt-8" style={{ borderTop: `1px solid ${HAIRLINE}` }}>
-          {GREATS_ROWS.map((g) => (
-            <Link
-              key={g.slug}
-              href={`/elite-tempo/tempo/${g.slug}`}
-              className="grid items-center gap-x-8 gap-y-2.5 py-[18px] transition-colors hover:text-[#B3ECFF] md:grid-cols-3"
-              style={{ borderBottom: `1px solid ${HAIRLINE}` }}
-            >
-              <span>
-                <span className="block font-semibold">{g.player}</span>
-                <span className="block text-[15px]" style={{ color: MUTED }}>
-                  {g.clubLabel}, {g.year} {g.event.replace(/^The /, "")}
-                </span>
-              </span>
-              <span
-                className="flex h-3.5"
-                role="img"
-                aria-label={`Backswing ${fmtSeconds(g.back)}, downswing ${fmtSeconds(g.down)}.`}
-              >
-                <span
-                  style={{ width: `${(g.back / LONGEST_GREAT) * 100}%`, background: MUTED }}
-                />
-                <span
-                  style={{ width: `${(g.down / LONGEST_GREAT) * 100}%`, background: ACCENT }}
-                />
-              </span>
-              <span
-                className="text-[28px] font-semibold"
-                style={{ fontFamily: FONT_NUMERALS, fontVariantNumeric: "tabular-nums" }}
-              >
-                {fmtRatio(g)}
-              </span>
-            </Link>
-          ))}
-        </div>
-        <Link
-          href="/elite-tempo/tempos"
-          className="mt-6 inline-block text-[15px] font-semibold underline underline-offset-4"
-          style={{ color: ACCENT_ALT }}
-        >
-          See all {SWINGS.length} hand-timed swings
-        </Link>
-      </section>
-
-      {/* Groove your routine */}
-      <section id="routine" className={SPLIT}>
-        <div className="flex min-w-0 flex-[1_1_420px] justify-center">
-          <div className="w-full max-w-[290px]">
-            <ScreenVideo
-              name="routine-loop"
-              label="A golfer's full pre-shot routine playing in the Elite Tempo app with a live timer."
-            />
+      {/* Hero: the promise. The whole shot, start of routine to impact. */}
+      <section className="relative">
+        <Glow color={ACCENT} />
+        <div className={`${SPLIT} relative pt-10 sm:pt-16`}>
+          <div className="min-w-0 flex-[1_1_560px]">
+            <h1 className="text-[clamp(40px,8vw,72px)] font-semibold leading-[1.04] tracking-[-0.03em]">
+              Time your whole shot, <span style={{ color: GOLD_TEXT }}>from routine to impact.</span>
+            </h1>
+            <p className="mt-6 max-w-[30em] text-[20px] leading-[1.5]" style={{ color: MUTED }}>
+              For every part of your game: tee shots, approach shots, short game and putting.
+              So you play your best when it matters most.
+            </p>
+            <AppStoreBadge className="mt-8" />
+            <p className="mt-3.5 text-[15px]" style={{ color: MUTED }}>
+              {TRIAL_DAYS} days free, then {PRICE_YEARLY} a year or {PRICE_MONTHLY} a month
+            </p>
+          </div>
+          <div className="flex min-w-0 flex-[1_1_380px] justify-center">
+            <Phone src="routine" alt="A pre-shot routine in Elite Tempo, its steps marked on the video's timeline, 23.9 seconds from start to impact." />
           </div>
         </div>
-        <div className="min-w-0 flex-[1_1_420px]">
-          <h2 className={H2}>Groove your pre-shot routine.</h2>
-          <p className="mt-4 max-w-[32em]" style={{ color: MUTED }}>
-            Your routine is what carries your practice game to the course. Film it from
-            start to impact, check it against your best one, and repeat it the same way
-            every time.
+      </section>
+
+      <Feature
+        id="your-swing"
+        title="Time your best swings."
+        image="player"
+        alt="A golfer's own swing playing in Elite Tempo, with tempo 3.0:1 and total time 0.87 seconds."
+        color={ACCENT_ALT}
+      >
+        Film a swing or pick one from Photos. Mark takeaway, top and impact, then hear
+        your own timing on a loop until it is the one you repeat.
+      </Feature>
+
+      <Feature
+        id="numbers"
+        title="Four numbers in every swing."
+        image="detail"
+        alt="A swing's four numbers in Elite Tempo: tempo 3.0:1, backswing 0.65 seconds, downswing 0.22 seconds, total 0.87 seconds."
+        color={GREEN}
+        flip
+      >
+        Backswing, downswing, total time and tempo, the ratio between the two halves.
+        Two swings can share a 3:1 tempo and still take very different times.
+      </Feature>
+
+      {/* Tour players, playable. */}
+      <section id="timing" className="relative">
+        <div className={`${SECTION} relative`}>
+          <h2 className={H2}>Copy the timing of tour players.</h2>
+          <p className="mt-4 max-w-[34em]" style={{ color: MUTED }}>
+            Rory&apos;s driver takes {RORY.total.toFixed(2)} seconds. Tiger&apos;s took{" "}
+            {HERO.total.toFixed(2)}. Press play and hear {SWINGS.length} real tournament
+            shots, each hand-timed to 1/100 of a second.
           </p>
-          <p className="mt-3.5 max-w-[32em]" style={{ color: MUTED }}>
-            See if it fits the 40 seconds recommended by the USGA and The R&amp;A.
-          </p>
+          <TimingPlayer shots={TIMING_SHOTS} />
+          <div className="mt-10" style={{ borderTop: `1px solid ${HAIRLINE}` }}>
+            {GREATS_ROWS.map((g) => (
+              <Link
+                key={g.slug}
+                href={`/elite-tempo/tempo/${g.slug}`}
+                className="grid items-center gap-x-8 gap-y-2.5 py-[18px] transition-colors hover:text-[#1F5FD6] md:grid-cols-3"
+                style={{ borderBottom: `1px solid ${HAIRLINE}` }}
+              >
+                <span>
+                  <span className="block font-semibold">{g.player}</span>
+                  <span className="block text-[15px]" style={{ color: MUTED }}>
+                    {g.clubLabel}, {g.year} {g.event.replace(/^The /, "")}
+                  </span>
+                </span>
+                <span
+                  className="flex h-1.5 items-center gap-0.5"
+                  role="img"
+                  aria-label={`Backswing ${fmtSeconds(g.back)}, downswing ${fmtSeconds(g.down)}.`}
+                >
+                  <span className="h-full rounded-full" style={{ width: `${(g.back / LONGEST_GREAT) * 100}%`, background: INK }} />
+                  <span className="h-full rounded-full" style={{ width: `${(g.down / LONGEST_GREAT) * 100}%`, background: ACCENT }} />
+                </span>
+                <span
+                  className="text-[28px] font-semibold"
+                  style={{ fontFamily: FONT_NUMERALS, fontVariantNumeric: "tabular-nums" }}
+                >
+                  {fmtRatio(g)}
+                </span>
+              </Link>
+            ))}
+          </div>
+          <Link
+            href="/elite-tempo/tempos"
+            className="mt-6 inline-block text-[15px] font-semibold underline underline-offset-4"
+            style={{ color: ACCENT_ALT }}
+          >
+            See all {SWINGS.length} hand-timed swings
+          </Link>
+        </div>
+      </section>
+
+      <Feature
+        id="routine"
+        title="Rehearse every step of your routine."
+        image="practice"
+        alt="Routine practice in Elite Tempo: the clock counts down from the routine's time while the current step, Pick a target, lights up."
+        color={GREEN}
+      >
+        Mark each step of your pre-shot routine on its video, like Pick a target or Walk
+        in. Then practice it hands free: each step lights up as you reach it, a ding plays
+        at impact, and the phone hears your strike and tells you how close you were.
+      </Feature>
+
+      <Feature
+        id="pace"
+        title="Play faster without feeling rushed."
+        image="routines"
+        alt="Elite Tempo's Routines tab: an average routine of 23.9 seconds against the 40 second limit."
+        color={ORANGE}
+        flip
+      >
+        Groove a routine you can repeat inside the 40 seconds the USGA and The R&amp;A
+        recommend, so a quicker pace feels normal instead of hurried.
+      </Feature>
+
+      {/* Three smaller things, side by side. */}
+      <section className={SECTION}>
+        <div className="grid gap-6 md:grid-cols-3">
+          <Small image="options" title="Practice at 75%, 90% or full speed." alt="Player options in Elite Tempo with speed set to 90%.">
+            Slow the same timing down to groove the feel, then bring it back to full speed.
+          </Small>
+          <Small image="stats" title="Keep your weekly streak." alt="Stats in Elite Tempo: 3 weeks in a row, 11 sessions.">
+            Set a weekly goal. One range day a week keeps it going.
+          </Small>
+          <Small image="share" title="Share your timing." alt="An Elite Tempo share card with a swing's tempo, backswing, downswing and total.">
+            Send your four numbers to a coach or a friend as one clean card.
+          </Small>
         </div>
       </section>
 
@@ -401,8 +393,8 @@ export default function EliteTempoLanding() {
           in the app, so advertising it sent people to a paywall that could not sell it. */}
       <section id="pricing" className={SECTION}>
         <div
-          className="flex flex-wrap items-center justify-between gap-8 rounded-[20px] p-6 sm:p-12"
-          style={{ background: CARD }}
+          className="flex flex-wrap items-center justify-between gap-8 rounded-[28px] p-6 sm:p-12"
+          style={{ background: CARD, boxShadow: "0 20px 50px rgba(20, 21, 24, 0.06)" }}
         >
           <div className="min-w-0 flex-[1_1_420px]">
             <h2 className={H2}>Time your own swing before you pay a thing.</h2>
@@ -496,12 +488,9 @@ export default function EliteTempoLanding() {
 function Wordmark() {
   return (
     <div className="flex items-center gap-2.5" aria-label="Elite Tempo">
-      <EliteTempoMark size={22} fill={ACCENT} />
-      <span
-        className="text-[19px] leading-none"
-        style={{ color: INK, fontWeight: W_WORDMARK, letterSpacing: TRACKING_MARK }}
-      >
-        ELITE TEMPO
+      <EliteTempoMark size={22} fill={INK} />
+      <span className="text-[20px] font-semibold leading-none tracking-[-0.01em]" style={{ color: INK }}>
+        Elite Tempo
       </span>
     </div>
   );
@@ -552,6 +541,82 @@ function ScreenVideo({ name, label }: { name: string; label: string }) {
   return (
     <div className={`${MEDIA_FRAME} aspect-[600/1230]`} style={{ background: CARD }}>
       <LoopVideo name={name} label={label} position="center" />
+    </div>
+  );
+}
+
+/* Text gold, darker than the gold field so it reads on the light ground. */
+const GOLD_TEXT = "#B07A00";
+const GREEN = "#1F9D6B";
+const ORANGE = "#EF7D22";
+
+/* A soft wash of one color behind the top of a section, the app's glow. */
+function Glow({ color }: { color: string }) {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-x-0 -top-40 h-[900px]"
+      style={{ background: `radial-gradient(45% 45% at 70% 50%, ${color}40 0%, ${color}00 100%)` }}
+    />
+  );
+}
+
+/* A real app screen in an iPhone frame. */
+function Phone({ src, alt, small = false }: { src: string; alt: string; small?: boolean }) {
+  return (
+    <div
+      className={`${small ? "w-full max-w-[260px]" : "w-full max-w-[340px]"} rounded-[48px] p-[10px]`}
+      style={{ background: "#0d0d0f", boxShadow: "0 30px 70px rgba(20, 21, 24, 0.18)" }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={`/elite-tempo/app/${src}.png`} alt={alt} className="block w-full rounded-[38px]" loading="lazy" />
+    </div>
+  );
+}
+
+function Feature({
+  id,
+  title,
+  image,
+  alt,
+  color,
+  flip = false,
+  children,
+}: {
+  id: string;
+  title: string;
+  image: string;
+  alt: string;
+  color: string;
+  flip?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <section id={id} className="relative">
+      <Glow color={color} />
+      <div className={`${SPLIT} relative pt-12 ${flip ? "flex-row-reverse" : ""}`}>
+        <div className="min-w-0 flex-[1_1_420px]">
+          <h2 className={H2}>{title}</h2>
+          <p className="mt-4 max-w-[30em] leading-[1.55]" style={{ color: MUTED }}>
+            {children}
+          </p>
+        </div>
+        <div className="flex min-w-0 flex-[1_1_340px] justify-center">
+          <Phone src={image} alt={alt} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Small({ image, title, alt, children }: { image: string; title: string; alt: string; children: ReactNode }) {
+  return (
+    <div className="rounded-[28px] p-6" style={{ background: CARD, boxShadow: "0 20px 50px rgba(20, 21, 24, 0.06)" }}>
+      <h3 className="text-[22px] font-semibold leading-tight tracking-[-0.01em]">{title}</h3>
+      <p className="mt-2 text-[16px]" style={{ color: MUTED }}>{children}</p>
+      <div className="mt-6 flex justify-center">
+        <Phone src={image} alt={alt} small />
+      </div>
     </div>
   );
 }

@@ -22,7 +22,7 @@
  * cannot sell what the page promised is worse than saying nothing.
  */
 
-export const PRICE_YEARLY_NUM = 49.99;
+export const PRICE_YEARLY_NUM = 59.99;
 export const PRICE_MONTHLY_NUM = 5.99;
 export const PRICE_YEARLY = `$${PRICE_YEARLY_NUM.toFixed(2)}`;
 export const PRICE_MONTHLY = `$${PRICE_MONTHLY_NUM.toFixed(2)}`;
