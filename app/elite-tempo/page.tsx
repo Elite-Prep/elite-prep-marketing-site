@@ -64,14 +64,14 @@ export const metadata: Metadata = {
      the file-based URL (its hash did not change with the design) fetch the new one. */
   openGraph: {
     images: SHARE_IMAGES,
-    title: "Elite Tempo. Time your entire game from routine to impact.",
+    title: "Elite Tempo. Time your entire game from pre-shot routine to impact.",
     description:
       `Golf tempo, timed by hand to 1/100s. Film your own swing, mark takeaway, top and impact on a frame-accurate scrubber, and get your four numbers. Practice to the beats with your phone in your bag. Free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month.`,
   },
   twitter: {
     card: "summary_large_image",
     images: SHARE_IMAGES,
-    title: "Elite Tempo. Time your entire game from routine to impact.",
+    title: "Elite Tempo. Time your entire game from pre-shot routine to impact.",
     description: `Time your golf swing and your pre-shot routine. Tour swings timed by hand to 1/100s. Free ${TRIAL_DAYS}-day trial, then ${PRICE_YEARLY} a year.`,
   },
 };
@@ -260,10 +260,10 @@ export default function EliteTempoLanding() {
               {/* The break only holds once both halves fit on a line; on a phone it
                   stranded a single word on a line of its own. */}
               Time your entire game
-              <br className="hidden sm:block" /> from routine to impact.
+              <br className="hidden sm:block" /> from pre-shot routine to impact.
             </h1>
             <p className={`mx-auto mt-[22px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
-              Capture your golf routine and the total timing of every shot.
+              Groove your golf routine and total timing of every shot so you can execute it when it matters most.
             </p>
             <AppStoreBadge className="mt-7" />
             <p className="mt-3.5 text-[16px]" style={{ color: "#4A4B50" }}>
