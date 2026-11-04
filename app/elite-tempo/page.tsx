@@ -225,7 +225,7 @@ const HERO_SCREENS: { src: string; label: string; alt: string; clip?: string }[]
   { src: "player", clip: "player", label: "your swing", alt: "A golfer's own swing playing in Elite Tempo with tempo 3.0:1." },
   { src: "detail", label: "your four numbers", alt: "A swing's four numbers in Elite Tempo: tempo, backswing, downswing and total." },
   { src: "pros", label: "the pros", alt: "Elite Tempo's Pros tab: tour players with their tempos." },
-  { src: "practice", label: "routine practice", alt: "Routine practice in Elite Tempo with the current step lit up." },
+  { src: "stats", label: "your streak", alt: "Stats in Elite Tempo: a weekly streak of 3 weeks in a row." },
 ];
 
 const WRAP = "mx-auto max-w-[1240px] px-4";
@@ -585,6 +585,8 @@ const IPHONE_CSS = `
 .iphone-screen { position: relative; width: 100%; aspect-ratio: 1206 / 2622; border-radius: 13% / 6.2%; overflow: hidden; background: #000; }
 .et-faq[open] .et-chev { transform: rotate(180deg); }
 .et-chev { transition: transform 0.2s ease; }
+.et-clip-still { position: absolute; inset: 0; }
+.iphone-screen[data-live] .et-clip-still { opacity: 0; transition: opacity 0.15s linear; }
 .iphone-screen img, .iphone-screen video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* Tour timing bars, in real time: backswing, then downswing straight after it. */
@@ -605,16 +607,22 @@ function Phone({ src, alt, className = "", eager = false, clip }: { src: string;
         {/* 960 wide, cut from the full size App Store screenshots: the old 598 wide
             copies were stretched past their pixels on any sharp screen and read blurry. */}
         {clip ? (
-          <video
-            src={`/elite-tempo/app/${clip}.mp4`}
-            poster={`/elite-tempo/app/${src}.webp`}
-            aria-label={alt}
-            width={960}
-            height={2087}
-            muted
-            playsInline
-            preload="auto"
-          />
+          <>
+            <video
+              src={`/elite-tempo/app/${clip}.mp4`}
+              poster={`/elite-tempo/app/${src}.webp`}
+              aria-label={alt}
+              width={960}
+              height={2087}
+              muted
+              playsInline
+              preload="auto"
+            />
+            {/* iPhone Safari blanks a video to black from play() until its first
+                frame decodes, and drops the poster for that gap. This still sits on
+                top until the carousel marks the clip as really playing. */}
+            <img src={`/elite-tempo/app/${src}.webp`} alt="" aria-hidden width={960} height={2087} className="et-clip-still" />
+          </>
         ) : (
           <img src={`/elite-tempo/app/${src}.webp`} alt={alt} width={960} height={2087} loading={eager ? "eager" : "lazy"} />
         )}

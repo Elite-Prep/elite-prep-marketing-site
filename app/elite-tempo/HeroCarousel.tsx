@@ -55,6 +55,8 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
        not the video frame it stopped on. The file comes from the browser's cache. */
     clips.forEach((v, i) => {
       if (v && i !== front && (v.currentTime > 0 || !v.paused)) {
+        /* Still back first, instantly, or load() shows a black frame under it. */
+        delete v.parentElement?.dataset.live;
         v.pause();
         v.load();
       }
@@ -85,6 +87,11 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
       clip.currentTime = 0;
       clip.play().catch(() => {});
     };
+    /* Only once a frame is really moving does the still on top fade away. */
+    const live = () => {
+      if (clip.currentTime > 0 && clip.parentElement) clip.parentElement.dataset.live = "";
+    };
+    clip.addEventListener("timeupdate", live);
     clip.addEventListener("ended", ended);
     clip.currentTime = 0;
     /* A browser can refuse to play, as iOS does in Low Power Mode; the poster then
@@ -92,6 +99,7 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
     clip.play().catch(() => hold(STEP_MS));
     return () => {
       clip.removeEventListener("ended", ended);
+      clip.removeEventListener("timeupdate", live);
       clearTimeout(timer);
       clip.pause();
     };
