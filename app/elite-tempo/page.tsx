@@ -9,7 +9,6 @@ import FeatureList from "./FeatureList";
 import { TIMER_SCALE_S, routineScene, timerScene } from "./motion/scenes";
 import {
   GREATS_ROWS,
-  HERO_SWING,
   SWINGS,
   TIMING_BY_AREA,
   fmtRatio,
@@ -83,8 +82,8 @@ export const metadata: Metadata = {
    sub-rows from it. */
 const FAQS: { q: string; a: string }[] = [
   {
-    q: "Do I have to change my swing?",
-    a: "No. Film your own best swing and train to its timing, or pick a tour player whose timing suits you.",
+    q: "What makes Elite Tempo different?",
+    a: "Elite Tempo captures the total timing and the routine of your best shots, so you can groove them and practice under pressure. No other tempo app can say the same.",
   },
   {
     q: "How do I time my pre-shot routine?",
@@ -203,9 +202,9 @@ const DARK_SHOTS: DarkShot[] = TIMING_BY_AREA.map((s) => ({
 }));
 
 /* The two animations, built from the same numbers the page prints. The routine
-   figures match the app screens shown beside them: seven steps, 23.9 seconds. */
+   figures match the app screen shown beside them: a 24.3 second average. */
 const ROUTINE_SCENE = routineScene(7, INK);
-const ROUTINE_S = 23.9;
+const ROUTINE_S = 24.3;
 const PACE_LIMIT_S = 40;
 const TIMER_SCENE = timerScene(ROUTINE_S, PACE_LIMIT_S, INK);
 
@@ -213,7 +212,9 @@ const TIMER_SCENE = timerScene(ROUTINE_S, PACE_LIMIT_S, INK);
    recorded from the Simulator: the routine running its timer and steps, and a
    swing playing with its numbers. */
 const HERO_SCREENS: { src: string; label: string; alt: string; clip?: string }[] = [
-  { src: "routine", clip: "routine", label: "your routine", alt: "A pre-shot routine in Elite Tempo with its steps on the timeline, 23.9 seconds to impact." },
+  /* Current app (board capture, 11-04). The old routine clip showed the previous
+     design, so this slide is a still until a new clip is recorded. */
+  { src: "routine-practice", label: "your routine", alt: "Practicing a driver pre-shot routine in Elite Tempo: look at the target, 13.6 seconds left on the clock." },
   { src: "player", clip: "player", label: "your swing", alt: "A golfer's own swing playing in Elite Tempo with tempo 3.0:1." },
   { src: "detail", label: "your four numbers", alt: "A swing's four numbers in Elite Tempo: tempo, backswing, downswing and total." },
   { src: "pros", label: "the pros", alt: "Elite Tempo's Pros tab: tour players with their tempos." },
@@ -290,7 +291,7 @@ export default function EliteTempoLanding() {
         {/* The two words the product is about, in italics: a deliberate exception to
             plain headings, asked for by Eric 2026-11-04. */}
         <h2 className={H2_ONE}>
-          Pressure breaks your <em className="italic">timing</em> and <em className="italic">routine</em>.
+          Competing under pressure breaks your <em className="italic">timing</em> and <em className="italic">routine</em>.
         </h2>
         <p className={`mx-auto mt-5 max-w-[30em] ${LEDE}`} style={{ color: MUTED }}>
           Because they’re difficult to practice. Until now.
@@ -305,7 +306,7 @@ export default function EliteTempoLanding() {
           <TallCard title="Time your best swings" src="player" alt="A golfer's own swing playing in Elite Tempo.">
             Film a swing and groove the timing of your best shots.
           </TallCard>
-          <TallCard title="Compare to a tour player's timing" src="detail" alt="A golfer's four timing numbers in Elite Tempo, each next to Adam Scott's.">
+          <TallCard title="Compare to a tour player's timing" src="compare" alt="See the gap in Elite Tempo: a golfer's driver at the top of the swing, stacked under Tiger Woods' 2000 Open driver at the same moment.">
             See how your timing stacks up to the best players in the world.
           </TallCard>
         </div>
@@ -333,7 +334,7 @@ export default function EliteTempoLanding() {
             </div>
           </div>
           <div className="mx-auto h-[560px] w-[300px] flex-[0_1_300px] self-end">
-            <Phone src="practice" alt="Routine practice in Elite Tempo with the current step lit up." />
+            <Phone src="routines-tab" alt="Elite Tempo's Routines tab: a 24.3 second average against the 40 second limit." />
           </div>
         </div>
       </section>
@@ -344,7 +345,7 @@ export default function EliteTempoLanding() {
         <div className="rounded-[28px] bg-white p-[clamp(32px,5vw,64px)]">
           <h2 className={H2_ONE}>Train to Tiger&apos;s timing.</h2>
           <p className={`mt-4 max-w-[30em] ${LEDE}`} style={{ color: MUTED }}>
-            {SWINGS.length} tournament swings, each hand-timed to 1/100 of a second. Tap one to hear it.
+            {SWINGS.length} tournament swings, each hand-timed to 1/100 of a second.
           </p>
           <TourList
             rows={GREATS_ROWS.map((g) => ({
@@ -371,7 +372,7 @@ export default function EliteTempoLanding() {
             items={[
               {
                 label: "Speed",
-                body: `Practice at 75%, 90% or full speed. Same ${fmtRatio(HERO_SWING)} ratio every time.`,
+                body: "Practice at 75% or 90% to ingrain a swing change or take spin off the ball.",
                 phone: <Phone src="options" alt="Elite Tempo's Player options with speed set to 90%." />,
               },
               {

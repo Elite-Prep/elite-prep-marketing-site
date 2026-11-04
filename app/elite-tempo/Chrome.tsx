@@ -25,9 +25,16 @@ export function SiteHeader() {
         className="flex items-center gap-[clamp(4px,2vw,40px)] rounded-full py-[6px] pl-4 pr-[6px] md:pl-5"
         style={{ background: "rgba(255,255,255,0.78)" }}
       >
-        <Link href="/" className="flex min-h-11 items-center gap-2 no-underline" aria-label="Elite Tempo home" style={{ color: INK }}>
+        <Link
+          href="/"
+          className="flex min-h-11 items-center gap-2 no-underline"
+          aria-label="Elite Tempo home"
+          style={{ color: INK }}
+        >
           <EliteTempoMark size={18} fill={INK} />
-          <span className="whitespace-nowrap text-base font-semibold tracking-[0.02em]">Elite Tempo</span>
+          <span className="whitespace-nowrap text-base font-semibold tracking-[0.02em]">
+            Elite Tempo
+          </span>
         </Link>
         {/* Pricing shows on every phone, FAQs from sm, the library link from md.
             The name always shows: on a 390 wide iPhone, name, Pricing and the button
@@ -128,18 +135,55 @@ export function SiteFooter() {
     <footer className="mx-auto max-w-[1240px] px-4 pb-10 pt-[clamp(96px,12vw,160px)]">
       <div className="flex flex-wrap justify-between gap-x-16 gap-y-12">
         <div>
-          <Link href="/" className="inline-flex min-h-11 items-center gap-2.5 no-underline" style={{ color: INK }}>
+          <Link
+            href="/"
+            className="inline-flex min-h-11 items-center gap-2.5 no-underline"
+            style={{ color: INK }}
+          >
             <EliteTempoMark size={22} fill={INK} />
-            <span className="text-[20px] font-semibold leading-none tracking-[-0.01em]">Elite Tempo</span>
+            <span className="text-[20px] font-semibold leading-none tracking-[-0.01em]">
+              Elite Tempo
+            </span>
           </Link>
           <p className="mt-1 text-sm" style={{ color: FAINT }}>
             © {new Date().getFullYear()} Elite Prep Inc.
           </p>
+          {/* Under the name, like Bevel's footer (2026-11-04): on their own row they
+              floated in a wide empty band. */}
+          <div className="-ml-2.5 mt-5 flex items-center gap-1">
+            {SOCIALS.map((so) => (
+              <a
+                key={so.label}
+                href={so.href}
+                aria-label={`Elite Tempo on ${so.label}`}
+                rel="noopener"
+                target="_blank"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors hover:bg-black/5"
+                style={{ color: INK }}
+              >
+                <svg
+                  aria-hidden
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                >
+                  <path d={so.icon} fillRule="evenodd" />
+                </svg>
+              </a>
+            ))}
+          </div>
         </div>
-        <nav aria-label="Footer" className="grid grid-cols-2 gap-x-16 gap-y-10 sm:grid-cols-3">
+        <nav
+          aria-label="Footer"
+          className="grid grid-cols-2 gap-x-16 gap-y-10 sm:grid-cols-3"
+        >
           {FOOTER_COLUMNS.map((col) => (
             <div key={col.title}>
-              <p className="m-0 text-[16px] font-medium" style={{ color: FAINT }}>
+              <p
+                className="m-0 text-[16px] font-medium"
+                style={{ color: FAINT }}
+              >
                 {col.title}
               </p>
               <ul className="m-0 mt-2 list-none p-0 text-[16px]">
@@ -159,28 +203,15 @@ export function SiteFooter() {
           ))}
         </nav>
       </div>
-      <div className="mt-10 flex items-center gap-2">
-        {SOCIALS.map((so) => (
-          <a
-            key={so.label}
-            href={so.href}
-            aria-label={`Elite Tempo on ${so.label}`}
-            rel="noopener"
-            target="_blank"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors hover:bg-black/5"
-            style={{ color: INK }}
-          >
-            <svg aria-hidden viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-              <path d={so.icon} fillRule="evenodd" />
-            </svg>
-          </a>
-        ))}
-      </div>
-      <p className="mt-8 max-w-[62em] text-[13px] leading-[1.5]" style={{ color: FAINT }}>
-        Elite Tempo references real golfers, tournaments, and shots for descriptive and
-        educational purposes only, and is not affiliated with, sponsored by, or endorsed by any
-        player, tournament, tour, or organization named in the app. All names and trademarks
-        belong to their respective owners.
+      <p
+        className="mt-8 max-w-[62em] text-[13px] leading-[1.5]"
+        style={{ color: FAINT }}
+      >
+        Elite Tempo references real golfers, tournaments, and shots for
+        descriptive and educational purposes only, and is not affiliated with,
+        sponsored by, or endorsed by any player, tournament, tour, or
+        organization named in the app. All names and trademarks belong to their
+        respective owners.
       </p>
     </footer>
   );
@@ -188,26 +219,55 @@ export function SiteFooter() {
 
 /* Apple's own badge, unchanged from their badge tool. Its visible words are its
    accessible name, so a screen reader says what a sighted visitor reads. */
-export function AppStoreButton({ className = "" }: { className?: string; label?: string }) {
+export function AppStoreButton({
+  className = "",
+}: {
+  className?: string;
+  label?: string;
+}) {
   return (
-    <a href={APP_STORE_URL} className={`inline-block rounded-[10px] transition duration-200 hover:brightness-95 ${className}`}>
+    <a
+      href={APP_STORE_URL}
+      className={`inline-block rounded-[10px] transition duration-200 hover:brightness-95 ${className}`}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/elite-tempo/app-store-badge.svg" alt="Download on the App Store" width={168} height={56} className="block h-14 w-auto" />
+      <img
+        src="/elite-tempo/app-store-badge.svg"
+        alt="Download on the App Store"
+        width={168}
+        height={56}
+        className="block h-14 w-auto"
+      />
     </a>
   );
 }
 
 /* The closing call to action on every inner page, in the home page's pricing look. */
-export function TrialCard({ title, children }: { title: React.ReactNode; children: React.ReactNode }) {
+export function TrialCard({
+  title,
+  children,
+}: {
+  title: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
     <section
       className="mt-16 rounded-[28px] px-[clamp(24px,5vw,56px)] py-[clamp(36px,6vw,64px)] text-center"
-      style={{ background: "radial-gradient(70% 100% at 50% 100%, #F9C832 0%, rgba(249, 200, 50, 0) 75%), #FFFCF0" }}
+      style={{
+        background:
+          "radial-gradient(70% 100% at 50% 100%, #F9C832 0%, rgba(249, 200, 50, 0) 75%), #FFFCF0",
+      }}
     >
-      <h2 className="m-0 text-[clamp(28px,4vw,40px)] font-semibold leading-[1.1] tracking-[-0.02em]" style={{ color: INK, textWrap: "balance" }}>
+      <h2
+        className="m-0 text-[clamp(28px,4vw,40px)] font-semibold leading-[1.1] tracking-[-0.02em]"
+        style={{ color: INK, textWrap: "balance" }}
+      >
         {title}
       </h2>
-      <p className="mx-auto mt-3 max-w-[30em] text-[17px] leading-[1.5]" style={{ color: "#4A4B50" }}>
+      <p
+        className="mx-auto mt-3 max-w-[30em] text-[17px] leading-[1.5]"
+        style={{ color: "#4A4B50" }}
+      >
         {children}
       </p>
       <AppStoreButton className="mt-7" />
@@ -217,7 +277,10 @@ export function TrialCard({ title, children }: { title: React.ReactNode; childre
 
 export default function Chrome({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-col antialiased" style={{ background: BG, color: INK }}>
+    <div
+      className="flex min-h-screen flex-col antialiased"
+      style={{ background: BG, color: INK }}
+    >
       <SkipLink />
       <SiteHeader />
       <main id="content" className="et-prose flex-1">
@@ -230,15 +293,26 @@ export default function Chrome({ children }: { children: React.ReactNode }) {
 
 /* A crumb trail, rendered and marked up. Google builds the grey path it shows
    above a result title from BreadcrumbList. */
-export function Breadcrumbs({ trail }: { trail: { name: string; href?: string }[] }) {
+export function Breadcrumbs({
+  trail,
+}: {
+  trail: { name: string; href?: string }[];
+}) {
   return (
-    <nav aria-label="Breadcrumb" className="text-[14px]" style={{ color: MUTED }}>
+    <nav
+      aria-label="Breadcrumb"
+      className="text-[14px]"
+      style={{ color: MUTED }}
+    >
       <ol className="flex flex-wrap items-center gap-x-1 gap-y-1">
         {trail.map((crumb, i) => (
           <li key={crumb.name} className="flex items-center gap-1">
             {i > 0 && <span aria-hidden>/</span>}
             {crumb.href ? (
-              <Link href={crumb.href} className="inline-flex min-h-11 items-center px-1 underline-offset-4 hover:underline">
+              <Link
+                href={crumb.href}
+                className="inline-flex min-h-11 items-center px-1 underline-offset-4 hover:underline"
+              >
                 {crumb.name}
               </Link>
             ) : (
@@ -260,7 +334,9 @@ export function breadcrumbSchema(trail: { name: string; href?: string }[]) {
       "@type": "ListItem",
       position: i + 1,
       name: crumb.name,
-      ...(crumb.href ? { item: etUrl(crumb.href.replace(/^\/elite-tempo/, "") || "/") } : {}),
+      ...(crumb.href
+        ? { item: etUrl(crumb.href.replace(/^\/elite-tempo/, "") || "/") }
+        : {}),
     })),
   };
 }

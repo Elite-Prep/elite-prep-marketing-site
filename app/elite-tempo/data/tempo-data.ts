@@ -336,10 +336,8 @@ function requireSwing(slug: string, why: string): Swing {
    when new shots ship; never edit an entry to make a red build go green. */
 export const PUBLISHED_SLUGS = [
   "tiger-woods-2000-the-open-championship-driver",
-  "tiger-woods-2000-johnnie-walker-classic-wedge",
   "tiger-woods-2000-the-memorial-short-iron",
-  "tiger-woods-2000-pga-championship-putter-16th",
-  "tiger-woods-2000-pga-championship-putter-18th",
+  "tiger-woods-2000-pga-championship-putter",
   "tiger-woods-1999-the-memorial-wedge",
   "tiger-woods-2007-pga-championship-iron",
   "rory-mcilroy-2014-pga-championship-driver",
@@ -352,6 +350,11 @@ export const PUBLISHED_SLUGS = [
   "cameron-young-2025-ryder-cup-driver",
   "jordan-spieth-2017-travelers-championship-sand-wedge",
   "phil-mickelson-2013-scottish-open-lob-wedge",
+  "justin-thomas-2018-driver",
+  "justin-thomas-2019-iron",
+  "nelly-korda-2023-driver",
+  "jake-knapp-2025-driver",
+  "jake-knapp-2025-iron",
 ] as const;
 
 for (const slug of PUBLISHED_SLUGS) {

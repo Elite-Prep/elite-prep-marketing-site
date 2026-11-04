@@ -2,18 +2,6 @@
   "schemaVersion": 1,
   "note": "Verified Elite Tempo presets, hand-timed from video to 1/100s. ratio/total/beat-times all compute from start/top/impact.",
   "presets": [
-    { "id": "Tiger Woods-2000-pitch",
-      "player": "Tiger Woods", "year": 2000, "club": "pitch",  "startS": 0.75, "topS": 1.381, "impactS": 1.679, "ratio": 2.12,
-      "clubLabel": "Wedge", "youtubeID": "qaQyICKsnUs",
-      "event": "Johnnie Walker Classic", "result": "Won by 3",
-      "tagline": "2000 Johnnie Walker Classic · Won by 3",
-      "story": "Tiger Woods, 2000: his greatest season, nine wins. This medium-flighted pitch from the fairway was pulled from his Sunday warm-up at the Johnnie Walker Classic, the last of those nine wins (by three). A soft, even 2.12:1 over 0.93 seconds." },
-    { "id": "Tiger Woods-2000-putt-16th-Playoff",
-      "player": "Tiger Woods", "year": 2000, "club": "putt",   "startS": 0.25, "topS": 0.789, "impactS": 0.998, "ratio": 2.58,
-      "clubLabel": "Putter", "youtubeID": "alxSyWQNteI",
-      "event": "PGA Championship", "hole": "16th", "round": "Playoff", "result": "Playoff birdie",
-      "tagline": "2000 PGA Championship · 16th, playoff · Birdie",
-      "story": "Tiger Woods, 2000 PGA Championship: the famous walk-and-point birdie on the 16th in the playoff. An aggressive, free-swinging stroke that lit the fuse for his third major of the year. 2.58:1 over 0.75 seconds." },
     { "id": "Tiger Woods-2000-iron-Round 2",
       "player": "Tiger Woods", "year": 2000, "club": "iron",   "startS": 2.40,  "topS": 3.232,  "impactS": 3.527,  "ratio": 2.82,
       "clubLabel": "Short iron", "youtubeID": "ubZQSznZU0k",
@@ -91,6 +79,11 @@
       "tagline": "2007 PGA Championship · 7th · Won",
       "story": "Tiger Woods, 2007 PGA Championship at Southern Hills, his thirteenth major, won in the brutal Tulsa heat. His second shot into the 7th was a swooping draw, the shot shape he could summon at will that week. A full 0.67s backswing into a 0.21s release, a powerful 3.19:1 over 0.88 seconds." },
     {"id": "Hideki Matsuyama-2022-driver", "player": "Hideki Matsuyama", "year": 2022, "club": "driver", "startS": 0, "topS": 0.98, "impactS": 1.22, "ratio": 4.08, "clubLabel": "Driver", "youtubeID": "hBTyb0yTxEc", "tagline": "2022 · Driver", "story": "Hideki Matsuyama, 2022, driver: 0.98s back and 0.24s down, a 4.1:1 tempo over 1.22 seconds."},
-    {"id": "Hideki Matsuyama-2023-iron", "player": "Hideki Matsuyama", "year": 2023, "club": "iron", "startS": 0, "topS": 0.96, "impactS": 1.24, "ratio": 3.43, "clubLabel": "Iron", "youtubeID": "RbUv1x1JwFQ", "tagline": "2023 · Iron", "story": "Hideki Matsuyama, 2023, iron: 0.96s back and 0.28s down, a 3.4:1 tempo over 1.24 seconds."}
+    {"id": "Hideki Matsuyama-2023-iron", "player": "Hideki Matsuyama", "year": 2023, "club": "iron", "startS": 0, "topS": 0.96, "impactS": 1.24, "ratio": 3.43, "clubLabel": "Iron", "youtubeID": "RbUv1x1JwFQ", "tagline": "2023 · Iron", "story": "Hideki Matsuyama, 2023, iron: 0.96s back and 0.28s down, a 3.4:1 tempo over 1.24 seconds."},
+    {"id": "Justin Thomas-2018-driver", "player": "Justin Thomas", "year": 2018, "club": "driver", "startS": 0, "topS": 0.917, "impactS": 1.2, "ratio": 3.24, "clubLabel": "Driver", "youtubeID": "1arb_a_Ik8c", "tagline": "2018 · Driver", "story": "Justin Thomas, 2018, driver: 0.92s back and 0.28s down, a 3.2:1 tempo over 1.20 seconds."},
+    {"id": "Justin Thomas-2019-iron", "player": "Justin Thomas", "year": 2019, "club": "iron", "startS": 0, "topS": 0.84, "impactS": 1.14, "ratio": 2.8, "clubLabel": "Iron", "youtubeID": "IDRh0UwgwCQ", "tagline": "2019 · Iron", "story": "Justin Thomas, 2019, iron: 0.84s back and 0.30s down, a 2.8:1 tempo over 1.14 seconds."},
+    {"id": "Nelly Korda-2023-driver", "player": "Nelly Korda", "year": 2023, "club": "driver", "startS": 0, "topS": 0.94, "impactS": 1.24, "ratio": 3.13, "clubLabel": "Driver", "youtubeID": "CHXB4Nzwh00", "tagline": "2023 · Driver", "story": "Nelly Korda, 2023, driver: 0.94s back and 0.30s down, a 3.1:1 tempo over 1.24 seconds."},
+    {"id": "Jake Knapp-2025-driver", "player": "Jake Knapp", "year": 2025, "club": "driver", "startS": 0, "topS": 0.88, "impactS": 1.12, "ratio": 3.67, "clubLabel": "Driver", "youtubeID": "62raDDqsTpo", "tagline": "2025 · Driver", "story": "Jake Knapp, 2025, driver: 0.88s back and 0.24s down, a 3.7:1 tempo over 1.12 seconds."},
+    {"id": "Jake Knapp-2025-iron", "player": "Jake Knapp", "year": 2025, "club": "iron", "startS": 0, "topS": 0.86, "impactS": 1.06, "ratio": 4.3, "clubLabel": "Iron", "youtubeID": "62raDDqsTpo", "tagline": "2025 · Iron", "story": "Jake Knapp, 2025, iron: 0.86s back and 0.20s down, a 4.3:1 tempo over 1.06 seconds."}
   ]
 }

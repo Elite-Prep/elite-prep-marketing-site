@@ -65,7 +65,25 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/tempo/tiger-woods-2000-johnny-walker-classic-wedge",
-        destination: "/tempo/tiger-woods-2000-johnnie-walker-classic-wedge",
+        destination: "/player/tiger-woods",
+        permanent: true,
+      },
+      /* 11-04 library sync (app master 7197b95, 20 swings): Tiger's 2000 Johnnie
+         Walker wedge and his 16th hole playoff putt left the library. With one
+         2000 PGA putt left, its address lost the hole qualifier. */
+      {
+        source: "/tempo/tiger-woods-2000-johnnie-walker-classic-wedge",
+        destination: "/player/tiger-woods",
+        permanent: true,
+      },
+      {
+        source: "/tempo/tiger-woods-2000-pga-championship-putter-16th",
+        destination: "/tempo/tiger-woods-2000-pga-championship-putter",
+        permanent: true,
+      },
+      {
+        source: "/tempo/tiger-woods-2000-pga-championship-putter-18th",
+        destination: "/tempo/tiger-woods-2000-pga-championship-putter",
         permanent: true,
       },
     ];
