@@ -358,8 +358,9 @@ export default async function TempoDetail({
             >
               the whole library
             </Link>{" "}
-            the spread is wide enough that 3:1 is best read as an average of very
-            different swings rather than a target any one player hits.
+            the swings run from {fmtRatio([...SWINGS].sort((a, b) => a.ratio - b.ratio)[0])} to{" "}
+            {fmtRatio([...SWINGS].sort((a, b) => b.ratio - a.ratio)[0])}, so 3:1 is an average
+            of very different swings.
           </p>
         </section>
 
@@ -394,9 +395,9 @@ export default async function TempoDetail({
           </section>
         )}
 
-        <TrialCard title={<>Swing to it, don&apos;t just read it.</>}>
-          Elite Tempo plays this {fmtRatio(swing)} as beats you can swing along to,
-            then times your own swing the same way so you can see how close you got.
+        <TrialCard title={<>Swing along to this {fmtRatio(swing)}.</>}>
+          Elite Tempo plays it as beats you can swing along to. Film your own swing,
+          mark it the same way, and see how close you got.
         </TrialCard>
       </article>
     </Chrome>

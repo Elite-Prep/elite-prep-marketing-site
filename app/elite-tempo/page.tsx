@@ -68,12 +68,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Elite Tempo. Time your entire game from routine to impact.",
     description:
-      `Golf tempo, timed by hand to 1/100s. Film your own swing, mark takeaway, top and impact on a frame-accurate scrubber, and get your four numbers. Train hands-free with beats in your headphones. Free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month.`,
+      `Golf tempo, timed by hand to 1/100s. Film your own swing, mark takeaway, top and impact on a frame-accurate scrubber, and get your four numbers. Practice to the beats with your phone in your bag. Free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month.`,
   },
   twitter: {
     card: "summary_large_image",
     title: "Elite Tempo. Time your entire game from routine to impact.",
-    description: `Golf tempo, timed by hand to 1/100s. Auto swing capture, hands-free. Free ${TRIAL_DAYS}-day trial, then ${PRICE_YEARLY} a year.`,
+    description: `Time your golf swing and your pre-shot routine. Tour swings timed by hand to 1/100s. Free ${TRIAL_DAYS}-day trial, then ${PRICE_YEARLY} a year.`,
   },
 };
 
@@ -138,11 +138,11 @@ const STRUCTURED_DATA = {
       featureList: [
         "Hand-timed tempo library of famous tour swings",
         "Frame-accurate marking of your own swing from video",
-        "Side-by-side swing comparison",
+        "Your four timing numbers next to a tour player's",
         "Pre-shot routine timing, step by step, against the 40 seconds the USGA and The R&A recommend",
         "Hands-free routine practice that hears the strike and scores each try",
         "Hands-free training with beats in your headphones",
-        "Lock-screen Live Activity, mirrored to the Apple Watch Smart Stack",
+        "Lock-screen Live Activity with play and pause",
       ],
       publisher: {
         "@type": "Organization",

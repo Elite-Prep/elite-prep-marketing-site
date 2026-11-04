@@ -311,19 +311,18 @@ export default async function PlayerPage({
           <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             {player.spread < 0.15 ? (
               <>
-                Remarkably, almost. {possessive(player.name)} ratio shifts by only{" "}
+                Almost. {possessive(player.name)} ratio changes by only{" "}
                 {player.spread.toFixed(2)} between his {player.fastest.clubLabel.toLowerCase()} and
-                his {player.slowest.clubLabel.toLowerCase()}, close enough that one number
-                genuinely does describe him. That is unusual, and it is the thing worth copying:
-                not the number itself, but the consistency.
+                his {player.slowest.clubLabel.toLowerCase()}. Few players in the library stay
+                that close from one club to the next.
               </>
             ) : (
               <>
-                Not really. {possessive(player.name)} ratio travels {player.spread.toFixed(2)} across the
-                clubs timed here, from {fmtRatio(player.fastest)} with a{" "}
+                Not across clubs. {possessive(player.name)} ratio changes by {player.spread.toFixed(2)},
+                from {fmtRatio(player.fastest)} with a{" "}
                 {player.fastest.clubLabel.toLowerCase()} to {fmtRatio(player.slowest)} with a{" "}
-                {player.slowest.clubLabel.toLowerCase()}. &ldquo;A player has a tempo&rdquo; turns
-                out to be a simplification: the club changes it more than most coaching copy admits.
+                {player.slowest.clubLabel.toLowerCase()}. If you copy his timing, compare club to
+                club: your driver to his driver, your wedge to his wedge.
               </>
             )}
           </p>
@@ -407,9 +406,9 @@ export default async function PlayerPage({
           </section>
         )}
 
-        <TrialCard title={<>Swing to {player.name.split(" ")[0]}&apos;s tempo.</>}>
-          Elite Tempo plays each of these as beats you can swing along to, then times your own
-            swing the same way so you can see how close you got.
+        <TrialCard title={<>Swing along to {player.name.split(" ")[0]}&apos;s timing.</>}>
+          Elite Tempo plays each of these swings as beats you can swing along to. Film your
+          own swing, mark it the same way, and compare your four numbers with his.
         </TrialCard>
       </article>
     </Chrome>

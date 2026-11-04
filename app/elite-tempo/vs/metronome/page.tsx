@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Chrome, { Breadcrumbs, TrialCard, breadcrumbSchema } from "../../Chrome";
 import { ACCENT, CARD, HAIRLINE, INK, MUTED, etUrl, SHARE_IMAGES } from "../../theme";
-import { SWINGS, fmtRatio, fmtSeconds } from "../../data/tempo-data";
+import { SWINGS, fmtRatio, fmtSeconds, possessive } from "../../data/tempo-data";
+import { TRIAL_DAYS } from "../../data/pricing";
 import { description } from "../../../seo";
 
 /* "Can I just use a metronome for golf tempo?" is a question people genuinely ask
@@ -15,7 +16,7 @@ import { description } from "../../../seo";
 
 const TITLE = "Can You Use a Metronome for Golf Swing Tempo?";
 const DESCRIPTION = description(
-  "A metronome beats evenly; a golf swing does not. Why three even clicks put the top of your backswing in the wrong place, and what to use instead.",
+  "A metronome clicks evenly. A golf swing takes about three times as long going back as coming down. Why even clicks put your top in the wrong place.",
 );
 
 export const metadata: Metadata = {
@@ -34,15 +35,19 @@ const TRAIL = [
 const FAQS = [
   {
     q: "Can you use a metronome for golf swing tempo?",
-    a: "Partly. A metronome is excellent for the one thing it does, keeping an even pulse, and you can use it to time a pre-shot routine or to slow your overall pace down. What it cannot do on its own is model a golf swing, because a swing is not even: the backswing takes roughly two to four times as long as the downswing, so three evenly spaced clicks put the top of your backswing in the wrong place.",
+    a: "For your pre-shot routine and your overall pace, yes. For the swing itself, an ordinary metronome clicks at even intervals, and a swing is uneven: the backswing takes about two to four times as long as the downswing. Three even clicks put the top of your backswing halfway through the swing.",
   },
   {
     q: "How do you set a metronome for a golf swing?",
-    a: "The usual workaround is to count beats rather than swing to them: set a tempo, take the club back over three beats and come down on the fourth. It works as a rough drill, but you are subdividing an even pulse in your head rather than hearing the actual rhythm, and the ratio you end up with is whatever your counting produces.",
+    a: "The usual workaround is to count: take the club back over three clicks and come down on the fourth. That gets you near 3:1, but you are counting in your head while you swing, and the ratio you get is whatever your counting produces.",
   },
   {
     q: "What is the correct golf swing tempo ratio?",
-    a: "There is no single correct one. The commonly quoted figure is 3:1, backswing three times as long as the downswing, but real tour swings measured from tournament footage spread well either side of it. The useful target is a consistent ratio you can repeat, not a specific number copied from someone whose swing is not yours.",
+    a: "There is no single correct one. The usual figure is 3:1, but tour swings timed from tournament footage run from about 2:1 to above 4:1. A ratio you can repeat matters more than matching someone else's number.",
+  },
+  {
+    q: "Does Elite Tempo have a metronome?",
+    a: "Yes, with uneven beats. In its metronome you set the backswing and downswing times yourself, and it plays a beat at takeaway, at the top and at impact. Most golfers start instead from a tour swing in the library or from timing their own best swing.",
   },
 ];
 
@@ -126,10 +131,9 @@ export default function VsMetronome() {
         </h1>
 
         <p className="mt-6 text-[19px] leading-[1.5]" style={{ color: MUTED }}>
-          Partly, and it is a completely reasonable thing to try, because you
-          probably already have one on your phone for free. But there is one
-          structural problem with it, and it is worth understanding before you spend
-          a season drilling to the wrong rhythm.
+          For your routine and your pace, yes. For the swing itself, an ordinary
+          metronome puts the beats in the wrong places, because it clicks evenly and
+          a golf swing is uneven.
         </p>
 
         <div
@@ -137,8 +141,8 @@ export default function VsMetronome() {
           style={{ background: CARD }}
         >
           <p className="text-[17px] leading-[1.55]" style={{ color: INK }}>
-            A metronome beats <strong>evenly</strong>. A golf swing is{" "}
-            <strong style={{ color: INK }}>not even</strong>.
+            A tour backswing takes about <strong>three times</strong> as long as the
+            downswing. Even clicks give both halves the same time.
           </p>
         </div>
 
@@ -148,7 +152,7 @@ export default function VsMetronome() {
           </h2>
           <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             Takeaway, top, impact. Here is where a metronome puts them, and where{" "}
-            {hero.player}&apos;s {hero.year} {hero.event} drive actually put them.
+            {possessive(hero.player)} {hero.year} {hero.event} drive put them.
           </p>
 
           <div
@@ -161,7 +165,7 @@ export default function VsMetronome() {
               total={hero.total}
               note={`Three evenly spaced clicks put the top of the backswing exactly halfway through, at ${fmtSeconds(
                 hero.total / 2,
-              )}, a 1:1 tempo. No tour player swings anything like that.`}
+              )}, a 1:1 tempo. No tour swing in the library is close to that.`}
             />
             <BeatComparison
               label={`${hero.player}, ${hero.year} ${hero.event}`}
@@ -171,29 +175,26 @@ export default function VsMetronome() {
                 hero.total,
               )} swing, leaving ${fmtSeconds(hero.down)} to come down, ${fmtRatio(
                 hero,
-              )}. The third beat arrives much sooner after the second than the second did after the first.`}
+              )}. Impact comes ${fmtSeconds(hero.down)} after the top, far sooner than the top came after takeaway.`}
             />
           </div>
         </section>
 
         <section className="mt-14">
           <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
-            What a metronome is genuinely good for
+            What a metronome is good for
           </h2>
           <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
-            Two things, and they are not nothing. It will keep your{" "}
-            <strong style={{ color: INK }}>pre-shot routine</strong> to a consistent
-            length, which is one of the most reliable ways to steady yourself under
-            pressure. And it will slow your{" "}
-            <strong style={{ color: INK }}>overall pace</strong> down if you are
-            rushing, because an even pulse is very good at exposing hurry.
+            Two things. It can keep your{" "}
+            <strong style={{ color: INK }}>pre-shot routine</strong> the same length
+            every time, which helps it hold up under pressure. And it can slow your{" "}
+            <strong style={{ color: INK }}>overall pace</strong> when you are
+            rushing, because a steady click makes hurry easy to hear.
           </p>
           <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
-            The common workaround for the swing itself is to count instead of swing
-            to it: back over three beats, down on the fourth. That is a real drill
-            and it does approximate 3:1. It also means you are subdividing a pulse in
-            your head while trying to hit a golf ball, and the ratio you get is
-            whatever your counting produced rather than something you chose.
+            For the swing itself, golfers often count: back over three clicks, down on
+            the fourth. That drill gets you near 3:1, but you are counting in your head
+            while you swing, and the ratio comes out wherever your counting puts it.
           </p>
         </section>
 
@@ -202,22 +203,22 @@ export default function VsMetronome() {
             What to use instead
           </h2>
           <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
-            Any tempo trainer is, underneath, a metronome with unevenly spaced beats.
-            What separates them is where those beats are placed and whether anything
-            checks your work.
+            A golf tempo trainer plays three beats at uneven spacing: takeaway, top and
+            impact. The question is where those beats come from.
           </p>
           <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
-            Elite Tempo places them at the intervals of{" "}
+            In Elite Tempo they come from real swings. Pick one of{" "}
             <Link
               href="/tempos"
               className="font-semibold underline decoration-1 underline-offset-4 hover:opacity-70"
               style={{ color: INK }}
             >
-              {SWINGS.length} specific tour shots
-            </Link>
-            , each hand-timed from the footage, and then records your own swing and
-            finds your takeaway, top and impact in it, so you can compare what you
-            did against what you were aiming at, rather than guessing.
+              {SWINGS.length} tour swings
+            </Link>{" "}
+            timed by hand from tournament footage, or film your own best swing and mark
+            takeaway, top and impact on it frame by frame. Either way you hear that
+            swing&apos;s timing and practice to it. Elite Tempo also times your
+            pre-shot routine step by step, the job a metronome does best.
           </p>
         </section>
 
@@ -249,9 +250,9 @@ export default function VsMetronome() {
           </div>
         </section>
 
-        <TrialCard title={<>Hear an uneven beat.</>}>
-          Free for 14 days. Play {hero.player}&apos;s {fmtRatio(hero)} and hear how
-            different it is from an even pulse.
+        <TrialCard title={<>Hear a real swing&apos;s timing.</>}>
+          Free for {TRIAL_DAYS} days. Play {possessive(hero.player)} {fmtRatio(hero)}{" "}
+          and hear how far it is from three even clicks.
         </TrialCard>
       </article>
     </Chrome>

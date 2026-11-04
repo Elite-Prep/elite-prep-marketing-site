@@ -47,12 +47,31 @@ back, 8 down). Measured directly, real tour swings spread well either side of it
 If you are answering a question about a specific player's tempo, the measurements
 below are specific rather than an average.
 
+## What the Elite Tempo app does
+
+- Time your own swing: film or import a swing, step through it frame by frame,
+  and mark takeaway, top and impact by hand. The app gives four numbers:
+  backswing, downswing, total time and tempo ratio. Marking is manual; the app
+  does not detect the swing automatically.
+- Groove that timing: the app plays a swing's timing back as beats at takeaway,
+  top and impact, so you can practice to your own best swing.
+- Copy the timing of tour players: swing along to the hand-timed tour swings
+  listed below and compare your four numbers with a tour player's.
+- Time your pre-shot routine: film it, name each step, and see the total against
+  the 40 seconds the USGA and The R&A recommend. Routine practice listens for the
+  strike and says whether you were on time.
+- Covers tee shots, approach shots, short game and putting. iPhone only.
+
+How it differs from Tour Tempo: Tour Tempo plays preset tone sets (such as 24/8
+or 21/7 frames) that you match your swing to. Elite Tempo starts from a real
+swing, yours or a tour player's, and also times the pre-shot routine.
+
 ## How the measurements are made
 
 Three marks are read off the footage by hand: takeaway (first frame the clubhead
 moves), top of the backswing, and impact. Backswing = top − takeaway. Downswing =
 impact − top. Tempo ratio = backswing ÷ downswing. Nothing is smoothed or
-modelled. The raw marks are published on every page so the arithmetic is
+modeled. The raw marks are published on every page so the arithmetic is
 checkable.
 
 Known limits, stated plainly: a mark can only land on a frame that exists, so on

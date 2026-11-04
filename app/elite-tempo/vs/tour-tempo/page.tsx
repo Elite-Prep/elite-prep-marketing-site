@@ -2,27 +2,26 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Chrome, { Breadcrumbs, TrialCard, breadcrumbSchema } from "../../Chrome";
 import { ACCENT, CARD, HAIRLINE, INK, MUTED, etUrl, SHARE_IMAGES } from "../../theme";
-import { SWINGS, fmtRatio } from "../../data/tempo-data";
+import { SWINGS, fmtRatio, possessive } from "../../data/tempo-data";
+import { TRIAL_DAYS } from "../../data/pricing";
 import { description } from "../../../seo";
 
-/* "Tour Tempo alternative" is a real query with buying intent and no good answer.
+/* "Tour Tempo alternative" is a real query with buying intent.
  *
- * The rule for this page: be fair to the point of being generous. Tour Tempo is
- * the reason most golfers have heard of swing tempo at all, the method is sound,
- * and a page that rubbishes it would be both wrong and counterproductive —
- * comparison pages that read as advertising get ignored by readers and discounted
- * by answer engines. Claims about their product are kept to what the method is
- * publicly and uncontroversially known to be; no pricing, no feature lists we
- * have not verified, no putting words in their mouth.
+ * Every claim about Tour Tempo comes from its App Store listing (id329937776) as
+ * read on 2026-11-03: preset tone sets (18/6, 21/7, 24/8, 27/9 long game; 14/7 to
+ * 30/10 short game), music tracks with the tones in them, and a frame counter for
+ * a swing you film or import and count by hand. The listing describes no library
+ * of tour swings and no pre-shot routine feature. Re-read the listing before
+ * changing any line about them.
  *
- * The honest difference is narrow and real: Tour Tempo trains you toward one
- * ratio, and Elite Tempo measures what you actually did. Say that, say who each
- * suits, and let the reader decide.
+ * Every claim about Elite Tempo is checked against the app's code (redesign,
+ * TestFlight 1.4.17): swings are marked by hand, never automatically.
  */
 
 const TITLE = "Elite Tempo vs Tour Tempo: What's Actually Different";
 const DESCRIPTION = description(
-  "Tour Tempo teaches one proven 3:1 ratio with audio tones. Elite Tempo plays 16 real tour ratios and times your own swing. An honest comparison.",
+  `Tour Tempo has you match your swing to preset tones. Elite Tempo times your own best swing, plus ${SWINGS.length} hand-timed tour swings and your pre-shot routine.`,
 );
 
 export const metadata: Metadata = {
@@ -41,15 +40,19 @@ const TRAIL = [
 const FAQS = [
   {
     q: "What is the difference between Elite Tempo and Tour Tempo?",
-    a: "Tour Tempo trains you toward a single proven ratio using audio tones, the 3:1 backswing-to-downswing relationship, counted as frames at 30fps. Elite Tempo plays sixteen specific tour swings at the ratios they were actually swung at, which range well either side of 3:1, and then lets you film your own swing and mark takeaway, top and impact on it, so you can measure what you did rather than only hear a target.",
+    a: `Tour Tempo gives you preset tones, such as 24/8 or 21/7 frames, and you match your swing to them. Elite Tempo times your own swing from video and plays that timing back so you can groove it. It also has ${SWINGS.length} tour swings timed by hand from tournament footage, and it times your pre-shot routine.`,
+  },
+  {
+    q: "Can Tour Tempo measure my own swing?",
+    a: "Its App Store listing says you can film or import a swing and count its frames by hand with a frame counter. Elite Tempo also has you mark your swing by hand, frame by frame. It turns your three marks into four numbers (backswing, downswing, total time and tempo) and plays that timing back so you can practice to it.",
   },
   {
     q: "Is Tour Tempo still worth using?",
-    a: "Yes, if what you want is a single tempo to groove. The method has been in use since the early 2000s, it is simple to follow, and a lot of golfers have got results from it. Its strength (one number, drilled repeatedly) is also the thing some players want to go beyond.",
+    a: "Yes, if you want one preset tempo to drill. The method has been around since the early 2000s, it is simple to follow, and many golfers learned tempo from it.",
   },
   {
-    q: "Do I need to choose between them?",
-    a: "No. They do different jobs and a lot of people who care about tempo end up using more than one tool. If you already swing well to Tour Tempo's tones, the thing Elite Tempo adds is measurement of your own swing rather than a different target to swing to.",
+    q: "Can I use both?",
+    a: "Yes. If you already like Tour Tempo's tones, Elite Tempo adds your own swing's numbers, real tour swings to compare against, and timing for your pre-shot routine.",
   },
 ];
 
@@ -135,23 +138,10 @@ export default function VsTourTempo() {
         </h1>
 
         <p className="mt-6 text-[19px] leading-[1.5]" style={{ color: MUTED }}>
-          Straight answer first: if you want one proven tempo to drill, Tour Tempo
-          does that and has done for twenty years. It is the reason most golfers
-          have heard of swing tempo at all. The difference is not that one is
-          better. They answer different questions.
+          Tour Tempo trains you to a preset beat. You pick a tone set, like 24/8 or
+          21/7, and match your swing to it. Elite Tempo starts from a swing you
+          already trust: film your best one, mark it, and groove that timing.
         </p>
-
-        <div
-          className="mt-8 rounded-2xl p-6"
-          style={{ background: CARD }}
-        >
-          <p className="text-[17px] leading-[1.55]" style={{ color: INK }}>
-            Tour Tempo gives you a <strong>target</strong> to swing to. Elite Tempo
-            gives you a target <em>and</em> a{" "}
-            <strong style={{ color: INK }}>measurement</strong> of what you
-            actually did.
-          </p>
-        </div>
 
         <h2 className="mt-12 text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
           Side by side
@@ -159,57 +149,71 @@ export default function VsTourTempo() {
         <section className="mt-5 grid gap-4 sm:grid-cols-2">
           <Column
             name="Tour Tempo"
-            summary="A method, delivered as audio tones."
+            summary="Preset tones built on the 3:1 method."
             points={[
-              "Trains toward the 3:1 ratio, counted as frames at 30fps",
-              "Tones for the full swing and for the short game",
-              "Simple, repeatable, and backed by a well-known book",
-              "You judge your own success by feel and by ear",
+              "Long game tone sets of 18/6, 21/7, 24/8 and 27/9 frames",
+              "Short game tone sets from 14/7 to 30/10",
+              "Music tracks with the tones built in",
+              "Film or import a swing and count its frames by hand",
             ]}
           />
           <Column
             name="Elite Tempo"
-            summary="Specific swings, plus measurement of yours."
+            summary="Your best swing, real tour swings, and your routine."
             highlight
             points={[
-              `${SWINGS.length} real tour shots, hand-timed from the footage to 1/100s`,
-              `Ratios as they were actually swung, ${fmtRatio(fastest)} to ${fmtRatio(slowest)}, not one number`,
-              "Film your swing and mark takeaway, top and impact frame by frame",
-              "Side-by-side comparison, routine timing, and a lock-screen Live Activity",
+              "Film your best swing, mark takeaway, top and impact frame by frame, and practice to its timing",
+              `${SWINGS.length} tour swings hand-timed from tournament footage, ${fmtRatio(fastest)} to ${fmtRatio(slowest)}`,
+              "Your four numbers next to a tour player's: backswing, downswing, total time and tempo",
+              "Your pre-shot routine timed step by step against the 40 seconds the USGA and The R&A recommend",
             ]}
           />
         </section>
 
         <section className="mt-14">
           <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
-            One ratio, or the real ones?
+            A preset tempo, or your own
           </h2>
           <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
-            The 3:1 ratio is a good average and a genuinely useful teaching device.
-            It comes from counting frames (24 back, 8 down at 30 frames per second),
-            which is easy to do and puts most golfers somewhere sensible.
+            Tour Tempo&apos;s tones come from the 3:1 method: 24 frames back and 8
+            frames down at 30 frames per second. Pick a tone set and you have a
+            target, the same one every golfer who picks it gets.
           </p>
           <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
-            What counting frames cannot show you is how much real swings differ.
-            Timed directly against tournament footage, the shots in{" "}
+            Your best swing already has timing that works for your body. Elite Tempo
+            measures it from your own video and plays it back, so you groove the
+            timing you have instead of changing your swing to fit a number. If you
+            want a target from the tour, the{" "}
             <Link
               href="/tempos"
               className="font-semibold underline decoration-1 underline-offset-4 hover:opacity-70"
               style={{ color: INK }}
             >
-              Elite Tempo&apos;s library
+              tempo library
             </Link>{" "}
-            run from {fastest.player}&apos;s {fmtRatio(fastest)} to{" "}
-            {slowest.player}&apos;s {fmtRatio(slowest)}. Neither of those is wrong,
-            and neither is 3:1. They are simply different swings.{" "}
+            has {SWINGS.length} tournament swings, from {possessive(fastest.player)}{" "}
+            {fmtRatio(fastest)} to {possessive(slowest.player)} {fmtRatio(slowest)}.{" "}
             <Link
               href="/how-we-time-swings"
               className="font-semibold underline decoration-1 underline-offset-4 hover:opacity-70"
               style={{ color: INK }}
             >
-              How the timing is done
-            </Link>
-            , including its limits.
+              How we time swings
+            </Link>{" "}
+            shows how each one was measured.
+          </p>
+        </section>
+
+        <section className="mt-14">
+          <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
+            Your pre-shot routine
+          </h2>
+          <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
+            Tour Tempo&apos;s listing describes tones for the swing only. Elite Tempo
+            also times the routine before it. Film your routine once, name each step,
+            like picking a target or a practice swing, and see your total against the
+            40 seconds the USGA and The R&amp;A recommend. In routine practice, the
+            app hears the strike and tells you whether you were on time.
           </p>
         </section>
 
@@ -223,9 +227,8 @@ export default function VsTourTempo() {
                 Pick Tour Tempo if
               </h3>
               <p className="mt-2 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
-                you want one tempo, drilled until it is automatic, with as little
-                apparatus as possible. A target and your own feel is a perfectly
-                good way to practise, and it is how a lot of good players work.
+                you want one preset tempo, drilled to tones until it feels
+                automatic.
               </p>
             </div>
             <div>
@@ -233,10 +236,10 @@ export default function VsTourTempo() {
                 Pick Elite Tempo if
               </h3>
               <p className="mt-2 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
-                you want to know your own number. Filming a swing and getting back
-                your exact backswing, downswing and ratio, without scrubbing through
-                frames yourself, is the thing a tones-only trainer cannot do, and it
-                is what tells you whether the practice is working.
+                you want to keep the swing you have and repeat its best timing,
+                compare your numbers with a tour player&apos;s, and time your
+                pre-shot routine. You place the three marks yourself, frame by frame,
+                so you can see where every number comes from.
               </p>
             </div>
           </div>
@@ -271,15 +274,14 @@ export default function VsTourTempo() {
         </section>
 
         <p className="mt-12 text-[13px] leading-relaxed" style={{ color: MUTED }}>
-          Tour Tempo is a trademark of its respective owner. Elite Tempo is not
-          affiliated with, sponsored by, or endorsed by Tour Tempo. This page
-          describes the published 3:1 method in general terms; for what Tour Tempo
-          includes today, check their own site.
+          Tour Tempo is a trademark of its owner. Elite Tempo is not affiliated
+          with, sponsored by, or endorsed by Tour Tempo. Details about Tour Tempo
+          come from its App Store listing as of November 2026; check the listing
+          for what it includes today.
         </p>
 
-        <TrialCard title={<>Try it against your own swing.</>}>
-          Free for 14 days. Film one swing and see your real ratio before you
-            decide anything.
+        <TrialCard title={<>Time your best swing.</>}>
+          Free for {TRIAL_DAYS} days. Film one swing and see your four numbers.
         </TrialCard>
       </article>
     </Chrome>

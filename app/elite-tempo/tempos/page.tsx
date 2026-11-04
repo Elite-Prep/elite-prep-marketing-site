@@ -325,10 +325,9 @@ export default function TempoLibrary() {
           );
         })}
 
-        <TrialCard title={<>Hear them, then match one.</>}>
-          Reading a ratio tells you very little. Elite Tempo plays each of these as
-            beats you can swing to, then records your own swing and times it the same
-            way, so you can see whether you actually matched it.
+        <TrialCard title={<>Swing along to any of them.</>}>
+          Elite Tempo plays each of these swings as beats you can swing along to.
+          Film your own swing, mark it the same way, and compare your four numbers.
         </TrialCard>
       </div>
     </Chrome>

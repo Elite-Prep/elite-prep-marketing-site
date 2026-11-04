@@ -41,19 +41,19 @@ const TRAIL = [
 const FAQS = [
   {
     q: "How is golf swing tempo measured?",
-    a: "Three marks are read off video: takeaway, the top of the backswing, and impact. Backswing time is top minus takeaway, downswing time is impact minus top, and the tempo ratio is the first divided by the second. Total duration is impact minus takeaway. Nothing else goes into it, which is why publishing the three marks is enough for anyone to check the arithmetic.",
+    a: "Three marks are read off video: takeaway, the top of the backswing, and impact. Backswing time is top minus takeaway, downswing time is impact minus top, and the tempo ratio is the first divided by the second. Total time is impact minus takeaway. Nothing else goes into the numbers, so anyone can check the math from the three published marks.",
   },
   {
     q: "Why do Elite Tempo's numbers differ from the 3:1 rule?",
-    a: "Because 3:1 is an average, not a measurement. It comes from counting frames at 30fps (24 frames back, 8 down), which rounds every swing to the nearest thirtieth of a second and lands most of them on or near 3:1. Timing the same swings against the footage directly gives a spread rather than a single number.",
+    a: "3:1 is an average. It comes from counting frames at 30 frames per second (24 back, 8 down), which rounds every swing to the nearest thirtieth of a second. Timed directly from the footage, real tour swings spread from about 2:1 to above 4:1.",
   },
   {
     q: "How accurate are the measurements?",
-    a: "Precision is bounded by how clearly the footage shows the moment. Marks are stored to 1/100 of a second, but the real uncertainty is larger than that and comes from the video: how many frames per second it was shot at, how much motion blur there is on a clubhead moving at speed, and whether the camera angle makes the top of the backswing unambiguous. The downswing is the shorter of the two intervals, so any uncertainty affects the ratio there most. The marks are published alongside every measurement so a reader can judge them rather than take them on trust.",
+    a: "As accurate as the footage allows. Marks are stored to 1/100 of a second, but the video sets the real limit: its frame rate, motion blur on a fast clubhead, and how clearly the camera angle shows the top of the backswing. The downswing is the shorter interval, so any error moves the ratio most there. Every page shows its marks so you can judge them yourself.",
   },
   {
     q: "Is the timing done by AI?",
-    a: "Not for the tour library. Every shot in it was marked by hand against the footage, because broadcast video changes camera angle, frame rate and shutter speed shot to shot, and an automatic detector trained on clean side-on video does poorly on it. Swings you record in the app are marked the same way, by hand: you place takeaway, top and impact on a frame-accurate scrubber. An automatic detector is in progress but not shipped, on phone video, in changing light, with a clubhead smearing across a frame, a detector that is confidently wrong is worse than a mark you placed yourself.",
+    a: "No. Every tour swing was marked by hand, frame by frame, because broadcast video changes camera angle, frame rate and shutter speed from shot to shot. Swings you film in the app are marked the same way: you step through your video one frame at a time and place takeaway, top and impact yourself.",
   },
 ];
 
@@ -153,11 +153,9 @@ export default function HowWeTimeSwings() {
         </h1>
 
         <p className="mt-6 text-[19px] leading-[1.5]" style={{ color: MUTED }}>
-          Elite Tempo publishes tempo figures that disagree with the number almost
-          everyone quotes. Rory McIlroy&apos;s {rory.year} {rory.event} driver comes
-          out at {fmtRatio(rory)}, not the &ldquo;textbook 3:1&rdquo; you will find
-          everywhere else. A claim like that is only worth making if you also show
-          your working, so here it is, including where it can be wrong.
+          Most swing tempo advice quotes one number, 3:1. Rory McIlroy&apos;s{" "}
+          {rory.year} {rory.event} driver measures {fmtRatio(rory)}. Here is exactly
+          how we got that number, and where the method can be wrong.
         </p>
 
         <section className="mt-12">
@@ -166,10 +164,9 @@ export default function HowWeTimeSwings() {
           </h2>
           <ol className="mt-7 flex flex-col gap-8">
             <Step n={1} title="Find footage of the actual shot">
-              Not a range swing or a montage, but a specific shot from a specific
-              round, where the camera holds a clean view from takeaway through
-              impact. Every measurement in the library links to the footage it was
-              read off, so the source is checkable rather than asserted.
+              One specific shot from one specific round, where the camera holds a
+              clean view from takeaway through impact. Every measurement in the
+              library links to the footage it came from, so you can check it.
             </Step>
             <Step n={2} title="Mark takeaway, top and impact">
               Three marks, placed by hand, stepping through the video frame by
@@ -209,9 +206,8 @@ export default function HowWeTimeSwings() {
                 showing the working would have been the worst possible place for it,
                 so the numbers now derive from the same marks as everything else. */}
             <p className="mt-4 text-[16px] leading-[1.55]" style={{ color: MUTED }}>
-              Note that the marks carry more decimal places than the published
-              figures. That is deliberate: rounding the timestamps before dividing
-              them drifts the answer, and not by a little. Round this swing&apos;s
+              The marks keep more decimal places than the published figures on
+              purpose, because rounding before dividing changes the answer. Round this swing&apos;s
               marks to three decimals and you get {ratioFromRounded(hero, 3)};
               round to two and you get {ratioFromRounded(hero, 2)}. The full-precision
               marks give {fmtRatio(hero)}.
@@ -225,19 +221,17 @@ export default function HowWeTimeSwings() {
           </h2>
           <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             The familiar figure comes from counting frames at 30 frames per second:
-            24 frames back, 8 frames down. That is a genuinely useful teaching tool,
-            it is easy to count and it puts most golfers in roughly the right
-            place. But counting whole frames rounds every measurement to the nearest
-            thirtieth of a second, and on a downswing lasting about a quarter of a
-            second, one frame either way moves the ratio by a lot.
+            24 frames back, 8 frames down. It is easy to count and a useful teaching
+            tool. Counting whole frames also rounds every swing to the nearest
+            thirtieth of a second, and on a downswing of about a quarter second, one
+            frame either way moves the ratio a lot.
           </p>
           <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             Timed against the footage directly, the {SWINGS.length} shots in the
             library spread from{" "}
             {fmtRatio([...SWINGS].sort((a, b) => a.ratio - b.ratio)[0])} to{" "}
-            {fmtRatio([...SWINGS].sort((a, b) => b.ratio - a.ratio)[0])}. 3:1 is a
-            reasonable average of that spread and a poor description of any single
-            swing in it.
+            {fmtRatio([...SWINGS].sort((a, b) => b.ratio - a.ratio)[0])}. 3:1 sits
+            near the middle of that spread and describes few of the swings in it.
           </p>
         </section>
 
@@ -246,27 +240,26 @@ export default function HowWeTimeSwings() {
             What this method cannot do
           </h2>
           <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
-            Marks are stored to 1/100 of a second, but the honest uncertainty is
-            larger than that, and it comes from the video rather than the timing.
+            Marks are stored to 1/100 of a second, but the video sets the real limit.
             Broadcast footage varies in frame rate, a clubhead moving at speed
             smears across a frame, and the exact moment the club stops going back
             is not always a clean edge. Because the downswing is the shorter of the
             two intervals, whatever uncertainty exists lands hardest on the ratio.
-            Higher-frame-rate footage tightens this; nothing eliminates it.
+            Footage shot at a higher frame rate reduces this error.
           </p>
           <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
-            Two other honest limits. Each figure describes{" "}
+            Two more limits. Each figure describes{" "}
             <em style={{ color: INK, fontStyle: "normal", fontWeight: 700 }}>
               one swing on one day
             </em>
             , not a player&apos;s career average. Tempo moves with club, lie, nerves
             and intent. And a camera angle that is not square to the swing can make
-            the top of the backswing genuinely ambiguous by a frame.
+            the top of the backswing unclear by a frame.
           </p>
           <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
-            This is why the raw marks sit on every page rather than only the tidy
-            ratio. If you disagree with where a mark was placed, you can see exactly
-            which one and by how much it would move the answer.
+            That is why every page shows the raw marks next to the ratio. If you
+            would place a mark differently, you can see which one and how much it
+            would move the answer.
           </p>
         </section>
 
