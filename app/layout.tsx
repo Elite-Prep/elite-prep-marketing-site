@@ -8,12 +8,20 @@ const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
+  /* Not preloaded: these are Elite Prep's faces, and a preload goes out on every
+     route, so Elite Tempo visitors were downloading 66 KB of fonts their pages
+     never use, in competition with the hero image. */
+  preload: false,
 });
 
 const anton = Anton({
   variable: "--font-anton",
   subsets: ["latin"],
   weight: "400",
+  /* Not preloaded: these are Elite Prep's faces, and a preload goes out on every
+     route, so Elite Tempo visitors were downloading 66 KB of fonts their pages
+     never use, in competition with the hero image. */
+  preload: false,
 });
 
 /* The Elite Tempo pages set everything in Avenir Next, which is preinstalled on
@@ -30,6 +38,10 @@ const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
   weight: ["400", "600"],
   display: "swap",
+  /* Not preloaded: these are Elite Prep's faces, and a preload goes out on every
+     route, so Elite Tempo visitors were downloading 66 KB of fonts their pages
+     never use, in competition with the hero image. */
+  preload: false,
 });
 
 const SITE_URL = "https://www.eliteprep.app";

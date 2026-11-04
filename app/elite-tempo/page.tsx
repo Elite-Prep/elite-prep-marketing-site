@@ -625,10 +625,10 @@ function Phone({ src, alt, className = "", eager = false, clip, priority = false
             {/* iPhone Safari blanks a video to black from play() until its first
                 frame decodes, and drops the poster for that gap. This still sits on
                 top until the carousel marks the clip as really playing. */}
-            <img src={`/elite-tempo/app/${src}.webp`} alt="" aria-hidden width={960} height={2087} className="et-clip-still" fetchPriority={priority ? "high" : undefined} />
+            <img src={`/elite-tempo/app/${src}.webp`} alt="" aria-hidden width={960} height={2087} className="et-clip-still" fetchPriority={priority ? "high" : eager ? "low" : undefined} />
           </>
         ) : (
-          <img src={`/elite-tempo/app/${src}.webp`} alt={alt} width={960} height={2087} loading={eager ? "eager" : "lazy"} fetchPriority={priority ? "high" : undefined} />
+          <img src={`/elite-tempo/app/${src}.webp`} alt={alt} width={960} height={2087} loading={eager ? "eager" : "lazy"} fetchPriority={priority ? "high" : eager ? "low" : undefined} />
         )}
       </div>
     </div>
