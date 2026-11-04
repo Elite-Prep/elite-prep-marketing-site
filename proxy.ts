@@ -25,7 +25,7 @@ const PREFIX = "/elite-tempo";
 
 /* Next's generated metadata routes — favicon, touch icon, social cards. Their URLs
    come from the file path, so they always carry the prefix. */
-const METADATA_ASSETS = /^\/elite-tempo\/(icon|apple-icon|opengraph-image|twitter-image)/;
+const METADATA_ASSETS = /^\/elite-tempo\/(icon|apple-icon|opengraph-image|twitter-image|share-card)/;
 
 /* Paths that must keep answering on eliteprep.app rather than being redirected
    away. Apple and Google both require a reachable privacy policy for the app

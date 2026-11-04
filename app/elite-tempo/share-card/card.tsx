@@ -1,9 +1,9 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { TRIAL_DAYS } from "./data/pricing";
-import { INK } from "./theme";
-import { MARK_ASPECT, markDataUri } from "./EliteTempoMark";
+import { TRIAL_DAYS } from "../data/pricing";
+import { INK } from "../theme";
+import { MARK_ASPECT, markDataUri } from "../EliteTempoMark";
 
 /* The link preview (iMessage, Slack, X, LinkedIn), drawn as a small copy of the
  * home page hero: the same cream and gold wash, the same headline and line under
@@ -53,7 +53,7 @@ function Phone({ src, width, top, left, z }: { src: string; width: number; top: 
   );
 }
 
-export default async function Image() {
+export async function renderShareCard() {
   const root = process.cwd();
   const font = (w: number) => readFile(join(root, "node_modules", "@fontsource", "inter", "files", `inter-latin-${w}-normal.woff`));
   const shot = async (n: string) =>
