@@ -3,66 +3,59 @@
 import { useState, type ReactNode } from "react";
 import { INK, MUTED } from "./theme";
 
-/* The row that is on reads in full black on a gray fill; the others fade back to
- * gray, so it is plain which screen the phone shows. */
-/* The smaller features as one short list beside one phone, the way Bevel's
- * "And that's not all" section works. They used to be two giant tall cards (peach
- * and light blue) plus a dark green section: three new colors for three small
- * features. Tapping a row swaps the screen. Nothing moves on its own. The phones
- * are rendered on the server and passed in, so this file only owns which is shown. */
+/* "Built for range days": three short tabs over one phone, copied from Affinity's
+ * studio switcher (Mobbin, 2026-11-04). It replaced a plus and minus list that Eric
+ * found busy and crammed. One heading, one row of tabs, one line that changes, one
+ * phone. The new screen fades and lifts in over 280 ms so it is clear what changed;
+ * Reduce Motion swaps it at once. Nothing moves on its own. The phones are rendered
+ * on the server and passed in, so this file only owns which one shows. */
 
-export type Feature = { title: string; body: string; phone: ReactNode };
+export type Feature = { label: string; body: string; phone: ReactNode };
 
-export default function FeatureList({
-  heading,
-  items,
-}: {
-  heading: ReactNode;
-  items: Feature[];
-}) {
+export default function FeatureList({ heading, items }: { heading: ReactNode; items: Feature[] }) {
   const [active, setActive] = useState(0);
-  /* The heading leads on every width: above the phone on a phone, above the list
-     beside it on wider screens. Only one copy is ever displayed. */
   return (
-    <>
-      <div className="mb-8 md:hidden">{heading}</div>
-      <div className="flex flex-wrap items-center gap-x-[clamp(32px,6vw,80px)] gap-y-10">
-        <div className="min-w-0 flex-[1_1_380px] md:pb-[clamp(32px,5vw,64px)]">
-          <div className="hidden md:block">{heading}</div>
-          <ul className="m-0 grid list-none gap-2 p-0 md:mt-8">
-            {items.map((it, i) => (
-              <li key={it.title}>
-                <button
-                  type="button"
-                  aria-pressed={i === active}
-                  onClick={() => setActive(i)}
-                  className="w-full cursor-pointer rounded-2xl border-0 bg-transparent px-5 py-4 text-left text-[#8A8B90] transition-colors hover:bg-black/[0.03] aria-pressed:bg-[#F6F6F3] aria-pressed:text-[var(--et-ink)]"
-                  style={{ ["--et-ink" as string]: INK }}
-                >
-                  <span className="block text-[21px] font-semibold leading-[1.25]">
-                    {it.title}
-                  </span>
-                  <span
-                    className="mt-1 block text-[16px] leading-[1.4]"
-                    style={{ color: MUTED }}
-                  >
-                    {it.body}
-                  </span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-        {/* On a phone the screen sits above the list, so a tap shows its change on
-          the same screen instead of somewhere below. */}
-        <div className="relative order-first mx-auto h-[440px] w-[270px] flex-[0_1_270px] self-end overflow-hidden md:order-none md:h-[560px]">
+    <div className="flex flex-col items-center text-center">
+      {heading}
+      <div
+        role="tablist"
+        aria-label="Range day features"
+        className="mt-8 inline-flex max-w-full gap-1 rounded-full p-1"
+        style={{ background: "#F0F0EC" }}
+      >
+        {items.map((it, i) => (
+          <button
+            key={it.label}
+            type="button"
+            role="tab"
+            id={`range-tab-${i}`}
+            aria-selected={i === active}
+            aria-controls="range-panel"
+            onClick={() => setActive(i)}
+            className="min-h-11 cursor-pointer whitespace-nowrap rounded-full border-0 px-[clamp(12px,3vw,22px)] text-[16px] font-semibold transition-colors"
+            style={{ background: i === active ? INK : "transparent", color: i === active ? "#fff" : INK }}
+          >
+            {it.label}
+          </button>
+        ))}
+      </div>
+      <div id="range-panel" role="tabpanel" aria-labelledby={`range-tab-${active}`} className="w-full">
+        <p className="mx-auto mt-5 min-h-[2.8em] max-w-[30em] text-[19px] leading-[1.4]" style={{ color: MUTED }}>
+          {items[active].body}
+        </p>
+        <div className="relative mx-auto mt-6 h-[clamp(420px,52vw,540px)] w-[270px] overflow-hidden">
           {items.map((it, i) => (
-            <div key={it.title} hidden={i !== active} className="w-[270px]">
+            <div
+              key={it.label}
+              aria-hidden={i !== active}
+              className="absolute inset-x-0 top-0 transition-[opacity,transform] duration-[280ms] ease-out motion-reduce:transition-none"
+              style={{ opacity: i === active ? 1 : 0, transform: i === active ? "none" : "translateY(10px)" }}
+            >
               {it.phone}
             </div>
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }

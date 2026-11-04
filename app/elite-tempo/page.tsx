@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import DarkTimingPlayer, { type DarkShot } from "./DarkTimingPlayer";
 import LottieLoop from "./LottieLoop";
-import PlayInView from "./PlayInView";
+import TourList from "./TourList";
 import HeroCarousel from "./HeroCarousel";
 import FeatureList from "./FeatureList";
 import { TIMER_SCALE_S, routineScene, timerScene } from "./motion/scenes";
@@ -13,7 +13,6 @@ import {
   SWINGS,
   TIMING_BY_AREA,
   fmtRatio,
-  fmtSeconds,
 } from "./data/tempo-data";
 import {
   PRICE_MONTHLY,
@@ -185,7 +184,6 @@ const STRUCTURED_DATA = {
 
 
 
-const LONGEST_GREAT = Math.max(...GREATS_ROWS.map((s) => s.total));
 
 /* Real App Store reviews, quoted as written. The first is shown big. */
 const REVIEWS = [
@@ -206,7 +204,7 @@ const DARK_SHOTS: DarkShot[] = TIMING_BY_AREA.map((s) => ({
 
 /* The two animations, built from the same numbers the page prints. The routine
    figures match the app screens shown beside them: seven steps, 23.9 seconds. */
-const ROUTINE_SCENE = routineScene(7, "#453C2C");
+const ROUTINE_SCENE = routineScene(7, INK);
 const ROUTINE_S = 23.9;
 const PACE_LIMIT_S = 40;
 const TIMER_SCENE = timerScene(ROUTINE_S, PACE_LIMIT_S, INK);
@@ -324,12 +322,12 @@ export default function EliteTempoLanding() {
             </p>
             <LottieLoop scene={ROUTINE_SCENE} label="Seven routine steps lighting up one after another, ending in gold at impact." className="mt-8 w-full max-w-[336px]" />
             <div className="mt-6 max-w-[420px]">
-              <p className={`m-0 ${NUM}`}>{ROUTINE_S} s</p>
+              <p className={`m-0 ${NUM}`}>{ROUTINE_S}s</p>
               <LottieLoop scene={TIMER_SCENE} label={`A routine of ${ROUTINE_S} seconds filling the bar, short of the ${PACE_LIMIT_S} second limit.`} className="mt-2 w-full" />
               <div className="relative mt-2 h-5 text-[16px]" style={{ color: MUTED }}>
-                <span className="absolute left-0">{(PACE_LIMIT_S - ROUTINE_S).toFixed(1)} s to spare</span>
+                <span className="absolute left-0">{(PACE_LIMIT_S - ROUTINE_S).toFixed(1)}s to spare</span>
                 <span className="absolute -translate-x-1/2 whitespace-nowrap" style={{ left: `${(PACE_LIMIT_S / TIMER_SCALE_S) * 100}%` }}>
-                  {PACE_LIMIT_S} s limit
+                  {PACE_LIMIT_S}s limit
                 </span>
               </div>
             </div>
@@ -344,64 +342,45 @@ export default function EliteTempoLanding() {
           under both, so five rows no longer take two screens. */}
       <section className={`${WRAP} pt-4`}>
         <div className="rounded-[28px] bg-white p-[clamp(32px,5vw,64px)]">
-          <h2 className={H2_ONE}>Copy the timing of tour players.</h2>
-          <p className={`mt-4 max-w-[28em] ${LEDE}`} style={{ color: MUTED }}>
-            Train to {SWINGS.length} tournament swings, each timed to 1/100 of a second.
+          <h2 className={H2_ONE}>Train to Tiger&apos;s timing.</h2>
+          <p className={`mt-4 max-w-[30em] ${LEDE}`} style={{ color: MUTED }}>
+            {SWINGS.length} tournament swings, each hand-timed to 1/100 of a second. Tap one to hear it.
           </p>
-          {/* Each bar fills at the speed the swing really took, so the quicker
-              swings visibly finish first. */}
-          <PlayInView className="mt-8">
-            {GREATS_ROWS.map((g) => (
-              <Link
-                key={g.slug}
-                href={`/tempo/${g.slug}`}
-                className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-8 gap-y-2.5 py-[16px] no-underline md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_7ch]"
-              >
-                <div>
-                  <p className="m-0 font-semibold">{g.player}</p>
-                  <p className="m-0 text-[16px]" style={{ color: MUTED }}>
-                    {g.clubLabel}, {g.year} {g.event.replace(/^The /, "")}
-                  </p>
-                </div>
-                <div className="order-last col-span-2 flex h-3.5 md:order-none md:col-span-1" role="img" aria-label={`Backswing ${fmtSeconds(g.back)}, downswing ${fmtSeconds(g.down)}.`}>
-                  <div
-                    className="et-timed rounded-l-[7px]"
-                    style={{ width: `${(g.back / LONGEST_GREAT) * 100}%`, background: INK, ["--et-dur" as string]: `${g.back}s`, ["--et-delay" as string]: "0s" }}
-                  />
-                  <div
-                    className="et-timed rounded-r-[7px]"
-                    style={{ width: `${(g.down / LONGEST_GREAT) * 100}%`, background: "#F9C832", ["--et-dur" as string]: `${g.down}s`, ["--et-delay" as string]: `${g.back}s` }}
-                  />
-                </div>
-                <p className={`m-0 text-right ${NUM}`}>{fmtRatio(g)}</p>
-              </Link>
-            ))}
-          </PlayInView>
+          <TourList
+            rows={GREATS_ROWS.map((g) => ({
+              slug: g.slug,
+              player: g.player,
+              detail: `${g.clubLabel}, ${g.year} ${g.event.replace(/^The /, "")}`.trim(),
+              back: g.back,
+              down: g.down,
+              ratio: fmtRatio(g),
+            }))}
+          />
           <Link href="/tempos" className="mt-4 inline-flex min-h-11 items-center text-[16px] font-semibold underline underline-offset-4">
             See all {SWINGS.length} hand-timed swings
           </Link>
         </div>
       </section>
 
-      {/* The smaller features: one short list and one phone, like Bevel. Replaces a
+      {/* The smaller features: three tabs over one phone, like Affinity. Replaces a
           dark green speed section and two big peach and light blue cards. */}
       <section className={`${WRAP} pt-4`}>
         <div className="overflow-hidden rounded-[28px] bg-white px-[clamp(24px,5vw,64px)] pt-[clamp(32px,5vw,64px)]">
           <FeatureList
-            heading={<h2 className={H2_ONE}>More ways to practice.</h2>}
+            heading={<h2 className={H2_ONE}>Built for range days.</h2>}
             items={[
               {
-                title: "Practice at 75%, 90% or full speed",
-                body: `Slow it down to groove the feel. Same ${fmtRatio(HERO_SWING)} ratio at every speed.`,
+                label: "Speed",
+                body: `Practice at 75%, 90% or full speed. Same ${fmtRatio(HERO_SWING)} ratio every time.`,
                 phone: <Phone src="options" alt="Elite Tempo's Player options with speed set to 90%." />,
               },
               {
-                title: "Keep your weekly streak",
-                body: "One range day a week keeps it going.",
+                label: "Streak",
+                body: "One range day a week keeps your streak going.",
                 phone: <Phone src="stats" alt="Stats in Elite Tempo: 3 weeks in a row." />,
               },
               {
-                title: "Share your timing",
+                label: "Share",
                 body: "Send your four numbers to your coach.",
                 phone: <Phone src="share" alt="An Elite Tempo share card with a swing's four numbers." />,
               },
@@ -456,7 +435,7 @@ export default function EliteTempoLanding() {
       <section id="pricing" className={`${WRAP} pt-[clamp(72px,10vw,136px)]`}>
         <div
           className="rounded-[28px] px-[clamp(24px,5vw,64px)] py-[clamp(36px,6vw,80px)] text-center"
-          style={{ background: "radial-gradient(70% 100% at 50% 100%, #F9C832 0%, rgba(249, 200, 50, 0) 75%), #FFFCF0" }}
+          style={{ background: "radial-gradient(70% 100% at 50% 100%, rgba(249, 200, 50, 0.6) 0%, rgba(249, 200, 50, 0) 75%), #FFFCF0" }}
         >
           <h2 className={H2_ONE}>
             Time your own swing
@@ -474,7 +453,9 @@ export default function EliteTempoLanding() {
                 </span>
               </p>
               <p className={`m-0 mt-2 ${NUM}`}>{PRICE_YEARLY}</p>
-              <p className="m-0 text-[16px]" style={{ color: MUTED }}>a year</p>
+              <p className="m-0 text-[16px]" style={{ color: MUTED }}>
+                a year, ${(PRICE_YEARLY_NUM / 12).toFixed(2)} a month
+              </p>
             </div>
             <div className="rounded-2xl bg-white p-5">
               <p className="m-0 flex min-h-7 items-center text-[16px] font-semibold">Monthly</p>
@@ -490,7 +471,7 @@ export default function EliteTempoLanding() {
           on the right, one way out at the end. Native details, so the answers are
           in the HTML for search engines. */}
       <section id="faq" className={`${WRAP} pt-[clamp(72px,10vw,120px)]`}>
-        <div className="grid gap-x-16 gap-y-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+        <div className="grid gap-x-16 gap-y-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:px-[clamp(32px,5vw,64px)]">
           <h2 className={H2_ONE}>Frequently asked questions</h2>
           <div>
             {FAQS.map(({ q, a }) => (
@@ -550,14 +531,17 @@ const IPHONE_CSS = `
 .iphone-screen { position: relative; width: 100%; aspect-ratio: 1206 / 2622; border-radius: 13% / 6.2%; overflow: hidden; background: #000; }
 .et-faq[open] .et-chev { transform: rotate(180deg); }
 .et-chev { transition: transform 0.2s ease; }
+/* Answers open over 200 ms where the browser supports animating to auto height;
+   elsewhere they open at once, as before. */
+:root { interpolate-size: allow-keywords; }
+.et-faq::details-content { height: 0; overflow: clip; transition: height 0.2s ease, content-visibility 0.2s allow-discrete; }
+.et-faq[open]::details-content { height: auto; }
+@media (prefers-reduced-motion: reduce) { .et-faq::details-content { transition: none; } }
 .et-clip-still { position: absolute; inset: 0; }
 .et-clip-video { position: relative; opacity: 0; }
 .iphone-screen[data-live] .et-clip-video { opacity: 1; transition: opacity 0.15s linear; }
 .iphone-screen img, .iphone-screen video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
-/* Tour timing bars, in real time: backswing, then downswing straight after it. */
-[data-motion="armed"] .et-timed { clip-path: inset(0 100% 0 0); }
-[data-motion="play"] .et-timed { clip-path: inset(0 0 0 0); transition: clip-path var(--et-dur) linear calc(var(--et-delay) + 0.2s); }
 
 `;
 

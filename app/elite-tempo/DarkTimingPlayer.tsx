@@ -54,6 +54,30 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
   const shot = shots[area];
   const total = shot.back + shot.down;
 
+  /* The first time the card is half in view, the playhead runs once through the
+     swing in real time, silent, so the card shows what it does without a tap
+     (2026-11-04 review: five frames over 1.6 s were identical). */
+  const swept = useRef(false);
+  const sweeping = useRef(false);
+  useEffect(() => {
+    if (!visible || still || swept.current) return;
+    swept.current = true;
+    sweeping.current = true;
+    const start = performance.now() + 400;
+    const frame = (now: number) => {
+      if (!sweeping.current) return;
+      const t = (now - start) / 1000;
+      if (t >= total + 0.6) {
+        sweeping.current = false;
+        setHead(0);
+        return;
+      }
+      setHead(Math.min(Math.max(t, 0), total));
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  }, [visible, still, total]);
+
   function stop() {
     if (raf.current) cancelAnimationFrame(raf.current);
     raf.current = null;
@@ -80,6 +104,7 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
   }
 
   function play() {
+    sweeping.current = false;
     setTouched(true);
     const Ctx =
       window.AudioContext ||
