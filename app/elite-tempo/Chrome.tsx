@@ -12,32 +12,35 @@ import { APP_STORE_URL, BG, FAINT, INK, MUTED, etUrl } from "./theme";
  * Links are written as the PUBLISHED addresses (/tempos, not /elite-tempo/tempos).
  * The old prefixed form still works but answered every click with a redirect. */
 
-export const TRIAL_CTA = "Try for free";
+/* Same word as the App Store badge on the page, so one action has one name. */
+export const TRIAL_CTA = "Download app";
 
 /* The pill header from the home page: the mark and name, the three places people
-   look for, and the one button. Below md the links collapse into the footer and the
-   pill keeps the name and the button, which is all a phone has room for. */
+   look for, and the one button. Below md the library link moves to the footer;
+   Pricing and FAQs stay, because a phone visitor looks for them first. */
 export function SiteHeader() {
   return (
     <header className="flex justify-center px-4 pt-4">
       <div
-        className="flex items-center gap-[clamp(16px,4vw,40px)] rounded-full py-[6px] pl-5 pr-[6px]"
+        className="flex items-center gap-[clamp(8px,3vw,40px)] rounded-full py-[6px] pl-4 pr-[6px] md:pl-5"
         style={{ background: "rgba(255,255,255,0.78)" }}
       >
         <Link href="/" className="flex min-h-11 items-center gap-2 no-underline" aria-label="Elite Tempo home" style={{ color: INK }}>
           <EliteTempoMark size={18} fill={INK} />
-          <span className="whitespace-nowrap text-base font-semibold tracking-[0.02em]">Elite Tempo</span>
+          <span className="hidden whitespace-nowrap text-base font-semibold tracking-[0.02em] min-[400px]:inline md:inline">Elite Tempo</span>
         </Link>
-        <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
+        {/* Pricing and FAQs show on a phone too (2026-11-04); the library link waits
+            for md. Under 400px wide the name gives way to them and the mark stays. */}
+        <nav aria-label="Main" className="flex items-center gap-0 md:gap-1">
           {[
-            { label: "Tempo library", href: "/tempos" },
-            { label: "Pricing", href: "/#pricing" },
-            { label: "FAQs", href: "/#faq" },
+            { label: "Tempo library", href: "/tempos", wide: true },
+            { label: "Pricing", href: "/#pricing", wide: false },
+            { label: "FAQs", href: "/#faq", wide: false },
           ].map((l) => (
             <Link
               key={l.label}
               href={l.href}
-              className="inline-flex min-h-11 items-center rounded-full px-3 text-[15px] font-medium no-underline transition-colors hover:bg-black/5"
+              className={`${l.wide ? "hidden md:inline-flex" : "inline-flex"} min-h-11 items-center rounded-full px-2 text-[15px] font-medium no-underline transition-colors hover:bg-black/5 md:px-3`}
               style={{ color: INK }}
             >
               {l.label}

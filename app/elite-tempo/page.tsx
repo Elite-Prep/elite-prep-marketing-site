@@ -5,7 +5,8 @@ import DarkTimingPlayer, { type DarkShot } from "./DarkTimingPlayer";
 import LottieLoop from "./LottieLoop";
 import PlayInView from "./PlayInView";
 import HeroCarousel from "./HeroCarousel";
-import { SPEEDS, TIMER_SCALE_S, routineScene, speedScene, timerScene } from "./motion/scenes";
+import FeatureList from "./FeatureList";
+import { TIMER_SCALE_S, routineScene, timerScene } from "./motion/scenes";
 import {
   GREATS_ROWS,
   HERO_SWING,
@@ -16,25 +17,18 @@ import {
 } from "./data/tempo-data";
 import {
   PRICE_MONTHLY,
+  PRICE_MONTHLY_NUM,
   PRICE_YEARLY,
   PRICE_YEARLY_NUM,
   TRIAL_DAYS,
+  YEARLY_SAVING_PCT,
 } from "./data/pricing";
 import { SiteFooter, SiteHeader, SkipLink } from "./Chrome";
 import { preload } from "react-dom";
 import {
-  ACCENT,
-  ACCENT_ALT,
   APP_STORE_URL,
-  BG,
-  CARD,
-  FONT_NUMERALS,
-  HAIRLINE,
   INK,
   MUTED,
-  ON_ACCENT,
-  TRACKING_MARK,
-  W_WORDMARK,
   etUrl,
   SHARE_IMAGES,
 } from "./theme";
@@ -166,7 +160,7 @@ const STRUCTURED_DATA = {
         {
           "@type": "Offer",
           name: "Elite Tempo Pro, Monthly",
-          price: "5.99",
+          price: PRICE_MONTHLY_NUM.toFixed(2),
           priceCurrency: "USD",
           category: "subscription",
           url: APP_STORE_URL,
@@ -188,19 +182,15 @@ const STRUCTURED_DATA = {
 /* One size for every section heading and one for body copy, so hierarchy comes from
    a small scale rather than a new size per section. Benchmarked 2026-11-02: this page
    used 14 text sizes; Bevel uses 7, Apple Watch 8, Cal AI 9. */
-const H2 = "text-[clamp(32px,4vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em]";
-const SECTION = "mx-auto max-w-[1280px] px-4 pb-16 sm:px-12 sm:pb-28";
-const SPLIT = `${SECTION} flex flex-wrap items-center gap-x-16 gap-y-8`;
-const MEDIA_FRAME = "overflow-hidden rounded-[20px]";
 
 
 
 const LONGEST_GREAT = Math.max(...GREATS_ROWS.map((s) => s.total));
 
-/* Real App Store reviews, quoted as written. */
+/* Real App Store reviews, quoted as written. The first is shown big. */
 const REVIEWS = [
-  { title: "Game changer", body: "This is a game changer for tempo training. It’s simple to use, smart and actually useful!", name: "@kgrace" },
   { title: "Perfect timing, no pun intended", body: "I was just looking to improve my tempo and was strongly suggested this app. I love the ease of use and effectiveness.", name: "StayDialedIn" },
+  { title: "Game changer", body: "This is a game changer for tempo training. It’s simple to use, smart and actually useful!", name: "@kgrace" },
   { title: "The best golf app!", body: "Highly recommend this app for helping you practice your golf swing. So many cool features!", name: "Tiffneyac" },
   { title: "Awesome App", body: "Super addicting and surprisingly helpful", name: "Boos59" },
 ];
@@ -214,9 +204,8 @@ const DARK_SHOTS: DarkShot[] = TIMING_BY_AREA.map((s) => ({
   ratio: fmtRatio(s),
 }));
 
-/* The three animations, built from the same numbers the page prints. The routine
+/* The two animations, built from the same numbers the page prints. The routine
    figures match the app screens shown beside them: seven steps, 23.9 seconds. */
-const SPEED_SCENE = speedScene(HERO_SWING.back, HERO_SWING.down);
 const ROUTINE_SCENE = routineScene(7, "#453C2C");
 const ROUTINE_S = 23.9;
 const PACE_LIMIT_S = 40;
@@ -234,9 +223,11 @@ const HERO_SCREENS: { src: string; label: string; alt: string; clip?: string }[]
 ];
 
 const WRAP = "mx-auto max-w-[1240px] px-4";
-const H2_BIG = "m-0 text-[clamp(36px,5vw,64px)] font-semibold leading-[1.05] tracking-[-0.03em]";
-const H2_MID = "m-0 text-[clamp(36px,4.4vw,56px)] font-semibold leading-[1.05] tracking-[-0.03em]";
-const LEDE = "text-[clamp(19px,1.7vw,23px)] leading-[1.35]";
+/* The type scale, cut 2026-11-04 from 17 sizes on the desktop page: 80 hero, 56 every
+   section heading, 30 big numbers and quotes, 21 lead lines, 19 body, 16 small. */
+const H2_ONE = "m-0 text-[clamp(36px,4.4vw,56px)] font-semibold leading-[1.05] tracking-[-0.03em] [text-wrap:balance]";
+const LEDE = "text-[21px] leading-[1.35]";
+const NUM = "text-[30px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums]";
 
 export default function EliteTempoLanding() {
   /* The front phone's still is the largest thing on a phone screen. Asked for first,
@@ -251,14 +242,15 @@ export default function EliteTempoLanding() {
       <style>{IPHONE_CSS}</style>
       <SkipLink />
 
-      {/* Hero: the promise, on a gold and green wash, three real screens below it. */}
+      {/* Hero: the promise on a gold wash, three real screens below it. Gold only:
+          the green washes were cut 2026-11-04 (site grade: ten section colors down
+          to cream, white and one dark). */}
       <div className="p-2.5">
         <section
           id="top"
           className="relative overflow-hidden rounded-[28px]"
           style={{
-            background:
-              "radial-gradient(70% 60% at 50% 78%, #F9C832 0%, rgba(249, 200, 50, 0) 72%), radial-gradient(60% 55% at 6% 100%, rgba(38, 160, 96, 0.6) 0%, rgba(38, 160, 96, 0) 70%), radial-gradient(60% 55% at 94% 100%, rgba(38, 160, 96, 0.6) 0%, rgba(38, 160, 96, 0) 70%), #FFFCF0",
+            background: "radial-gradient(70% 60% at 50% 78%, #F9C832 0%, rgba(249, 200, 50, 0) 72%), #FFFCF0",
           }}
         >
           <SiteHeader />
@@ -271,8 +263,7 @@ export default function EliteTempoLanding() {
               <br className="hidden sm:block" /> from routine to impact.
             </h1>
             <p className={`mx-auto mt-[22px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
-              Capture your golf routine and the total timing of every shot. Play your best when it
-              matters most.
+              Capture your golf routine and the total timing of every shot.
             </p>
             <AppStoreBadge className="mt-7" />
             <p className="mt-3.5 text-[16px]" style={{ color: "#4A4B50" }}>
@@ -289,60 +280,47 @@ export default function EliteTempoLanding() {
         </section>
       </div>
 
-      {/* Every part of the game, playable. */}
+      {/* Every part of the game, playable. The page's one dark card. */}
       <section className={`${WRAP} pt-[clamp(72px,10vw,136px)] text-center`}>
-        <h2 className={H2_BIG}>Four numbers make up your timing.</h2>
+        <h2 className={H2_ONE}>Four numbers make up your timing.</h2>
         <DarkTimingPlayer shots={DARK_SHOTS} />
       </section>
 
-      {/* The problem, in plain type with no screen: the reason the rest of the page exists. It
-          sits after the player so two text blocks never stack, and leads into the
-          routine cards below it. */}
+      {/* The problem, in plain type. Short: it was 14 words over three lines. Timing
+          and routine always named together. */}
       <section className="mx-auto max-w-[900px] px-4 pt-[clamp(72px,10vw,136px)] text-center">
-        <h2 className={H2_BIG}>Your timing and routine break down under pressure because you never practiced them.</h2>
-        <p className={`mx-auto mt-5 max-w-[30em] ${LEDE}`} style={{ color: "#6E6F75" }}>
-          Now you can. Film your routine, name each step, and time it.
+        <h2 className={H2_ONE}>Pressure breaks your timing and routine.</h2>
+        <p className={`mx-auto mt-5 max-w-[30em] ${LEDE}`} style={{ color: MUTED }}>
+          Practice both. Film your swing and your routine, and time every step.
         </p>
       </section>
 
-
-      {/* Three tall cards. */}
-      <section className={`${WRAP} pt-[clamp(72px,10vw,136px)]`}>
+      {/* Two cards, both white. */}
+      <section className={`${WRAP} pt-[clamp(56px,8vw,96px)]`}>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-4">
-          <TallCard title="Time your best swings" ink="#47402A" bg="linear-gradient(180deg, #FFF3C4 0%, #FBD860 100%)" src="player" alt="A golfer's own swing playing in Elite Tempo.">
+          <TallCard title="Time your best swings" src="player" alt="A golfer's own swing playing in Elite Tempo.">
             Film a swing and groove the timing of your best shots.
           </TallCard>
-          <TallCard title="Compare to a tour player's timing" ink="#24412F" bg="linear-gradient(180deg, #DDF3E4 0%, #8FD6A9 100%)" src="detail" alt="A golfer's four timing numbers in Elite Tempo, each next to Adam Scott's.">
+          <TallCard title="Compare to a tour player's timing" src="detail" alt="A golfer's four timing numbers in Elite Tempo, each next to Adam Scott's.">
             See how your timing stacks up to the best players in the world.
-          </TallCard>
-          <TallCard
-            title="Rehearse your routine"
-            ink="#453C2C"
-            bg="linear-gradient(180deg, #F3EEE3 0%, #DCCDB0 100%)"
-            src="practice"
-            alt="Routine practice in Elite Tempo with the current step lit up."
-            motion={<LottieLoop scene={ROUTINE_SCENE} label="Seven routine steps lighting up one after another, ending in gold at impact." className="mt-5 w-full max-w-[336px]" />}
-          >
-            Each step lights up as you reach it.
           </TallCard>
         </div>
       </section>
 
-      {/* Pace of play. */}
+      {/* Routine and pace of play, one card. These were two: a tall "Rehearse your
+          routine" card and a yellow green "Play faster" section told the same story. */}
       <section className={`${WRAP} pt-4`}>
-        <div
-          className="box-border flex min-h-[620px] flex-wrap items-center gap-x-[clamp(32px,6vw,80px)] gap-y-8 overflow-hidden rounded-[28px] px-[clamp(24px,5vw,64px)] pt-[clamp(32px,5vw,64px)]"
-          style={{ background: "linear-gradient(135deg, #E7F5EC 0%, #FFF6D6 100%)" }}
-        >
-          <div className="min-w-0 flex-[1_1_400px]">
-            <h2 className={H2_MID}>Play faster without feeling rushed.</h2>
-            <p className="mt-4 max-w-[26em] text-[21px] leading-[1.35]" style={{ color: "#55565C" }}>
-              Fit your routine inside the 40 seconds the USGA and The R&amp;A recommend.
+        <div className="box-border flex flex-wrap items-center gap-x-[clamp(32px,6vw,80px)] gap-y-8 overflow-hidden rounded-[28px] bg-white px-[clamp(24px,5vw,64px)] pt-[clamp(32px,5vw,64px)]">
+          <div className="min-w-0 flex-[1_1_400px] pb-8">
+            <h2 className={H2_ONE}>Rehearse your routine. Play faster.</h2>
+            <p className={`mt-4 max-w-[26em] ${LEDE}`} style={{ color: MUTED }}>
+              Each step lights up as you reach it. Fit it all inside the 40 seconds the USGA and The R&amp;A recommend.
             </p>
-            <div className="mt-8 max-w-[420px]">
-              <p className="m-0 text-[30px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums]">{ROUTINE_S} s</p>
+            <LottieLoop scene={ROUTINE_SCENE} label="Seven routine steps lighting up one after another, ending in gold at impact." className="mt-8 w-full max-w-[336px]" />
+            <div className="mt-6 max-w-[420px]">
+              <p className={`m-0 ${NUM}`}>{ROUTINE_S} s</p>
               <LottieLoop scene={TIMER_SCENE} label={`A routine of ${ROUTINE_S} seconds filling the bar, short of the ${PACE_LIMIT_S} second limit.`} className="mt-2 w-full" />
-              <div className="relative mt-2 h-5 text-[16px]" style={{ color: "#55565C" }}>
+              <div className="relative mt-2 h-5 text-[16px]" style={{ color: MUTED }}>
                 <span className="absolute left-0">{(PACE_LIMIT_S - ROUTINE_S).toFixed(1)} s to spare</span>
                 <span className="absolute -translate-x-1/2 whitespace-nowrap" style={{ left: `${(PACE_LIMIT_S / TIMER_SCALE_S) * 100}%` }}>
                   {PACE_LIMIT_S} s limit
@@ -351,16 +329,17 @@ export default function EliteTempoLanding() {
             </div>
           </div>
           <div className="mx-auto h-[560px] w-[300px] flex-[0_1_300px] self-end">
-            <Phone src="routines" alt="Elite Tempo's Routines tab: a 23.9 second average against the 40 second limit." />
+            <Phone src="practice" alt="Routine practice in Elite Tempo with the current step lit up." />
           </div>
         </div>
       </section>
 
-      {/* Tour timing. */}
+      {/* Tour timing. On a phone the name and ratio share a line and the bar runs
+          under both, so five rows no longer take two screens. */}
       <section className={`${WRAP} pt-4`}>
         <div className="rounded-[28px] bg-white p-[clamp(32px,5vw,64px)]">
-          <h2 className={H2_MID}>Copy the timing of tour players.</h2>
-          <p className="mt-4 max-w-[28em] text-[21px] leading-[1.35]" style={{ color: "#55565C" }}>
+          <h2 className={H2_ONE}>Copy the timing of tour players.</h2>
+          <p className={`mt-4 max-w-[28em] ${LEDE}`} style={{ color: MUTED }}>
             Train to {SWINGS.length} tournament swings, each timed to 1/100 of a second.
           </p>
           {/* Each bar fills at the speed the swing really took, so the quicker
@@ -370,15 +349,15 @@ export default function EliteTempoLanding() {
               <Link
                 key={g.slug}
                 href={`/tempo/${g.slug}`}
-                className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,230px),1fr))] items-center gap-x-8 gap-y-2 py-[18px] no-underline"
+                className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-8 gap-y-2.5 py-[16px] no-underline md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_7ch]"
               >
                 <div>
                   <p className="m-0 font-semibold">{g.player}</p>
-                  <p className="m-0 text-[16px]" style={{ color: "#6E6F75" }}>
+                  <p className="m-0 text-[16px]" style={{ color: MUTED }}>
                     {g.clubLabel}, {g.year} {g.event.replace(/^The /, "")}
                   </p>
                 </div>
-                <div className="flex h-3.5" role="img" aria-label={`Backswing ${fmtSeconds(g.back)}, downswing ${fmtSeconds(g.down)}.`}>
+                <div className="order-last col-span-2 flex h-3.5 md:order-none md:col-span-1" role="img" aria-label={`Backswing ${fmtSeconds(g.back)}, downswing ${fmtSeconds(g.down)}.`}>
                   <div
                     className="et-timed rounded-l-[7px]"
                     style={{ width: `${(g.back / LONGEST_GREAT) * 100}%`, background: INK, ["--et-dur" as string]: `${g.back}s`, ["--et-delay" as string]: "0s" }}
@@ -388,7 +367,7 @@ export default function EliteTempoLanding() {
                     style={{ width: `${(g.down / LONGEST_GREAT) * 100}%`, background: "#F9C832", ["--et-dur" as string]: `${g.down}s`, ["--et-delay" as string]: `${g.back}s` }}
                   />
                 </div>
-                <p className="m-0 text-[30px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums]">{fmtRatio(g)}</p>
+                <p className={`m-0 text-right ${NUM}`}>{fmtRatio(g)}</p>
               </Link>
             ))}
           </PlayInView>
@@ -398,103 +377,107 @@ export default function EliteTempoLanding() {
         </div>
       </section>
 
-      {/* Practice speed. Copy first in the source so on a phone it stacks above the
-          screen, which runs taller than its 560px box and would cover the heading;
-          row-reverse keeps the screen on the left once the two sit side by side. */}
+      {/* The smaller features: one short list and one phone, like Bevel. Replaces a
+          dark green speed section and two big peach and light blue cards. */}
       <section className={`${WRAP} pt-4`}>
-        <div
-          className="box-border flex min-h-[620px] flex-row-reverse flex-wrap items-center gap-x-[clamp(32px,6vw,80px)] gap-y-8 et-dark overflow-hidden rounded-[28px] px-[clamp(24px,5vw,64px)] pt-[clamp(32px,5vw,64px)] text-white"
-          style={{ background: "radial-gradient(70% 100% at 80% 100%, #1F9A5E 0%, rgba(31, 154, 94, 0) 75%), #0B2A1E" }}
-        >
-          <div className="min-w-0 flex-[1_1_400px] pb-8">
-            <h2 className={H2_MID}>Practice at 75%, 90% or full speed.</h2>
-            <p className="mt-4 max-w-[26em] text-[21px] leading-[1.35]" style={{ color: "rgba(255,255,255,0.8)" }}>
-              Slow it down to groove the feel. Speed it up for the course.
-            </p>
-            <div className="mt-8 flex max-w-[560px] items-stretch gap-4 text-[16px] [font-variant-numeric:tabular-nums]">
-              <div className="grid shrink-0 grid-rows-3 items-center font-semibold">
-                {SPEEDS.map((sp) => <span key={sp}>{sp * 100}%</span>)}
-              </div>
-              <LottieLoop
-                scene={SPEED_SCENE}
-                label={`Tiger Woods' driver swing filling three bars at 75%, 90% and full speed, the same ${fmtRatio(HERO_SWING)} ratio in each.`}
-                className="min-w-0 flex-1"
-              />
-              <div className="grid shrink-0 grid-rows-3 items-center text-right" style={{ color: "rgba(255,255,255,0.7)" }}>
-                {/* From the rounded total the page prints, so 1.05 at 90% reads 1.17 and the sum checks out. */}
-                {SPEEDS.map((sp) => <span key={sp}>{(Number(HERO_SWING.total.toFixed(2)) / sp).toFixed(2)} s</span>)}
-              </div>
-            </div>
-            <p className="mt-4 text-[16px]" style={{ color: "rgba(255,255,255,0.7)" }}>
-              Same {fmtRatio(HERO_SWING)} ratio at every speed.
-            </p>
-          </div>
-          <div className="mx-auto h-[560px] w-[300px] flex-[0_1_300px] self-end">
-            <Phone src="options" alt="Elite Tempo's Player options with speed set to 90%." />
-          </div>
+        <div className="overflow-hidden rounded-[28px] bg-white px-[clamp(24px,5vw,64px)] pt-[clamp(32px,5vw,64px)]">
+          <FeatureList
+            heading={<h2 className={H2_ONE}>More ways to practice.</h2>}
+            items={[
+              {
+                title: "Practice at 75%, 90% or full speed",
+                body: `Slow it down to groove the feel. Same ${fmtRatio(HERO_SWING)} ratio at every speed.`,
+                phone: <Phone src="options" alt="Elite Tempo's Player options with speed set to 90%." />,
+              },
+              {
+                title: "Keep your weekly streak",
+                body: "One range day a week keeps it going.",
+                phone: <Phone src="stats" alt="Stats in Elite Tempo: 3 weeks in a row." />,
+              },
+              {
+                title: "Share your timing",
+                body: "Send your four numbers to your coach.",
+                phone: <Phone src="share" alt="An Elite Tempo share card with a swing's four numbers." />,
+              },
+            ]}
+          />
         </div>
       </section>
 
-      {/* Streak and share. */}
-      <section className={`${WRAP} pt-4`}>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-4">
-          <TallCard title="Keep your weekly streak" ink="#4A3A2A" bg="linear-gradient(180deg, #FFEBDC 0%, #FFC08F 100%)" src="stats" alt="Stats in Elite Tempo: 3 weeks in a row.">
-            One range day a week keeps it going.
-          </TallCard>
-          <TallCard title="Share your timing" ink="#26344F" bg="linear-gradient(180deg, #E4EEFF 0%, #A9C8FF 100%)" src="share" alt="An Elite Tempo share card with a swing's four numbers.">
-            Send your four numbers to your coach.
-          </TallCard>
-        </div>
+      {/* Why we built it. Moved above the reviews: after the last buy button few
+          people read it. */}
+      <section className="mx-auto max-w-[760px] px-4 pt-[clamp(72px,10vw,136px)]">
+        <p className="m-0 text-[30px] font-semibold leading-[1.22] tracking-[-0.02em]">
+          {/* The app's founder note, cut to its point: his best timing, held under pressure. */}
+          I built Elite Tempo to capture my timing and routine when I was playing my best, and
+          repeat them under pressure.
+        </p>
+        <p className="mt-3.5 text-[16px]" style={{ color: MUTED }}>
+          Eric, founder
+        </p>
       </section>
 
-      {/* Reviews. */}
-      <section className="pt-[clamp(72px,10vw,136px)] text-center">
-        <h2 className={`${H2_BIG} mx-4`}>What golfers are saying.</h2>
-        <div className="mx-auto mt-9 box-border grid max-w-[1240px] grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4 px-4 text-left">
-          {REVIEWS.map((r) => (
-            <article key={r.name} className="rounded-3xl bg-white p-6">
-              <p className="m-0 text-[18px] tracking-[2px]" style={{ color: "#A67700" }} role="img" aria-label="5 stars">
+      {/* Reviews: one big quote, three small ones, no cards. */}
+      <section className={`${WRAP} pt-[clamp(72px,10vw,136px)]`}>
+        <h2 className={`${H2_ONE} text-center`}>What golfers are saying.</h2>
+        <figure className="mx-auto mt-10 max-w-[860px] text-center">
+          <p className="m-0 text-[18px] tracking-[2px]" style={{ color: "#A67700" }} role="img" aria-label="5 stars">
+            ★★★★★
+          </p>
+          <blockquote className="m-0 mt-4 text-[30px] font-semibold leading-[1.25] tracking-[-0.02em]">
+            “{REVIEWS[0].body}”
+          </blockquote>
+          <figcaption className="mt-4 text-[16px]" style={{ color: MUTED }}>
+            {REVIEWS[0].name}, App Store
+          </figcaption>
+        </figure>
+        <div className="mx-auto mt-14 grid max-w-[1080px] grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-x-10 gap-y-8">
+          {REVIEWS.slice(1).map((r) => (
+            <figure key={r.name} className="m-0">
+              <p className="m-0 text-[16px] tracking-[2px]" style={{ color: "#A67700" }} role="img" aria-label="5 stars">
                 ★★★★★
               </p>
-              <p className="mt-2.5 font-semibold">{r.title}</p>
-              <p className="mt-1.5 text-[17px] leading-[1.38]" style={{ color: "#55565C" }}>
-                {r.body}
-              </p>
-              <p className="mt-3 text-[16px]" style={{ color: "#6E6F75" }}>
+              <blockquote className="m-0 mt-2 text-[19px] leading-[1.4]">“{r.body}”</blockquote>
+              <figcaption className="mt-2 text-[16px]" style={{ color: MUTED }}>
                 {r.name}, App Store
-              </p>
-            </article>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </section>
 
-      {/* Pricing. */}
+      {/* Pricing: both plans side by side, like Headspace, with the free days above. */}
       <section id="pricing" className={`${WRAP} pt-[clamp(72px,10vw,136px)]`}>
         <div
           className="rounded-[28px] px-[clamp(24px,5vw,64px)] py-[clamp(36px,6vw,80px)] text-center"
           style={{ background: "radial-gradient(70% 100% at 50% 100%, #F9C832 0%, rgba(249, 200, 50, 0) 75%), #FFFCF0" }}
         >
-          <h2 className={H2_BIG}>
+          <h2 className={H2_ONE}>
             Time your own swing
             <br className="hidden sm:block" /> before you pay a thing.
           </h2>
-          <p className="mt-4 text-[21px]" style={{ color: "#4A4B50" }}>
-            Free for {TRIAL_DAYS} days, then {PRICE_YEARLY} a year or {PRICE_MONTHLY} a month. Cancel anytime.
+          <p className={`mt-4 ${LEDE}`} style={{ color: "#4A4B50" }}>
+            Free for {TRIAL_DAYS} days. Then pick a plan. Cancel anytime.
           </p>
-          <AppStoreBadge className="mt-7" />
+          <div className="mx-auto mt-8 grid max-w-[560px] grid-cols-2 gap-3 text-left max-[420px]:grid-cols-1">
+            <div className="rounded-2xl bg-white p-5" style={{ boxShadow: `inset 0 0 0 2px ${INK}` }}>
+              <p className="m-0 flex items-center justify-between gap-2 text-[16px] font-semibold">
+                Yearly
+                <span className="rounded-full px-2.5 py-0.5 text-[15px] font-semibold" style={{ background: "#F9C832", color: INK }}>
+                  Save {YEARLY_SAVING_PCT}%
+                </span>
+              </p>
+              <p className={`m-0 mt-2 ${NUM}`}>{PRICE_YEARLY}</p>
+              <p className="m-0 text-[16px]" style={{ color: MUTED }}>a year</p>
+            </div>
+            <div className="rounded-2xl bg-white p-5">
+              <p className="m-0 text-[16px] font-semibold">Monthly</p>
+              <p className={`m-0 mt-2 ${NUM}`}>{PRICE_MONTHLY}</p>
+              <p className="m-0 text-[16px]" style={{ color: MUTED }}>a month</p>
+            </div>
+          </div>
+          <AppStoreBadge className="mt-8" />
         </div>
-      </section>
-
-      {/* Why we built it. */}
-      <section className="mx-auto max-w-[760px] px-4 pt-[clamp(72px,10vw,120px)]">
-        <p className="m-0 text-[clamp(26px,3vw,34px)] font-semibold leading-[1.22] tracking-[-0.02em]">
-          {/* The app's founder note, cut to its point: his best timing, held under pressure. */}
-          I built Elite Tempo to capture my timing and routine when I was playing my best, and
-          repeat them under pressure.
-        </p>
-        <p className="mt-3.5 text-base" style={{ color: "#6E6F75" }}>
-          Eric, founder
-        </p>
       </section>
 
       {/* FAQ, laid out like Mobbin's: the heading on the left, plain rounded rows
@@ -502,17 +485,17 @@ export default function EliteTempoLanding() {
           in the HTML for search engines. */}
       <section id="faq" className={`${WRAP} pt-[clamp(72px,10vw,120px)]`}>
         <div className="grid gap-x-16 gap-y-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-          <h2 className={H2_BIG}>Frequently asked questions</h2>
+          <h2 className={H2_ONE}>Frequently asked questions</h2>
           <div>
             {FAQS.map(({ q, a }) => (
               <details key={q} className="et-faq mb-3 rounded-2xl bg-white">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 text-[18px] font-semibold marker:content-none [&::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 text-[19px] font-semibold marker:content-none [&::-webkit-details-marker]:hidden">
                   {q}
                   <svg aria-hidden viewBox="0 0 24 24" width="22" height="22" className="et-chev shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="m6 9 6 6 6-6" />
                   </svg>
                 </summary>
-                <p className="m-0 px-6 pb-5 text-[17px] leading-[1.45]" style={{ color: "#55565C" }}>
+                <p className="m-0 px-6 pb-5 text-[19px] leading-[1.45]" style={{ color: MUTED }}>
                   {a}
                 </p>
               </details>
@@ -555,35 +538,6 @@ function AppStoreBadge({ className = "" }: { className?: string }) {
   );
 }
 
-function LoopVideo({ name, label, position }: { name: string; label: string; position: string }) {
-  return (
-    <video
-      src={`/elite-tempo/${name}.mp4`}
-      poster={`/elite-tempo/${name}-poster.jpg`}
-      autoPlay
-      loop
-      muted
-      playsInline
-      aria-label={label}
-      className="block h-full w-full object-cover"
-      style={{ objectPosition: position }}
-    />
-  );
-}
-
-/* The hero alone is cropped: that shape and position sit between the app's back
-   button and its Beats and Voice controls, so only the golfer and the readouts show. */
-
-/* A screen recording shown whole, at the shape it was filmed. Cropping these cut
-   through the app's own controls and readouts. */
-function ScreenVideo({ name, label }: { name: string; label: string }) {
-  return (
-    <div className={`${MEDIA_FRAME} aspect-[600/1230]`} style={{ background: CARD }}>
-      <LoopVideo name={name} label={label} position="center" />
-    </div>
-  );
-}
-
 /* The phone frame: a brushed edge, the screen, and the island. */
 const IPHONE_CSS = `
 .iphone { position: relative; box-sizing: border-box; padding: 7px; border-radius: 15% / 7.2%; background: linear-gradient(145deg, #9A9A9F 0%, #2A2A2D 22%, #4A4A4F 60%, #18181A 100%); box-shadow: 0 50px 90px -30px rgba(20, 30, 20, 0.5), 0 18px 36px -18px rgba(20, 30, 20, 0.35); }
@@ -609,7 +563,7 @@ function Phone({ src, alt, className = "", eager = false, clip, priority = false
   return (
     <div className={`iphone shrink-0 ${className}`}>
       <div className="iphone-screen">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        { }
         {/* 960 wide, cut from the full size App Store screenshots: the old 598 wide
             copies were stretched past their pixels on any sharp screen and read blurry. */}
         {clip ? (
@@ -645,47 +599,17 @@ function Phone({ src, alt, className = "", eager = false, clip, priority = false
   );
 }
 
-function TallCard({
-  title,
-  ink,
-  bg,
-  src,
-  alt,
-  motion,
-  children,
-}: {
-  title: string;
-  ink: string;
-  bg: string;
-  src: string;
-  alt: string;
-  motion?: ReactNode;
-  children: ReactNode;
-}) {
+/* A tall white card: heading, one line, and the phone rising from the bottom edge.
+   All cards are white since 2026-11-04; each used to carry its own color wash. */
+function TallCard({ title, src, alt, children }: { title: string; src: string; alt: string; children: ReactNode }) {
   return (
-    <article className="box-border h-[640px] overflow-hidden rounded-[28px] px-8 pt-8" style={{ background: bg }}>
-      <h2 className="m-0 text-[38px] font-semibold leading-[1.08] tracking-[-0.03em]">{title}</h2>
-      <p className="mt-3 text-[19px] leading-[1.32]" style={{ color: ink }}>
+    <article className="box-border h-[640px] overflow-hidden rounded-[28px] bg-white px-8 pt-8">
+      <h2 className="m-0 text-[30px] font-semibold leading-[1.12] tracking-[-0.02em]">{title}</h2>
+      <p className="mt-3 text-[19px] leading-[1.35]" style={{ color: MUTED }}>
         {children}
       </p>
-      {motion}
       <Phone src={src} alt={alt} className="mx-auto mt-8 w-[270px]" />
     </article>
   );
 }
 
-function Price({ amount, note }: { amount: string; note: string }) {
-  return (
-    <p>
-      <span
-        className="block text-[28px] font-semibold leading-tight"
-        style={{ fontFamily: FONT_NUMERALS }}
-      >
-        {amount}
-      </span>
-      <span className="text-[16px]" style={{ color: MUTED }}>
-        {note}
-      </span>
-    </p>
-  );
-}

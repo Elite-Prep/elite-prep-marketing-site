@@ -23,13 +23,14 @@
  */
 
 export const PRICE_YEARLY_NUM = 59.99;
-export const PRICE_MONTHLY_NUM = 5.99;
+/* $6.99 from 2026-11-05 (pro.monthly2, set 2026-11-03). Was $5.99. */
+export const PRICE_MONTHLY_NUM = 6.99;
 export const PRICE_YEARLY = `$${PRICE_YEARLY_NUM.toFixed(2)}`;
 export const PRICE_MONTHLY = `$${PRICE_MONTHLY_NUM.toFixed(2)}`;
 export const TRIAL_DAYS = 14;
 
 /* Derived, never typed by hand, so the badge cannot outlive a price change:
-   $5.99 x 12 = $71.88 against $49.99 is a 30% saving. It was 65% at $24.99, so
+   $6.99 x 12 = $83.88 against $59.99 is a 28% saving. It was 65% at $24.99, so
    any copy that leans on "over half off" is now false. */
 export const YEARLY_SAVING_PCT = Math.round(
   (1 - PRICE_YEARLY_NUM / (PRICE_MONTHLY_NUM * 12)) * 100,

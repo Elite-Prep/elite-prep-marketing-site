@@ -122,7 +122,7 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
       className="mt-10 rounded-[28px] p-[clamp(22px,4vw,52px)] text-left text-white"
       style={{
         background:
-          "radial-gradient(60% 90% at 88% 0%, rgba(249, 200, 50, 0.32) 0%, rgba(249, 200, 50, 0) 70%), radial-gradient(60% 90% at 0% 100%, rgba(38, 160, 96, 0.34) 0%, rgba(38, 160, 96, 0) 70%), #141518",
+          "radial-gradient(60% 90% at 88% 0%, rgba(249, 200, 50, 0.28) 0%, rgba(249, 200, 50, 0) 70%), #141518",
       }}
     >
       <div className="grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))] gap-5">
