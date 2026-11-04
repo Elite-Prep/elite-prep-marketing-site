@@ -289,7 +289,11 @@ export default function EliteTempoLanding() {
       {/* The problem, in plain type. Short: it was 14 words over three lines. Timing
           and routine always named together. */}
       <section className="mx-auto max-w-[900px] px-4 pt-[clamp(72px,10vw,136px)] text-center">
-        <h2 className={H2_ONE}>Pressure breaks your timing and routine.</h2>
+        {/* The two words the product is about, in italics: a deliberate exception to
+            plain headings, asked for by Eric 2026-11-04. */}
+        <h2 className={H2_ONE}>
+          Pressure breaks your <em className="italic">timing</em> and <em className="italic">routine</em>.
+        </h2>
         <p className={`mx-auto mt-5 max-w-[30em] ${LEDE}`} style={{ color: MUTED }}>
           Practice both. Film your swing and your routine, and time every step.
         </p>
@@ -297,7 +301,9 @@ export default function EliteTempoLanding() {
 
       {/* Two cards, both white. */}
       <section className={`${WRAP} pt-[clamp(56px,8vw,96px)]`}>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-4">
+        {/* Each card spans three shared rows (title, line, phone), so the phones start
+            at the same height even when one title wraps to two lines. */}
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-x-4">
           <TallCard title="Time your best swings" src="player" alt="A golfer's own swing playing in Elite Tempo.">
             Film a swing and groove the timing of your best shots.
           </TallCard>
@@ -460,8 +466,8 @@ export default function EliteTempoLanding() {
             Free for {TRIAL_DAYS} days. Then pick a plan. Cancel anytime.
           </p>
           <div className="mx-auto mt-8 grid max-w-[560px] grid-cols-2 gap-3 text-left max-[420px]:grid-cols-1">
-            <div className="rounded-2xl bg-white p-5" style={{ boxShadow: `inset 0 0 0 2px ${INK}` }}>
-              <p className="m-0 flex items-center justify-between gap-2 text-[16px] font-semibold">
+            <div className="rounded-2xl bg-white p-5">
+              <p className="m-0 flex min-h-7 items-center justify-between gap-2 text-[16px] font-semibold">
                 Yearly
                 <span className="rounded-full px-2.5 py-0.5 text-[15px] font-semibold" style={{ background: "#F9C832", color: INK }}>
                   Save {YEARLY_SAVING_PCT}%
@@ -471,7 +477,7 @@ export default function EliteTempoLanding() {
               <p className="m-0 text-[16px]" style={{ color: MUTED }}>a year</p>
             </div>
             <div className="rounded-2xl bg-white p-5">
-              <p className="m-0 text-[16px] font-semibold">Monthly</p>
+              <p className="m-0 flex min-h-7 items-center text-[16px] font-semibold">Monthly</p>
               <p className={`m-0 mt-2 ${NUM}`}>{PRICE_MONTHLY}</p>
               <p className="m-0 text-[16px]" style={{ color: MUTED }}>a month</p>
             </div>
@@ -600,15 +606,18 @@ function Phone({ src, alt, className = "", eager = false, clip, priority = false
 }
 
 /* A tall white card: heading, one line, and the phone rising from the bottom edge.
-   All cards are white since 2026-11-04; each used to carry its own color wash. */
+   All cards are white since 2026-11-04; each used to carry its own color wash. The
+   card is a subgrid of its parent's rows, so cards side by side line up row by row. */
 function TallCard({ title, src, alt, children }: { title: string; src: string; alt: string; children: ReactNode }) {
   return (
-    <article className="box-border h-[640px] overflow-hidden rounded-[28px] bg-white px-8 pt-8">
-      <h2 className="m-0 text-[30px] font-semibold leading-[1.12] tracking-[-0.02em]">{title}</h2>
-      <p className="mt-3 text-[19px] leading-[1.35]" style={{ color: MUTED }}>
+    <article className="row-span-3 mb-4 grid grid-rows-subgrid overflow-hidden rounded-[28px] bg-white px-8 pt-8">
+      <h2 className="m-0 text-[30px] font-semibold leading-[1.12] tracking-[-0.02em] [text-wrap:balance]">{title}</h2>
+      <p className="m-0 mt-3 text-[19px] leading-[1.35]" style={{ color: MUTED }}>
         {children}
       </p>
-      <Phone src={src} alt={alt} className="mx-auto mt-8 w-[270px]" />
+      <div className="mt-8 h-[460px] overflow-hidden">
+        <Phone src={src} alt={alt} className="mx-auto w-[270px]" />
+      </div>
     </article>
   );
 }

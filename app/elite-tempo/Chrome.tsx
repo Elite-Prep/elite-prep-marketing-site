@@ -22,25 +22,26 @@ export function SiteHeader() {
   return (
     <header className="flex justify-center px-4 pt-4">
       <div
-        className="flex items-center gap-[clamp(8px,3vw,40px)] rounded-full py-[6px] pl-4 pr-[6px] md:pl-5"
+        className="flex items-center gap-[clamp(4px,2vw,40px)] rounded-full py-[6px] pl-4 pr-[6px] md:pl-5"
         style={{ background: "rgba(255,255,255,0.78)" }}
       >
         <Link href="/" className="flex min-h-11 items-center gap-2 no-underline" aria-label="Elite Tempo home" style={{ color: INK }}>
           <EliteTempoMark size={18} fill={INK} />
-          <span className="hidden whitespace-nowrap text-base font-semibold tracking-[0.02em] min-[400px]:inline md:inline">Elite Tempo</span>
+          <span className="whitespace-nowrap text-base font-semibold tracking-[0.02em]">Elite Tempo</span>
         </Link>
-        {/* Pricing and FAQs show on a phone too (2026-11-04); the library link waits
-            for md. Under 400px wide the name gives way to them and the mark stays. */}
+        {/* Pricing shows on every phone, FAQs from sm, the library link from md.
+            The name always shows: on a 390 wide iPhone, name, Pricing and the button
+            are all that fit. */}
         <nav aria-label="Main" className="flex items-center gap-0 md:gap-1">
           {[
-            { label: "Tempo library", href: "/tempos", wide: true },
-            { label: "Pricing", href: "/#pricing", wide: false },
-            { label: "FAQs", href: "/#faq", wide: false },
+            { label: "Tempo library", href: "/tempos", wide: "md" as const },
+            { label: "Pricing", href: "/#pricing", wide: null },
+            { label: "FAQs", href: "/#faq", wide: "sm" as const },
           ].map((l) => (
             <Link
               key={l.label}
               href={l.href}
-              className={`${l.wide ? "hidden md:inline-flex" : "inline-flex"} min-h-11 items-center rounded-full px-2 text-[15px] font-medium no-underline transition-colors hover:bg-black/5 md:px-3`}
+              className={`${l.wide === "md" ? "hidden md:inline-flex" : l.wide === "sm" ? "hidden sm:inline-flex" : "inline-flex"} min-h-11 items-center rounded-full px-2 text-[15px] font-medium no-underline transition-colors hover:bg-black/5 md:px-3`}
               style={{ color: INK }}
             >
               {l.label}
@@ -52,7 +53,10 @@ export function SiteHeader() {
           className="inline-flex min-h-11 items-center whitespace-nowrap rounded-full px-[18px] text-[15px] font-medium text-white no-underline transition hover:brightness-125"
           style={{ background: INK }}
         >
-          {TRIAL_CTA}
+          {/* "Download" alone under 430 wide, so name, Pricing and the button fit a
+              375 wide iPhone with room on both sides. Same verb as the App Store badge. */}
+          <span className="min-[430px]:hidden">Download</span>
+          <span className="hidden min-[430px]:inline">{TRIAL_CTA}</span>
         </a>
       </div>
     </header>

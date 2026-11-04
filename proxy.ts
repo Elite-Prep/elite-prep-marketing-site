@@ -37,6 +37,10 @@ function isEliteTempoHost(hostHeader: string): boolean {
   /* Port stripped so a local build answered as elitetempo.app:3000 behaves like
      production. */
   const host = hostHeader.split(":")[0];
+  /* A preview deployment made with ET_PREVIEW_HOST=1 answers as Elite Tempo on its
+     own *.vercel.app address, so a change can be checked on a phone before it goes
+     live. Production never sets it. */
+  if (process.env.ET_PREVIEW_HOST === "1" && host.endsWith(".vercel.app")) return true;
   return host === "elitetempo.app" || host === "www.elitetempo.app";
 }
 

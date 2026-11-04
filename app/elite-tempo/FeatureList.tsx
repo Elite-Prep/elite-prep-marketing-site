@@ -3,6 +3,8 @@
 import { useState, type ReactNode } from "react";
 import { INK, MUTED } from "./theme";
 
+/* The row that is on reads in full black on a gray fill; the others fade back to
+ * gray, so it is plain which screen the phone shows. */
 /* The smaller features as one short list beside one phone, the way Bevel's
  * "And that's not all" section works. They used to be two giant tall cards (peach
  * and light blue) plus a dark green section: three new colors for three small
@@ -34,8 +36,8 @@ export default function FeatureList({
                   type="button"
                   aria-pressed={i === active}
                   onClick={() => setActive(i)}
-                  className="w-full cursor-pointer rounded-2xl border-0 bg-transparent px-5 py-4 text-left transition-colors hover:bg-black/[0.03] aria-pressed:bg-[#F6F6F3]"
-                  style={{ color: INK }}
+                  className="w-full cursor-pointer rounded-2xl border-0 bg-transparent px-5 py-4 text-left text-[#8A8B90] transition-colors hover:bg-black/[0.03] aria-pressed:bg-[#F6F6F3] aria-pressed:text-[var(--et-ink)]"
+                  style={{ ["--et-ink" as string]: INK }}
                 >
                   <span className="block text-[21px] font-semibold leading-[1.25]">
                     {it.title}
