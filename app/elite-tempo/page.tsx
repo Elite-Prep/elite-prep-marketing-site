@@ -281,7 +281,7 @@ export default function EliteTempoLanding() {
 
       {/* Every part of the game, playable. The page's one dark card. */}
       <section className={`${WRAP} pt-[clamp(72px,10vw,136px)] text-center`}>
-        <h2 className={H2_ONE}>Four numbers make up your timing.</h2>
+        <h2 className={H2_ONE}>Get four timing numbers from every swing you film.</h2>
         <DarkTimingPlayer shots={DARK_SHOTS} />
       </section>
 
@@ -372,7 +372,7 @@ export default function EliteTempoLanding() {
             items={[
               {
                 label: "Speed",
-                body: "Practice at 75% or 90% to ingrain a swing change or take spin off the ball.",
+                body: "Practice at 75% or 90% to ingrain a swing change or practice off-speed shots.",
                 phone: <Phone src="options" alt="Elite Tempo's Player options with speed set to 90%." />,
               },
               {
@@ -394,9 +394,11 @@ export default function EliteTempoLanding() {
           people read it. */}
       <section className="mx-auto max-w-[760px] px-4 pt-[clamp(72px,10vw,136px)]">
         <p className="m-0 text-[30px] font-semibold leading-[1.22] tracking-[-0.02em]">
-          {/* The app's founder note, cut to its point: his best timing, held under pressure. */}
-          I built Elite Tempo to capture my timing and routine when I was playing my best, and
-          repeat them under pressure.
+          {/* Eric's three reasons, paraphrased by him 11-04: capture the timing of his best
+              shots, compare it to the best players, and drill the routine for pressure. */}
+          I never knew the timing of my best shots. I built Elite Tempo to capture it, see how it
+          compares to the best players in the world, and practice my routine until it repeats
+          under pressure.
         </p>
         <p className="mt-3.5 text-[16px]" style={{ color: MUTED }}>
           Eric, founder
