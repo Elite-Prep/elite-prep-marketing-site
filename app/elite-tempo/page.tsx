@@ -591,7 +591,8 @@ const IPHONE_CSS = `
 .et-faq[open] .et-chev { transform: rotate(180deg); }
 .et-chev { transition: transform 0.2s ease; }
 .et-clip-still { position: absolute; inset: 0; }
-.iphone-screen[data-live] .et-clip-still { opacity: 0; transition: opacity 0.15s linear; }
+.et-clip-video { position: relative; opacity: 0; }
+.iphone-screen[data-live] .et-clip-video { opacity: 1; transition: opacity 0.15s linear; }
 .iphone-screen img, .iphone-screen video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* Tour timing bars, in real time: backswing, then downswing straight after it. */
@@ -618,6 +619,13 @@ function Phone({ src, alt, className = "", eager = false, clip, priority = false
                 element the browser waited on, and both clips downloaded in full
                 before anything else (the phone home page took 4 to 5 s to show its
                 main picture). The still below covers it until it really plays. */}
+            {/* iPhone Safari blanks a video to black from play() until its first
+                frame decodes, and drops the poster for that gap. So the still is
+                always showing underneath, and the video stays see-through on top
+                until the carousel marks it as really playing. The still is never
+                hidden: when it was, Safari took a frame to redraw it on the way
+                back, and the phone flashed black each time the ring turned. */}
+            <img src={`/elite-tempo/app/${src}.webp`} alt="" aria-hidden width={960} height={2087} className="et-clip-still" fetchPriority={priority ? "high" : eager ? "low" : undefined} />
             <video
               data-src={`/elite-tempo/app/${clip}.mp4`}
               aria-label={alt}
@@ -626,11 +634,8 @@ function Phone({ src, alt, className = "", eager = false, clip, priority = false
               muted
               playsInline
               preload="none"
+              className="et-clip-video"
             />
-            {/* iPhone Safari blanks a video to black from play() until its first
-                frame decodes, and drops the poster for that gap. This still sits on
-                top until the carousel marks the clip as really playing. */}
-            <img src={`/elite-tempo/app/${src}.webp`} alt="" aria-hidden width={960} height={2087} className="et-clip-still" fetchPriority={priority ? "high" : eager ? "low" : undefined} />
           </>
         ) : (
           <img src={`/elite-tempo/app/${src}.webp`} alt={alt} width={960} height={2087} loading={eager ? "eager" : "lazy"} fetchPriority={priority ? "high" : eager ? "low" : undefined} />

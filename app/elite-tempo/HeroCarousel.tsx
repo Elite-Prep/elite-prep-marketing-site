@@ -63,14 +63,14 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
     const el = box.current;
     if (!el) return;
     const clips = [...el.querySelectorAll("[data-slide]")].map((s) => s.querySelector("video"));
-    /* A clip that has played reloads so it shows its still again at the side,
-       not the video frame it stopped on. The file comes from the browser's cache. */
+    /* A clip that has played shows its still again at the side and rewinds under
+       it. No load(): that empties the video to black, and on iPhone Safari the
+       still can take a frame to come back, so the black showed through. */
     clips.forEach((v, i) => {
       if (v && v.src && i !== front && (v.currentTime > 0 || !v.paused)) {
-        /* Still back first, instantly, or load() shows a black frame under it. */
         delete v.parentElement?.dataset.live;
         v.pause();
-        v.load();
+        v.currentTime = 0;
       }
     });
     const clip = clips[front];
@@ -103,11 +103,26 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
       clip.currentTime = 0;
       clip.play().catch(() => {});
     };
-    /* Only once a frame is really moving does the still on top fade away. */
-    const live = () => {
-      if (clip.currentTime > 0 && clip.parentElement) clip.parentElement.dataset.live = "";
+    /* Only once a frame is really on screen does the still on top fade away.
+       timeupdate is too early: iPhone Safari moves currentTime before it draws
+       anything, so the still faded onto a black video for about a tenth of a
+       second. A video frame callback fires when a frame goes to the screen; one
+       more animation frame after it makes sure it is painted. */
+    let frameReq: number | undefined;
+    let paintReq: number | undefined;
+    const show = () => {
+      if (clip.parentElement) clip.parentElement.dataset.live = "";
     };
-    clip.addEventListener("timeupdate", live);
+    const live = () => {
+      if (clip.currentTime > 0) show();
+    };
+    if (typeof clip.requestVideoFrameCallback === "function") {
+      frameReq = clip.requestVideoFrameCallback(() => {
+        paintReq = requestAnimationFrame(show);
+      });
+    } else {
+      clip.addEventListener("timeupdate", live);
+    }
     clip.addEventListener("ended", ended);
     clip.currentTime = 0;
     /* A browser can refuse to play, as iOS does in Low Power Mode; the poster then
@@ -116,6 +131,8 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
     return () => {
       clip.removeEventListener("ended", ended);
       clip.removeEventListener("timeupdate", live);
+      if (frameReq !== undefined) clip.cancelVideoFrameCallback(frameReq);
+      if (paintReq !== undefined) cancelAnimationFrame(paintReq);
       clearTimeout(timer);
       clip.pause();
     };
