@@ -36,6 +36,7 @@ import {
   TRACKING_MARK,
   W_WORDMARK,
   etUrl,
+  SHARE_IMAGES,
 } from "./theme";
 import { description } from "../seo";
 
@@ -65,13 +66,17 @@ export const metadata: Metadata = {
     "golf metronome",
     "3 to 1 tempo ratio",
   ],
+  /* Named explicitly with a version so chat apps that cached the old card under
+     the file-based URL (its hash did not change with the design) fetch the new one. */
   openGraph: {
+    images: SHARE_IMAGES,
     title: "Elite Tempo. Time your entire game from routine to impact.",
     description:
       `Golf tempo, timed by hand to 1/100s. Film your own swing, mark takeaway, top and impact on a frame-accurate scrubber, and get your four numbers. Practice to the beats with your phone in your bag. Free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month.`,
   },
   twitter: {
     card: "summary_large_image",
+    images: SHARE_IMAGES,
     title: "Elite Tempo. Time your entire game from routine to impact.",
     description: `Time your golf swing and your pre-shot routine. Tour swings timed by hand to 1/100s. Free ${TRIAL_DAYS}-day trial, then ${PRICE_YEARLY} a year.`,
   },
