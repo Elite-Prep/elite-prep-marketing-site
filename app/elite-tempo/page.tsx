@@ -83,7 +83,7 @@ export const metadata: Metadata = {
 const FAQS: { q: string; a: string }[] = [
   {
     q: "What makes Elite Tempo different?",
-    a: "Elite Tempo captures the total timing and the routine of your best shots, so you can groove them and practice under pressure. No other tempo app can say the same.",
+    a: "Elite Tempo captures the total timing and the routine of your best shots, so you can groove them and practice under pressure. We’re not a generic tempo trainer.",
   },
   {
     q: "How do I time my pre-shot routine?",
