@@ -280,7 +280,7 @@ export default function EliteTempoLanding() {
             </p>
           </div>
 
-          <HeroCarousel labels={HERO_SCREENS.map((h) => h.label)} slides={HERO_SCREENS.map((h) => <Phone key={h.src} eager src={h.src} alt={h.alt} clip={h.clip} />)} />
+          <HeroCarousel labels={HERO_SCREENS.map((h) => h.label)} slides={HERO_SCREENS.map((h, i) => <Phone key={h.src} eager priority={i === 0} src={h.src} alt={h.alt} clip={h.clip} />)} />
         </section>
       </div>
 
@@ -599,7 +599,7 @@ const IPHONE_CSS = `
    other phone waits until it is near the viewport. `clip` names a short silent
    screen recording that the hero carousel plays when this phone is in front; the
    still is its poster, so it looks the same until it plays. */
-function Phone({ src, alt, className = "", eager = false, clip }: { src: string; alt: string; className?: string; eager?: boolean; clip?: string }) {
+function Phone({ src, alt, className = "", eager = false, clip, priority = false }: { src: string; alt: string; className?: string; eager?: boolean; clip?: string; priority?: boolean }) {
   return (
     <div className={`iphone shrink-0 ${className}`}>
       <div className="iphone-screen">
@@ -608,23 +608,27 @@ function Phone({ src, alt, className = "", eager = false, clip }: { src: string;
             copies were stretched past their pixels on any sharp screen and read blurry. */}
         {clip ? (
           <>
+            {/* No src and no poster on the first paint: the clip is attached by the
+                carousel once the page has loaded. Before that, the video was the
+                element the browser waited on, and both clips downloaded in full
+                before anything else (the phone home page took 4 to 5 s to show its
+                main picture). The still below covers it until it really plays. */}
             <video
-              src={`/elite-tempo/app/${clip}.mp4`}
-              poster={`/elite-tempo/app/${src}.webp`}
+              data-src={`/elite-tempo/app/${clip}.mp4`}
               aria-label={alt}
               width={960}
               height={2087}
               muted
               playsInline
-              preload="auto"
+              preload="none"
             />
             {/* iPhone Safari blanks a video to black from play() until its first
                 frame decodes, and drops the poster for that gap. This still sits on
                 top until the carousel marks the clip as really playing. */}
-            <img src={`/elite-tempo/app/${src}.webp`} alt="" aria-hidden width={960} height={2087} className="et-clip-still" />
+            <img src={`/elite-tempo/app/${src}.webp`} alt="" aria-hidden width={960} height={2087} className="et-clip-still" fetchPriority={priority ? "high" : undefined} />
           </>
         ) : (
-          <img src={`/elite-tempo/app/${src}.webp`} alt={alt} width={960} height={2087} loading={eager ? "eager" : "lazy"} />
+          <img src={`/elite-tempo/app/${src}.webp`} alt={alt} width={960} height={2087} loading={eager ? "eager" : "lazy"} fetchPriority={priority ? "high" : undefined} />
         )}
       </div>
     </div>

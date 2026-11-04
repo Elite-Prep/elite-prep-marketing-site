@@ -28,6 +28,18 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
   const [front, setFront] = useState(0);
   const [held, setHeld] = useState(false);
   const [visible, setVisible] = useState(true);
+  /* No clip loads until the page has: the front still is what a visitor sees
+     first, and a video downloading beside it only slows that down. */
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    const done = () => setLoaded(true);
+    if (document.readyState === "complete") {
+      const t = window.setTimeout(done, 0);
+      return () => clearTimeout(t);
+    }
+    window.addEventListener("load", done, { once: true });
+    return () => window.removeEventListener("load", done);
+  }, []);
   const still = useReducedMotion();
   const box = useRef<HTMLDivElement>(null);
   const press = useRef<{ x: number; id: number } | null>(null);
@@ -54,7 +66,7 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
     /* A clip that has played reloads so it shows its still again at the side,
        not the video frame it stopped on. The file comes from the browser's cache. */
     clips.forEach((v, i) => {
-      if (v && i !== front && (v.currentTime > 0 || !v.paused)) {
+      if (v && v.src && i !== front && (v.currentTime > 0 || !v.paused)) {
         /* Still back first, instantly, or load() shows a black frame under it. */
         delete v.parentElement?.dataset.live;
         v.pause();
@@ -62,7 +74,11 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
       }
     });
     const clip = clips[front];
-    if (still || !visible) {
+    if (clip && !clip.src && loaded && !still) {
+      clip.src = clip.dataset.src ?? "";
+      clip.preload = "auto";
+    }
+    if (still || !visible || (clip && !loaded)) {
       clip?.pause();
       return;
     }
@@ -103,7 +119,7 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
       clearTimeout(timer);
       clip.pause();
     };
-  }, [front, still, visible, count]);
+  }, [front, still, visible, count, loaded]);
 
   const go = (by: number) => setFront((f) => (f + by + count) % count);
 
