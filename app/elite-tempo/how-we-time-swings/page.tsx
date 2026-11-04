@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../Chrome";
+import Chrome, { Breadcrumbs, TrialCard, breadcrumbSchema } from "../Chrome";
 import { ACCENT, CARD, HAIRLINE, INK, MUTED, ON_ACCENT, etUrl } from "../theme";
 import { SWINGS, fmtRatio, fmtSeconds, type Swing } from "../data/tempo-data";
 import { description } from "../../seo";
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 };
 
 const TRAIL = [
-  { name: "Elite Tempo", href: "/elite-tempo" },
+  { name: "Elite Tempo", href: "/" },
   { name: "How we time swings" },
 ];
 
@@ -122,7 +122,7 @@ function Step({
         <h3 className="text-base font-semibold" style={{ color: INK }}>
           {title}
         </h3>
-        <p className="mt-2 text-base leading-relaxed" style={{ color: MUTED }}>
+        <p className="mt-2 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
           {children}
         </p>
       </div>
@@ -141,18 +141,18 @@ export default function HowWeTimeSwings() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
       />
 
-      <article className="mx-auto max-w-3xl px-6 py-10 sm:py-14">
+      <article className="mx-auto max-w-3xl px-5 pt-10 sm:pt-16">
         <Breadcrumbs trail={TRAIL} />
 
         <h1
-          className="mt-6 text-3xl font-semibold leading-[1.1] sm:text-4xl"
+          className="mt-6 text-[clamp(34px,5vw,52px)] font-semibold leading-[1.05] tracking-[-0.03em]"
           style={{ color: INK, textWrap: "balance" }}
         >
           How we time swings to{" "}
           <span style={{ color: INK }}>1/100 of a second</span>
         </h1>
 
-        <p className="mt-6 text-lg leading-relaxed" style={{ color: MUTED }}>
+        <p className="mt-6 text-[19px] leading-[1.5]" style={{ color: MUTED }}>
           Elite Tempo publishes tempo figures that disagree with the number almost
           everyone quotes. Rory McIlroy&apos;s {rory.year} {rory.event} driver comes
           out at {fmtRatio(rory)}, not the &ldquo;textbook 3:1&rdquo; you will find
@@ -161,7 +161,7 @@ export default function HowWeTimeSwings() {
         </p>
 
         <section className="mt-12">
-          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
+          <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
             The method
           </h2>
           <ol className="mt-7 flex flex-col gap-8">
@@ -188,12 +188,12 @@ export default function HowWeTimeSwings() {
 
           <div
             className="mt-10 rounded-2xl p-6 sm:p-8"
-            style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
+            style={{ background: CARD }}
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
+            <p className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
               Worked example
             </p>
-            <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
+            <p className="mt-3 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
               {hero.player}, {hero.year} {hero.event}, {hero.clubLabel.toLowerCase()}.
               Takeaway at {hero.startS}s, top at {hero.topS}s, impact at{" "}
               {hero.impactS}s. Backswing {fmtSeconds(hero.back)}, downswing{" "}
@@ -208,7 +208,7 @@ export default function HowWeTimeSwings() {
                 3.57. Getting the arithmetic wrong on the page whose entire job is
                 showing the working would have been the worst possible place for it,
                 so the numbers now derive from the same marks as everything else. */}
-            <p className="mt-4 text-sm leading-relaxed" style={{ color: MUTED }}>
+            <p className="mt-4 text-[16px] leading-[1.55]" style={{ color: MUTED }}>
               Note that the marks carry more decimal places than the published
               figures. That is deliberate: rounding the timestamps before dividing
               them drifts the answer, and not by a little. Round this swing&apos;s
@@ -220,10 +220,10 @@ export default function HowWeTimeSwings() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
+          <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
             Where the 3:1 rule comes from
           </h2>
-          <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
+          <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             The familiar figure comes from counting frames at 30 frames per second:
             24 frames back, 8 frames down. That is a genuinely useful teaching tool,
             it is easy to count and it puts most golfers in roughly the right
@@ -231,7 +231,7 @@ export default function HowWeTimeSwings() {
             thirtieth of a second, and on a downswing lasting about a quarter of a
             second, one frame either way moves the ratio by a lot.
           </p>
-          <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
+          <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             Timed against the footage directly, the {SWINGS.length} shots in the
             library spread from{" "}
             {fmtRatio([...SWINGS].sort((a, b) => a.ratio - b.ratio)[0])} to{" "}
@@ -242,10 +242,10 @@ export default function HowWeTimeSwings() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
+          <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
             What this method cannot do
           </h2>
-          <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
+          <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             Marks are stored to 1/100 of a second, but the honest uncertainty is
             larger than that, and it comes from the video rather than the timing.
             Broadcast footage varies in frame rate, a clubhead moving at speed
@@ -254,7 +254,7 @@ export default function HowWeTimeSwings() {
             two intervals, whatever uncertainty exists lands hardest on the ratio.
             Higher-frame-rate footage tightens this; nothing eliminates it.
           </p>
-          <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
+          <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             Two other honest limits. Each figure describes{" "}
             <em style={{ color: INK, fontStyle: "normal", fontWeight: 700 }}>
               one swing on one day
@@ -263,7 +263,7 @@ export default function HowWeTimeSwings() {
             and intent. And a camera angle that is not square to the swing can make
             the top of the backswing genuinely ambiguous by a frame.
           </p>
-          <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
+          <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             This is why the raw marks sit on every page rather than only the tidy
             ratio. If you disagree with where a mark was placed, you can see exactly
             which one and by how much it would move the answer.
@@ -271,7 +271,7 @@ export default function HowWeTimeSwings() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
+          <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
             Common questions
           </h2>
           <div className="mt-6" style={{ borderTop: `1px solid ${HAIRLINE}` }}>
@@ -290,7 +290,7 @@ export default function HowWeTimeSwings() {
                     <span className="hidden group-open:inline">&#8722;</span>
                   </span>
                 </summary>
-                <p className="pb-5 pr-10 text-sm leading-relaxed" style={{ color: MUTED }}>
+                <p className="pb-5 pr-10 text-[16px] leading-[1.55]" style={{ color: MUTED }}>
                   {a}
                 </p>
               </details>
@@ -298,31 +298,13 @@ export default function HowWeTimeSwings() {
           </div>
         </section>
 
-        <div
-          className="mt-16 rounded-3xl p-8 text-center"
-          style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
-        >
-          <h2 className="text-xl font-semibold" style={{ color: INK }}>
-            See all {SWINGS.length} measurements
-          </h2>
-          <p className="mx-auto mt-3 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-            Every swing in the library, with its marks, its ratio, and the footage it
-            was timed from.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href="/elite-tempo/tempos"
-              /* Neutral outline, not gold. It sits beside Apple's white badge, and
-                 the badge has to stay the filled thing on the row — two competing
-                 fills, one of which cannot be restyled, is not a hierarchy. */
-              className="rounded-full border px-5 py-2.5 text-sm font-semibold transition duration-200 hover:bg-[rgba(247,247,247,0.08)]"
-              style={{ borderColor: HAIRLINE, color: INK }}
-            >
-              Open the tempo library
-            </Link>
-            <AppStoreButton />
-          </div>
-        </div>
+        <TrialCard title={<>See all {SWINGS.length} measurements</>}>
+          Every swing in the{" "}
+          <Link href="/tempos" className="font-semibold underline decoration-1 underline-offset-4" style={{ color: INK }}>
+            tempo library
+          </Link>
+          , with its marks, its ratio, and the footage it was timed from. Then time your own.
+        </TrialCard>
       </article>
     </Chrome>
   );

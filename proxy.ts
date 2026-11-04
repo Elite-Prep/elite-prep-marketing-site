@@ -33,7 +33,10 @@ const METADATA_ASSETS = /^\/elite-tempo\/(icon|apple-icon|opengraph-image|twitte
    and the copies on the new domain are the ones marked canonical. */
 const KEEP_ON_ELITE_PREP: string[] = [];
 
-function isEliteTempoHost(host: string): boolean {
+function isEliteTempoHost(hostHeader: string): boolean {
+  /* Port stripped so a local build answered as elitetempo.app:3000 behaves like
+     production. */
+  const host = hostHeader.split(":")[0];
   return host === "elitetempo.app" || host === "www.elitetempo.app";
 }
 
@@ -49,6 +52,13 @@ export function proxy(request: NextRequest) {
        Google fetches for the search result, and a needless hop on it is the last
        thing this move should introduce. */
     if (METADATA_ASSETS.test(pathname)) {
+      return NextResponse.next();
+    }
+
+    /* Files in public/elite-tempo (screenshots, clips, the App Store badge) are
+       served where they are. Bouncing them through the redirect below cost every
+       image an extra round trip, which was most of the slow first paint on phones. */
+    if (pathname.startsWith(`${PREFIX}/`) && /\.[a-z0-9]+$/i.test(pathname)) {
       return NextResponse.next();
     }
 

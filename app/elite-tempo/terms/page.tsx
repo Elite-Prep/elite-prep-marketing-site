@@ -1,7 +1,6 @@
-import Link from "next/link";
 
-import EliteTempoMark from "../EliteTempoMark";
-import { ACCENT, ACCENT_ALT, BG, INK, MUTED, TRACKING_MARK, W_WORDMARK, etUrl } from "../theme";
+import Chrome from "../Chrome";
+import { INK, MUTED, etUrl } from "../theme";
 
 export const metadata = {
   alternates: { canonical: etUrl("/terms") },
@@ -11,28 +10,17 @@ export const metadata = {
 
 export default function EliteTempoTerms() {
   return (
-    <div className="min-h-screen px-6 py-10" style={{ background: BG }}>
-      <div className="mx-auto max-w-2xl">
-        <div className="mb-12 flex items-center">
-          <Link
-            href="/elite-tempo"
-            aria-label="Elite Tempo home"
-            className="inline-flex items-center gap-2.5 text-[17px] leading-none"
-            style={{ color: INK, fontWeight: W_WORDMARK, letterSpacing: TRACKING_MARK }}
-          >
-            <EliteTempoMark size={19} fill={ACCENT} />
-            ELITE TEMPO
-          </Link>
-        </div>
+    <Chrome>
+      <div className="mx-auto max-w-2xl px-5 pt-10 sm:pt-16">
 
-        <h1 className="mb-2 text-3xl font-semibold sm:text-4xl" style={{ color: INK }}>
+        <h1 className="mb-3 text-[clamp(34px,5vw,52px)] font-semibold leading-[1.05] tracking-[-0.03em]" style={{ color: INK }}>
           Terms of Use
         </h1>
-        <p className="mb-10 text-sm" style={{ color: MUTED }}>
+        <p className="mb-10 text-[15px]" style={{ color: MUTED }}>
           Elite Tempo · Effective June 14, 2026 · Updated October 11, 2026
         </p>
 
-        <div className="flex flex-col gap-8 text-sm leading-relaxed" style={{ color: MUTED }}>
+        <div className="flex flex-col gap-8 text-[17px] leading-[1.6]" style={{ color: MUTED }}>
           <p>
             These Terms of Use (&quot;Terms&quot;) govern your use of the Elite
             Tempo app published by Elite Prep Inc, formerly Elite Prep LLC (&quot;Elite Prep,&quot;
@@ -226,7 +214,7 @@ export default function EliteTempoTerms() {
           <Section title="12. Contact">
             <p>
               Questions:{" "}
-              <a href="mailto:ebusalacchi@eliteprep.app" style={{ color: ACCENT_ALT }}>
+              <a href="mailto:ebusalacchi@eliteprep.app" className="underline underline-offset-4" style={{ color: INK }}>
                 ebusalacchi@eliteprep.app
               </a>
               . Elite Prep Inc.
@@ -234,14 +222,14 @@ export default function EliteTempoTerms() {
           </Section>
         </div>
       </div>
-    </div>
+    </Chrome>
   );
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="mb-2 text-base font-semibold" style={{ color: INK }}>
+      <h2 className="mb-2 text-[20px] font-semibold tracking-[-0.01em]" style={{ color: INK }}>
         {title}
       </h2>
       {children}

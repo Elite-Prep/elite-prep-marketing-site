@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../../Chrome";
+import Chrome, { Breadcrumbs, TrialCard, breadcrumbSchema } from "../../Chrome";
 import { ACCENT, CARD, HAIRLINE, INK, MUTED, etUrl } from "../../theme";
 import { SWINGS, fmtRatio, fmtSeconds } from "../../data/tempo-data";
 import { description } from "../../../seo";
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 const TRAIL = [
-  { name: "Elite Tempo", href: "/elite-tempo" },
+  { name: "Elite Tempo", href: "/" },
   { name: "vs a metronome" },
 ];
 
@@ -86,7 +86,7 @@ function BeatComparison({
 }) {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-[0.14em]" style={{ color: MUTED }}>
+      <p className="text-[13px] font-medium" style={{ color: MUTED }}>
         {label}
       </p>
       <div className="relative mt-4 h-1 w-full rounded-full" style={{ background: HAIRLINE }} aria-hidden>
@@ -98,7 +98,7 @@ function BeatComparison({
           />
         ))}
       </div>
-      <p className="mt-4 text-sm leading-relaxed" style={{ color: MUTED }}>
+      <p className="mt-4 text-[16px] leading-[1.55]" style={{ color: MUTED }}>
         {note}
       </p>
     </div>
@@ -115,17 +115,17 @@ export default function VsMetronome() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
       />
 
-      <article className="mx-auto max-w-3xl px-6 py-10 sm:py-14">
+      <article className="mx-auto max-w-3xl px-5 pt-10 sm:pt-16">
         <Breadcrumbs trail={TRAIL} />
 
         <h1
-          className="mt-6 text-3xl font-semibold leading-[1.1] sm:text-4xl"
+          className="mt-6 text-[clamp(34px,5vw,52px)] font-semibold leading-[1.05] tracking-[-0.03em]"
           style={{ color: INK, textWrap: "balance" }}
         >
           Can you use a metronome for golf swing tempo?
         </h1>
 
-        <p className="mt-6 text-lg leading-relaxed" style={{ color: MUTED }}>
+        <p className="mt-6 text-[19px] leading-[1.5]" style={{ color: MUTED }}>
           Partly, and it is a completely reasonable thing to try, because you
           probably already have one on your phone for free. But there is one
           structural problem with it, and it is worth understanding before you spend
@@ -134,26 +134,26 @@ export default function VsMetronome() {
 
         <div
           className="mt-8 rounded-2xl p-6"
-          style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
+          style={{ background: CARD }}
         >
-          <p className="text-base leading-relaxed" style={{ color: INK }}>
+          <p className="text-[17px] leading-[1.55]" style={{ color: INK }}>
             A metronome beats <strong>evenly</strong>. A golf swing is{" "}
             <strong style={{ color: INK }}>not even</strong>.
           </p>
         </div>
 
         <section className="mt-12">
-          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
+          <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
             The same three beats, two ways
           </h2>
-          <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
+          <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             Takeaway, top, impact. Here is where a metronome puts them, and where{" "}
             {hero.player}&apos;s {hero.year} {hero.event} drive actually put them.
           </p>
 
           <div
             className="mt-7 flex flex-col gap-9 rounded-2xl p-6 sm:p-8"
-            style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
+            style={{ background: CARD }}
           >
             <BeatComparison
               label="A metronome"
@@ -177,10 +177,10 @@ export default function VsMetronome() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
+          <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
             What a metronome is genuinely good for
           </h2>
-          <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
+          <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             Two things, and they are not nothing. It will keep your{" "}
             <strong style={{ color: INK }}>pre-shot routine</strong> to a consistent
             length, which is one of the most reliable ways to steady yourself under
@@ -188,7 +188,7 @@ export default function VsMetronome() {
             <strong style={{ color: INK }}>overall pace</strong> down if you are
             rushing, because an even pulse is very good at exposing hurry.
           </p>
-          <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
+          <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             The common workaround for the swing itself is to count instead of swing
             to it: back over three beats, down on the fourth. That is a real drill
             and it does approximate 3:1. It also means you are subdividing a pulse in
@@ -198,19 +198,19 @@ export default function VsMetronome() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
+          <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
             What to use instead
           </h2>
-          <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
+          <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             Any tempo trainer is, underneath, a metronome with unevenly spaced beats.
             What separates them is where those beats are placed and whether anything
             checks your work.
           </p>
-          <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
+          <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             Elite Tempo places them at the intervals of{" "}
             <Link
-              href="/elite-tempo/tempos"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
+              href="/tempos"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:opacity-70"
               style={{ color: INK }}
             >
               {SWINGS.length} specific tour shots
@@ -222,7 +222,7 @@ export default function VsMetronome() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
+          <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
             Common questions
           </h2>
           <div className="mt-6" style={{ borderTop: `1px solid ${HAIRLINE}` }}>
@@ -241,7 +241,7 @@ export default function VsMetronome() {
                     <span className="hidden group-open:inline">&#8722;</span>
                   </span>
                 </summary>
-                <p className="pb-5 pr-10 text-sm leading-relaxed" style={{ color: MUTED }}>
+                <p className="pb-5 pr-10 text-[16px] leading-[1.55]" style={{ color: MUTED }}>
                   {a}
                 </p>
               </details>
@@ -249,21 +249,10 @@ export default function VsMetronome() {
           </div>
         </section>
 
-        <div
-          className="mt-16 rounded-3xl p-8 text-center"
-          style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
-        >
-          <h2 className="text-xl font-semibold" style={{ color: INK }}>
-            Hear an uneven beat.
-          </h2>
-          <p className="mx-auto mt-3 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-            Free for 14 days. Play {hero.player}&apos;s {fmtRatio(hero)} and hear how
+        <TrialCard title={<>Hear an uneven beat.</>}>
+          Free for 14 days. Play {hero.player}&apos;s {fmtRatio(hero)} and hear how
             different it is from an even pulse.
-          </p>
-          <div className="mt-7 flex justify-center">
-            <AppStoreButton />
-          </div>
-        </div>
+        </TrialCard>
       </article>
     </Chrome>
   );

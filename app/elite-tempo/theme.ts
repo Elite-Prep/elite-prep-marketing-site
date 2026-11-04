@@ -26,7 +26,7 @@
 /* ── Colour ──────────────────────────────────────────────────────────────── */
 
 /** Grey 900. The canvas, flat. */
-export const BG = "#F5F6F3";
+export const BG = "#F6F6F3";
 
 /**
  * Yellow (Vivid) 400. A FIELD COLOUR, NEVER TEXT.
@@ -65,14 +65,15 @@ export const ON_ACCENT = "#141518";
  *   - size, weight, position carry IMPORTANCE  -> readouts are INK
  *   - colour carries AFFORDANCE                -> tappable words are ACCENT_ALT
  */
-export const ACCENT_ALT = "#1F5FD6";
+export const ACCENT_ALT = "#141518";
 
 /** Grey 50. Body copy and every readout. 14.85:1 on the canvas. */
 export const INK = "#141518";
 /** Grey 300. Secondary copy. 10.21:1. */
 export const MUTED = "#55565C";
-/** Grey 500. Legal lines and copyright — quieter than MUTED by design. */
-export const FAINT = "#8A8B90";
+/** Legal lines and copyright, quieter than MUTED. Was #8A8B90, which measured
+ *  3.1:1 on the canvas; this is 4.8:1, over the 4.5:1 floor for small text. */
+export const FAINT = "#6B6D72";
 /** Grey 800. Every card surface. */
 export const CARD = "#FFFFFF";
 /** Grey 800. Slide-up and raised surfaces. */
@@ -89,7 +90,7 @@ export const HAIRLINE = "#E6E7E2";
  * through to Nunito Sans, loaded from Google Fonts, which is the closest match in
  * proportion and x-height.
  */
-export const FONT_SANS = `"Avenir Next", Avenir, var(--font-nunito-sans), system-ui, sans-serif`;
+export const FONT_SANS = `-apple-system, "SF Pro Display", system-ui, "Helvetica Neue", Arial, sans-serif`;
 
 /**
  * Numerals are deliberately NOT Avenir Next in the app — they are the system face,

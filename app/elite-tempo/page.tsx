@@ -20,7 +20,8 @@ import {
   PRICE_YEARLY_NUM,
   TRIAL_DAYS,
 } from "./data/pricing";
-import EliteTempoMark from "./EliteTempoMark";
+import { SiteFooter, SiteHeader, SkipLink } from "./Chrome";
+import { preload } from "react-dom";
 import {
   ACCENT,
   ACCENT_ALT,
@@ -216,51 +217,6 @@ const ROUTINE_S = 23.9;
 const PACE_LIMIT_S = 40;
 const TIMER_SCENE = timerScene(ROUTINE_S, PACE_LIMIT_S, INK);
 
-const FOOTER_COLUMNS = [
-  {
-    title: "Product",
-    links: [
-      { label: "Download app", href: APP_STORE_URL },
-      { label: "Tempo library", href: "/elite-tempo/tempos" },
-      { label: "How we time swings", href: "/elite-tempo/how-we-time-swings" },
-    ],
-  },
-  {
-    title: "Compare",
-    links: [
-      { label: "vs Tour Tempo", href: "/elite-tempo/vs/tour-tempo" },
-      { label: "vs a metronome", href: "/elite-tempo/vs/metronome" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "Contact us", href: "mailto:ebusalacchi@eliteprep.app" },
-      { label: "Terms of Service", href: "/elite-tempo/terms" },
-      { label: "Privacy Policy", href: "/elite-tempo/privacy" },
-    ],
-  },
-];
-
-/* The three live accounts. Icon paths are 24x24 outlines drawn for this page. */
-const SOCIALS = [
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/elitetempogolf",
-    icon: "M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM17.25 5.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z",
-  },
-  {
-    label: "TikTok",
-    href: "https://www.tiktok.com/@elitetempogolf",
-    icon: "M12.53.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07Z",
-  },
-  {
-    label: "YouTube",
-    href: "https://www.youtube.com/@elitetempo",
-    icon: "M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z",
-  },
-];
-
 /* The hero carousel's screens, front first. Two carry a few seconds of real app
    recorded from the Simulator: the routine running its timer and steps, and a
    swing playing with its numbers. */
@@ -278,6 +234,9 @@ const H2_MID = "m-0 text-[clamp(36px,4.4vw,56px)] font-semibold leading-[1.05] t
 const LEDE = "text-[clamp(19px,1.7vw,23px)] leading-[1.35]";
 
 export default function EliteTempoLanding() {
+  /* The front phone's still is the largest thing on a phone screen. Asked for first,
+     at high priority, it no longer waits behind the scripts. */
+  preload(`/elite-tempo/app/${HERO_SCREENS[0].src}.webp`, { as: "image", fetchPriority: "high" });
   return (
     <main
       className="min-h-screen overflow-hidden text-[19px] leading-[1.45] antialiased"
@@ -285,6 +244,7 @@ export default function EliteTempoLanding() {
     >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }} />
       <style>{IPHONE_CSS}</style>
+      <SkipLink />
 
       {/* Hero: the promise, on a gold and green wash, three real screens below it. */}
       <div className="p-2.5">
@@ -296,23 +256,9 @@ export default function EliteTempoLanding() {
               "radial-gradient(70% 60% at 50% 78%, #F9C832 0%, rgba(249, 200, 50, 0) 72%), radial-gradient(60% 55% at 6% 100%, rgba(38, 160, 96, 0.6) 0%, rgba(38, 160, 96, 0) 70%), radial-gradient(60% 55% at 94% 100%, rgba(38, 160, 96, 0.6) 0%, rgba(38, 160, 96, 0) 70%), #FFFCF0",
           }}
         >
-          <header className="flex justify-center px-4 pt-4">
-            <div className="flex items-center gap-[clamp(20px,6vw,56px)] rounded-full py-[7px] pl-5 pr-[7px]" style={{ background: "rgba(255,255,255,0.72)" }}>
-              <a href="#top" className="flex items-center gap-2 no-underline" aria-label="Elite Tempo home">
-                <EliteTempoMark size={18} fill={INK} />
-                <span className="whitespace-nowrap text-base font-semibold tracking-[0.02em]">Elite Tempo</span>
-              </a>
-              <a
-                href={APP_STORE_URL}
-                className="inline-flex min-h-10 items-center whitespace-nowrap rounded-full px-[18px] text-[15px] font-medium text-white no-underline"
-                style={{ background: INK }}
-              >
-                Try for free
-              </a>
-            </div>
-          </header>
+          <SiteHeader />
 
-          <div className="px-4 pt-[clamp(36px,5vw,64px)] text-center">
+          <div id="content" className="px-4 pt-[clamp(36px,5vw,64px)] text-center">
             <h1 className="m-0 text-[clamp(38px,9vw,80px)] font-semibold leading-[1.02] tracking-[-0.035em]">
               {/* The break only holds once both halves fit on a line; on a phone it
                   stranded a single word on a line of its own. */}
@@ -320,11 +266,11 @@ export default function EliteTempoLanding() {
               <br className="hidden sm:block" /> from routine to impact.
             </h1>
             <p className={`mx-auto mt-[22px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
-              Capture your routine and the total timing of every shot. Play your best when it
+              Capture your golf routine and the total timing of every shot. Play your best when it
               matters most.
             </p>
             <AppStoreBadge className="mt-7" />
-            <p className="mt-3.5 text-[15px]" style={{ color: "#4A4B50" }}>
+            <p className="mt-3.5 text-[16px]" style={{ color: "#4A4B50" }}>
               <span style={{ color: INK }} aria-hidden>
                 ★★★★★
               </span>{" "}
@@ -391,7 +337,7 @@ export default function EliteTempoLanding() {
             <div className="mt-8 max-w-[420px]">
               <p className="m-0 text-[30px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums]">{ROUTINE_S} s</p>
               <LottieLoop scene={TIMER_SCENE} label={`A routine of ${ROUTINE_S} seconds filling the bar, short of the ${PACE_LIMIT_S} second limit.`} className="mt-2 w-full" />
-              <div className="relative mt-2 h-5 text-[15px]" style={{ color: "#55565C" }}>
+              <div className="relative mt-2 h-5 text-[16px]" style={{ color: "#55565C" }}>
                 <span className="absolute left-0">{(PACE_LIMIT_S - ROUTINE_S).toFixed(1)} s to spare</span>
                 <span className="absolute -translate-x-1/2 whitespace-nowrap" style={{ left: `${(PACE_LIMIT_S / TIMER_SCALE_S) * 100}%` }}>
                   {PACE_LIMIT_S} s limit
@@ -418,12 +364,12 @@ export default function EliteTempoLanding() {
             {GREATS_ROWS.map((g) => (
               <Link
                 key={g.slug}
-                href={`/elite-tempo/tempo/${g.slug}`}
+                href={`/tempo/${g.slug}`}
                 className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,230px),1fr))] items-center gap-x-8 gap-y-2 py-[18px] no-underline"
               >
                 <div>
                   <p className="m-0 font-semibold">{g.player}</p>
-                  <p className="m-0 text-[15px]" style={{ color: "#6E6F75" }}>
+                  <p className="m-0 text-[16px]" style={{ color: "#6E6F75" }}>
                     {g.clubLabel}, {g.year} {g.event.replace(/^The /, "")}
                   </p>
                 </div>
@@ -441,7 +387,7 @@ export default function EliteTempoLanding() {
               </Link>
             ))}
           </PlayInView>
-          <Link href="/elite-tempo/tempos" className="mt-4 inline-block text-[16px] font-semibold underline underline-offset-4">
+          <Link href="/tempos" className="mt-4 inline-flex min-h-11 items-center text-[16px] font-semibold underline underline-offset-4">
             See all {SWINGS.length} hand-timed swings
           </Link>
         </div>
@@ -452,7 +398,7 @@ export default function EliteTempoLanding() {
           row-reverse keeps the screen on the left once the two sit side by side. */}
       <section className={`${WRAP} pt-4`}>
         <div
-          className="box-border flex min-h-[620px] flex-row-reverse flex-wrap items-center gap-x-[clamp(32px,6vw,80px)] gap-y-8 overflow-hidden rounded-[28px] px-[clamp(24px,5vw,64px)] pt-[clamp(32px,5vw,64px)] text-white"
+          className="box-border flex min-h-[620px] flex-row-reverse flex-wrap items-center gap-x-[clamp(32px,6vw,80px)] gap-y-8 et-dark overflow-hidden rounded-[28px] px-[clamp(24px,5vw,64px)] pt-[clamp(32px,5vw,64px)] text-white"
           style={{ background: "radial-gradient(70% 100% at 80% 100%, #1F9A5E 0%, rgba(31, 154, 94, 0) 75%), #0B2A1E" }}
         >
           <div className="min-w-0 flex-[1_1_400px] pb-8">
@@ -460,7 +406,7 @@ export default function EliteTempoLanding() {
             <p className="mt-4 max-w-[26em] text-[21px] leading-[1.35]" style={{ color: "rgba(255,255,255,0.8)" }}>
               Slow it down to groove the feel. Speed it up for the course.
             </p>
-            <div className="mt-8 flex max-w-[560px] items-stretch gap-4 text-[15px] [font-variant-numeric:tabular-nums]">
+            <div className="mt-8 flex max-w-[560px] items-stretch gap-4 text-[16px] [font-variant-numeric:tabular-nums]">
               <div className="grid shrink-0 grid-rows-3 items-center font-semibold">
                 {SPEEDS.map((sp) => <span key={sp}>{sp * 100}%</span>)}
               </div>
@@ -474,7 +420,7 @@ export default function EliteTempoLanding() {
                 {SPEEDS.map((sp) => <span key={sp}>{(Number(HERO_SWING.total.toFixed(2)) / sp).toFixed(2)} s</span>)}
               </div>
             </div>
-            <p className="mt-4 text-[15px]" style={{ color: "rgba(255,255,255,0.7)" }}>
+            <p className="mt-4 text-[16px]" style={{ color: "rgba(255,255,255,0.7)" }}>
               Same {fmtRatio(HERO_SWING)} ratio at every speed.
             </p>
           </div>
@@ -502,14 +448,14 @@ export default function EliteTempoLanding() {
         <div className="mx-auto mt-9 box-border grid max-w-[1240px] grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4 px-4 text-left">
           {REVIEWS.map((r) => (
             <article key={r.name} className="rounded-3xl bg-white p-6">
-              <p className="m-0 text-[18px] tracking-[2px]" style={{ color: "#E2A500" }} role="img" aria-label="5 stars">
+              <p className="m-0 text-[18px] tracking-[2px]" style={{ color: "#A67700" }} role="img" aria-label="5 stars">
                 ★★★★★
               </p>
               <p className="mt-2.5 font-semibold">{r.title}</p>
               <p className="mt-1.5 text-[17px] leading-[1.38]" style={{ color: "#55565C" }}>
                 {r.body}
               </p>
-              <p className="mt-3 text-[15px]" style={{ color: "#6E6F75" }}>
+              <p className="mt-3 text-[16px]" style={{ color: "#6E6F75" }}>
                 {r.name}, App Store
               </p>
             </article>
@@ -577,67 +523,12 @@ export default function EliteTempoLanding() {
         </div>
       </section>
 
-      {/* Footer, structured like Bevel's: the mark and copyright on the left, a few
-          short link columns, then the social icons on their own row. */}
-      <footer className={`${WRAP} pb-10 pt-[clamp(96px,12vw,160px)]`}>
-        <div className="flex flex-wrap justify-between gap-x-16 gap-y-12">
-          <div>
-            <Wordmark />
-            <p className="mt-2 text-sm" style={{ color: "#6E6F75" }}>
-              © {new Date().getFullYear()} Elite Prep Inc.
-            </p>
-          </div>
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-16 gap-y-10 sm:grid-cols-3">
-            {FOOTER_COLUMNS.map((col) => (
-              <div key={col.title}>
-                <p className="m-0 text-[16px] font-medium" style={{ color: "#8A8B90" }}>
-                  {col.title}
-                </p>
-                <ul className="m-0 mt-4 list-none space-y-2.5 p-0 text-[16px]">
-                  {col.links.map((l) => (
-                    <li key={l.label}>
-                      <a href={l.href} className="no-underline hover:underline hover:underline-offset-4" style={{ color: INK }}>
-                        {l.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </nav>
-        </div>
-        <div className="mt-14 flex items-center gap-7">
-          {SOCIALS.map((so) => (
-            <a key={so.label} href={so.href} aria-label={`Elite Tempo on ${so.label}`} rel="noopener" target="_blank" className="transition-opacity hover:opacity-60" style={{ color: INK }}>
-              <svg aria-hidden viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                <path d={so.icon} fillRule="evenodd" />
-              </svg>
-            </a>
-          ))}
-        </div>
-        <p className="mt-10 max-w-[62em] text-[13px] leading-[1.5]" style={{ color: "#8A8B90" }}>
-          Elite Tempo references real golfers, tournaments, and shots for descriptive and
-          educational purposes only, and is not affiliated with, sponsored by, or endorsed by any
-          player, tournament, tour, or organization named in the app. All names and trademarks
-          belong to their respective owners.
-        </p>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
 
 /* ── Pieces ─────────────────────────────────────────────────────────────── */
-
-function Wordmark() {
-  return (
-    <div className="flex items-center gap-2.5" aria-label="Elite Tempo">
-      <EliteTempoMark size={22} fill={INK} />
-      <span className="text-[20px] font-semibold leading-none tracking-[-0.01em]" style={{ color: INK }}>
-        Elite Tempo
-      </span>
-    </div>
-  );
-}
 
 /* Apple's own white badge, downloaded unchanged from their badge tool. Apple asks for
    the white version on dark backgrounds and does not allow a rebuilt one. */
@@ -770,7 +661,7 @@ function Price({ amount, note }: { amount: string; note: string }) {
       >
         {amount}
       </span>
-      <span className="text-[15px]" style={{ color: MUTED }}>
+      <span className="text-[16px]" style={{ color: MUTED }}>
         {note}
       </span>
     </p>

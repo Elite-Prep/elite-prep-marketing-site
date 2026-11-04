@@ -1,204 +1,238 @@
 import Link from "next/link";
 import EliteTempoMark from "./EliteTempoMark";
-import {
-  ACCENT,
-  APP_STORE_URL,
-  BG,
-  FAINT,
-  HAIRLINE,
-  INK,
-  MUTED,
-  ON_ACCENT,
-  TRACKING_MARK,
-  W_EMPHASIS,
-  W_WORDMARK,
-  etUrl,
-} from "./theme";
+import { APP_STORE_URL, BG, FAINT, INK, MUTED, etUrl } from "./theme";
 
-/* Header, footer and page canvas shared by every Elite Tempo page except the
-   landing page, which keeps its own copies because its header carries section
-   anchors that only exist there.
+/* Header, footer and page frame shared by EVERY Elite Tempo page, the home page
+ * included. The 2026-11-03 audit found three different designs on one site: the
+ * home page in the new light look, the library pages in the older Avenir look with
+ * a different header, and the legal pages in an older one still with the retired
+ * gold logo and no header or footer at all. This file is now the only header and
+ * footer, so they cannot drift apart again.
  *
- * The wordmark links home from the library pages (it is a no-op on the landing
- * page, which is why that one is not shared): once there is more than one page,
- * the logo has to be the way back.
- */
+ * Links are written as the PUBLISHED addresses (/tempos, not /elite-tempo/tempos).
+ * The old prefixed form still works but answered every click with a redirect. */
 
-/* The lockup: the ET mark, then ELITE TEMPO set in Avenir Next Bold.
- *
- * This replaces a wordmark that set the words in Anton with a gold beat-tick
- * equalizer between them — a motif that appears nowhere in the app, so the website
- * and the App Store listing were showing two different logos for the same product.
- *
- * Both words are INK. "TEMPO" used to be gold, which is the rule this palette
- * exists to enforce: gold is a field, and gold words next to white words read as
- * the less important half. In a two-word logotype that is actively wrong — it split
- * the mark into a bright half and a dim half.
- *
- * Tracking is 0.04em, the same 4%-of-size ratio the app spaces it at. */
-export function Wordmark({ href }: { href?: string }) {
-  const lockup = (
-    <span className="flex items-center gap-2.5">
-      <EliteTempoMark size={22} fill={INK} />
-      <span className="text-[20px] font-semibold leading-none tracking-[-0.01em]" style={{ color: INK }}>
-        Elite Tempo
-      </span>
-    </span>
-  );
-  if (!href) return <span aria-label="Elite Tempo">{lockup}</span>;
+export const TRIAL_CTA = "Try for free";
+
+/* The pill header from the home page: the mark and name, the three places people
+   look for, and the one button. Below md the links collapse into the footer and the
+   pill keeps the name and the button, which is all a phone has room for. */
+export function SiteHeader() {
   return (
-    <Link href={href} aria-label="Elite Tempo home">
-      {lockup}
-    </Link>
-  );
-}
-
-export function AppStoreButton({ label }: { label?: string }) {
-  return (
-    <a
-      href={APP_STORE_URL}
-      /* White, not black. Apple's guidelines offer both and ask for the white
-         badge on dark backgrounds; the black one was 1.04:1 against this canvas,
-         so only its border said "button". This is the one filled button on a
-         page — the header CTA is outlined — which is the right hierarchy. */
-      className="inline-flex items-center gap-2.5 rounded-xl px-5 py-3 transition duration-200 hover:scale-[1.03] active:scale-[0.98]"
-      style={{ background: INK, color: "#FFFFFF" }}
-      aria-label={label ?? "Download Elite Tempo on the App Store"}
-    >
-      <svg width="22" height="26" viewBox="0 0 384 512" fill="currentColor" aria-hidden>
-        <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
-      </svg>
-      <span className="text-left leading-none">
-        <span className="block text-[11px] leading-tight opacity-90">Download on the</span>
-        <span className="block text-[19px] font-semibold leading-tight tracking-tight">
-          App Store
-        </span>
-      </span>
-    </a>
-  );
-}
-
-function Header() {
-  return (
-    <header
-      className="sticky top-0 z-50 backdrop-blur-md"
-      style={{ background: "rgba(245, 246, 243, 0.85)", borderBottom: `1px solid ${HAIRLINE}` }}
-    >
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <Wordmark href="/elite-tempo" />
-        <div className="flex items-center gap-8 sm:gap-10">
-          <nav aria-label="Elite Tempo" className="hidden items-center gap-8 md:flex">
+    <header className="flex justify-center px-4 pt-4">
+      <div
+        className="flex items-center gap-[clamp(16px,4vw,40px)] rounded-full py-[6px] pl-5 pr-[6px]"
+        style={{ background: "rgba(255,255,255,0.78)" }}
+      >
+        <Link href="/" className="flex min-h-11 items-center gap-2 no-underline" aria-label="Elite Tempo home" style={{ color: INK }}>
+          <EliteTempoMark size={18} fill={INK} />
+          <span className="whitespace-nowrap text-base font-semibold tracking-[0.02em]">Elite Tempo</span>
+        </Link>
+        <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
+          {[
+            { label: "Tempo library", href: "/tempos" },
+            { label: "Pricing", href: "/#pricing" },
+            { label: "FAQs", href: "/#faq" },
+          ].map((l) => (
             <Link
-              href="/elite-tempo/tempos"
-              className="text-sm transition-colors duration-150 hover:text-[#1F5FD6]"
-              style={{ color: INK, fontWeight: W_EMPHASIS }}
+              key={l.label}
+              href={l.href}
+              className="inline-flex min-h-11 items-center rounded-full px-3 text-[15px] font-medium no-underline transition-colors hover:bg-black/5"
+              style={{ color: INK }}
             >
-              Tempo library
+              {l.label}
             </Link>
-            <Link
-              href="/elite-tempo#pricing"
-              className="text-sm transition-colors duration-150 hover:text-[#1F5FD6]"
-              style={{ color: INK, fontWeight: W_EMPHASIS }}
-            >
-              Pricing
-            </Link>
-            <Link
-              href="/elite-tempo#faq"
-              className="text-sm transition-colors duration-150 hover:text-[#1F5FD6]"
-              style={{ color: INK, fontWeight: W_EMPHASIS }}
-            >
-              FAQs
-            </Link>
-          </nav>
-          <a
-            href={APP_STORE_URL}
-            /* A gold FIELD with near-black ink, not a gold outline with gold text.
-               The outlined version was gold-as-text twice over — border and label —
-               which is the form the app measured as reading dimmer than the white
-               nav links beside it. Flipped contrast makes it unambiguously the
-               primary thing in the bar. */
-            className="shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 text-sm transition duration-200 hover:brightness-[1.08] active:scale-[0.98]"
-            style={{ background: INK, color: "#FFFFFF", fontWeight: W_EMPHASIS }}
-          >
-            Try it free
-          </a>
-        </div>
+          ))}
+        </nav>
+        <a
+          href={APP_STORE_URL}
+          className="inline-flex min-h-11 items-center whitespace-nowrap rounded-full px-[18px] text-[15px] font-medium text-white no-underline transition hover:brightness-125"
+          style={{ background: INK }}
+        >
+          {TRIAL_CTA}
+        </a>
       </div>
     </header>
   );
 }
 
-function Footer() {
+export function SkipLink() {
   return (
-    <footer style={{ borderTop: `1px solid ${HAIRLINE}` }}>
-      <div className="mx-auto max-w-5xl px-6 py-10">
-        <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
-          <Wordmark href="/elite-tempo" />
-          <nav
-            className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm"
-            style={{ color: MUTED }}
-          >
-            <Link href="/elite-tempo/tempos" className="transition-colors hover:text-[#1F5FD6]">
-              Tempo library
-            </Link>
-            <Link href="/elite-tempo/how-we-time-swings" className="transition-colors hover:text-[#1F5FD6]">
-              How we time swings
-            </Link>
-            <Link href="/elite-tempo/privacy" className="transition-colors hover:text-[#1F5FD6]">
-              Privacy
-            </Link>
-            <Link href="/elite-tempo/terms" className="transition-colors hover:text-[#1F5FD6]">
-              Terms
-            </Link>
-            <a href="mailto:ebusalacchi@eliteprep.app" className="transition-colors hover:text-[#1F5FD6]">
-              Contact
-            </a>
-          </nav>
+    <a href="#content" className="et-skip">
+      Skip to content
+    </a>
+  );
+}
+
+const FOOTER_COLUMNS = [
+  {
+    title: "Product",
+    links: [
+      { label: "Download app", href: APP_STORE_URL },
+      { label: "Tempo library", href: "/tempos" },
+      { label: "How we time swings", href: "/how-we-time-swings" },
+    ],
+  },
+  {
+    title: "Compare",
+    links: [
+      { label: "vs Tour Tempo", href: "/vs/tour-tempo" },
+      { label: "vs a metronome", href: "/vs/metronome" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "Contact us", href: "mailto:ebusalacchi@eliteprep.app" },
+      { label: "Terms of Use", href: "/terms" },
+      { label: "Privacy Policy", href: "/privacy" },
+    ],
+  },
+];
+
+const SOCIALS = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/elitetempogolf",
+    icon: "M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM17.25 5.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z",
+  },
+  {
+    label: "TikTok",
+    href: "https://www.tiktok.com/@elitetempogolf",
+    icon: "M12.53.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07Z",
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/@elitetempo",
+    icon: "M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z",
+  },
+];
+
+/* Footer, structured like Bevel's: the mark and copyright, three short link
+   columns, the social icons, then the legal line. Column titles and the legal line
+   use FAINT, which now clears 4.5:1; the old #8A8B90 measured 3.1:1. */
+export function SiteFooter() {
+  return (
+    <footer className="mx-auto max-w-[1240px] px-4 pb-10 pt-[clamp(96px,12vw,160px)]">
+      <div className="flex flex-wrap justify-between gap-x-16 gap-y-12">
+        <div>
+          <Link href="/" className="inline-flex min-h-11 items-center gap-2.5 no-underline" style={{ color: INK }}>
+            <EliteTempoMark size={22} fill={INK} />
+            <span className="text-[20px] font-semibold leading-none tracking-[-0.01em]">Elite Tempo</span>
+          </Link>
+          <p className="mt-1 text-sm" style={{ color: FAINT }}>
+            © {new Date().getFullYear()} Elite Prep Inc.
+          </p>
         </div>
-        <p className="mt-8 max-w-3xl text-xs leading-relaxed" style={{ color: FAINT }}>
-          Part of the Elite Prep family. Elite Tempo references real golfers,
-          tournaments, and shots for descriptive and educational purposes only, and
-          is not affiliated with, sponsored by, or endorsed by any player,
-          tournament, tour, or organization named in the app. All names and
-          trademarks belong to their respective owners.
-        </p>
-        <p className="mt-4 text-xs" style={{ color: FAINT }}>
-          © {new Date().getFullYear()} Elite Prep Inc.
-        </p>
+        <nav aria-label="Footer" className="grid grid-cols-2 gap-x-16 gap-y-10 sm:grid-cols-3">
+          {FOOTER_COLUMNS.map((col) => (
+            <div key={col.title}>
+              <p className="m-0 text-[16px] font-medium" style={{ color: FAINT }}>
+                {col.title}
+              </p>
+              <ul className="m-0 mt-2 list-none p-0 text-[16px]">
+                {col.links.map((l) => (
+                  <li key={l.label}>
+                    <a
+                      href={l.href}
+                      className="inline-flex min-h-11 items-center no-underline hover:underline hover:underline-offset-4"
+                      style={{ color: INK }}
+                    >
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
       </div>
+      <div className="mt-10 flex items-center gap-2">
+        {SOCIALS.map((so) => (
+          <a
+            key={so.label}
+            href={so.href}
+            aria-label={`Elite Tempo on ${so.label}`}
+            rel="noopener"
+            target="_blank"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors hover:bg-black/5"
+            style={{ color: INK }}
+          >
+            <svg aria-hidden viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+              <path d={so.icon} fillRule="evenodd" />
+            </svg>
+          </a>
+        ))}
+      </div>
+      <p className="mt-8 max-w-[62em] text-[13px] leading-[1.5]" style={{ color: FAINT }}>
+        Elite Tempo references real golfers, tournaments, and shots for descriptive and
+        educational purposes only, and is not affiliated with, sponsored by, or endorsed by any
+        player, tournament, tour, or organization named in the app. All names and trademarks
+        belong to their respective owners.
+      </p>
     </footer>
+  );
+}
+
+/* Apple's own badge, unchanged from their badge tool. Its visible words are its
+   accessible name, so a screen reader says what a sighted visitor reads. */
+export function AppStoreButton({ className = "" }: { className?: string; label?: string }) {
+  return (
+    <a href={APP_STORE_URL} className={`inline-block rounded-[10px] transition duration-200 hover:brightness-95 ${className}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/elite-tempo/app-store-badge.svg" alt="Download on the App Store" width={168} height={56} className="block h-14 w-auto" />
+    </a>
+  );
+}
+
+/* The closing call to action on every inner page, in the home page's pricing look. */
+export function TrialCard({ title, children }: { title: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <section
+      className="mt-16 rounded-[28px] px-[clamp(24px,5vw,56px)] py-[clamp(36px,6vw,64px)] text-center"
+      style={{ background: "radial-gradient(70% 100% at 50% 100%, #F9C832 0%, rgba(249, 200, 50, 0) 75%), #FFFCF0" }}
+    >
+      <h2 className="m-0 text-[clamp(28px,4vw,40px)] font-semibold leading-[1.1] tracking-[-0.02em]" style={{ color: INK, textWrap: "balance" }}>
+        {title}
+      </h2>
+      <p className="mx-auto mt-3 max-w-[30em] text-[17px] leading-[1.5]" style={{ color: "#4A4B50" }}>
+        {children}
+      </p>
+      <AppStoreButton className="mt-7" />
+    </section>
   );
 }
 
 export default function Chrome({ children }: { children: React.ReactNode }) {
   return (
-    <div
-      className="flex min-h-screen flex-col"
-      style={{ background: BG, color: INK }}
-    >
-      <Header />
-      <main className="flex-1">{children}</main>
-      <Footer />
+    <div className="flex min-h-screen flex-col antialiased" style={{ background: BG, color: INK }}>
+      <SkipLink />
+      <SiteHeader />
+      <main id="content" className="et-prose flex-1">
+        {children}
+      </main>
+      <SiteFooter />
     </div>
   );
 }
 
 /* A crumb trail, rendered and marked up. Google builds the grey path it shows
-   above a result title from BreadcrumbList, and it is what stops 16 library pages
-   from all printing the bare domain. */
+   above a result title from BreadcrumbList. */
 export function Breadcrumbs({ trail }: { trail: { name: string; href?: string }[] }) {
   return (
-    <nav aria-label="Breadcrumb" className="text-xs" style={{ color: MUTED }}>
-      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
+    <nav aria-label="Breadcrumb" className="text-[14px]" style={{ color: MUTED }}>
+      <ol className="flex flex-wrap items-center gap-x-1 gap-y-1">
         {trail.map((crumb, i) => (
-          <li key={crumb.name} className="flex items-center gap-2">
+          <li key={crumb.name} className="flex items-center gap-1">
             {i > 0 && <span aria-hidden>/</span>}
             {crumb.href ? (
-              <Link href={crumb.href} className="hover:text-[#1F5FD6]">
+              <Link href={crumb.href} className="inline-flex min-h-11 items-center px-1 underline-offset-4 hover:underline">
                 {crumb.name}
               </Link>
             ) : (
-              <span aria-current="page">{crumb.name}</span>
+              <span aria-current="page" className="px-1">
+                {crumb.name}
+              </span>
             )}
           </li>
         ))}
@@ -214,13 +248,7 @@ export function breadcrumbSchema(trail: { name: string; href?: string }[]) {
       "@type": "ListItem",
       position: i + 1,
       name: crumb.name,
-      /* Crumb hrefs are still written as /elite-tempo/... because that is where the
-         files live, but the PUBLISHED address is the new host with the prefix
-         stripped. Building the item URL through etUrl keeps the markup pointing at
-         the canonical address rather than the one the router happens to use. */
-      ...(crumb.href
-        ? { item: etUrl(crumb.href.replace(/^\/elite-tempo/, "") || "/") }
-        : {}),
+      ...(crumb.href ? { item: etUrl(crumb.href.replace(/^\/elite-tempo/, "") || "/") } : {}),
     })),
   };
 }

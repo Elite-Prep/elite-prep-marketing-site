@@ -36,5 +36,5 @@ export default function EliteTempoLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div style={{ fontFamily: FONT_SANS }}>{children}</div>;
+  return <div className="et-site" style={{ fontFamily: FONT_SANS }}>{children}</div>;
 }

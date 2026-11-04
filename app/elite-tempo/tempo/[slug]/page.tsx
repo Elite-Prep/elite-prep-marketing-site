@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../../Chrome";
+import Chrome, { Breadcrumbs, TrialCard, breadcrumbSchema } from "../../Chrome";
 import { ACCENT, BG, CARD, HAIRLINE, INK, MUTED, etUrl } from "../../theme";
 import {
   SWINGS,
@@ -13,6 +13,7 @@ import {
   swingBySlug,
   type Swing,
   whereWhen,
+  possessive,
 } from "../../data/tempo-data";
 import { TITLE_MAX, description as describe } from "../../../seo";
 
@@ -43,12 +44,12 @@ export function generateStaticParams() {
  * the <title>, and as the single FAQ entry in the structured data — answer engines
  * lift a Question/Answer pair far more readily than a paragraph. */
 function question(s: Swing): string {
-  return `What is ${s.player}'s swing tempo?`;
+  return `What is ${possessive(s.player)} swing tempo?`;
 }
 
 function answer(s: Swing): string {
   return (
-    `${s.player}'s ${whereWhen(s)} ${s.clubLabel.toLowerCase()} is a ` +
+    `${possessive(s.player)} ${whereWhen(s)} ${s.clubLabel.toLowerCase()} is a ` +
     `${fmtSeconds(s.back)} backswing into a ${fmtSeconds(s.down)} downswing, a ` +
     `${fmtRatio(s)} tempo ratio over ${fmtSeconds(s.total)} from takeaway to impact. ` +
     `That is ${describeVsRule(s)} the 3:1 ratio usually quoted for tour players. ` +
@@ -78,7 +79,7 @@ export async function generateMetadata({
      would have cut it after the ratio anyway. Dropping the leading "The" and the
      word "Championship" recovers most of them; the few that still do not fit keep
      the player and the ratio, which are the parts worth reading. */
-  const stem = `${swing.player}'s Swing Tempo: ${fmtRatio(swing)}`;
+  const stem = `${possessive(swing.player)} Swing Tempo: ${fmtRatio(swing)}`;
   const withEvent = `${stem} (${whereWhen(swing, true)})`;
   const title = withEvent.length <= TITLE_MAX ? withEvent : stem;
 
@@ -87,7 +88,7 @@ export async function generateMetadata({
      limit and reward the detail. Google has one, so the meta description is its own
      shorter thing: the numbers first, provenance last. */
   const description = describe(
-    `${swing.player}'s ${whereWhen(swing, true)} ${shortClub(swing.clubLabel).toLowerCase()}: ` +
+    `${possessive(swing.player)} ${whereWhen(swing, true)} ${shortClub(swing.clubLabel).toLowerCase()}: ` +
       `${fmtSeconds(swing.back)} backswing, ${fmtSeconds(swing.down)} downswing, ` +
       `${fmtRatio(swing)} over ${fmtSeconds(swing.total)}. Hand-timed from ${swing.event ? "tournament footage" : "video"}.`,
   );
@@ -120,7 +121,7 @@ function Stat({ value, label }: { value: string; label: string }) {
         {value}
       </p>
       <p
-        className="mt-3 text-[10px] font-semibold uppercase tracking-[0.16em]"
+        className="mt-3 text-[13px] font-medium"
         style={{ color: INK }}
       >
         {label}
@@ -163,7 +164,7 @@ function Marks({ swing }: { swing: Swing }) {
               {fmtSeconds(m.at)}
             </p>
             <p
-              className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em]"
+              className="mt-1 text-[13px] font-medium"
               style={{ color: MUTED }}
             >
               {m.label}
@@ -185,8 +186,8 @@ export default async function TempoDetail({
   if (!swing) notFound();
 
   const trail = [
-    { name: "Elite Tempo", href: "/elite-tempo" },
-    { name: "Tempo library", href: "/elite-tempo/tempos" },
+    { name: "Elite Tempo", href: "/" },
+    { name: "Tempo library", href: "/tempos" },
     { name: `${swing.player}, ${swing.year}` },
   ];
 
@@ -208,7 +209,7 @@ export default async function TempoDetail({
       {
         "@type": "Article",
         "@id": `${url}#article`,
-        headline: `${swing.player}'s swing tempo: ${fmtRatio(swing)}`,
+        headline: `${possessive(swing.player)} swing tempo: ${fmtRatio(swing)}`,
         description: answer(swing),
         url,
         about: { "@type": "Person", name: swing.player },
@@ -248,22 +249,22 @@ export default async function TempoDetail({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <article className="mx-auto max-w-3xl px-6 py-10 sm:py-14">
+      <article className="mx-auto max-w-3xl px-5 pt-10 sm:pt-16">
         <Breadcrumbs trail={trail} />
 
         <p
-          className="mt-6 text-xs font-semibold uppercase tracking-[0.18em]"
-          style={{ color: MUTED }}
+          className="mt-6 text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]"
+          style={{ color: INK }}
         >
           {swing.category} · {swing.clubLabel}
         </p>
         <h1
-          className="mt-3 text-3xl font-semibold leading-[1.1] sm:text-4xl"
+          className="mt-3 text-[clamp(34px,5vw,52px)] font-semibold leading-[1.05] tracking-[-0.03em]"
           style={{ color: INK, textWrap: "balance" }}
         >
           {question(swing)}
         </h1>
-        <p className="mt-5 text-lg leading-relaxed" style={{ color: MUTED }}>
+        <p className="mt-5 text-[19px] leading-[1.5]" style={{ color: MUTED }}>
           {answer(swing)}
         </p>
 
@@ -280,16 +281,16 @@ export default async function TempoDetail({
         </div>
 
         <section className="mt-12">
-          <h2 className="text-xl font-semibold" style={{ color: INK }}>
+          <h2 className="text-[22px] font-semibold tracking-[-0.01em]" style={{ color: INK }}>
             The three marks
           </h2>
-          <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
+          <p className="mt-3 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             Every number above comes from these, and nothing else. Read off the
             footage by hand, in seconds from the start of the clip.
           </p>
           <div
             className="mt-7 rounded-2xl p-6 sm:p-8"
-            style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
+            style={{ background: CARD }}
           >
             <Marks swing={swing} />
           </div>
@@ -299,7 +300,7 @@ export default async function TempoDetail({
               href={footage}
               rel="noopener nofollow"
               target="_blank"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:opacity-70"
               style={{ color: INK }}
             >
               {whereWhen(swing)}
@@ -313,10 +314,10 @@ export default async function TempoDetail({
         {/* Newer swings carry no story in the app's library. */}
         {swing.story && (
           <section className="mt-12">
-            <h2 className="text-xl font-semibold" style={{ color: INK }}>
+            <h2 className="text-[22px] font-semibold tracking-[-0.01em]" style={{ color: INK }}>
               The shot
             </h2>
-            <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
+            <p className="mt-3 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
               {swing.story}
             </p>
           </section>
@@ -324,35 +325,35 @@ export default async function TempoDetail({
 
         {hub && (
           <section className="mt-12">
-            <h2 className="text-xl font-semibold" style={{ color: INK }}>
-              {swing.player}&apos;s other swings
+            <h2 className="text-[22px] font-semibold tracking-[-0.01em]" style={{ color: INK }}>
+              {possessive(swing.player)} other swings
             </h2>
-            <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
+            <p className="mt-3 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
               This is one of {hub.swings.length} of his swings timed here, and they do not all
               share a tempo, his ratio runs from {fmtRatio(hub.fastest)} to {fmtRatio(hub.slowest)}
               depending on the club.{" "}
               <Link
-                href={`/elite-tempo/player/${hub.slug}`}
-                className="font-semibold underline decoration-1 underline-offset-4 transition-colors hover:text-[#1F5FD6]"
+                href={`/player/${hub.slug}`}
+                className="font-semibold underline decoration-1 underline-offset-4 transition-colors hover:opacity-70"
                 style={{ color: INK }}
               >
-                All of {swing.player}&apos;s tempos
+                All of {possessive(swing.player)} tempos
               </Link>
             </p>
           </section>
         )}
 
         <section className="mt-12">
-          <h2 className="text-xl font-semibold" style={{ color: INK }}>
+          <h2 className="text-[22px] font-semibold tracking-[-0.01em]" style={{ color: INK }}>
             How this compares to &ldquo;3 to 1&rdquo;
           </h2>
-          <p className="mt-3 text-base leading-relaxed" style={{ color: MUTED }}>
+          <p className="mt-3 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             The rule of thumb says a tour backswing takes three times as long as the
             downswing. This one is {fmtRatio(swing)}, which is {describeVsRule(swing)}{" "}
             that. Across{" "}
             <Link
-              href="/elite-tempo/tempos"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
+              href="/tempos"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:opacity-70"
               style={{ color: INK }}
             >
               the whole library
@@ -364,16 +365,16 @@ export default async function TempoDetail({
 
         {related.length > 0 && (
           <section className="mt-12">
-            <h2 className="text-xl font-semibold" style={{ color: INK }}>
+            <h2 className="text-[22px] font-semibold tracking-[-0.01em]" style={{ color: INK }}>
               More hand-timed swings
             </h2>
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
               {related.map((r) => (
                 <Link
                   key={r.slug}
-                  href={`/elite-tempo/tempo/${r.slug}`}
+                  href={`/tempo/${r.slug}`}
                   className="rounded-2xl p-4 transition-all duration-300 hover:scale-[1.03]"
-                  style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
+                  style={{ background: CARD }}
                 >
                   <p
                     className="text-2xl font-semibold tabular-nums"
@@ -384,7 +385,7 @@ export default async function TempoDetail({
                   <p className="mt-1.5 text-sm font-semibold" style={{ color: INK }}>
                     {r.player}
                   </p>
-                  <p className="text-xs" style={{ color: MUTED }}>
+                  <p className="text-[13px]" style={{ color: MUTED }}>
                     {r.year} · {r.clubLabel}
                   </p>
                 </Link>
@@ -393,21 +394,10 @@ export default async function TempoDetail({
           </section>
         )}
 
-        <div
-          className="mt-16 rounded-3xl p-8 text-center"
-          style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
-        >
-          <h2 className="text-xl font-semibold" style={{ color: INK }}>
-            Swing to it, don&apos;t just read it.
-          </h2>
-          <p className="mx-auto mt-3 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-            Elite Tempo plays this {fmtRatio(swing)} as beats you can swing along to,
+        <TrialCard title={<>Swing to it, don&apos;t just read it.</>}>
+          Elite Tempo plays this {fmtRatio(swing)} as beats you can swing along to,
             then times your own swing the same way so you can see how close you got.
-          </p>
-          <div className="mt-7 flex justify-center">
-            <AppStoreButton />
-          </div>
-        </div>
+        </TrialCard>
       </article>
     </Chrome>
   );

@@ -306,3 +306,34 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .cta-glow { animation: none; }
 }
+
+/* ── Elite Tempo focus ring ───────────────────────────────────────────────
+   The site-wide ring is Elite Prep's light blue, 2:1 on Elite Tempo's light
+   pages, below the 3:1 a focus indicator needs. Near-black here, white on the
+   few dark sections. */
+.et-site :focus-visible {
+  outline: 2px solid #141518;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+.et-site .et-dark :focus-visible {
+  outline-color: #FFFFFF;
+}
+.et-skip {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 100;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: #141518;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+.et-skip:focus {
+  top: 12px;
+}
+/* Comfortable reading length on the article pages: about 70 characters. */
+.et-prose p, .et-prose li {
+  max-width: 38em;
+}

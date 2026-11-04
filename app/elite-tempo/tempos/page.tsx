@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../Chrome";
+import Chrome, { Breadcrumbs, TrialCard, breadcrumbSchema } from "../Chrome";
 import { ACCENT, CARD, HAIRLINE, INK, MUTED, etUrl } from "../theme";
 import {
   CATEGORIES,
@@ -11,6 +11,7 @@ import {
   swingsByCategory,
   type Swing,
   whereWhen,
+  possessive,
 } from "../data/tempo-data";
 import { description } from "../../seo";
 
@@ -32,7 +33,7 @@ import { description } from "../../seo";
 
 const RULE_OF_THUMB = 3;
 
-const TITLE = "Golf Swing Tempo: 16 Tour Swings, Hand-Timed";
+const TITLE = `Golf Swing Tempo: ${SWINGS.length} Tour Swings, Hand-Timed`;
 /* The snippet leads with the numbers, because a ratio is the thing that makes
    someone click a result about swing tempo. The long-form version of this claim
    lives in the Dataset schema below, which has no display limit. */
@@ -54,7 +55,7 @@ export const metadata: Metadata = {
 };
 
 const TRAIL = [
-  { name: "Elite Tempo", href: "/elite-tempo" },
+  { name: "Elite Tempo", href: "/" },
   { name: "Tempo library" },
 ];
 
@@ -116,15 +117,15 @@ function Row({ swing }: { swing: Swing }) {
     <tr style={{ borderTop: `1px solid ${HAIRLINE}` }}>
       <td className="py-4 pr-4 align-top">
         <Link
-          href={`/elite-tempo/tempo/${swing.slug}`}
-          className="text-sm font-semibold hover:text-[#1F5FD6]"
+          href={`/tempo/${swing.slug}`}
+          className="-my-[14px] inline-block py-[14px] text-[15px] font-semibold hover:opacity-70"
           style={{ color: INK }}
         >
           {swing.player}
         </Link>
         {/* Event first, year after. "2000 The Open Championship" reads as a stumble;
             "The Open Championship, 2000" is how anyone would say it. */}
-        <p className="mt-1 text-xs" style={{ color: MUTED }}>
+        <p className="mt-1 text-[13px]" style={{ color: MUTED }}>
           {swing.event ? `${swing.event}, ${swing.year}` : swing.year}
           {swing.hole ? ` · ${swing.hole}` : ""} · {swing.clubLabel}
         </p>
@@ -177,18 +178,18 @@ export default function TempoLibrary() {
       {/* max-w-3xl, matching the detail pages. At max-w-5xl the six columns spread
           across 1024px and the numbers ended up a long way from the shot they
           belonged to, with the right third of the page empty. */}
-      <div className="mx-auto max-w-3xl px-6 py-10 sm:py-14">
+      <div className="mx-auto max-w-3xl px-5 pt-10 sm:pt-16">
         <Breadcrumbs trail={TRAIL} />
 
         <h1
-          className="mt-6 max-w-3xl text-3xl font-semibold leading-[1.1] sm:text-4xl"
+          className="mt-6 max-w-3xl text-[clamp(34px,5vw,52px)] font-semibold leading-[1.05] tracking-[-0.03em]"
           style={{ color: INK, textWrap: "balance" }}
         >
           Golf swing tempo, measured:{" "}
           <span style={{ color: INK }}>{SWINGS.length} tour swings</span>, hand-timed.
         </h1>
 
-        <div className="mt-6 max-w-2xl space-y-4 text-base leading-relaxed" style={{ color: MUTED }}>
+        <div className="mt-6 max-w-2xl space-y-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
           <p>
             Swing tempo is the ratio between how long your backswing takes and how
             long your downswing takes. Almost everything written about it quotes the
@@ -199,19 +200,19 @@ export default function TempoLibrary() {
             They do not. Timed from the actual broadcast footage, these{" "}
             {SWINGS.length} shots run from{" "}
             <Link
-              href={`/elite-tempo/tempo/${fastest.slug}`}
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
+              href={`/tempo/${fastest.slug}`}
+              className="font-semibold underline decoration-1 underline-offset-4 hover:opacity-70"
               style={{ color: INK }}
             >
-              {fastest.player}&apos;s {fmtRatio(fastest)}
+              {possessive(fastest.player)} {fmtRatio(fastest)}
             </Link>{" "}
             to{" "}
             <Link
-              href={`/elite-tempo/tempo/${slowest.slug}`}
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
+              href={`/tempo/${slowest.slug}`}
+              className="font-semibold underline decoration-1 underline-offset-4 hover:opacity-70"
               style={{ color: INK }}
             >
-              {slowest.player}&apos;s {fmtRatio(slowest)}
+              {possessive(slowest.player)} {fmtRatio(slowest)}
             </Link>
             . The 3:1 rule is a useful average and a poor description of any
             individual swing.
@@ -220,8 +221,8 @@ export default function TempoLibrary() {
             Every figure below is derived from three marks (takeaway, top of
             backswing and impact) read off tournament video to 1/100 of a second.{" "}
             <Link
-              href="/elite-tempo/how-we-time-swings"
-              className="font-semibold underline decoration-1 underline-offset-4 hover:text-[#1F5FD6]"
+              href="/how-we-time-swings"
+              className="font-semibold underline decoration-1 underline-offset-4 hover:opacity-70"
               style={{ color: INK }}
             >
               How we time swings
@@ -237,21 +238,21 @@ export default function TempoLibrary() {
             pages that answer it, so they should be the first thing a crawler
             following this index reaches. */}
         <section className="mt-12">
-          <h2 className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
+          <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
             By player
           </h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {PLAYERS.map((p) => (
               <Link
                 key={p.slug}
-                href={`/elite-tempo/player/${p.slug}`}
+                href={`/player/${p.slug}`}
                 className="rounded-2xl p-4 transition-all duration-300 hover:scale-[1.02]"
-                style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
+                style={{ background: CARD }}
               >
                 <p className="text-sm font-semibold" style={{ color: INK }}>
                   {p.name}
                 </p>
-                <p className="mt-1 text-xs" style={{ color: MUTED }}>
+                <p className="mt-1 text-[13px]" style={{ color: MUTED }}>
                   {p.swings.length} swings · {fmtRatio(p.fastest)} to {fmtRatio(p.slowest)}
                 </p>
               </Link>
@@ -265,47 +266,48 @@ export default function TempoLibrary() {
           return (
             <section key={category} className="mt-12">
               <h2
-                className="text-xs font-semibold uppercase tracking-[0.18em]"
-                style={{ color: MUTED }}
+                className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]"
+                style={{ color: INK }}
               >
                 {category}
               </h2>
-              <div className="mt-4 overflow-x-auto">
+              <p className="mt-4 text-[14px] sm:hidden" style={{ color: MUTED }}>Swipe the table sideways to see every column.</p>
+              <div className="mt-3 overflow-x-auto">
                 <table className="w-full min-w-[36rem] border-collapse text-left">
                   <thead>
                     <tr>
                       <th
-                        className="pb-3 pr-4 text-[10px] font-semibold uppercase tracking-[0.14em]"
+                        className="pb-3 pr-4 text-[13px] font-medium"
                         style={{ color: MUTED }}
                       >
                         Shot
                       </th>
                       <th
-                        className="pb-3 pr-4 text-right text-[10px] font-semibold uppercase tracking-[0.14em]"
+                        className="pb-3 pr-4 text-right text-[13px] font-medium"
                         style={{ color: MUTED }}
                       >
                         Tempo
                       </th>
                       <th
-                        className="pb-3 pr-4 text-right text-[10px] font-semibold uppercase tracking-[0.14em]"
+                        className="pb-3 pr-4 text-right text-[13px] font-medium"
                         style={{ color: MUTED }}
                       >
                         Back
                       </th>
                       <th
-                        className="pb-3 pr-4 text-right text-[10px] font-semibold uppercase tracking-[0.14em]"
+                        className="pb-3 pr-4 text-right text-[13px] font-medium"
                         style={{ color: MUTED }}
                       >
                         Down
                       </th>
                       <th
-                        className="pb-3 pr-4 text-right text-[10px] font-semibold uppercase tracking-[0.14em]"
+                        className="pb-3 pr-4 text-right text-[13px] font-medium"
                         style={{ color: MUTED }}
                       >
                         Total
                       </th>
                       <th
-                        className="pb-3 text-right text-[10px] font-semibold uppercase tracking-[0.14em]"
+                        className="pb-3 text-right text-[13px] font-medium"
                         style={{ color: MUTED }}
                       >
                         vs 3:1
@@ -323,22 +325,11 @@ export default function TempoLibrary() {
           );
         })}
 
-        <div
-          className="mt-16 rounded-3xl p-8 text-center sm:p-10"
-          style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
-        >
-          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
-            Hear them, then match one.
-          </h2>
-          <p className="mx-auto mt-3 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-            Reading a ratio tells you very little. Elite Tempo plays each of these as
+        <TrialCard title={<>Hear them, then match one.</>}>
+          Reading a ratio tells you very little. Elite Tempo plays each of these as
             beats you can swing to, then records your own swing and times it the same
             way, so you can see whether you actually matched it.
-          </p>
-          <div className="mt-7 flex justify-center">
-            <AppStoreButton />
-          </div>
-        </div>
+        </TrialCard>
       </div>
     </Chrome>
   );

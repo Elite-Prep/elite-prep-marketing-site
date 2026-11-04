@@ -392,3 +392,9 @@ export const GREATS_ROWS: Swing[] = [
   "adam-scott-2022-driver",
   "rory-mcilroy-2014-pga-championship-driver",
 ].map((slug) => requireSwing(slug, "a landing page comparison row"));
+
+/* "Tiger Woods'" on every page. The player page and the swing page used to spell it
+   two ways ("Woods'" and "Woods's"). Names already ending in s take a bare apostrophe. */
+export function possessive(name: string): string {
+  return name.endsWith("s") ? `${name}'` : `${name}'s`;
+}

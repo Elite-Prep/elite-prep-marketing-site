@@ -156,7 +156,7 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
         );
       })}
       {/* The dots sit over the front screen, so they get the header's frosted pill. */}
-      <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-1 rounded-full px-1.5 backdrop-blur" style={{ background: "rgba(255,255,255,0.72)" }}>
+      <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-0 rounded-full px-1 backdrop-blur" style={{ background: "rgba(255,255,255,0.72)" }}>
         {labels.map((label, i) => (
           <button
             key={label}
@@ -164,7 +164,7 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
             aria-label={`Show ${label}`}
             aria-current={i === front}
             onClick={() => setFront(i)}
-            className="flex h-6 w-6 items-center justify-center"
+            className="flex h-11 w-11 items-center justify-center"
           >
             <span
               className="block h-2 rounded-full transition-all duration-300"

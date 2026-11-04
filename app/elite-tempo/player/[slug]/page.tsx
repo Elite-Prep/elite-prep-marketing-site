@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Chrome, { AppStoreButton, Breadcrumbs, breadcrumbSchema } from "../../Chrome";
+import Chrome, { Breadcrumbs, TrialCard, breadcrumbSchema } from "../../Chrome";
 import { ACCENT, BG, CARD, HAIRLINE, INK, MUTED, etUrl } from "../../theme";
 import {
   PLAYERS,
@@ -13,6 +13,7 @@ import {
   type Player,
   type Swing,
   whereWhen,
+  possessive,
 } from "../../data/tempo-data";
 import { TITLE_MAX, description as describe } from "../../../seo";
 
@@ -41,13 +42,6 @@ export function generateStaticParams() {
   return PLAYERS.map((p) => ({ slug: p.slug }));
 }
 
-/* "Tiger Woods's" reads clumsy; names already ending in s take a bare apostrophe.
-   Google's own People Also Ask box writes it without any apostrophe at all
-   ("What is Tiger Woods swing tempo?"), so there is no canonical form to match —
-   this is just the one that reads best. */
-function possessive(name: string): string {
-  return name.endsWith("s") ? `${name}'` : `${name}'s`;
-}
 
 /* The apostrophe form people type. "Tiger Woods swing tempo" is how Google's own
    PAA box writes it; "Rory McIlroy's" takes the possessive. Matching the phrasing
@@ -118,7 +112,7 @@ function Stat({ value, label }: { value: string; label: string }) {
       >
         {value}
       </p>
-      <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.16em]" style={{ color: INK }}>
+      <p className="mt-3 text-[13px] font-medium" style={{ color: INK }}>
         {label}
       </p>
     </div>
@@ -139,12 +133,12 @@ function SpreadChart({ player }: { player: Player }) {
   return (
     <div
       className="rounded-2xl p-6 sm:p-8"
-      style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
+      style={{ background: CARD }}
     >
       <div className="flex flex-col gap-4">
         {ordered.map((s) => (
           <div key={s.slug} className="grid grid-cols-[6.5rem_1fr_3.5rem] items-center gap-3">
-            <span className="truncate text-xs" style={{ color: MUTED }}>
+            <span className="truncate text-[13px]" style={{ color: MUTED }}>
               {shortClub(s.clubLabel)}
             </span>
             <span className="relative block h-1.5 rounded-full" style={{ background: BG }} aria-hidden>
@@ -164,7 +158,7 @@ function SpreadChart({ player }: { player: Player }) {
       </div>
       {/* The rule everyone quotes, marked on the same axis. */}
       <div className="mt-5 grid grid-cols-[6.5rem_1fr_3.5rem] items-center gap-3">
-        <span className="text-xs" style={{ color: MUTED }}>
+        <span className="text-[13px]" style={{ color: MUTED }}>
           the &ldquo;3:1 rule&rdquo;
         </span>
         <span className="relative block h-px" style={{ background: HAIRLINE }} aria-hidden>
@@ -186,13 +180,13 @@ function Row({ swing }: { swing: Swing }) {
     <tr style={{ borderTop: `1px solid ${HAIRLINE}` }}>
       <td className="py-4 pr-4 align-top">
         <Link
-          href={`/elite-tempo/tempo/${swing.slug}`}
-          className="text-sm font-semibold transition-colors hover:text-[#1F5FD6]"
+          href={`/tempo/${swing.slug}`}
+          className="-my-[14px] inline-block py-[14px] text-[15px] font-semibold transition-colors hover:opacity-70"
           style={{ color: INK }}
         >
           {swing.clubLabel}
         </Link>
-        <p className="mt-1 text-xs" style={{ color: MUTED }}>
+        <p className="mt-1 text-[13px]" style={{ color: MUTED }}>
           {swing.event ? `${swing.event}, ${swing.year}` : swing.year}
           {swing.hole ? ` · ${swing.hole}` : ""}
         </p>
@@ -226,8 +220,8 @@ export default async function PlayerPage({
   if (!player) notFound();
 
   const trail = [
-    { name: "Elite Tempo", href: "/elite-tempo" },
-    { name: "Tempo library", href: "/elite-tempo/tempos" },
+    { name: "Elite Tempo", href: "/" },
+    { name: "Tempo library", href: "/tempos" },
     { name: player.name },
   ];
   const url = `https://elitetempo.app/player/${player.slug}`;
@@ -274,19 +268,19 @@ export default async function PlayerPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <article className="mx-auto max-w-3xl px-6 py-10 sm:py-14">
+      <article className="mx-auto max-w-3xl px-5 pt-10 sm:pt-16">
         <Breadcrumbs trail={trail} />
 
-        <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: MUTED }}>
+        <p className="mt-6 text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
           {player.swings.length} hand-timed swings
         </p>
         <h1
-          className="mt-3 text-3xl font-semibold leading-[1.1] sm:text-4xl"
+          className="mt-3 text-[clamp(34px,5vw,52px)] font-semibold leading-[1.05] tracking-[-0.03em]"
           style={{ color: INK, textWrap: "balance" }}
         >
           {question(player)}
         </h1>
-        <p className="mt-5 text-lg leading-relaxed" style={{ color: MUTED }}>
+        <p className="mt-5 text-[19px] leading-[1.5]" style={{ color: MUTED }}>
           {answer(player)}
         </p>
 
@@ -302,8 +296,8 @@ export default async function PlayerPage({
         <p className="mt-4 text-sm" style={{ color: MUTED }}>
           From his {whereWhen(h, true)} {h.clubLabel.toLowerCase()}.{" "}
           <Link
-            href={`/elite-tempo/tempo/${h.slug}`}
-            className="font-semibold underline decoration-1 underline-offset-4 transition-colors hover:text-[#1F5FD6]"
+            href={`/tempo/${h.slug}`}
+            className="inline-flex min-h-11 items-center font-semibold underline decoration-1 underline-offset-4 transition-colors hover:opacity-70"
             style={{ color: INK }}
           >
             See the marks
@@ -311,10 +305,10 @@ export default async function PlayerPage({
         </p>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
+          <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
             One player, {player.swings.length === 2 ? "two clubs" : "one tempo?"}
           </h2>
-          <p className="mt-4 text-base leading-relaxed" style={{ color: MUTED }}>
+          <p className="mt-4 text-[17px] leading-[1.55]" style={{ color: MUTED }}>
             {player.spread < 0.15 ? (
               <>
                 Remarkably, almost. {possessive(player.name)} ratio shifts by only{" "}
@@ -339,17 +333,18 @@ export default async function PlayerPage({
         </section>
 
         <section className="mt-14">
-          <h2 className="text-2xl font-semibold" style={{ color: INK }}>
+          <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
             Every {player.name} swing in the library
           </h2>
-          <div className="mt-5 overflow-x-auto">
+          <p className="mt-4 text-[14px] sm:hidden" style={{ color: MUTED }}>Swipe the table sideways to see every column.</p>
+          <div className="mt-3 overflow-x-auto">
             <table className="w-full min-w-[32rem] border-collapse text-left">
               <thead>
                 <tr>
                   {["Shot", "Tempo", "Back", "Down", "Total"].map((h2, i) => (
                     <th
                       key={h2}
-                      className={`pb-3 text-[10px] font-semibold uppercase tracking-[0.14em] ${
+                      className={`pb-3 text-[13px] font-medium ${
                         i === 0 ? "pr-4" : "pr-4 text-right"
                       } ${i === 4 ? "pr-0" : ""}`}
                       style={{ color: MUTED }}
@@ -371,8 +366,8 @@ export default async function PlayerPage({
           <p className="mt-5 text-sm" style={{ color: MUTED }}>
             Every figure is derived from three marks read off tournament footage.{" "}
             <Link
-              href="/elite-tempo/how-we-time-swings"
-              className="font-semibold underline decoration-1 underline-offset-4 transition-colors hover:text-[#1F5FD6]"
+              href="/how-we-time-swings"
+              className="font-semibold underline decoration-1 underline-offset-4 transition-colors hover:opacity-70"
               style={{ color: INK }}
             >
               How we time swings
@@ -383,16 +378,16 @@ export default async function PlayerPage({
 
         {others.length > 0 && (
           <section className="mt-14">
-            <h2 className="text-2xl font-semibold" style={{ color: INK }}>
+            <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em]" style={{ color: INK }}>
               Other players
             </h2>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {others.map((p) => (
                 <Link
                   key={p.slug}
-                  href={`/elite-tempo/player/${p.slug}`}
+                  href={`/player/${p.slug}`}
                   className="rounded-2xl p-4 transition-all duration-300 hover:scale-[1.03]"
-                  style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
+                  style={{ background: CARD }}
                 >
                   <p
                     className="text-2xl font-semibold tabular-nums"
@@ -403,7 +398,7 @@ export default async function PlayerPage({
                   <p className="mt-1.5 text-sm font-semibold" style={{ color: INK }}>
                     {p.name}
                   </p>
-                  <p className="text-xs" style={{ color: MUTED }}>
+                  <p className="text-[13px]" style={{ color: MUTED }}>
                     {p.swings.length} swings · {fmtRatio(p.fastest)} to {fmtRatio(p.slowest)}
                   </p>
                 </Link>
@@ -412,21 +407,10 @@ export default async function PlayerPage({
           </section>
         )}
 
-        <div
-          className="mt-16 rounded-3xl p-8 text-center"
-          style={{ background: CARD, border: `1px solid ${HAIRLINE}` }}
-        >
-          <h2 className="text-xl font-semibold" style={{ color: INK }}>
-            Swing to {player.name.split(" ")[0]}&apos;s tempo.
-          </h2>
-          <p className="mx-auto mt-3 max-w-md text-base leading-relaxed" style={{ color: MUTED }}>
-            Elite Tempo plays each of these as beats you can swing along to, then times your own
+        <TrialCard title={<>Swing to {player.name.split(" ")[0]}&apos;s tempo.</>}>
+          Elite Tempo plays each of these as beats you can swing along to, then times your own
             swing the same way so you can see how close you got.
-          </p>
-          <div className="mt-7 flex justify-center">
-            <AppStoreButton />
-          </div>
-        </div>
+        </TrialCard>
       </article>
     </Chrome>
   );
