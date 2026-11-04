@@ -295,7 +295,7 @@ export default function EliteTempoLanding() {
           Pressure breaks your <em className="italic">timing</em> and <em className="italic">routine</em>.
         </h2>
         <p className={`mx-auto mt-5 max-w-[30em] ${LEDE}`} style={{ color: MUTED }}>
-          Practice both. Film your swing and your routine, and time every step.
+          Because they’re difficult to practice. Until now.
         </p>
       </section>
 
