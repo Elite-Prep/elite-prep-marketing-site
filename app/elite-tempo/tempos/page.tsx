@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Chrome, { Breadcrumbs, TrialCard, breadcrumbSchema } from "../Chrome";
-import { ACCENT, CARD, HAIRLINE, INK, MUTED, etUrl } from "../theme";
+import { ACCENT, CARD, HAIRLINE, INK, MUTED, etUrl, SHARE_IMAGES } from "../theme";
 import {
   CATEGORIES,
   PLAYERS,
@@ -45,13 +45,13 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: etUrl("/tempos") },
-  openGraph: {
+  openGraph: { images: SHARE_IMAGES,
     title: TITLE,
     description: DESCRIPTION,
     url: etUrl("/tempos"),
     type: "article",
   },
-  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
+  twitter: { card: "summary_large_image", images: SHARE_IMAGES, title: TITLE, description: DESCRIPTION },
 };
 
 const TRAIL = [

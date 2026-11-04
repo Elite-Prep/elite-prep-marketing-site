@@ -1,8 +1,10 @@
 
 import Chrome from "../Chrome";
-import { INK, MUTED, etUrl } from "../theme";
+import { INK, MUTED, etUrl, SHARE_IMAGES } from "../theme";
 
 export const metadata = {
+  openGraph: { images: SHARE_IMAGES },
+  twitter: { card: "summary_large_image" as const, images: SHARE_IMAGES },
   alternates: { canonical: etUrl("/privacy") },
   title: "Elite Tempo Privacy Policy",
   description:

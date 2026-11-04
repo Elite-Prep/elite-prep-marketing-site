@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Chrome, { Breadcrumbs, TrialCard, breadcrumbSchema } from "../../Chrome";
-import { ACCENT, BG, CARD, HAIRLINE, INK, MUTED, etUrl } from "../../theme";
+import { ACCENT, BG, CARD, HAIRLINE, INK, MUTED, etUrl, SHARE_IMAGES } from "../../theme";
 import {
   PLAYERS,
   fmtRatio,
@@ -93,13 +93,13 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical: etUrl(`/player/${player.slug}`) },
-    openGraph: {
+    openGraph: { images: SHARE_IMAGES,
       title,
       description,
       url: etUrl(`/player/${player.slug}`),
       type: "article",
     },
-    twitter: { card: "summary_large_image", title, description },
+    twitter: { card: "summary_large_image", images: SHARE_IMAGES, title, description },
   };
 }
 

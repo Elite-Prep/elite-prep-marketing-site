@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Chrome, { Breadcrumbs, TrialCard, breadcrumbSchema } from "../Chrome";
-import { ACCENT, CARD, HAIRLINE, INK, MUTED, ON_ACCENT, etUrl } from "../theme";
+import { ACCENT, CARD, HAIRLINE, INK, MUTED, ON_ACCENT, etUrl, SHARE_IMAGES } from "../theme";
 import { SWINGS, fmtRatio, fmtSeconds, type Swing } from "../data/tempo-data";
 import { description } from "../../seo";
 
@@ -24,13 +24,13 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: etUrl("/how-we-time-swings") },
-  openGraph: {
+  openGraph: { images: SHARE_IMAGES,
     title: TITLE,
     description: DESCRIPTION,
     url: etUrl("/how-we-time-swings"),
     type: "article",
   },
-  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
+  twitter: { card: "summary_large_image", images: SHARE_IMAGES, title: TITLE, description: DESCRIPTION },
 };
 
 const TRAIL = [

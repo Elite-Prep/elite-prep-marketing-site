@@ -154,3 +154,17 @@ export function etUrl(path = "/"): string {
 
 /** Elite Prep's domain — still correct for the homepage and its legal pages. */
 export const SITE_URL = "https://www.eliteprep.app";
+
+/* The link preview image for every Elite Tempo page. Pages that set their own
+   openGraph or twitter fields replace the file-based image Next would otherwise
+   attach, so 24 of 27 pages shared with no picture at all. Absolute on the
+   Elite Tempo host (the proxy serves it in place), with a version so chat apps
+   that cached the old card fetch the new one. */
+export const SHARE_IMAGES = [
+  {
+    url: `${ET_SITE_URL}/elite-tempo/opengraph-image?v=2`,
+    width: 1200,
+    height: 630,
+    alt: "Elite Tempo. Time your entire game from routine to impact.",
+  },
+];

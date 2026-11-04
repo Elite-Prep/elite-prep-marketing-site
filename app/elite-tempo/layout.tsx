@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { FONT_SANS } from "./theme";
+import { ET_SITE_URL, FONT_SANS } from "./theme";
 
 /* Scopes the Smart App Banner to the Elite Tempo subtree.
  *
@@ -22,6 +22,9 @@ export const metadata: Metadata = {
      title. Without it, a mistyped swing or player address (those routes accept a
      fixed list) showed the parent site's "Elite Prep" title on the 404. */
   title: "Page not found | Elite Tempo",
+  /* The root layout's base is eliteprep.app, so the home page's preview image was
+     addressed there and reached through a redirect. */
+  metadataBase: new URL(ET_SITE_URL),
   other: {
     "apple-itunes-app": `app-id=${ELITE_TEMPO_APP_ID}`,
   },
