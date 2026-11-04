@@ -38,6 +38,9 @@ export default function TourList({ rows }: { rows: TourRow[] }) {
   const [armed, setArmed] = useState(false);
   /* Only a row someone tapped lights its button; the silent scroll pass lights none. */
   const [tapped, setTapped] = useState<number | null>(null);
+  /* One quiet nudge toward the first play button: after the silent pass ends, it
+     glows gold once and stops (Eric, 11-04, instead of a "Try it" arrow). */
+  const [nudge, setNudge] = useState(false);
   const raf = useRef<number | null>(null);
 
   /* Clock that only runs while any row is playing. */
@@ -73,6 +76,8 @@ export default function TourList({ rows }: { rows: TourRow[] }) {
         const t0 = performance.now() + 200;
         setNow(performance.now());
         setStarts(rows.map((_, i) => t0 + i * STAGGER_MS));
+        const passEnd = Math.max(...rows.map((r, i) => 200 + i * STAGGER_MS + (r.back + r.down) * 1000));
+        setTimeout(() => setNudge(true), passEnd + 300);
         seen.disconnect();
       },
       { threshold: 0.2 },
@@ -132,6 +137,7 @@ export default function TourList({ rows }: { rows: TourRow[] }) {
 
   return (
     <div ref={box} className="mt-8">
+      <style>{`@keyframes et-nudge { 0% { box-shadow: 0 0 0 0 rgba(249,200,50,0.75); background: ${GOLD}; } 70% { box-shadow: 0 0 0 16px rgba(249,200,50,0); background: ${GOLD}; } 100% { box-shadow: 0 0 0 16px rgba(249,200,50,0); } } .et-nudge { animation: et-nudge 1.4s ease-out 1; }`}</style>
       {/* The key. The invitation to listen lives in the heading above (Eric, 11-04:
           a small play icon above the real play buttons read awkward). */}
       <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-3">
@@ -215,7 +221,7 @@ export default function TourList({ rows }: { rows: TourRow[] }) {
                 type="button"
                 onClick={(e) => replay(i, e.timeStamp)}
                 aria-label={`Play ${r.player}'s timing with sound`}
-                className="col-start-2 row-start-2 grid h-11 w-11 cursor-pointer place-items-center self-center justify-self-end rounded-full border-0 transition-colors md:col-start-auto md:row-start-auto md:self-center"
+                className={`col-start-2 row-start-2 grid h-11 w-11 cursor-pointer place-items-center self-center justify-self-end rounded-full border-0 transition-colors md:col-start-auto md:row-start-auto md:self-center ${nudge && i === 0 && tapped === null ? "et-nudge" : ""}`}
                 style={{ background: playing ? GOLD : "#F0F0EC" }}
               >
                 <svg
