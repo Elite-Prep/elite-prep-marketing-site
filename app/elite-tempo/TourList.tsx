@@ -132,8 +132,8 @@ export default function TourList({ rows }: { rows: TourRow[] }) {
 
   return (
     <div ref={box} className="mt-8">
-      {/* The key on the left; on the right, a prompt that points at the play buttons
-          below it, so nobody misses that every swing can be heard (Eric, 11-04). */}
+      {/* The key. The invitation to listen lives in the heading above (Eric, 11-04:
+          a small play icon above the real play buttons read awkward). */}
       <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-3">
         <p className="m-0 flex gap-5 text-[16px]" style={{ color: MUTED }}>
           <span className="inline-flex items-center gap-2">
@@ -151,26 +151,6 @@ export default function TourList({ rows }: { rows: TourRow[] }) {
               aria-hidden
             />
             Downswing
-          </span>
-        </p>
-        <p
-          className="m-0 inline-flex items-center gap-2 text-[16px] font-semibold"
-          style={{ color: INK }}
-        >
-          Try listening below
-          <span
-            className="grid h-7 w-7 place-items-center rounded-full"
-            style={{ background: GOLD }}
-            aria-hidden
-          >
-            <svg
-              viewBox="0 0 10 12"
-              width="8"
-              height="10"
-              style={{ marginLeft: 1 }}
-            >
-              <path d="M0 0l10 6-10 6z" fill={INK} />
-            </svg>
           </span>
         </p>
       </div>

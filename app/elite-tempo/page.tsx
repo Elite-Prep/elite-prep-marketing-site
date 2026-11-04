@@ -343,9 +343,9 @@ export default function EliteTempoLanding() {
           under both, so five rows no longer take two screens. */}
       <section className={`${WRAP} pt-4`}>
         <div className="rounded-[28px] bg-white p-[clamp(32px,5vw,64px)]">
-          <h2 className={H2_ONE}>Train to Tiger&apos;s timing.</h2>
+          <h2 className={H2_ONE}>Hear Tiger&apos;s timing. Then train to it.</h2>
           <p className={`mt-4 max-w-[30em] ${LEDE}`} style={{ color: MUTED }}>
-            {SWINGS.length} tournament swings, each hand-timed to 1/100 of a second.
+            Tap play on any swing below. All {SWINGS.length} are hand-timed to 1/100 of a second and ready to train to in the app.
           </p>
           <TourList
             rows={GREATS_ROWS.map((g) => ({
