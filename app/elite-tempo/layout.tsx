@@ -18,6 +18,10 @@ import { FONT_SANS } from "./theme";
 const ELITE_TEMPO_APP_ID = "6779226434";
 
 export const metadata: Metadata = {
+  /* Only ever seen on a missing page: every real Elite Tempo page sets its own
+     title. Without it, a mistyped swing or player address (those routes accept a
+     fixed list) showed the parent site's "Elite Prep" title on the 404. */
+  title: "Page not found | Elite Tempo",
   other: {
     "apple-itunes-app": `app-id=${ELITE_TEMPO_APP_ID}`,
   },
