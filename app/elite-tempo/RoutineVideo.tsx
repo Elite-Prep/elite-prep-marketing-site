@@ -5,7 +5,7 @@ import useReducedMotion from "./useReducedMotion";
 
 /* Eric's driver pre-shot routine in real time (11-04): the step he is on lights up
  * as he reaches it and the clock runs to impact, against the 40 seconds the USGA
- * and The R&A recommend. Step names and times are the app's own for this routine.
+ * and The R&A recommend. Step names and times were marked by Eric on this clip.
  * The running clock sits on the video in the app's own timer pill; under the video,
  * the current step and the seven dots the app shows (the last turns gold at impact).
  * Plays only while on screen; Reduce Motion shows the finished routine. */
@@ -84,7 +84,8 @@ export default function RoutineVideo({
 
   const done = t >= impact;
   const shownT = Math.min(t, impact);
-  let current = 0;
+  /* -1 until the first marked step starts. */
+  let current = -1;
   steps.forEach((s, i) => {
     if (shownT >= s.at) current = i;
   });
@@ -116,16 +117,16 @@ export default function RoutineVideo({
       <div className="mt-3 rounded-2xl bg-white px-4 py-3">
         <div className="flex items-baseline justify-between gap-3">
           <p className="m-0 min-w-0 truncate text-[16px] font-semibold text-[#141518]">
-            {done ? "Impact" : steps[current].title}
+            {done ? "Impact" : current < 0 ? "Ready" : steps[current].title}
           </p>
           <p className="m-0 shrink-0 text-[14px] font-medium text-[#6B6D72] [font-variant-numeric:tabular-nums]">
-            {done ? `${impact.toFixed(1)}s of ${limit}s` : `Step ${current + 1} of ${steps.length}`}
+            {done ? `${impact.toFixed(1)}s of ${limit}s` : current < 0 ? `${steps.length} steps` : `Step ${current + 1} of ${steps.length}`}
           </p>
         </div>
         <div className="mt-3 flex items-center gap-1.5" aria-hidden>
           {steps.map((s, i) => (
             <span
-              key={s.title}
+              key={`${s.at}-${s.title}`}
               className="h-1.5 flex-1 rounded-full transition-colors duration-300"
               style={{
                 background: done && i === steps.length - 1 ? "#F9C832" : shownT >= s.at ? "#141518" : "#E3E3DD",

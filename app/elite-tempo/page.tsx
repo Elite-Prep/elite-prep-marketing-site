@@ -264,14 +264,21 @@ export default function EliteTempoLanding() {
           impact={ROUTINE_S}
           limit={PACE_LIMIT_S}
           label="Eric's driver pre-shot routine at the range, with each step named as he reaches it."
+          /* Eric marked these himself on the web clip, 11-04 (Routine Step Marker). */
           steps={[
-            { at: 0, title: "Stand behind the ball" },
-            { at: 3.5, title: "Pick a target" },
-            { at: 7.4, title: "Practice swing" },
-            { at: 11, title: "Walk in" },
-            { at: 15.3, title: "Make a stance" },
-            { at: 19, title: "Waggle" },
-            { at: 22.4, title: "Go" },
+            { at: 1.6, title: "Look at target. Pick a start line." },
+            { at: 2.9, title: "Walk in" },
+            { at: 7.3, title: "Set club" },
+            { at: 8.6, title: "Settle stance" },
+            { at: 9.1, title: "Waggle & settle" },
+            { at: 11.4, title: "Hover, waggle and settle" },
+            { at: 14.3, title: "Look at target" },
+            { at: 16.2, title: "Look at target" },
+            { at: 17.2, title: "Waggle" },
+            { at: 18.6, title: "Look and waggle" },
+            { at: 22.8, title: "Gear up" },
+            { at: 22.9, title: "Take club back" },
+            { at: 23.6, title: "Top of backswing" },
           ]}
         />
       </FeatureSection>
