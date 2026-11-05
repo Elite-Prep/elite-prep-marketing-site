@@ -208,7 +208,7 @@ export default function EliteTempoLanding() {
               Time your entire process.
             </h1>
             <p className={`mx-auto mt-[18px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
-              Groove your entire game from <span className="whitespace-nowrap">pre-shot</span> routine to impact, so you can execute when it matters most.
+              Groove your entire game from <span className="whitespace-nowrap">pre-shot</span> routine to impact, so you can trust your game when it matters most.
             </p>
             <AppStoreBadge className="mt-7" />
           </div>

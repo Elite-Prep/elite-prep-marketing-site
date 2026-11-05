@@ -28,7 +28,7 @@ const HEADLINE_1 = "Time your entire";
 /* Eric's 11-04 headline: "Time your entire process." */
 const HEADLINE_2 = "process.";
 const HEADLINE_3 = "";
-const LINE = "Groove your entire game from pre-shot routine to impact, so you can execute when it matters most.";
+const LINE = "Groove your entire game from pre-shot routine to impact, so you can trust your game when it matters most.";
 
 const FRAME = "linear-gradient(145deg, #9A9A9F 0%, #2A2A2D 22%, #4A4A4F 60%, #18181A 100%)";
 
