@@ -88,7 +88,11 @@ export default function TourList({ rows }: { rows: TourRow[] }) {
         if (!entry.isIntersecting) return;
         seen.disconnect();
         rows.forEach((_, i) => playRow(i, 0.2 + (i * STAGGER_MS) / 1000));
-        const passEnd = Math.max(...rows.map((r, i) => 200 + i * STAGGER_MS + (r.back + r.down) * 1000));
+        const passEnd = Math.max(
+          ...rows.map(
+            (r, i) => 200 + i * STAGGER_MS + (r.back + r.down) * 1000,
+          ),
+        );
         nudgeTimer = setTimeout(() => setNudge(true), passEnd + 300);
       },
       { threshold: 0.2 },
@@ -109,7 +113,10 @@ export default function TourList({ rows }: { rows: TourRow[] }) {
     const ctx = getAudio();
     const light = (delay: number) => {
       if (litTimer.current) clearTimeout(litTimer.current);
-      litTimer.current = setTimeout(() => setLit(null), (delay + r.back + r.down) * 1000 + 400);
+      litTimer.current = setTimeout(
+        () => setLit(null),
+        (delay + r.back + r.down) * 1000 + 400,
+      );
     };
     if (!ctx) {
       if (!still) playRow(i, 0);
@@ -141,11 +148,19 @@ export default function TourList({ rows }: { rows: TourRow[] }) {
           a small play icon above the real play buttons read awkward). */}
       <p className="m-0 flex gap-5 text-[16px]" style={{ color: MUTED }}>
         <span className="inline-flex items-center gap-2">
-          <i className="inline-block h-2 w-[18px] rounded" style={{ background: INK }} aria-hidden />
+          <i
+            className="inline-block h-2 w-[18px] rounded"
+            style={{ background: INK }}
+            aria-hidden
+          />
           Backswing
         </span>
         <span className="inline-flex items-center gap-2">
-          <i className="inline-block h-2 w-[18px] rounded" style={{ background: GOLD }} aria-hidden />
+          <i
+            className="inline-block h-2 w-[18px] rounded"
+            style={{ background: GOLD }}
+            aria-hidden
+          />
           Downswing
         </span>
       </p>
@@ -159,7 +174,11 @@ export default function TourList({ rows }: { rows: TourRow[] }) {
               style={{ borderColor: "#ECECE7" }}
             >
               <div className="min-w-0">
-                <Link href={`/tempo/${r.slug}`} className="font-semibold no-underline hover:underline" style={{ color: INK }}>
+                <Link
+                  href={`/tempo/${r.slug}`}
+                  className="font-semibold no-underline hover:underline"
+                  style={{ color: INK }}
+                >
                   {r.player}
                 </Link>
                 <p className="m-0 text-[16px]" style={{ color: MUTED }}>
@@ -167,25 +186,35 @@ export default function TourList({ rows }: { rows: TourRow[] }) {
                 </p>
               </div>
               <div className="col-start-1 row-start-2 min-w-0 md:col-start-auto md:row-start-auto">
-                <div className="relative h-3" role="img" aria-label={`Backswing ${r.back.toFixed(2)}s, downswing ${r.down.toFixed(2)}s.`}>
+                <div
+                  className="relative h-3"
+                  role="img"
+                  aria-label={`Backswing ${r.back.toFixed(2)}s, downswing ${r.down.toFixed(2)}s.`}
+                >
                   <div
                     ref={(el) => {
                       backs.current[i] = el;
                     }}
                     className="absolute inset-y-0 left-0"
-                    style={{ width: `${bw}%`, background: INK, borderRadius: "6px 0 0 6px" }}
+                    style={{
+                      width: `${bw}%`,
+                      background: INK,
+                      borderRadius: "6px 0 0 6px",
+                    }}
                   />
                   <div
                     ref={(el) => {
                       downs.current[i] = el;
                     }}
                     className="absolute inset-y-0"
-                    style={{ left: `${bw}%`, width: `${dw}%`, background: GOLD, borderRadius: "0 6px 6px 0" }}
+                    style={{
+                      left: `${bw}%`,
+                      width: `${dw}%`,
+                      background: GOLD,
+                      borderRadius: "0 6px 6px 0",
+                    }}
                   />
                 </div>
-                <p className="m-0 mt-1.5 text-[16px] [font-variant-numeric:tabular-nums]" style={{ color: MUTED }}>
-                  {r.back.toFixed(2)}s back, {r.down.toFixed(2)}s down
-                </p>
               </div>
               <p className="col-start-2 row-start-1 m-0 text-right text-[30px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums] md:col-start-auto md:row-start-auto">
                 {r.ratio}
@@ -197,7 +226,13 @@ export default function TourList({ rows }: { rows: TourRow[] }) {
                 className={`col-start-2 row-start-2 grid h-11 w-11 cursor-pointer touch-manipulation place-items-center self-center justify-self-end rounded-full border-0 transition-colors md:col-start-auto md:row-start-auto md:self-center ${nudge && i === 0 && !touched ? "et-nudge" : ""}`}
                 style={{ background: lit === i ? GOLD : "#F0F0EC" }}
               >
-                <svg viewBox="0 0 10 12" width="11" height="13" aria-hidden style={{ marginLeft: 2 }}>
+                <svg
+                  viewBox="0 0 10 12"
+                  width="11"
+                  height="13"
+                  aria-hidden
+                  style={{ marginLeft: 2 }}
+                >
                   <path d="M0 0l10 6-10 6z" fill={INK} />
                 </svg>
               </button>

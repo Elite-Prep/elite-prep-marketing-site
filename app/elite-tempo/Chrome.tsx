@@ -207,11 +207,9 @@ export function SiteFooter() {
         className="mt-8 max-w-[62em] text-[13px] leading-[1.5]"
         style={{ color: FAINT }}
       >
-        Elite Tempo references real golfers, tournaments, and shots for
-        descriptive and educational purposes only, and is not affiliated with,
-        sponsored by, or endorsed by any player, tournament, tour, or
-        organization named in the app. All names and trademarks belong to their
-        respective owners.
+        {/* Cut from 45 words to 16 (11-04, Pinterest word budget); same meaning. */}
+        Elite Tempo is not affiliated with or endorsed by any player, tour or
+        event named on this site.
       </p>
     </footer>
   );

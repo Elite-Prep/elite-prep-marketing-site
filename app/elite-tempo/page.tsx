@@ -225,7 +225,7 @@ export default function EliteTempoLanding() {
               <br className="hidden sm:block" /> from pre-shot routine to impact.
             </h1>
             <p className={`mx-auto mt-[22px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
-              Groove your golf routine and total timing of every shot so you can execute it when it matters most.
+              Groove your routine and timing so you execute when it matters most.
             </p>
             <AppStoreBadge className="mt-7" />
             <p className="mt-3.5 text-[16px]" style={{ color: "#4A4B50" }}>
@@ -256,13 +256,13 @@ export default function EliteTempoLanding() {
         </p>
       </section>
 
-      <FeatureSection bare title="Get four timing numbers from every swing you film." body="Backswing, downswing, total time and tempo. Tap play to feel Tiger's.">
+      <FeatureSection bare title="Four timing numbers from every swing." body="Backswing, downswing, total time and tempo.">
         <DarkTimingPlayer shots={DARK_SHOTS} />
       </FeatureSection>
 
       <FeatureSection
         title={<>Hear Tiger&apos;s timing. Then train to it.</>}
-        body={`Tap play to hear it. Then compare your own swing to all ${SWINGS.length} hand-timed tour swings in the app.`}
+        body="Tap play. Then compare your own swing in the app."
         cardClass="bg-white"
       >
         <div className="px-[clamp(20px,4vw,56px)] pb-6 pt-2 text-left">
@@ -270,7 +270,7 @@ export default function EliteTempoLanding() {
             rows={TOUR_ROWS.map((g) => ({
               slug: g.slug,
               player: g.player,
-              detail: `${g.clubLabel}, ${g.year} ${g.event.replace(/^The /, "")}`.trim(),
+              detail: `${g.clubLabel}, ${g.year}`,
               back: g.back,
               down: g.down,
               ratio: fmtRatio(g),
@@ -282,7 +282,7 @@ export default function EliteTempoLanding() {
         </div>
       </FeatureSection>
 
-      <FeatureSection title="Rehearse your routine. Play faster." body="Each step lights up as you reach it, inside the 40 seconds the USGA and The R&A recommend.">
+      <FeatureSection title="Rehearse your routine. Play faster." body="Each step lights up, inside the 40 second limit.">
         {/* One big, readable picture instead of a phone screenshot with small text. */}
         <div className="mx-auto flex max-w-[560px] flex-col items-center px-6 py-[clamp(36px,6vw,64px)]">
           <LottieLoop scene={ROUTINE_SCENE} label="Seven routine steps lighting up one after another, ending in gold at impact." className="w-full max-w-[336px]" />
@@ -308,7 +308,7 @@ export default function EliteTempoLanding() {
         >
           <h2 className={H2_SECTION}>Time your own swing before you pay a thing.</h2>
           <p className="mt-3 text-[19px] leading-[1.4]" style={{ color: "#4A4B50" }}>
-            Free for {TRIAL_DAYS} days. Then pick a plan. Cancel anytime.
+            Free for {TRIAL_DAYS} days. Cancel anytime.
           </p>
           <div className="mx-auto mt-8 grid max-w-[560px] grid-cols-2 gap-3 text-left max-[420px]:grid-cols-1">
             <div className="rounded-2xl bg-white p-5">
