@@ -5,7 +5,6 @@ import DarkTimingPlayer, { type DarkShot } from "./DarkTimingPlayer";
 import LottieLoop from "./LottieLoop";
 import TourList from "./TourList";
 import HeroCarousel from "./HeroCarousel";
-import FeatureList from "./FeatureList";
 import { TIMER_SCALE_S, routineScene, timerScene } from "./motion/scenes";
 import {
   GREATS_ROWS,
@@ -75,33 +74,6 @@ export const metadata: Metadata = {
 };
 
 
-/* Only questions a golfer deciding whether to download would really ask. Each
-   answer is one to three plain sentences. Player tempo questions (Rory, Tiger)
-   are answered on the player pages, which rank for them on their own. Rendered as visible copy AND as FAQPage structured data,
-   because AI answer engines quote the markup and Google builds the expandable
-   sub-rows from it. */
-const FAQS: { q: string; a: string }[] = [
-  {
-    q: "What makes Elite Tempo different?",
-    a: "Elite Tempo captures the total timing and the routine of your best shots, so you can groove them and practice under pressure. We’re not a generic tempo trainer.",
-  },
-  {
-    q: "How do I time my pre-shot routine?",
-    a: "Film your routine once and name each step, like picking a target or a practice swing. Elite Tempo times every step and the total against the 40 seconds the USGA and The R&A recommend.",
-  },
-  {
-    q: "Can I practice without looking at my phone?",
-    a: "Yes. Leave it in your bag and hear your timing as beats in your headphones. During routine practice, the app hears the strike and tells you whether you were on time.",
-  },
-  {
-    q: "Do I need anything besides my iPhone?",
-    a: "No. Record with the camera or import a clip you already have. Elite Tempo is for iPhone only.",
-  },
-  {
-    q: `How much does it cost?`,
-    a: `It is free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month. Cancel anytime in your iPhone settings.`,
-  },
-];
 
 /* The tempo figures used to live here as a hand-typed array, and every single one
    of them was wrong against the app. They now come from `data/tempo-data`, which
@@ -165,15 +137,6 @@ const STRUCTURED_DATA = {
         },
       ],
     },
-    {
-      "@type": "FAQPage",
-      "@id": "https://elitetempo.app#faq",
-      mainEntity: FAQS.map(({ q, a }) => ({
-        "@type": "Question",
-        name: q,
-        acceptedAnswer: { "@type": "Answer", text: a },
-      })),
-    },
   ],
 };
 
@@ -184,13 +147,6 @@ const STRUCTURED_DATA = {
 
 
 
-/* Real App Store reviews, quoted as written. The first is shown big. */
-const REVIEWS = [
-  { title: "Perfect timing, no pun intended", body: "I was just looking to improve my tempo and was strongly suggested this app. I love the ease of use and effectiveness.", name: "StayDialedIn" },
-  { title: "Game changer", body: "This is a game changer for tempo training. It’s simple to use, smart and actually useful!", name: "@kgrace" },
-  { title: "The best golf app!", body: "Highly recommend this app for helping you practice your golf swing. So many cool features!", name: "Tiffneyac" },
-  { title: "Awesome App", body: "Super addicting and surprisingly helpful", name: "Boos59" },
-];
 
 const DARK_SHOTS: DarkShot[] = TIMING_BY_AREA.map((s) => ({
   area: s.category,
@@ -216,7 +172,8 @@ const HERO_SCREENS: { src: string; label: string; alt: string; clip?: string }[]
      design, so this slide is a still until a new clip is recorded. */
   { src: "routine-practice", label: "your routine", alt: "Practicing a driver pre-shot routine in Elite Tempo: look at the target, 13.6 seconds left on the clock." },
   { src: "player", clip: "player", label: "your swing", alt: "A golfer's own swing playing in Elite Tempo with tempo 3.0:1." },
-  { src: "detail", label: "your four numbers", alt: "A swing's four numbers in Elite Tempo: tempo, backswing, downswing and total." },
+  /* Compare lives here since its own section was cut (11-04); the four numbers have the dark card. */
+  { src: "compare", label: "you against Tiger", alt: "See the gap in Elite Tempo: a golfer's driver at the top of the swing, stacked under Tiger Woods' 2000 Open driver at the same moment." },
   { src: "pros", label: "the pros", alt: "Elite Tempo's Pros tab: tour players with their tempos." },
   { src: "stats", label: "your streak", alt: "Stats in Elite Tempo: a weekly streak of 3 weeks in a row." },
 ];
@@ -303,17 +260,9 @@ export default function EliteTempoLanding() {
         <DarkTimingPlayer shots={DARK_SHOTS} />
       </FeatureSection>
 
-      <FeatureSection title="Compare to a tour player's timing." body="See how your timing stacks up to the best players in the world.">
-        <div className="flex justify-center px-6 pt-[clamp(28px,5vw,48px)]">
-          <div className="h-[clamp(380px,46vw,500px)] w-[270px] overflow-hidden">
-            <Phone src="compare" alt="See the gap in Elite Tempo: a golfer's driver at the top of the swing, stacked under Tiger Woods' 2000 Open driver at the same moment." />
-          </div>
-        </div>
-      </FeatureSection>
-
       <FeatureSection
         title={<>Hear Tiger&apos;s timing. Then train to it.</>}
-        body={`Tap play on any swing. All ${SWINGS.length} are hand-timed to 1/100 of a second.`}
+        body={`Tap play to hear it. Then compare your own swing to all ${SWINGS.length} hand-timed tour swings in the app.`}
         cardClass="bg-white"
       >
         <div className="px-[clamp(20px,4vw,56px)] pb-6 pt-2 text-left">
@@ -350,56 +299,6 @@ export default function EliteTempoLanding() {
         </div>
       </FeatureSection>
 
-      <section className={`${WRAP} pt-[clamp(88px,12vw,144px)]`}>
-        <FeatureList
-          cardClass={FEATURE_CARD}
-          title={<h2 className={H2_SECTION}>Built for range days.</h2>}
-          after={<DownloadButton />}
-          items={[
-            {
-              label: "Speed",
-              body: "Practice at 75% or 90% to ingrain a swing change or practice off-speed shots.",
-              phone: <Phone src="options" alt="Elite Tempo's Player options with speed set to 90%." />,
-            },
-            {
-              label: "Streak",
-              body: "One range day a week keeps your streak going.",
-              phone: <Phone src="stats" alt="Stats in Elite Tempo: 3 weeks in a row." />,
-            },
-            {
-              label: "Share",
-              body: "Send your four numbers to your coach.",
-              phone: <Phone src="share" alt="An Elite Tempo share card with a swing's four numbers." />,
-            },
-          ]}
-        />
-      </section>
-
-      {/* Why we built it, at reading size: it was seven lines at heading size. */}
-      <section className="mx-auto max-w-[640px] px-4 pt-[clamp(88px,12vw,144px)] text-center">
-        <p className="m-0 text-[21px] leading-[1.45]">
-          {/* Eric's three reasons, paraphrased by him 11-04: capture the timing of his best
-              shots, compare it to the best players, and drill the routine for pressure. */}
-          “I never knew the timing of my best shots. I built Elite Tempo to capture it, see how it
-          compares to the best players in the world, and practice my routine until it repeats
-          under pressure.”
-        </p>
-        <p className="mt-3 text-[16px]" style={{ color: MUTED }}>
-          Eric, founder
-        </p>
-      </section>
-
-      {/* One review, big. */}
-      <section className="mx-auto max-w-[760px] px-4 pt-[clamp(88px,12vw,144px)] text-center">
-        <p className="m-0 text-[18px] tracking-[2px]" style={{ color: "#A67700" }} role="img" aria-label="5 stars">
-          ★★★★★
-        </p>
-        <blockquote className={`m-0 mt-4 ${H2_SECTION}`}>“{REVIEWS[0].body}”</blockquote>
-        <p className="mt-4 text-[16px]" style={{ color: MUTED }}>
-          {REVIEWS[0].name}, App Store
-        </p>
-      </section>
-
       {/* Pricing: the closing section. A full photo goes behind it once the Adobe Stock
           picture is licensed (Pinterest's sign-up close, 11-04). */}
       <section id="pricing" className={`${WRAP} pt-[clamp(88px,12vw,144px)]`}>
@@ -431,37 +330,6 @@ export default function EliteTempoLanding() {
             </div>
           </div>
           <AppStoreBadge className="mt-8" />
-        </div>
-      </section>
-
-      {/* FAQ. The cost question is answered by the section above, so it is only in the
-          structured data now. */}
-      <section id="faq" className={`${WRAP} pt-[clamp(88px,12vw,144px)]`}>
-        {/* One centered column like every other section (frontend-design check, 11-04). */}
-        <div className="mx-auto max-w-[720px]">
-          <h2 className={`${H2_SECTION} text-center`}>Questions</h2>
-          <div className="mt-8">
-            {FAQS.filter(({ q }) => !q.startsWith("How much")).map(({ q, a }) => (
-              <details key={q} className="et-faq mb-3 rounded-2xl bg-white">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 text-[19px] font-semibold marker:content-none [&::-webkit-details-marker]:hidden">
-                  {q}
-                  <svg aria-hidden viewBox="0 0 24 24" width="22" height="22" className="et-chev shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="m6 9 6 6 6-6" />
-                  </svg>
-                </summary>
-                <p className="m-0 px-6 pb-5 text-[19px] leading-[1.45]" style={{ color: MUTED }}>
-                  {a}
-                </p>
-              </details>
-            ))}
-            <p className="mt-6 text-center text-[16px]" style={{ color: MUTED }}>
-              Still have a question?{" "}
-              <a href="mailto:ebusalacchi@eliteprep.app" className="underline underline-offset-4" style={{ color: INK }}>
-                Email us
-              </a>
-              .
-            </p>
-          </div>
         </div>
       </section>
 

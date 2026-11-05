@@ -43,7 +43,7 @@ export function SiteHeader() {
           {[
             { label: "Tempo library", href: "/tempos", wide: "md" as const },
             { label: "Pricing", href: "/#pricing", wide: null },
-            { label: "FAQs", href: "/#faq", wide: "sm" as const },
+            { label: "FAQs", href: "/faq", wide: "sm" as const },
           ].map((l) => (
             <Link
               key={l.label}
