@@ -1,6 +1,6 @@
 import Link from "next/link";
 import EliteTempoMark from "./EliteTempoMark";
-import { APP_STORE_URL, BG, FAINT, INK, MUTED, etUrl } from "./theme";
+import { APP_STORE_URL, BG, INK, MUTED, etUrl } from "./theme";
 
 /* Header, footer and page frame shared by EVERY Elite Tempo page, the home page
  * included. The 2026-11-03 audit found three different designs on one site: the
@@ -127,75 +127,56 @@ const SOCIALS = [
    columns, the social icons, then the legal line. Column titles and the legal line
    use FAINT, which now clears 4.5:1; the old #8A8B90 measured 3.1:1. */
 export function SiteFooter() {
+  /* Black, in the style Eric pointed to (11-05): the mark top left, two small link
+     columns on the right, the name set huge across the full width, then one line
+     and the copyright at the bottom. */
+  const groups = [
+    { title: "Explore", links: FOOTER_COLUMNS.flatMap((c) => c.links).filter((l) => !["Terms of Use", "Privacy Policy"].includes(l.label)) },
+    { title: "Connect", links: SOCIALS.map((so) => ({ label: so.label, href: so.href })) },
+    { title: "Legal", links: [{ label: "Terms of Use", href: "/terms" }, { label: "Privacy Policy", href: "/privacy" }] },
+  ];
   return (
-    <footer className="mx-auto max-w-[1240px] px-4 pb-10 pt-[clamp(56px,8vw,96px)]">
-      <div className="flex flex-wrap justify-between gap-x-16 gap-y-12">
-        <div>
-          <Link
-            href="/"
-            className="inline-flex min-h-11 items-center gap-2.5 no-underline"
-            style={{ color: INK }}
-          >
-            <EliteTempoMark size={22} fill={INK} />
-            <span className="text-[19px] font-semibold leading-none tracking-[-0.01em]">
-              Elite Tempo
-            </span>
+    <footer className="mt-[clamp(56px,8vw,96px)] bg-[#0B0B0C] text-white">
+      <div className="@container mx-auto max-w-[1240px] pb-6 pl-[max(20px,env(safe-area-inset-left,0px))] pr-[max(20px,env(safe-area-inset-right,0px))] pt-10">
+        <div className="flex flex-wrap items-start justify-between gap-x-16 gap-y-10">
+          <Link href="/" aria-label="Elite Tempo home" className="inline-flex min-h-11 items-center no-underline">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/elite-tempo/app-icon.png" alt="" width={48} height={48} className="block h-12 w-12 rounded-[12px]" />
           </Link>
-          <p className="mt-1 text-sm" style={{ color: FAINT }}>
-            © {new Date().getFullYear()} Elite Prep Inc.
-          </p>
-          {/* Under the name, like Bevel's footer (2026-11-04): on their own row they
-              floated in a wide empty band. */}
-          <div className="-ml-2.5 mt-5 flex items-center gap-1">
-            {SOCIALS.map((so) => (
-              <a
-                key={so.label}
-                href={so.href}
-                aria-label={`Elite Tempo on ${so.label}`}
-                rel="noopener"
-                target="_blank"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors hover:bg-black/5"
-                style={{ color: INK }}
-              >
-                <svg
-                  aria-hidden
-                  viewBox="0 0 24 24"
-                  width="20"
-                  height="20"
-                  fill="currentColor"
-                >
-                  <path d={so.icon} fillRule="evenodd" />
-                </svg>
-              </a>
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-12 gap-y-8 sm:grid-cols-3">
+            {groups.map((g) => (
+              <div key={g.title}>
+                <p className="m-0 text-[14px] text-white/50">{g.title}</p>
+                <ul className="m-0 mt-2 list-none p-0">
+                  {g.links.map((l) => (
+                    <li key={l.label}>
+                      <a
+                        href={l.href}
+                        {...(l.href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})}
+                        className="inline-flex min-h-9 items-center text-[15px] text-white no-underline hover:underline hover:underline-offset-4"
+                      >
+                        {l.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </div>
+          </nav>
         </div>
-        {/* One plain list, no column titles (11-04, Pinterest word budget): two
-            columns on a phone, one row on wider screens. */}
-        <nav aria-label="Footer">
-          <ul className="m-0 grid list-none grid-cols-2 gap-x-10 p-0 text-[16px] sm:flex sm:flex-wrap sm:gap-x-8">
-            {FOOTER_COLUMNS.flatMap((col) => col.links).map((l) => (
-              <li key={l.label}>
-                <a
-                  href={l.href}
-                  className="inline-flex min-h-11 items-center no-underline hover:underline hover:underline-offset-4"
-                  style={{ color: INK }}
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {/* The name, edge to edge: its width is 4.54 times its size in this font, so
+            21.9% of the footer's width makes it fill the line. */}
+        <p aria-hidden className="m-0 mt-[clamp(48px,10vw,140px)] whitespace-nowrap text-[21.9cqw] font-semibold leading-[0.8] tracking-[-0.05em]">
+          Elite Tempo
+        </p>
+        <div className="mt-6 flex flex-wrap items-end justify-between gap-x-6 gap-y-2 text-[13px] text-white/50">
+          <p className="m-0">Time your swing and your routine.</p>
+          <p className="m-0">© {new Date().getFullYear()} Elite Prep Inc.</p>
+        </div>
+        <p className="m-0 mt-4 max-w-[62em] text-[12px] leading-[1.5] text-white/40">
+          Elite Tempo is not affiliated with or endorsed by any player, tour or event named on this site.
+        </p>
       </div>
-      <p
-        className="mt-8 max-w-[62em] text-[14px] leading-[1.5]"
-        style={{ color: FAINT }}
-      >
-        {/* Cut from 45 words to 16 (11-04, Pinterest word budget); same meaning. */}
-        Elite Tempo is not affiliated with or endorsed by any player, tour or
-        event named on this site.
-      </p>
     </footer>
   );
 }

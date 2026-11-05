@@ -25,10 +25,7 @@ export default function ReviewsBand({ reviews, photo }: { reviews: Review[]; pho
       >
         <p className="m-0 text-[16px] font-semibold text-white/80">What golfers are saying</p>
         <figure key={i} className="et-quote m-0 mt-6 max-w-[22em]">
-          <p className="m-0 text-[16px] tracking-[3px] text-[#F9C832]" role="img" aria-label="5 stars">
-            ★★★★★
-          </p>
-          <blockquote className="m-0 mt-4 text-[clamp(26px,3.6vw,44px)] font-semibold leading-[1.18] tracking-[-0.02em] [text-wrap:balance]">
+          <blockquote className="m-0 text-[clamp(26px,3.6vw,44px)] font-semibold leading-[1.18] tracking-[-0.02em] [text-wrap:balance]">
             “{r.body}”
           </blockquote>
           <figcaption className="mt-5 text-[16px] text-white/80">{r.name}, App Store</figcaption>

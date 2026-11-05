@@ -123,8 +123,10 @@ export default function RoutineVideo({
         </p>
       </div>
       {/* One step at a time, full width, nothing else (Eric, 11-04: thirteen small
-          dashes read as clutter on a phone). The name fades in as each step starts. */}
-      <div className="px-4 py-3 text-center md:px-0 md:pb-0">
+          dashes read as clutter on a phone). The name fades in as each step starts.
+          A fixed height with the name centered, so a two-line step never makes the
+          card jump and the space above and below stays even (Eric, 11-05). */}
+      <div className="flex min-h-[76px] items-center justify-center px-5 py-4 text-center md:px-0 md:pb-0">
         <p key={done ? "impact" : current} className="et-step m-0 text-[19px] font-semibold leading-snug text-[#141518]" aria-live="polite">
           {done ? "Impact" : current < 0 ? "Ready" : steps[current].title}
         </p>
