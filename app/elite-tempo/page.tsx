@@ -258,7 +258,7 @@ export default function EliteTempoLanding() {
       <FeatureSection title="Compare your swing timing to a library of pros.">
         <TigerCompare
           rows={[
-            { name: "Tiger Woods", detail: `Driver, ${HERO_SWING.year} Open`, back: HERO_SWING.back, down: HERO_SWING.down },
+            { name: "Tiger Woods", detail: `Driver, ${HERO_SWING.year}`, back: HERO_SWING.back, down: HERO_SWING.down },
             /* Eric's favorite driver in the app: takeaway 0.668s, top 1.313s, impact 1.547s. */
             { name: "You", detail: "Driver", back: 1.313 - 0.668, down: 1.547 - 1.313 },
           ]}
