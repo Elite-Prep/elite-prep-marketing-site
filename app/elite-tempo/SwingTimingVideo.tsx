@@ -16,7 +16,7 @@ import useReducedMotion from "./useReducedMotion";
 export type SwingMarks = { takeaway: number; top: number; impact: number };
 export type Freeze = { top: number; impact: number; fps: number };
 
-const FREEZE_MS = 1000;
+const FREEZE_MS = 1600;
 const HOLD_MS = 2600;
 
 export default function SwingTimingVideo({
@@ -120,6 +120,10 @@ export default function SwingTimingVideo({
 
   return (
     <div className="mx-auto w-full md:max-w-[440px] md:py-12">
+      {/* Eric, 11-05: each pause is labeled on the picture itself (backswing at the
+          top, downswing at impact, total and tempo at the finish), so the video says
+          what is being timed. The strip below keeps all four. */}
+      <div className="relative">
       <video
         ref={video}
         src={still ? undefined : src}
@@ -132,6 +136,21 @@ export default function SwingTimingVideo({
         height={800}
         className="block aspect-[4/5] w-full bg-[#DCDCD6] object-cover md:rounded-[22px]"
       />
+      {!still && started && stage > 0 && (
+        <div key={stage} aria-hidden className="et-freeze absolute left-3 top-3 flex gap-2">
+          {cells
+            .filter((c) => c.at === stage)
+            .map((c) => (
+              <div key={c.label} className="rounded-2xl bg-[rgba(20,21,24,0.72)] px-4 py-2.5 text-center text-white backdrop-blur-md">
+                <div className="text-[13px] font-medium text-white/75">{c.label}</div>
+                <div className="mt-0.5 text-[26px] font-semibold leading-none tracking-[-0.02em] [font-variant-numeric:tabular-nums]" style={{ color: c.gold ? "#F9C832" : "#fff" }}>
+                  {c.value}
+                </div>
+              </div>
+            ))}
+        </div>
+      )}
+      </div>
       <dl className="m-3 grid grid-cols-4 rounded-2xl bg-white px-1 py-3 text-center md:mx-0 md:mb-0">
         {cells.map((c) => {
           const on = shown >= c.at;
@@ -152,6 +171,7 @@ export default function SwingTimingVideo({
           );
         })}
       </dl>
+      <style>{`@keyframes et-freeze { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } } .et-freeze { animation: et-freeze 0.2s ease-out both; }`}</style>
     </div>
   );
 }
