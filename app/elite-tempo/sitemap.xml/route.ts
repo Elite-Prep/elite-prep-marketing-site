@@ -25,6 +25,7 @@ const ENTRIES: Entry[] = [
   { path: "/tempos", changefreq: "weekly", priority: "0.9" },
   { path: "/how-we-time-swings", changefreq: "monthly", priority: "0.8" },
   { path: "/faq", changefreq: "monthly", priority: "0.6" },
+  { path: "/vs", changefreq: "monthly", priority: "0.5" },
   { path: "/vs/tour-tempo", changefreq: "monthly", priority: "0.7" },
   { path: "/vs/metronome", changefreq: "monthly", priority: "0.7" },
   ...PLAYERS.map((p) => ({

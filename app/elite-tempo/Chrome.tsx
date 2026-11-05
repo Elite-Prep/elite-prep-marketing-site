@@ -82,17 +82,13 @@ const FOOTER_COLUMNS = [
   {
     title: "Product",
     links: [
-      { label: "Download app", href: APP_STORE_URL },
       { label: "Tempo library", href: "/tempos" },
       { label: "How we time swings", href: "/how-we-time-swings" },
     ],
   },
   {
     title: "Compare",
-    links: [
-      { label: "vs Tour Tempo", href: "/vs/tour-tempo" },
-      { label: "vs a metronome", href: "/vs/metronome" },
-    ],
+    links: [{ label: "Compare", href: "/vs" }],
   },
   {
     title: "Company",
@@ -174,33 +170,22 @@ export function SiteFooter() {
             ))}
           </div>
         </div>
-        <nav
-          aria-label="Footer"
-          className="grid grid-cols-2 gap-x-16 gap-y-10 sm:grid-cols-3"
-        >
-          {FOOTER_COLUMNS.map((col) => (
-            <div key={col.title}>
-              <p
-                className="m-0 text-[16px] font-medium"
-                style={{ color: FAINT }}
-              >
-                {col.title}
-              </p>
-              <ul className="m-0 mt-2 list-none p-0 text-[16px]">
-                {col.links.map((l) => (
-                  <li key={l.label}>
-                    <a
-                      href={l.href}
-                      className="inline-flex min-h-11 items-center no-underline hover:underline hover:underline-offset-4"
-                      style={{ color: INK }}
-                    >
-                      {l.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        {/* One plain list, no column titles (11-04, Pinterest word budget): two
+            columns on a phone, one row on wider screens. */}
+        <nav aria-label="Footer">
+          <ul className="m-0 grid list-none grid-cols-2 gap-x-10 p-0 text-[16px] sm:flex sm:flex-wrap sm:gap-x-8">
+            {FOOTER_COLUMNS.flatMap((col) => col.links).map((l) => (
+              <li key={l.label}>
+                <a
+                  href={l.href}
+                  className="inline-flex min-h-11 items-center no-underline hover:underline hover:underline-offset-4"
+                  style={{ color: INK }}
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </nav>
       </div>
       <p
