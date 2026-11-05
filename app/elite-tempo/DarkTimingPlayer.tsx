@@ -40,14 +40,20 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
   useEffect(() => {
     const el = box.current;
     if (!el) return;
-    const seen = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.5 });
+    const seen = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.5 },
+    );
     seen.observe(el);
     return () => seen.disconnect();
   }, []);
 
   useEffect(() => {
     if (still || touched || playing || !visible) return;
-    const timer = setInterval(() => setArea((a) => (a + 1) % shots.length), CYCLE_MS);
+    const timer = setInterval(
+      () => setArea((a) => (a + 1) % shots.length),
+      CYCLE_MS,
+    );
     return () => clearInterval(timer);
   }, [still, touched, playing, visible, shots.length]);
 
@@ -91,9 +97,12 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
     setHead(0);
   }
 
-  useEffect(() => () => {
-    if (raf.current) cancelAnimationFrame(raf.current);
-  }, []);
+  useEffect(
+    () => () => {
+      if (raf.current) cancelAnimationFrame(raf.current);
+    },
+    [],
+  );
 
   /* Six passes, all scheduled on the audio clock up front; the playhead starts when
      the first tick reaches the speaker, so it never drifts from the sound. */
@@ -164,11 +173,21 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
         role="img"
         aria-label={`Timing bar: backswing ${secs(shot.back)}, downswing ${secs(shot.down)}.`}
       >
-        <div className="absolute inset-x-0 top-5 h-4 rounded-lg" style={{ background: "rgba(255,255,255,0.1)" }} />
-        <div className="et-ease absolute left-0 top-5 h-4 rounded-l-lg bg-white" style={{ width: `${backW}%` }} />
+        <div
+          className="absolute inset-x-0 top-5 h-4 rounded-lg"
+          style={{ background: "rgba(255,255,255,0.1)" }}
+        />
+        <div
+          className="et-ease absolute left-0 top-5 h-4 rounded-l-lg bg-white"
+          style={{ width: `${backW}%` }}
+        />
         <div
           className="et-ease absolute top-5 h-4 rounded-r-lg"
-          style={{ left: `${backW}%`, width: `${downW}%`, background: "#F9C832" }}
+          style={{
+            left: `${backW}%`,
+            width: `${downW}%`,
+            background: "#F9C832",
+          }}
         />
         <div
           className="absolute top-2 -ml-0.5 h-10 w-1 rounded-sm bg-white"
@@ -177,12 +196,13 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
       </div>
       <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p key={`p${area}`} className="et-rise m-0 text-[clamp(30px,3.6vw,44px)] font-semibold leading-[1.1] tracking-[-0.025em]">
+          <p
+            key={`p${area}`}
+            className="et-rise m-0 text-[clamp(30px,3.6vw,44px)] font-semibold leading-[1.1] tracking-[-0.025em]"
+          >
             {shot.player}
           </p>
-          <p key={`d${area}`} className="et-rise mt-1.5 text-[17px]" style={{ color: "rgba(255,255,255,0.7)", animationDelay: "60ms" }}>
-            {shot.detail}
-          </p>
+          {/* No words in the picture beyond the numbers and the name (Pinterest, 11-04). */}
         </div>
         <button
           type="button"
@@ -194,30 +214,35 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
       </div>
       {/* The parts of the game come last: the heading promises four numbers, so
           the numbers lead and these choose whose numbers they are. */}
-      <div className="mt-8 flex flex-wrap gap-2 border-t pt-6" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
-        {shots.map((s, i) => (
-          <button
-            key={s.area}
-            type="button"
-            aria-pressed={i === area}
-            onClick={() => {
-              if (raf.current) cancelAnimationFrame(raf.current);
-              raf.current = null;
-              setTouched(true);
-              setArea(i);
-              setPlaying(false);
-              setHead(0);
-            }}
-            className="min-h-11 cursor-pointer rounded-full border-0 px-5 text-base font-medium"
-            style={{
-              background: i === area ? "#F7C948" : "rgba(255,255,255,0.1)",
-              color: i === area ? "#141518" : "#FFFFFF",
-            }}
-          >
-            {s.area}
-          </button>
-        ))}
-      </div>
+      {shots.length > 1 && (
+        <div
+          className="mt-8 flex flex-wrap gap-2 border-t pt-6"
+          style={{ borderColor: "rgba(255,255,255,0.12)" }}
+        >
+          {shots.map((s, i) => (
+            <button
+              key={s.area}
+              type="button"
+              aria-pressed={i === area}
+              onClick={() => {
+                if (raf.current) cancelAnimationFrame(raf.current);
+                raf.current = null;
+                setTouched(true);
+                setArea(i);
+                setPlaying(false);
+                setHead(0);
+              }}
+              className="min-h-11 cursor-pointer rounded-full border-0 px-5 text-base font-medium"
+              style={{
+                background: i === area ? "#F7C948" : "rgba(255,255,255,0.1)",
+                color: i === area ? "#141518" : "#FFFFFF",
+              }}
+            >
+              {s.area}
+            </button>
+          ))}
+        </div>
+      )}
       <style>{ROLL_CSS}</style>
     </div>
   );
@@ -248,10 +273,16 @@ function Roll({ value }: { value: string }) {
     <span>
       <span className="sr-only">{value}</span>
       {[...value].map((ch, i) => (
-        <span key={i} aria-hidden className="inline-block overflow-hidden align-bottom">
+        <span
+          key={i}
+          aria-hidden
+          className="inline-block overflow-hidden align-bottom"
+        >
           <span
             key={before[i] === ch ? `same${i}` : `${value}${i}`}
-            className={before[i] === ch ? "inline-block" : "et-roll inline-block"}
+            className={
+              before[i] === ch ? "inline-block" : "et-roll inline-block"
+            }
             style={{ animationDelay: `${i * 45}ms` }}
           >
             {ch}
@@ -262,13 +293,26 @@ function Roll({ value }: { value: string }) {
   );
 }
 
-function Stat({ value, label, className, gold = false }: { value: string; label: string; className: string; gold?: boolean }) {
+function Stat({
+  value,
+  label,
+  className,
+  gold = false,
+}: {
+  value: string;
+  label: string;
+  className: string;
+  gold?: boolean;
+}) {
   return (
     <div>
       <p className={className} style={gold ? { color: "#F9C832" } : undefined}>
         <Roll value={value} />
       </p>
-      <p className="mt-1.5 text-base" style={{ color: "rgba(255,255,255,0.7)" }}>
+      <p
+        className="mt-1.5 text-base"
+        style={{ color: "rgba(255,255,255,0.7)" }}
+      >
         {label}
       </p>
     </div>

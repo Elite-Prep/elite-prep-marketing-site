@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import DarkTimingPlayer, { type DarkShot } from "./DarkTimingPlayer";
 import LottieLoop from "./LottieLoop";
 import TourList from "./TourList";
@@ -256,8 +255,9 @@ export default function EliteTempoLanding() {
         </p>
       </section>
 
-      <FeatureSection bare title="Four timing numbers from every swing." body="Backswing, downswing, total time and tempo.">
-        <DarkTimingPlayer shots={DARK_SHOTS} />
+      <FeatureSection bare title="Four timing numbers from every swing." body="Tap play to feel Tiger's timing.">
+        {/* Tiger's driver only: one shot, no area buttons, no words beyond the numbers. */}
+        <DarkTimingPlayer shots={DARK_SHOTS.slice(0, 1)} />
       </FeatureSection>
 
       <FeatureSection
@@ -276,9 +276,6 @@ export default function EliteTempoLanding() {
               ratio: fmtRatio(g),
             }))}
           />
-          <Link href="/tempos" className="mt-2 inline-flex min-h-11 items-center text-[16px] font-semibold underline underline-offset-4">
-            See all {SWINGS.length} hand-timed swings
-          </Link>
         </div>
       </FeatureSection>
 
@@ -290,7 +287,6 @@ export default function EliteTempoLanding() {
           <div className="mt-6 w-full">
             <LottieLoop scene={TIMER_SCENE} label={`A routine of ${ROUTINE_S} seconds filling the bar, short of the ${PACE_LIMIT_S} second limit.`} className="w-full" />
             <div className="relative mt-2 h-5 text-[16px]" style={{ color: MUTED }}>
-              <span className="absolute left-0">{(PACE_LIMIT_S - ROUTINE_S).toFixed(1)}s to spare</span>
               <span className="absolute -translate-x-1/2 whitespace-nowrap" style={{ left: `${(PACE_LIMIT_S / TIMER_SCALE_S) * 100}%` }}>
                 {PACE_LIMIT_S}s limit
               </span>

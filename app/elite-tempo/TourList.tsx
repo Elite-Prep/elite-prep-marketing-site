@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { INK, MUTED } from "./theme";
+import { INK } from "./theme";
 import useReducedMotion from "./useReducedMotion";
 import { getAudio, latency, ready, tick } from "./tickAudio";
 
@@ -146,25 +146,7 @@ export default function TourList({ rows }: { rows: TourRow[] }) {
       <style>{`@keyframes et-nudge { 0% { box-shadow: 0 0 0 0 rgba(249,200,50,0.75); background: ${GOLD}; } 70% { box-shadow: 0 0 0 16px rgba(249,200,50,0); background: ${GOLD}; } 100% { box-shadow: 0 0 0 16px rgba(249,200,50,0); } } .et-nudge { animation: et-nudge 1.4s ease-out 1; }`}</style>
       {/* The key. The invitation to listen lives in the heading above (Eric, 11-04:
           a small play icon above the real play buttons read awkward). */}
-      <p className="m-0 flex gap-5 text-[16px]" style={{ color: MUTED }}>
-        <span className="inline-flex items-center gap-2">
-          <i
-            className="inline-block h-2 w-[18px] rounded"
-            style={{ background: INK }}
-            aria-hidden
-          />
-          Backswing
-        </span>
-        <span className="inline-flex items-center gap-2">
-          <i
-            className="inline-block h-2 w-[18px] rounded"
-            style={{ background: GOLD }}
-            aria-hidden
-          />
-          Downswing
-        </span>
-      </p>
-      <ul className="m-0 mt-2 list-none p-0">
+      <ul className="m-0 list-none p-0">
         {rows.map((r, i) => {
           const { b: bw, d: dw } = widths(i);
           return (
@@ -181,9 +163,6 @@ export default function TourList({ rows }: { rows: TourRow[] }) {
                 >
                   {r.player}
                 </Link>
-                <p className="m-0 text-[16px]" style={{ color: MUTED }}>
-                  {r.detail}
-                </p>
               </div>
               <div className="col-start-1 row-start-2 min-w-0 md:col-start-auto md:row-start-auto">
                 <div
