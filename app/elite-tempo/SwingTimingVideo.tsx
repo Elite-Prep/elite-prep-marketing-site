@@ -116,8 +116,6 @@ export default function SwingTimingVideo({
     };
   }, [still, freeze.top, freeze.impact, freeze.fps]);
 
-  const shown = still || !started ? 3 : stage;
-
   return (
     <div className="mx-auto w-full md:max-w-[440px] md:py-12">
       <div className="relative">
@@ -137,9 +135,9 @@ export default function SwingTimingVideo({
           four make a square: backswing top left at the top, downswing bottom left and
           the total (the two added) bottom right together at impact, tempo top right at
           the finish. Each stays until the clip restarts. */}
-      {!still && started &&
+      {(still || started) &&
         cells
-          .filter((c) => stage >= c.at)
+          .filter((c) => still || stage >= c.at)
           .map((c) => (
             <div key={c.label} aria-hidden className={`et-freeze absolute min-w-[96px] rounded-2xl bg-[rgba(20,21,24,0.72)] px-4 py-2.5 text-center text-white backdrop-blur-md ${c.pos}`}>
               <div className="text-[13px] font-medium text-white/75">{c.label}</div>
@@ -149,26 +147,6 @@ export default function SwingTimingVideo({
             </div>
           ))}
       </div>
-      <dl className="m-3 grid grid-cols-4 rounded-2xl bg-white px-1 py-3 text-center md:mx-0 md:mb-0">
-        {cells.map((c) => {
-          const on = shown >= c.at;
-          return (
-            <div key={c.label} className="min-w-0">
-              <dt className="text-[14px] font-medium text-[#6B6D72]">
-                {c.label}
-              </dt>
-              <dd
-                className="m-0 mt-1 text-[19px] font-semibold leading-none tracking-[-0.02em] transition-colors duration-300 [font-variant-numeric:tabular-nums]"
-                style={{
-                  color: on ? (c.gold ? "#C99A12" : "#141518") : "#D5D5CF",
-                }}
-              >
-                {c.value}
-              </dd>
-            </div>
-          );
-        })}
-      </dl>
       <style>{`@keyframes et-freeze { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } } .et-freeze { animation: et-freeze 0.2s ease-out both; }`}</style>
     </div>
   );
