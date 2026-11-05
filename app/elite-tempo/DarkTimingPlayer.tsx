@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import useReducedMotion from "./useReducedMotion";
+import { getAudio, latency, ready, tick } from "./tickAudio";
 
 export type DarkShot = {
   area: string;
@@ -33,7 +34,6 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
   const [touched, setTouched] = useState(false);
   const [visible, setVisible] = useState(false);
   const raf = useRef<number | null>(null);
-  const audio = useRef<AudioContext | null>(null);
   const box = useRef<HTMLDivElement>(null);
   const still = useReducedMotion();
 
@@ -78,9 +78,15 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
     requestAnimationFrame(frame);
   }, [visible, still, total]);
 
+  /* The ticks for one Play go through this node, so Stop can silence the passes
+     that are already scheduled. */
+  const bus = useRef<GainNode | null>(null);
+
   function stop() {
     if (raf.current) cancelAnimationFrame(raf.current);
     raf.current = null;
+    bus.current?.disconnect();
+    bus.current = null;
     setPlaying(false);
     setHead(0);
   }
@@ -89,51 +95,48 @@ export default function DarkTimingPlayer({ shots }: { shots: DarkShot[] }) {
     if (raf.current) cancelAnimationFrame(raf.current);
   }, []);
 
-  function tick(at: number, hard: boolean) {
-    const c = audio.current;
-    if (!c) return;
-    const o = c.createOscillator();
-    const g = c.createGain();
-    o.frequency.value = hard ? 1320 : 880;
-    g.gain.setValueAtTime(0.3, at);
-    g.gain.exponentialRampToValueAtTime(0.001, at + 0.09);
-    o.connect(g);
-    g.connect(c.destination);
-    o.start(at);
-    o.stop(at + 0.1);
-  }
-
+  /* Six passes, all scheduled on the audio clock up front; the playhead starts when
+     the first tick reaches the speaker, so it never drifts from the sound. */
   function play() {
     sweeping.current = false;
     setTouched(true);
-    const Ctx =
-      window.AudioContext ||
-      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-    if (Ctx && !audio.current) audio.current = new Ctx();
-    audio.current?.resume();
-    const gap = 1.1;
-    const start = performance.now() + 120;
-    let nextPass = 0;
     setPlaying(true);
-    const frame = (now: number) => {
-      const elapsed = (now - start) / 1000;
-      const pass = Math.floor(Math.max(elapsed, 0) / (total + gap));
-      if (pass >= 6) {
-        stop();
-        return;
-      }
-      if (pass >= nextPass && audio.current) {
-        const base = audio.current.currentTime + 0.03;
-        tick(base, false);
-        tick(base + shot.back, false);
-        tick(base + total, true);
-        nextPass = pass + 1;
-      }
-      const t = Math.max(elapsed, 0) - pass * (total + gap);
-      setHead(Math.min(t, total));
+    const gap = 1.1;
+    const passes = 6;
+    const ctx = getAudio();
+    const run = (delayS: number) => {
+      const start = performance.now() + delayS * 1000;
+      const frame = (now: number) => {
+        const elapsed = (now - start) / 1000;
+        const pass = Math.floor(Math.max(elapsed, 0) / (total + gap));
+        if (pass >= passes) {
+          stop();
+          return;
+        }
+        const t = Math.max(elapsed, 0) - pass * (total + gap);
+        setHead(Math.min(t, total));
+        raf.current = requestAnimationFrame(frame);
+      };
       raf.current = requestAnimationFrame(frame);
     };
-    raf.current = requestAnimationFrame(frame);
+    if (!ctx) {
+      run(0);
+      return;
+    }
+    void ready(ctx).then(() => {
+      const lead = 0.05;
+      const out = ctx.createGain();
+      out.connect(ctx.destination);
+      bus.current = out;
+      const base = ctx.currentTime + lead;
+      for (let p = 0; p < passes; p++) {
+        const at = base + p * (total + gap);
+        tick(ctx, at, false, out);
+        tick(ctx, at + shot.back, false, out);
+        tick(ctx, at + total, true, out);
+      }
+      run(lead + latency(ctx));
+    });
   }
 
   const backW = (shot.back / SCALE) * 100;
