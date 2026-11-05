@@ -48,10 +48,10 @@ export default function SwingTimingVideo({
   const down = marks.impact - marks.top;
   const total = back + down;
   const cells = [
-    { label: "Backswing", value: `${back.toFixed(2)}s`, at: 1 },
-    { label: "Downswing", value: `${down.toFixed(2)}s`, at: 2, gold: true },
-    { label: "Total", value: `${total.toFixed(2)}s`, at: 2 },
-    { label: "Tempo", value: `${(back / down).toFixed(1)}:1`, at: 3 },
+    { label: "Backswing", value: `${back.toFixed(2)}s`, at: 1, pos: "left-3 top-3" },
+    { label: "Downswing", value: `${down.toFixed(2)}s`, at: 2, gold: true, pos: "bottom-3 left-3" },
+    { label: "Total", value: `${total.toFixed(2)}s`, at: 2, pos: "bottom-3 right-3" },
+    { label: "Tempo", value: `${(back / down).toFixed(1)}:1`, at: 3, pos: "right-3 top-3" },
   ];
 
   useEffect(() => {
@@ -133,28 +133,19 @@ export default function SwingTimingVideo({
         height={800}
         className="block aspect-[4/5] w-full bg-[#DCDCD6] object-cover md:rounded-[22px]"
       />
-      {/* Labels build up as the swing plays (Eric, 11-05): backswing top left at the
-          top, downswing with the total bottom left at impact (the total is the two
-          added), tempo top right at the finish. Each stays until the clip restarts. */}
+      {/* Labels build up as the swing plays (Eric, 11-05), one in each corner so the
+          four make a square: backswing top left at the top, downswing bottom left and
+          the total (the two added) bottom right together at impact, tempo top right at
+          the finish. Each stays until the clip restarts. */}
       {!still && started &&
-        [
-          { at: 1, pos: "left-3 top-3" },
-          { at: 2, pos: "bottom-3 left-3" },
-          { at: 3, pos: "right-3 top-3" },
-        ]
-          .filter((g) => stage >= g.at)
-          .map((g) => (
-            <div key={g.at} aria-hidden className={`et-freeze absolute flex gap-2 ${g.pos}`}>
-              {cells
-                .filter((c) => c.at === g.at)
-                .map((c) => (
-                  <div key={c.label} className="rounded-2xl bg-[rgba(20,21,24,0.72)] px-4 py-2.5 text-center text-white backdrop-blur-md">
-                    <div className="text-[13px] font-medium text-white/75">{c.label}</div>
-                    <div className="mt-0.5 text-[26px] font-semibold leading-none tracking-[-0.02em] [font-variant-numeric:tabular-nums]" style={{ color: c.gold ? "#F9C832" : "#fff" }}>
-                      {c.value}
-                    </div>
-                  </div>
-                ))}
+        cells
+          .filter((c) => stage >= c.at)
+          .map((c) => (
+            <div key={c.label} aria-hidden className={`et-freeze absolute min-w-[96px] rounded-2xl bg-[rgba(20,21,24,0.72)] px-4 py-2.5 text-center text-white backdrop-blur-md ${c.pos}`}>
+              <div className="text-[13px] font-medium text-white/75">{c.label}</div>
+              <div className="mt-0.5 text-[26px] font-semibold leading-none tracking-[-0.02em] [font-variant-numeric:tabular-nums]" style={{ color: c.gold ? "#F9C832" : "#fff" }}>
+                {c.value}
+              </div>
             </div>
           ))}
       </div>
