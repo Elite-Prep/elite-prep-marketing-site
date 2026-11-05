@@ -48,8 +48,8 @@ export default function SwingTimingVideo({
   const down = marks.impact - marks.top;
   const total = back + down;
   const cells = [
-    { label: "Back", value: `${back.toFixed(2)}s`, at: 1 },
-    { label: "Down", value: `${down.toFixed(2)}s`, at: 2, gold: true },
+    { label: "Backswing", value: `${back.toFixed(2)}s`, at: 1 },
+    { label: "Downswing", value: `${down.toFixed(2)}s`, at: 2, gold: true },
     { label: "Total", value: `${total.toFixed(2)}s`, at: 3 },
     { label: "Tempo", value: `${(back / down).toFixed(1)}:1`, at: 3 },
   ];

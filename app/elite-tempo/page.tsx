@@ -230,17 +230,17 @@ export default function EliteTempoLanding() {
       <section className="mx-auto max-w-[900px] px-4 pt-[clamp(56px,8vw,96px)] text-center">
         {/* Plain type; the italics were dropped 11-04 (read as templated). */}
         <h2 className={H2_SECTION}>
-          Competing under pressure breaks your timing and routine.
+          Competing under pressure affects your timing and routine.
         </h2>
         <p className="mx-auto mt-3 max-w-[30em] text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
-          Now you can practice both.
+          Now you can practice both, so you’re ready when the moment comes.
         </p>
       </section>
 
       {/* Every feature picture is real footage or a real piece of the app, and every
           number is the app's own reading (11-04). No floating labels: Eric found them
           hacky, and the numbers now appear where the app shows them. */}
-      <FeatureSection title="Four timing numbers from every swing." body="Film any swing. Elite Tempo times it to 1/100 of a second.">
+      <FeatureSection title="Four numbers captured every time you swing.">
         <SwingTimingVideo
           src="/elite-tempo/video/swing.mp4"
           poster="/elite-tempo/video/swing-poster.jpg"
@@ -253,7 +253,7 @@ export default function EliteTempoLanding() {
         />
       </FeatureSection>
 
-      <FeatureSection title="Hear Tiger’s timing. Then train to it." body={`Tap play, then compare your swing to ${SWINGS.length} hand-timed tour swings.`}>
+      <FeatureSection title="Compare your swing timing to a library of pros.">
         <TigerCompare
           rows={[
             { name: "Tiger Woods", detail: `Driver, ${HERO_SWING.year} Open`, back: HERO_SWING.back, down: HERO_SWING.down },
@@ -265,7 +265,7 @@ export default function EliteTempoLanding() {
 
       {/* Social proof between the features (Eric's wireframe, 11-04). */}
       <ReviewsBand
-        photo="/elite-tempo/video/reviews.jpg"
+        photo="/elite-tempo/video/stock-reviews-preview.jpg"
         reviews={[
           { body: "I was just looking to improve my tempo and was strongly suggested this app. I love the ease of use and effectiveness.", name: "StayDialedIn" },
           { body: "This is a game changer for tempo training. It’s simple to use, smart and actually useful!", name: "@kgrace" },
@@ -274,7 +274,7 @@ export default function EliteTempoLanding() {
         ]}
       />
 
-      <FeatureSection title="Rehearse your routine. Play faster." body="Each step lights up, inside the USGA and R&A’s recommended 40 seconds.">
+      <FeatureSection title="Rehearse your routine. Play faster." body="Film your routine and name each step. Then practice it inside the recommended 40 seconds.">
         <RoutineVideo
           src="/elite-tempo/video/routine.mp4"
           poster="/elite-tempo/video/routine-poster.jpg"
@@ -307,10 +307,10 @@ export default function EliteTempoLanding() {
           he looked at show none, and the FAQ answers what it costs. */}
       <section id="pricing" className="relative mt-[clamp(56px,8vw,96px)] scroll-mt-16 overflow-hidden">
         <div
-          className="flex min-h-[clamp(560px,62vw,720px)] flex-col items-center justify-start bg-[#2A3A26] bg-cover px-[max(20px,env(safe-area-inset-left,0px))] pb-16 pt-[clamp(48px,6vw,80px)] text-center text-white md:items-end md:justify-center md:pr-[4%] md:text-right"
-          style={{ backgroundImage: "linear-gradient(rgba(20,21,24,0.62) 0%, rgba(20,21,24,0.28) 45%, rgba(20,21,24,0.08) 100%), url(/elite-tempo/video/close.jpg?v=2)", backgroundPosition: "56% 70%" }}
+          className="flex min-h-[clamp(560px,62vw,720px)] flex-col items-center justify-center bg-[#2A3A26] bg-cover px-[max(20px,env(safe-area-inset-left,0px))] pb-16 pt-[clamp(48px,6vw,80px)] text-center text-white md:justify-center"
+          style={{ backgroundImage: "linear-gradient(rgba(20,21,24,0.10), rgba(20,21,24,0.30)), url(/elite-tempo/video/stock-close-preview.jpg)", backgroundPosition: "0% 60%" }}
         >
-          <h2 className="m-0 max-w-[16em] text-[clamp(32px,4.6vw,56px)] md:max-w-[8em] md:text-[clamp(36px,3.2vw,46px)] font-semibold leading-[1.05] tracking-[-0.03em] [text-shadow:0_2px_24px_rgba(0,0,0,0.35)] [text-wrap:balance]">
+          <h2 className="m-0 max-w-[16em] text-[clamp(32px,4.6vw,56px)] font-semibold leading-[1.05] tracking-[-0.03em] [text-shadow:0_2px_24px_rgba(0,0,0,0.35)] [text-wrap:balance]">
             Time your own swing before you pay a thing.
           </h2>
           <a
@@ -437,7 +437,7 @@ function FeatureSection({
   cardClass = "",
 }: {
   title: ReactNode;
-  body: string;
+  body?: string;
   children: ReactNode;
   bare?: boolean;
   cardClass?: string;
@@ -449,9 +449,11 @@ function FeatureSection({
       <div className={bare ? "[&>*]:mt-0" : `${FEATURE_CARD} ${cardClass}`}>{children}</div>
       <div className="mx-auto mt-8 max-w-[34em] text-center md:mx-0 md:mt-0 md:text-left">
         <h2 className={H2_SECTION}>{title}</h2>
-        <p className="m-0 mt-3 text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
-          {body}
-        </p>
+        {body && (
+          <p className="m-0 mt-3 text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
+            {body}
+          </p>
+        )}
         <DownloadButton />
       </div>
     </section>
