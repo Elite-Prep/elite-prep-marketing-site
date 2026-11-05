@@ -211,11 +211,10 @@ export default function HeroCarousel({
           );
         })}
       </div>
-      {/* The dots sit over the front screen, so they get the header's frosted pill. */}
-      <div
-        className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-0 rounded-full px-1 backdrop-blur"
-        style={{ background: "rgba(255,255,255,0.72)" }}
-      >
+      {/* The dots sit above the phones, in the gap under the App Store badge, so they
+          never cover a screen (blind review, 11-04: on the phones they hid the swing
+          numbers on desktop and the app's play button on iPhone). */}
+      <div className="absolute -top-11 left-1/2 z-20 flex -translate-x-1/2 gap-0">
         {labels.map((label, i) => (
           <button
             key={label}

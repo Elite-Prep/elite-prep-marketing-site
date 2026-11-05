@@ -38,6 +38,9 @@ export default function SwingTimingVideo({
   const still = useReducedMotion();
   /* 0 nothing yet, 1 backswing, 2 downswing, 3 total and tempo. */
   const [stage, setStage] = useState(0);
+  /* Until the clip first plays, all four numbers show in full; pale gray before
+     that read as broken (blind review, 11-04). */
+  const [started, setStarted] = useState(false);
   const stageRef = useRef(0);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
@@ -60,7 +63,8 @@ export default function SwingTimingVideo({
       stageRef.current = n;
       setStage(n);
     };
-    const later = (ms: number, fn: () => void) => timers.current.push(setTimeout(fn, ms));
+    const later = (ms: number, fn: () => void) =>
+      timers.current.push(setTimeout(fn, ms));
     const freezeAt = (t: number, n: number) => {
       v.pause();
       v.currentTime = t;
@@ -71,11 +75,14 @@ export default function SwingTimingVideo({
       const t = v.currentTime;
       /* Stop as soon as the frame is reached, then land on its middle. */
       const half = 0.5 / freeze.fps;
-      if (stageRef.current === 0 && t >= freeze.top - half) freezeAt(freeze.top, 1);
-      else if (stageRef.current === 1 && t >= freeze.impact - half) freezeAt(freeze.impact, 2);
+      if (stageRef.current === 0 && t >= freeze.top - half)
+        freezeAt(freeze.top, 1);
+      else if (stageRef.current === 1 && t >= freeze.impact - half)
+        freezeAt(freeze.impact, 2);
       raf = requestAnimationFrame(watch);
     };
     const restart = () => {
+      setStarted(true);
       set(0);
       v.currentTime = 0;
       void v.play().catch(() => {});
@@ -109,7 +116,7 @@ export default function SwingTimingVideo({
     };
   }, [still, freeze.top, freeze.impact, freeze.fps]);
 
-  const shown = still ? 3 : stage;
+  const shown = still || !started ? 3 : stage;
 
   return (
     <div className="mx-auto w-full md:max-w-[440px] md:py-12">
@@ -130,10 +137,14 @@ export default function SwingTimingVideo({
           const on = shown >= c.at;
           return (
             <div key={c.label} className="min-w-0">
-              <dt className="text-[14px] font-medium text-[#6B6D72]">{c.label}</dt>
+              <dt className="text-[14px] font-medium text-[#6B6D72]">
+                {c.label}
+              </dt>
               <dd
                 className="m-0 mt-1 text-[19px] font-semibold leading-none tracking-[-0.02em] transition-colors duration-300 [font-variant-numeric:tabular-nums]"
-                style={{ color: on ? (c.gold ? "#C99A12" : "#141518") : "#D5D5CF" }}
+                style={{
+                  color: on ? (c.gold ? "#C99A12" : "#141518") : "#D5D5CF",
+                }}
               >
                 {c.value}
               </dd>

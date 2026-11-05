@@ -247,7 +247,7 @@ export default function EliteTempoLanding() {
         />
       </FeatureSection>
 
-      <FeatureSection title={<>Hear Tiger&apos;s timing. Then train to it.</>} body={`Tap play, then compare your swing to ${SWINGS.length} hand-timed tour swings.`}>
+      <FeatureSection title="Hear Tiger’s timing. Then train to it." body={`Tap play, then compare your swing to ${SWINGS.length} hand-timed tour swings.`}>
         <TigerCompare
           rows={[
             { name: "Tiger Woods", detail: `Driver, ${HERO_SWING.year} Open`, back: HERO_SWING.back, down: HERO_SWING.down },
@@ -288,7 +288,7 @@ export default function EliteTempoLanding() {
       <section id="pricing" className={`${WRAP} pt-[clamp(88px,12vw,144px)]`}>
         <div
           className="overflow-hidden rounded-[28px] bg-[#2A3A26] bg-cover px-[clamp(20px,5vw,64px)] py-[clamp(48px,8vw,96px)] text-center text-white"
-          style={{ backgroundImage: "linear-gradient(rgba(20,21,24,0.55), rgba(20,21,24,0.72)), url(/elite-tempo/video/close.jpg)", backgroundPosition: "center 35%" }}
+          style={{ backgroundImage: "linear-gradient(rgba(20,21,24,0.66), rgba(20,21,24,0.86)), url(/elite-tempo/video/close.jpg)", backgroundPosition: "center 35%" }}
         >
           <h2 className={H2_SECTION}>Time your own swing before you pay a thing.</h2>
           <p className="mt-3 text-[19px] leading-[1.4]" style={{ color: "rgba(255,255,255,0.88)" }}>

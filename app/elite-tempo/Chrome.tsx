@@ -62,8 +62,8 @@ export function SiteHeader() {
         >
           {/* "Download" alone under 430 wide, so name, Pricing and the button fit a
               375 wide iPhone with room on both sides. Same verb as the App Store badge. */}
-          <span className="min-[430px]:hidden">Download</span>
-          <span className="hidden min-[430px]:inline">{TRIAL_CTA}</span>
+          {/* One word on every screen size (blind review, 11-04). */}
+          Download
         </a>
       </div>
     </header>
@@ -83,6 +83,8 @@ const FOOTER_COLUMNS = [
     title: "Product",
     links: [
       { label: "Tempo library", href: "/tempos" },
+      { label: "Pricing", href: "/#pricing" },
+      { label: "FAQs", href: "/faq" },
       { label: "How we time swings", href: "/how-we-time-swings" },
     ],
   },
