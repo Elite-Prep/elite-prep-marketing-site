@@ -269,6 +269,17 @@ export default function EliteTempoLanding() {
         />
       </FeatureSection>
 
+      {/* Social proof between the features (Eric's wireframe, 11-04). */}
+      <ReviewsBand
+        photo="/elite-tempo/video/reviews.jpg"
+        reviews={[
+          { body: "I was just looking to improve my tempo and was strongly suggested this app. I love the ease of use and effectiveness.", name: "StayDialedIn" },
+          { body: "This is a game changer for tempo training. It’s simple to use, smart and actually useful!", name: "@kgrace" },
+          { body: "Highly recommend this app for helping you practice your golf swing. So many cool features!", name: "Tiffneyac" },
+          { body: "Super addicting and surprisingly helpful", name: "Boos59" },
+        ]}
+      />
+
       <FeatureSection title="Four numbers captured every time you swing." body="Backswing, downswing, total time and tempo.">
         <SwingTimingVideo
           src="/elite-tempo/video/swing.mp4"
@@ -281,17 +292,6 @@ export default function EliteTempoLanding() {
           label="Eric's driver on a sunny tee, pausing at the top of the backswing and at impact while its timing is shown."
         />
       </FeatureSection>
-
-      {/* Social proof between the features (Eric's wireframe, 11-04). */}
-      <ReviewsBand
-        photo="/elite-tempo/video/reviews.jpg"
-        reviews={[
-          { body: "I was just looking to improve my tempo and was strongly suggested this app. I love the ease of use and effectiveness.", name: "StayDialedIn" },
-          { body: "This is a game changer for tempo training. It’s simple to use, smart and actually useful!", name: "@kgrace" },
-          { body: "Highly recommend this app for helping you practice your golf swing. So many cool features!", name: "Tiffneyac" },
-          { body: "Super addicting and surprisingly helpful", name: "Boos59" },
-        ]}
-      />
 
       {/* The close (Eric, 11-04, from his Figma note "full bleed image behind CTA"):
           his tee shot in front of a gallery, edge to edge, with one line, one "Try for
