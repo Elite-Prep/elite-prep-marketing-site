@@ -93,7 +93,7 @@ export default function TigerCompare({ rows }: { rows: CompareRow[] }) {
         {rows.map((r, i) => (
           <li
             key={r.name}
-            className="flex items-center gap-4 border-t border-[#EFEFEA] px-5 py-5 first:border-t-0"
+            className="flex items-center gap-4 border-t border-[#EFEFEA] px-5 pb-9 pt-5 first:border-t-0"
           >
             <div className="min-w-0 flex-1">
               <div className="flex items-baseline justify-between gap-3">
@@ -136,11 +136,13 @@ export default function TigerCompare({ rows }: { rows: CompareRow[] }) {
                 />
               </div>
             </div>
+            {/* Bottom-aligned with its center on the timing bar (Eric, 11-05): the bar is
+                10pt tall and the button 44pt, so it hangs 17pt below the bar's bottom. */}
             <button
               type="button"
               onClick={() => play(i)}
               aria-label={`Play ${r.name}'s timing with sound`}
-              className="grid h-11 w-11 shrink-0 cursor-pointer touch-manipulation place-items-center rounded-full border-0 transition-colors"
+              className="-mb-[17px] grid h-11 w-11 shrink-0 cursor-pointer touch-manipulation place-items-center self-end rounded-full border-0 transition-colors"
               style={{ background: lit === i ? GOLD : "#F0F0EC" }}
             >
               <svg
