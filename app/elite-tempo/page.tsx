@@ -1,14 +1,11 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import DarkTimingPlayer, { type DarkShot } from "./DarkTimingPlayer";
-import LottieLoop from "./LottieLoop";
-import TourList from "./TourList";
 import HeroCarousel from "./HeroCarousel";
-import { TIMER_SCALE_S, routineScene, timerScene } from "./motion/scenes";
+import { ChipLabel, PhotoStage } from "./PhotoStage";
+import HearChip from "./HearChip";
 import {
-  GREATS_ROWS,
+  HERO_SWING,
   SWINGS,
-  TIMING_BY_AREA,
   fmtRatio,
 } from "./data/tempo-data";
 import {
@@ -147,21 +144,11 @@ const STRUCTURED_DATA = {
 
 
 
-const DARK_SHOTS: DarkShot[] = TIMING_BY_AREA.map((s) => ({
-  area: s.category,
-  player: s.player,
-  detail: `${s.clubLabel} at the ${s.year} ${s.event.replace(/^The /, "")}`,
-  back: s.back,
-  down: s.down,
-  ratio: fmtRatio(s),
-}));
 
-/* The two animations, built from the same numbers the page prints. The routine
-   figures match the app screen shown beside them: a 24.3 second average. */
-const ROUTINE_SCENE = routineScene(7, INK);
+/* The routine numbers on the photo card match the app: a 24.3 second routine
+   against the 40 seconds the USGA and The R&A recommend. */
 const ROUTINE_S = 24.3;
 const PACE_LIMIT_S = 40;
-const TIMER_SCENE = timerScene(ROUTINE_S, PACE_LIMIT_S, INK);
 
 /* The hero carousel's screens, front first. Two carry a few seconds of real app
    recorded from the Simulator: the routine running its timer and steps, and a
@@ -171,7 +158,7 @@ const HERO_SCREENS: { src: string; label: string; alt: string; clip?: string }[]
      design, so this slide is a still until a new clip is recorded. */
   { src: "routine-practice", label: "your routine", alt: "Practicing a driver pre-shot routine in Elite Tempo: look at the target, 13.6 seconds left on the clock." },
   { src: "player", clip: "player", label: "your swing", alt: "A golfer's own swing playing in Elite Tempo with tempo 3.0:1." },
-  /* Compare lives here since its own section was cut (11-04); the four numbers have the dark card. */
+  /* Compare also lives here; the photo cards below show it too. */
   { src: "compare", label: "you against Tiger", alt: "See the gap in Elite Tempo: a golfer's driver at the top of the swing, stacked under Tiger Woods' 2000 Open driver at the same moment." },
   { src: "pros", label: "the pros", alt: "Elite Tempo's Pros tab: tour players with their tempos." },
   { src: "stats", label: "your streak", alt: "Stats in Elite Tempo: a weekly streak of 3 weeks in a row." },
@@ -185,8 +172,6 @@ const WRAP = "mx-auto max-w-[1240px] px-4";
 const H2_SECTION = "m-0 text-[clamp(26px,3vw,34px)] font-semibold leading-[1.15] tracking-[-0.02em] [text-wrap:balance]";
 /* The soft card every feature's picture sits in. */
 const FEATURE_CARD = "overflow-hidden rounded-[28px] bg-[#EDEDE8]";
-/* Three rows, picked for spread: Tiger, the slowest tempo and the quickest. */
-const TOUR_ROWS = [GREATS_ROWS[0], GREATS_ROWS[1], GREATS_ROWS[4]];
 const LEDE = "text-[21px] leading-[1.35]";
 const NUM = "text-[30px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums]";
 
@@ -255,44 +240,48 @@ export default function EliteTempoLanding() {
         </p>
       </section>
 
-      <FeatureSection bare title="Four timing numbers from every swing." body="Tap play to feel Tiger's timing.">
-        {/* Tiger's driver only: one shot, no area buttons, no words beyond the numbers. */}
-        <DarkTimingPlayer shots={DARK_SHOTS.slice(0, 1)} />
+      {/* Every feature picture is a real photo with floating app labels (Pinterest,
+          11-04). Photos are Eric's range footage; every number is a real app reading:
+          his 8 iron (0.75s back, 0.27s down, 2.8:1), his driver at the top beside
+          Tiger's 2000 Open driver, and his driver routine mid-practice. */}
+      <FeatureSection title="Four timing numbers from every swing." body="Film any swing. Elite Tempo times it to 1/100 of a second.">
+        <PhotoStage
+          src="/elite-tempo/photos/swing.jpg"
+          alt="Eric at the range at address with an 8 iron, with his timing: 0.75 seconds back, 0.27 seconds down, tempo 2.8 to 1."
+          width={640}
+          height={953}
+          chips={[
+            { at: { top: "12%", right: "-14%" }, children: <ChipLabel swatch={INK}>Backswing 0.75s</ChipLabel> },
+            { at: { top: "44%", left: "-16%" }, children: <ChipLabel swatch="#F9C832">Downswing 0.27s</ChipLabel> },
+            { at: { bottom: "8%", right: "-10%" }, children: <ChipLabel>Tempo 2.8:1</ChipLabel> },
+          ]}
+        />
       </FeatureSection>
 
-      <FeatureSection
-        title={<>Hear Tiger&apos;s timing. Then train to it.</>}
-        body="Tap play. Then compare your own swing in the app."
-        cardClass="bg-white"
-      >
-        <div className="px-[clamp(20px,4vw,56px)] pb-6 pt-2 text-left">
-          <TourList
-            rows={TOUR_ROWS.map((g) => ({
-              slug: g.slug,
-              player: g.player,
-              detail: `${g.clubLabel}, ${g.year}`,
-              back: g.back,
-              down: g.down,
-              ratio: fmtRatio(g),
-            }))}
-          />
-        </div>
+      <FeatureSection title={<>Hear Tiger&apos;s timing. Then train to it.</>} body={`Tap play, then compare your swing to ${SWINGS.length} hand-timed tour swings.`}>
+        <PhotoStage
+          src="/elite-tempo/photos/compare.jpg"
+          alt="Tiger Woods' silhouette at the top of his backswing, stacked above Eric at the same point in his driver swing."
+          width={720}
+          height={782}
+          chips={[
+            { at: { top: "8%", left: "-12%" }, children: <HearChip label={`Tiger ${fmtRatio(HERO_SWING)}`} back={HERO_SWING.back} down={HERO_SWING.down} /> },
+            { at: { bottom: "10%", right: "-12%" }, children: <ChipLabel>You 3.0:1</ChipLabel> },
+          ]}
+        />
       </FeatureSection>
 
       <FeatureSection title="Rehearse your routine. Play faster." body="Each step lights up, inside the 40 second limit.">
-        {/* One big, readable picture instead of a phone screenshot with small text. */}
-        <div className="mx-auto flex max-w-[560px] flex-col items-center px-6 py-[clamp(36px,6vw,64px)]">
-          <LottieLoop scene={ROUTINE_SCENE} label="Seven routine steps lighting up one after another, ending in gold at impact." className="w-full max-w-[336px]" />
-          <p className="m-0 mt-8 text-[clamp(56px,9vw,80px)] font-semibold leading-none tracking-[-0.03em] [font-variant-numeric:tabular-nums]">{ROUTINE_S}s</p>
-          <div className="mt-6 w-full">
-            <LottieLoop scene={TIMER_SCENE} label={`A routine of ${ROUTINE_S} seconds filling the bar, short of the ${PACE_LIMIT_S} second limit.`} className="w-full" />
-            <div className="relative mt-2 h-5 text-[16px]" style={{ color: MUTED }}>
-              <span className="absolute -translate-x-1/2 whitespace-nowrap" style={{ left: `${(PACE_LIMIT_S / TIMER_SCALE_S) * 100}%` }}>
-                {PACE_LIMIT_S}s limit
-              </span>
-            </div>
-          </div>
-        </div>
+        <PhotoStage
+          src="/elite-tempo/photos/routine.jpg"
+          alt="Eric mid pre-shot routine with his driver at the range."
+          width={640}
+          height={917}
+          chips={[
+            { at: { top: "10%", left: "-14%" }, children: <ChipLabel swatch="#F9C832">Look at the target</ChipLabel> },
+            { at: { bottom: "10%", right: "-12%" }, children: <ChipLabel>{ROUTINE_S}s of {PACE_LIMIT_S}s</ChipLabel> },
+          ]}
+        />
       </FeatureSection>
 
       {/* Pricing: the closing section. A full photo goes behind it once the Adobe Stock
