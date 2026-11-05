@@ -257,7 +257,7 @@ export default function EliteTempoLanding() {
         />
       </FeatureSection>
 
-      <FeatureSection title="Rehearse your routine. Play faster." body="Each step lights up, inside the USGA and R&A 40-second rulebook limit.">
+      <FeatureSection title="Rehearse your routine. Play faster." body="Each step lights up, inside the USGA and R&A’s recommended 40 seconds.">
         <RoutineVideo
           src="/elite-tempo/video/routine.mp4"
           poster="/elite-tempo/video/routine-poster.jpg"
