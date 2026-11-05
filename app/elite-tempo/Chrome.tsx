@@ -127,9 +127,9 @@ const SOCIALS = [
    columns, the social icons, then the legal line. Column titles and the legal line
    use FAINT, which now clears 4.5:1; the old #8A8B90 measured 3.1:1. */
 export function SiteFooter() {
-  /* Black, in the style Eric pointed to (11-05): the mark top left, two small link
-     columns on the right, the name set huge across the full width, then one line
-     and the copyright at the bottom. */
+  /* The footer as it was, in black and tightened (Eric, 11-05): the name top left,
+     Explore / Connect / Legal columns, one line and the copyright under a hairline.
+     He did not want the giant wordmark. */
   const groups = [
     { title: "Explore", links: FOOTER_COLUMNS.flatMap((c) => c.links).filter((l) => !["Terms of Use", "Privacy Policy"].includes(l.label)) },
     { title: "Connect", links: SOCIALS.map((so) => ({ label: so.label, href: so.href })) },
@@ -137,13 +137,13 @@ export function SiteFooter() {
   ];
   return (
     <footer className="mt-[clamp(56px,8vw,96px)] bg-[#0B0B0C] text-white">
-      <div className="@container mx-auto max-w-[1240px] pb-6 pl-[max(20px,env(safe-area-inset-left,0px))] pr-[max(20px,env(safe-area-inset-right,0px))] pt-10">
+      <div className="mx-auto max-w-[1240px] pb-6 pl-[max(20px,env(safe-area-inset-left,0px))] pr-[max(20px,env(safe-area-inset-right,0px))] pt-10">
         <div className="flex flex-wrap items-start justify-between gap-x-16 gap-y-10">
-          <Link href="/" aria-label="Elite Tempo home" className="inline-flex min-h-11 items-center no-underline">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/elite-tempo/app-icon.png" alt="" width={48} height={48} className="block h-12 w-12 rounded-[12px]" />
+          <Link href="/" aria-label="Elite Tempo home" className="inline-flex min-h-11 items-center gap-2.5 text-white no-underline">
+            <EliteTempoMark size={22} fill="#FFFFFF" />
+            <span className="text-[19px] font-semibold leading-none tracking-[-0.01em]">Elite Tempo</span>
           </Link>
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-12 gap-y-8 sm:grid-cols-3">
+          <nav aria-label="Footer" className="grid w-full grid-cols-[1.4fr_1fr_1fr] gap-x-4 sm:w-auto sm:gap-x-12">
             {groups.map((g) => (
               <div key={g.title}>
                 <p className="m-0 text-[14px] text-white/50">{g.title}</p>
@@ -153,7 +153,7 @@ export function SiteFooter() {
                       <a
                         href={l.href}
                         {...(l.href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})}
-                        className="inline-flex min-h-9 items-center text-[15px] text-white no-underline hover:underline hover:underline-offset-4"
+                        className="inline-flex min-h-9 items-center text-[14px] text-white no-underline sm:text-[15px] hover:underline hover:underline-offset-4"
                       >
                         {l.label}
                       </a>
@@ -164,12 +164,7 @@ export function SiteFooter() {
             ))}
           </nav>
         </div>
-        {/* The name, edge to edge: its width is 4.54 times its size in this font, so
-            21.9% of the footer's width makes it fill the line. */}
-        <p aria-hidden className="m-0 mt-[clamp(48px,10vw,140px)] whitespace-nowrap text-[21.9cqw] font-semibold leading-[0.8] tracking-[-0.05em]">
-          Elite Tempo
-        </p>
-        <div className="mt-6 flex flex-wrap items-end justify-between gap-x-6 gap-y-2 text-[13px] text-white/50">
+        <div className="mt-10 flex flex-wrap items-end justify-between gap-x-6 gap-y-2 border-t border-white/10 pt-5 text-[13px] text-white/50">
           <p className="m-0">Time your swing and your routine.</p>
           <p className="m-0">© {new Date().getFullYear()} Elite Prep Inc.</p>
         </div>
