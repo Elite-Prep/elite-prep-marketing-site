@@ -230,6 +230,17 @@ export default function EliteTempoLanding() {
         </section>
       </div>
 
+      {/* A pause between the moving phones and the swing video (Eric, 11-05): the
+          why, on its own white band, so the page breathes before the features. */}
+      <section className="mt-[clamp(48px,7vw,88px)] bg-white px-4 py-[clamp(64px,9vw,112px)] text-center">
+        <h2 className={`${H2_SECTION} mx-auto max-w-[18em]`}>
+          Competing under pressure affects your timing and routine.
+        </h2>
+        <p className="mx-auto mt-3 max-w-[30em] text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
+          Now you can practice both, so you’re ready when the moment comes.
+        </p>
+      </section>
+
       {/* Every feature picture is real footage or a real piece of the app, and every
           number is the app's own reading (11-04). No floating labels: Eric found them
           hacky, and the numbers now appear where the app shows them. */}
