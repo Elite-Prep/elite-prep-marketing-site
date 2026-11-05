@@ -7,7 +7,7 @@ import useReducedMotion from "./useReducedMotion";
  * as he reaches it and the clock runs to impact, against the 40 seconds the USGA
  * and The R&A recommend. Step names and times were marked by Eric on this clip.
  * The running clock sits on the video in the app's own timer pill; under the video,
- * the current step and the seven dots the app shows (the last turns gold at impact).
+ * the current step's name, one at a time.
  * Plays only while on screen; Reduce Motion shows the finished routine. */
 
 export type Step = { at: number; title: string };
@@ -26,7 +26,6 @@ export default function RoutineVideo({
   poster,
   steps,
   impact,
-  limit,
   label,
 }: {
   src: string;
@@ -114,26 +113,13 @@ export default function RoutineVideo({
           {clock(shownT)}
         </p>
       </div>
-      <div className="mt-3 rounded-2xl bg-white px-4 py-3">
-        <div className="flex items-baseline justify-between gap-3">
-          <p className="m-0 min-w-0 truncate text-[16px] font-semibold text-[#141518]">
-            {done ? "Impact" : current < 0 ? "Ready" : steps[current].title}
-          </p>
-          <p className="m-0 shrink-0 text-[14px] font-medium text-[#6B6D72] [font-variant-numeric:tabular-nums]">
-            {done ? `${impact.toFixed(1)}s of ${limit}s` : current < 0 ? `${steps.length} steps` : `Step ${current + 1} of ${steps.length}`}
-          </p>
-        </div>
-        <div className="mt-3 flex items-center gap-1.5" aria-hidden>
-          {steps.map((s, i) => (
-            <span
-              key={`${s.at}-${s.title}`}
-              className="h-1.5 flex-1 rounded-full transition-colors duration-300"
-              style={{
-                background: done && i === steps.length - 1 ? "#F9C832" : shownT >= s.at ? "#141518" : "#E3E3DD",
-              }}
-            />
-          ))}
-        </div>
+      {/* One step at a time, full width, nothing else (Eric, 11-04: thirteen small
+          dashes read as clutter on a phone). The name fades in as each step starts. */}
+      <div className="mt-3 rounded-2xl bg-white px-4 py-4 text-center">
+        <p key={done ? "impact" : current} className="et-step m-0 text-[18px] font-semibold leading-snug text-[#141518]" aria-live="polite">
+          {done ? "Impact" : current < 0 ? "Ready" : steps[current].title}
+        </p>
+        <style>{`@keyframes et-step { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } } .et-step { animation: et-step 0.3s ease-out both; } @media (prefers-reduced-motion: reduce) { .et-step { animation: none; } }`}</style>
       </div>
     </div>
   );
