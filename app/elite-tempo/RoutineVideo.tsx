@@ -26,6 +26,7 @@ export default function RoutineVideo({
   poster,
   steps,
   impact,
+  limit,
   label,
 }: {
   src: string;
@@ -83,6 +84,7 @@ export default function RoutineVideo({
 
   const done = t >= impact;
   const shownT = Math.min(t, impact);
+  const under = done && impact <= limit;
   /* -1 until the first marked step starts. */
   let current = -1;
   steps.forEach((s, i) => {
@@ -104,13 +106,19 @@ export default function RoutineVideo({
           height={600}
           className="block aspect-[4/5] w-full rounded-[22px] bg-[#DCDCD6] object-cover"
         />
-        {/* The app's timer pill, top left on the video. */}
+        {/* The clock out of the limit (Eric chose option A, 11-04): white while the
+            routine runs, green with a check once impact lands under the limit. Green
+            is used only here, on purpose, to mean "under". */}
         <p
-          className="absolute left-3 top-3 m-0 rounded-full px-3 py-1.5 text-[15px] font-semibold text-[#141518] shadow-[0_1px_2px_rgba(20,21,24,0.08)] [font-variant-numeric:tabular-nums]"
-          style={{ background: done ? "#F9C832" : "rgba(255,255,255,0.92)" }}
+          className="absolute left-3 top-3 m-0 flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-[15px] font-semibold shadow-[0_1px_2px_rgba(20,21,24,0.08)] transition-colors duration-300 [font-variant-numeric:tabular-nums]"
+          style={{ background: under ? "#2FA35A" : "rgba(255,255,255,0.94)", color: under ? "#FFFFFF" : "#141518" }}
           aria-hidden
         >
+          {under && <span>&#10003;</span>}
           {clock(shownT)}
+          <span className="font-medium" style={{ color: under ? "rgba(255,255,255,0.82)" : "#6B6D72" }}>
+            / {clock(limit).replace(".0", "")}
+          </span>
         </p>
       </div>
       {/* One step at a time, full width, nothing else (Eric, 11-04: thirteen small
