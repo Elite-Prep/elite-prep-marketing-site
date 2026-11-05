@@ -210,7 +210,9 @@ export default function EliteTempoLanding() {
             <p className={`mx-auto mt-[18px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
               Groove your entire game from <span className="whitespace-nowrap">pre-shot</span> routine to impact, so you can trust your game when it matters most.
             </p>
-            <AppStoreBadge className="mt-7" />
+            {/* One button style on the page: the black pill (blind review, 11-04). The
+                App Store badge appears once, in pricing. */}
+            <DownloadButton big />
           </div>
 
           <HeroCarousel labels={HERO_SCREENS.map((h) => h.label)} slides={HERO_SCREENS.map((h, i) => <Phone key={h.src} eager priority={i === 0} src={h.src} alt={h.alt} clip={h.clip} />)} />
@@ -220,7 +222,7 @@ export default function EliteTempoLanding() {
       {/* From here down, Pinterest's shape (Eric, 11-04): one intro line, then every
           feature in the same pattern (a picture card, a short heading, one sentence,
           a small download button). Only the picture changes. */}
-      <section className="mx-auto max-w-[900px] px-4 pt-[clamp(88px,12vw,144px)] text-center">
+      <section className="mx-auto max-w-[900px] px-4 pt-[clamp(56px,8vw,96px)] text-center">
         {/* The two words the product is about, in italics: a deliberate exception to
             plain headings, asked for by Eric 2026-11-04. */}
         <h2 className={H2_SECTION}>
@@ -284,11 +286,11 @@ export default function EliteTempoLanding() {
       </FeatureSection>
 
       {/* Pricing: the closing section, on a full photo the way Pinterest closes (11-04).
-          The photo is Eric's own 8 iron at the finish, darkened so white type reads. */}
-      <section id="pricing" className={`${WRAP} pt-[clamp(88px,12vw,144px)]`}>
+          The photo is Eric teeing off in front of a gallery (his own, 11-04), darkened so white type reads. */}
+      <section id="pricing" className={`${WRAP} pt-[clamp(56px,8vw,96px)]`}>
         <div
           className="overflow-hidden rounded-[28px] bg-[#2A3A26] bg-cover px-[clamp(20px,5vw,64px)] py-[clamp(48px,8vw,96px)] text-center text-white"
-          style={{ backgroundImage: "linear-gradient(rgba(20,21,24,0.66), rgba(20,21,24,0.86)), url(/elite-tempo/video/close.jpg)", backgroundPosition: "center 35%" }}
+          style={{ backgroundImage: "linear-gradient(rgba(20,21,24,0.66), rgba(20,21,24,0.86)), url(/elite-tempo/video/close.jpg?v=2)", backgroundPosition: "56% 40%" }}
         >
           <h2 className={H2_SECTION}>Time your own swing before you pay a thing.</h2>
           <p className="mt-3 text-[19px] leading-[1.4]" style={{ color: "rgba(255,255,255,0.88)" }}>
@@ -302,7 +304,7 @@ export default function EliteTempoLanding() {
             Rated 5.0 on the App Store.
           </p>
           <div className="mx-auto mt-8 grid max-w-[560px] grid-cols-2 gap-3 text-left max-[420px]:grid-cols-1">
-            <div className="rounded-2xl bg-white p-5 text-[#141518]">
+            <div className="rounded-2xl bg-white p-5 text-[#141518]" style={{ boxShadow: "inset 0 0 0 2px #F9C832" }}>
               <p className="m-0 flex min-h-7 items-center justify-between gap-2 text-[16px] font-semibold">
                 Yearly
                 <span className="rounded-full px-2.5 py-0.5 text-[14px] font-semibold" style={{ background: "#F9C832", color: INK }}>
@@ -432,9 +434,11 @@ function FeatureSection({
   cardClass?: string;
 }) {
   return (
-    <section className={`${WRAP} pt-[clamp(88px,12vw,144px)]`}>
+    <section className={`${WRAP} pt-[clamp(56px,8vw,96px)] md:grid md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:items-center md:gap-16`}>
+      {/* On desktop the picture and the words sit side by side, so a narrow video no
+          longer floats in a 1,200-wide card (blind review, 11-04). Phones stack. */}
       <div className={bare ? "[&>*]:mt-0" : `${FEATURE_CARD} ${cardClass}`}>{children}</div>
-      <div className="mx-auto mt-8 max-w-[34em] text-center">
+      <div className="mx-auto mt-8 max-w-[34em] text-center md:mx-0 md:mt-0 md:text-left">
         <h2 className={H2_SECTION}>{title}</h2>
         <p className="m-0 mt-3 text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
           {body}
@@ -447,11 +451,11 @@ function FeatureSection({
 
 /* The repeated download button under every feature, the way Pinterest repeats its
    one red button. Same words as the menu button. */
-function DownloadButton() {
+function DownloadButton({ big = false }: { big?: boolean }) {
   return (
     <a
       href={APP_STORE_URL}
-      className="mt-6 inline-flex min-h-11 items-center rounded-full px-5 text-[16px] font-semibold text-white no-underline transition hover:brightness-125"
+      className={`inline-flex items-center rounded-full font-semibold text-white no-underline transition hover:brightness-125 ${big ? "mt-7 min-h-12 px-7 text-[19px]" : "mt-6 min-h-11 px-5 text-[16px]"}`}
       style={{ background: INK }}
     >
       Download app

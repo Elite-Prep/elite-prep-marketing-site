@@ -130,7 +130,7 @@ const SOCIALS = [
    use FAINT, which now clears 4.5:1; the old #8A8B90 measured 3.1:1. */
 export function SiteFooter() {
   return (
-    <footer className="mx-auto max-w-[1240px] px-4 pb-10 pt-[clamp(96px,12vw,160px)]">
+    <footer className="mx-auto max-w-[1240px] px-4 pb-10 pt-[clamp(56px,8vw,96px)]">
       <div className="flex flex-wrap justify-between gap-x-16 gap-y-12">
         <div>
           <Link
