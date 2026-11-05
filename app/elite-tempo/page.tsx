@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import HeroCarousel from "./HeroCarousel";
-import { ChipLabel, PhotoStage } from "./PhotoStage";
-import HearChip from "./HearChip";
+import SwingTimingVideo from "./SwingTimingVideo";
+import RoutineVideo from "./RoutineVideo";
+import TigerCompare from "./TigerCompare";
 import {
   HERO_SWING,
   SWINGS,
-  fmtRatio,
 } from "./data/tempo-data";
 import {
   PRICE_MONTHLY,
@@ -145,9 +145,9 @@ const STRUCTURED_DATA = {
 
 
 
-/* The routine numbers on the photo card match the app: a 24.3 second routine
-   against the 40 seconds the USGA and The R&A recommend. */
-const ROUTINE_S = 24.3;
+/* Eric's driver pre-shot routine in the app: 23.9 seconds from the first step to
+   impact, against the 40 seconds the USGA and The R&A recommend. */
+const ROUTINE_S = 23.9;
 const PACE_LIMIT_S = 40;
 
 /* The hero carousel's screens, front first. Two carry a few seconds of real app
@@ -196,12 +196,15 @@ export default function EliteTempoLanding() {
           id="top"
           className="relative overflow-hidden rounded-[28px]"
           style={{
-            background: "radial-gradient(70% 60% at 50% 78%, #F9C832 0%, rgba(249, 200, 50, 0) 72%), #FFFCF0",
+            background: "radial-gradient(70% 50% at 50% 30%, #F9C832 0%, rgba(249, 200, 50, 0) 72%), #FFFCF0",
           }}
         >
           <SiteHeader />
 
-          <div id="content" className="px-4 pt-[clamp(36px,5vw,64px)] text-center">
+          {/* Pictures first, then the headline, the way Pinterest opens (11-04). */}
+          <HeroCarousel labels={HERO_SCREENS.map((h) => h.label)} slides={HERO_SCREENS.map((h, i) => <Phone key={h.src} eager priority={i === 0} src={h.src} alt={h.alt} clip={h.clip} />)} />
+
+          <div id="content" className="px-4 pb-[clamp(40px,6vw,72px)] pt-6 text-center">
             <h1 className="m-0 text-[clamp(38px,9vw,80px)] font-semibold leading-[1.02] tracking-[-0.035em]">
               {/* The break only holds once both halves fit on a line; on a phone it
                   stranded a single word on a line of its own. */}
@@ -222,7 +225,6 @@ export default function EliteTempoLanding() {
             </p>
           </div>
 
-          <HeroCarousel labels={HERO_SCREENS.map((h) => h.label)} slides={HERO_SCREENS.map((h, i) => <Phone key={h.src} eager priority={i === 0} src={h.src} alt={h.alt} clip={h.clip} />)} />
         </section>
       </div>
 
@@ -240,46 +242,44 @@ export default function EliteTempoLanding() {
         </p>
       </section>
 
-      {/* Every feature picture is a real photo with floating app labels (Pinterest,
-          11-04). Photos are Eric's range footage; every number is a real app reading:
-          his 8 iron (0.75s back, 0.27s down, 2.8:1), his driver at the top beside
-          Tiger's 2000 Open driver, and his driver routine mid-practice. */}
+      {/* Every feature picture is real footage or a real piece of the app, and every
+          number is the app's own reading (11-04). No floating labels: Eric found them
+          hacky, and the numbers now appear where the app shows them. */}
       <FeatureSection title="Four timing numbers from every swing." body="Film any swing. Elite Tempo times it to 1/100 of a second.">
-        <PhotoStage
-          src="/elite-tempo/photos/swing.jpg"
-          alt="Eric at the range at address with an 8 iron, with his timing: 0.75 seconds back, 0.27 seconds down, tempo 2.8 to 1."
-          width={640}
-          height={953}
-          chips={[
-            { spot: "top-right", children: <ChipLabel icon="back">Backswing 0.75s</ChipLabel> },
-            { spot: "middle-left", children: <ChipLabel icon="down">Downswing 0.27s</ChipLabel> },
-            { spot: "bottom-right", children: <ChipLabel icon="tempo">Tempo 2.8:1</ChipLabel> },
-          ]}
+        <SwingTimingVideo
+          src="/elite-tempo/video/swing.mp4"
+          poster="/elite-tempo/video/swing-poster.jpg"
+          stillPoster="/elite-tempo/video/swing-top.jpg"
+          marks={{ takeaway: 0.1, top: 0.85, impact: 1.117 }}
+          label="Eric's 8 iron at the range, pausing at the top of the backswing and at impact while its timing is shown."
         />
       </FeatureSection>
 
       <FeatureSection title={<>Hear Tiger&apos;s timing. Then train to it.</>} body={`Tap play, then compare your swing to ${SWINGS.length} hand-timed tour swings.`}>
-        <PhotoStage
-          src="/elite-tempo/photos/compare.jpg"
-          alt="Tiger Woods' silhouette at the top of his backswing, stacked above Eric at the same point in his driver swing."
-          width={720}
-          height={782}
-          chips={[
-            { spot: "top-left", children: <HearChip label={`Tiger ${fmtRatio(HERO_SWING)}`} back={HERO_SWING.back} down={HERO_SWING.down} /> },
-            { spot: "bottom-right", children: <ChipLabel icon="you">You 3.0:1</ChipLabel> },
+        <TigerCompare
+          rows={[
+            { name: "Tiger Woods", detail: `Driver, ${HERO_SWING.year} Open`, back: HERO_SWING.back, down: HERO_SWING.down },
+            /* Eric's favorite driver in the app: takeaway 0.668s, top 1.313s, impact 1.547s. */
+            { name: "You", detail: "Driver", back: 1.313 - 0.668, down: 1.547 - 1.313 },
           ]}
         />
       </FeatureSection>
 
       <FeatureSection title="Rehearse your routine. Play faster." body="Each step lights up, inside the 40 second limit.">
-        <PhotoStage
-          src="/elite-tempo/photos/routine.jpg"
-          alt="Eric mid pre-shot routine with his driver at the range."
-          width={640}
-          height={917}
-          chips={[
-            { spot: "top-left", children: <ChipLabel icon="target">Look at the target</ChipLabel> },
-            { spot: "bottom-right", children: <ChipLabel icon="clock">{ROUTINE_S}s of {PACE_LIMIT_S}s</ChipLabel> },
+        <RoutineVideo
+          src="/elite-tempo/video/routine.mp4"
+          poster="/elite-tempo/video/routine-poster.jpg"
+          impact={ROUTINE_S}
+          limit={PACE_LIMIT_S}
+          label="Eric's driver pre-shot routine at the range, with each step named as he reaches it."
+          steps={[
+            { at: 0, title: "Stand behind the ball" },
+            { at: 3.5, title: "Pick a target" },
+            { at: 7.4, title: "Practice swing" },
+            { at: 11, title: "Walk in" },
+            { at: 15.3, title: "Make a stance" },
+            { at: 19, title: "Waggle" },
+            { at: 22.4, title: "Go" },
           ]}
         />
       </FeatureSection>

@@ -23,7 +23,13 @@ const RING = [
   { x: 0.67, turn: 50, scale: 0.51, opacity: 0.35 },
 ];
 
-export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; labels: string[] }) {
+export default function HeroCarousel({
+  slides,
+  labels,
+}: {
+  slides: ReactNode[];
+  labels: string[];
+}) {
   const count = slides.length;
   const [front, setFront] = useState(0);
   const [held, setHeld] = useState(false);
@@ -47,7 +53,10 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
   useEffect(() => {
     const el = box.current;
     if (!el) return;
-    const seen = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.2 });
+    const seen = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.2 },
+    );
     seen.observe(el);
     return () => seen.disconnect();
   }, []);
@@ -62,7 +71,9 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
   useEffect(() => {
     const el = box.current;
     if (!el) return;
-    const clips = [...el.querySelectorAll("[data-slide]")].map((s) => s.querySelector("video"));
+    const clips = [...el.querySelectorAll("[data-slide]")].map((s) =>
+      s.querySelector("video"),
+    );
     /* A clip that has played shows its still again at the side and rewinds under
        it. No load(): that empties the video to black, and on iPhone Safari the
        still can take a frame to come back, so the black showed through. */
@@ -143,7 +154,7 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
   return (
     <div
       ref={box}
-      className="relative mt-12 h-[clamp(440px,62vw,680px)] touch-pan-y select-none [perspective:1400px]"
+      className="relative mt-6 h-[clamp(340px,52vw,600px)] touch-pan-y select-none [perspective:1400px]"
       role="region"
       aria-roledescription="carousel"
       aria-label="Elite Tempo app screens"
@@ -171,33 +182,42 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
         setHeld(false);
       }}
     >
-      {slides.map((slide, i) => {
-        /* Shortest way round the ring, so -2..2 for five screens. */
-        let offset = (i - front + count) % count;
-        if (offset > count / 2) offset -= count;
-        const step = RING[Math.min(Math.abs(offset), RING.length - 1)];
-        const side = Math.sign(offset);
-        return (
-          <div
-            key={i}
-            data-slide
-            aria-hidden={offset !== 0}
-            onClick={() => offset !== 0 && setFront(i)}
-            className={`absolute left-1/2 top-0 w-[clamp(220px,30.8vw,385px)] ${offset === 0 ? "" : "cursor-pointer"}`}
-            style={{
-              zIndex: 10 - Math.abs(offset),
-              opacity: step.opacity,
-              transform: `translateX(calc(-50% + ${side * step.x * 100}%)) rotateY(${-side * step.turn}deg) scale(${step.scale})`,
-              transformOrigin: "50% 30%",
-              transition: still ? "none" : "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease",
-            }}
-          >
-            {slide}
-          </div>
-        );
-      })}
+      {/* The phones fade out at the bottom, so the headline under them starts on a
+          clean line instead of below a hard crop (11-04, pictures first). */}
+      <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black_52%,transparent_84%)]">
+        {slides.map((slide, i) => {
+          /* Shortest way round the ring, so -2..2 for five screens. */
+          let offset = (i - front + count) % count;
+          if (offset > count / 2) offset -= count;
+          const step = RING[Math.min(Math.abs(offset), RING.length - 1)];
+          const side = Math.sign(offset);
+          return (
+            <div
+              key={i}
+              data-slide
+              aria-hidden={offset !== 0}
+              onClick={() => offset !== 0 && setFront(i)}
+              className={`absolute left-1/2 top-0 w-[clamp(180px,27vw,350px)] ${offset === 0 ? "" : "cursor-pointer"}`}
+              style={{
+                zIndex: 10 - Math.abs(offset),
+                opacity: step.opacity,
+                transform: `translateX(calc(-50% + ${side * step.x * 100}%)) rotateY(${-side * step.turn}deg) scale(${step.scale})`,
+                transformOrigin: "50% 30%",
+                transition: still
+                  ? "none"
+                  : "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease",
+              }}
+            >
+              {slide}
+            </div>
+          );
+        })}
+      </div>
       {/* The dots sit over the front screen, so they get the header's frosted pill. */}
-      <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-0 rounded-full px-1 backdrop-blur" style={{ background: "rgba(255,255,255,0.72)" }}>
+      <div
+        className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-0 rounded-full px-1 backdrop-blur"
+        style={{ background: "rgba(255,255,255,0.72)" }}
+      >
         {labels.map((label, i) => (
           <button
             key={label}
@@ -209,7 +229,10 @@ export default function HeroCarousel({ slides, labels }: { slides: ReactNode[]; 
           >
             <span
               className="block h-2 rounded-full transition-all duration-300"
-              style={{ width: i === front ? 20 : 8, background: i === front ? "#121417" : "rgba(18,20,23,0.28)" }}
+              style={{
+                width: i === front ? 20 : 8,
+                background: i === front ? "#121417" : "rgba(18,20,23,0.28)",
+              }}
             />
           </button>
         ))}
