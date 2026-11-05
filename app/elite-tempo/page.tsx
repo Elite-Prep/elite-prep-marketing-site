@@ -437,9 +437,10 @@ export default function EliteTempoLanding() {
       {/* FAQ. The cost question is answered by the section above, so it is only in the
           structured data now. */}
       <section id="faq" className={`${WRAP} pt-[clamp(88px,12vw,144px)]`}>
-        <div className="grid gap-x-16 gap-y-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:px-[clamp(32px,5vw,64px)]">
-          <h2 className={H2_SECTION}>Questions</h2>
-          <div>
+        {/* One centered column like every other section (frontend-design check, 11-04). */}
+        <div className="mx-auto max-w-[720px]">
+          <h2 className={`${H2_SECTION} text-center`}>Questions</h2>
+          <div className="mt-8">
             {FAQS.filter(({ q }) => !q.startsWith("How much")).map(({ q, a }) => (
               <details key={q} className="et-faq mb-3 rounded-2xl bg-white">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 text-[19px] font-semibold marker:content-none [&::-webkit-details-marker]:hidden">
