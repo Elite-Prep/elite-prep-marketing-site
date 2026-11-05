@@ -251,9 +251,9 @@ export default function EliteTempoLanding() {
           width={640}
           height={953}
           chips={[
-            { at: { top: "12%", right: "-14%" }, children: <ChipLabel swatch={INK}>Backswing 0.75s</ChipLabel> },
-            { at: { top: "44%", left: "-16%" }, children: <ChipLabel swatch="#F9C832">Downswing 0.27s</ChipLabel> },
-            { at: { bottom: "8%", right: "-10%" }, children: <ChipLabel>Tempo 2.8:1</ChipLabel> },
+            { spot: "top-right", children: <ChipLabel icon="back">Backswing 0.75s</ChipLabel> },
+            { spot: "middle-left", children: <ChipLabel icon="down">Downswing 0.27s</ChipLabel> },
+            { spot: "bottom-right", children: <ChipLabel icon="tempo">Tempo 2.8:1</ChipLabel> },
           ]}
         />
       </FeatureSection>
@@ -265,8 +265,8 @@ export default function EliteTempoLanding() {
           width={720}
           height={782}
           chips={[
-            { at: { top: "8%", left: "-12%" }, children: <HearChip label={`Tiger ${fmtRatio(HERO_SWING)}`} back={HERO_SWING.back} down={HERO_SWING.down} /> },
-            { at: { bottom: "10%", right: "-12%" }, children: <ChipLabel>You 3.0:1</ChipLabel> },
+            { spot: "top-left", children: <HearChip label={`Tiger ${fmtRatio(HERO_SWING)}`} back={HERO_SWING.back} down={HERO_SWING.down} /> },
+            { spot: "bottom-right", children: <ChipLabel icon="you">You 3.0:1</ChipLabel> },
           ]}
         />
       </FeatureSection>
@@ -278,8 +278,8 @@ export default function EliteTempoLanding() {
           width={640}
           height={917}
           chips={[
-            { at: { top: "10%", left: "-14%" }, children: <ChipLabel swatch="#F9C832">Look at the target</ChipLabel> },
-            { at: { bottom: "10%", right: "-12%" }, children: <ChipLabel>{ROUTINE_S}s of {PACE_LIMIT_S}s</ChipLabel> },
+            { spot: "top-left", children: <ChipLabel icon="target">Look at the target</ChipLabel> },
+            { spot: "bottom-right", children: <ChipLabel icon="clock">{ROUTINE_S}s of {PACE_LIMIT_S}s</ChipLabel> },
           ]}
         />
       </FeatureSection>

@@ -2,10 +2,13 @@
 
 import { useRef, useState } from "react";
 import { getAudio, latency, ready, tick } from "./tickAudio";
+import { CHIP } from "./PhotoStage";
 
 /* A floating label that is also a play button: tap it and hear a swing's timing as
- * three ticks (takeaway, top, impact) in real time. It lights gold while playing.
- * Kept from the old tour list (Eric liked hearing Tiger) in the photo-card form. */
+ * three ticks (takeaway, top, impact) in real time. It is drawn exactly like the
+ * other labels (same height, corners, type and shadow); only its icon is a gold
+ * play button, and the whole label turns gold while it plays. The tap area reaches
+ * 44 points with an invisible margin, so it looks the same size as the others. */
 export default function HearChip({ label, back, down }: { label: string; back: number; down: number }) {
   const [on, setOn] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -32,11 +35,11 @@ export default function HearChip({ label, back, down }: { label: string; back: n
       type="button"
       onClick={play}
       aria-label={`${label}: play the timing with sound`}
-      className="inline-flex min-h-11 cursor-pointer touch-manipulation items-center gap-2 whitespace-nowrap rounded-xl border-0 px-3 py-2 text-[14px] font-semibold text-[#141518] shadow-[0_6px_18px_rgba(20,21,24,0.14)] transition-colors [font-variant-numeric:tabular-nums]"
+      className={`${CHIP} relative cursor-pointer touch-manipulation border-0 transition-colors before:absolute before:-inset-1 before:content-['']`}
       style={{ background: on ? "#F9C832" : "#FFFFFF" }}
     >
-      <span className="grid h-6 w-6 place-items-center rounded-full" style={{ background: on ? "#141518" : "#F9C832" }} aria-hidden>
-        <svg viewBox="0 0 10 12" width="8" height="10" style={{ marginLeft: 1 }}>
+      <span className="grid h-4 w-4 place-items-center rounded-full" style={{ background: on ? "#141518" : "#F9C832" }} aria-hidden>
+        <svg viewBox="0 0 10 12" width="6" height="7" style={{ marginLeft: 1 }}>
           <path d="M0 0l10 6-10 6z" fill={on ? "#F9C832" : "#141518"} />
         </svg>
       </span>
