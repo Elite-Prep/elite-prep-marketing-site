@@ -67,8 +67,8 @@ export default function TigerCompare({ rows }: { rows: CompareRow[] }) {
           <li key={r.name} className="flex items-center gap-4 border-t border-[#EFEFEA] px-5 py-5 first:border-t-0">
             <div className="min-w-0 flex-1">
               <div className="flex items-baseline justify-between gap-3">
-                <p className="m-0 text-[17px] font-semibold text-[#141518]">{r.name}</p>
-                <p className="m-0 text-[22px] font-semibold tracking-[-0.02em] text-[#141518] [font-variant-numeric:tabular-nums]">
+                <p className="m-0 text-[16px] font-semibold text-[#141518]">{r.name}</p>
+                <p className="m-0 text-[19px] font-semibold tracking-[-0.02em] text-[#141518] [font-variant-numeric:tabular-nums]">
                   {(r.back / r.down).toFixed(2)}:1
                 </p>
               </div>

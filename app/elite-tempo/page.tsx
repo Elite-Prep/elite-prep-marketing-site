@@ -172,7 +172,7 @@ const WRAP = "mx-auto max-w-[1240px] px-4";
 const H2_SECTION = "m-0 text-[clamp(26px,3vw,34px)] font-semibold leading-[1.15] tracking-[-0.02em] [text-wrap:balance]";
 /* The soft card every feature's picture sits in. */
 const FEATURE_CARD = "overflow-hidden rounded-[28px] bg-[#EDEDE8]";
-const LEDE = "text-[21px] leading-[1.35]";
+const LEDE = "text-[19px] leading-[1.4]";
 const NUM = "text-[30px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums]";
 
 export default function EliteTempoLanding() {
@@ -226,7 +226,7 @@ export default function EliteTempoLanding() {
         <h2 className={H2_SECTION}>
           Competing under pressure breaks your <em className="italic">timing</em> and <em className="italic">routine</em>.
         </h2>
-        <p className="mx-auto mt-3 max-w-[30em] text-[19px] leading-[1.4]" style={{ color: MUTED }}>
+        <p className="mx-auto mt-3 max-w-[30em] text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
           Because they’re difficult to practice. Until now.
         </p>
       </section>
@@ -283,29 +283,29 @@ export default function EliteTempoLanding() {
         />
       </FeatureSection>
 
-      {/* Pricing: the closing section. A full photo goes behind it once the Adobe Stock
-          picture is licensed (Pinterest's sign-up close, 11-04). */}
+      {/* Pricing: the closing section, on a full photo the way Pinterest closes (11-04).
+          The photo is Eric's own 8 iron at the finish, darkened so white type reads. */}
       <section id="pricing" className={`${WRAP} pt-[clamp(88px,12vw,144px)]`}>
         <div
-          className="rounded-[28px] px-[clamp(24px,5vw,64px)] py-[clamp(40px,7vw,88px)] text-center"
-          style={{ background: "radial-gradient(70% 100% at 50% 100%, rgba(249, 200, 50, 0.6) 0%, rgba(249, 200, 50, 0) 75%), #FFFCF0" }}
+          className="overflow-hidden rounded-[28px] bg-[#2A3A26] bg-cover px-[clamp(20px,5vw,64px)] py-[clamp(48px,8vw,96px)] text-center text-white"
+          style={{ backgroundImage: "linear-gradient(rgba(20,21,24,0.55), rgba(20,21,24,0.72)), url(/elite-tempo/video/close.jpg)", backgroundPosition: "center 35%" }}
         >
           <h2 className={H2_SECTION}>Time your own swing before you pay a thing.</h2>
-          <p className="mt-3 text-[19px] leading-[1.4]" style={{ color: "#4A4B50" }}>
+          <p className="mt-3 text-[19px] leading-[1.4]" style={{ color: "rgba(255,255,255,0.88)" }}>
             Free for {TRIAL_DAYS} days. Cancel anytime.
           </p>
           {/* Moved from the hero (Eric, 11-04): proof sits next to the price. */}
-          <p className="mt-2 text-[16px]" style={{ color: "#4A4B50" }}>
-            <span style={{ color: INK }} aria-hidden>
+          <p className="mt-2 text-[16px]" style={{ color: "rgba(255,255,255,0.88)" }}>
+            <span style={{ color: "#F9C832" }} aria-hidden>
               ★★★★★
             </span>{" "}
             Rated 5.0 on the App Store.
           </p>
           <div className="mx-auto mt-8 grid max-w-[560px] grid-cols-2 gap-3 text-left max-[420px]:grid-cols-1">
-            <div className="rounded-2xl bg-white p-5">
+            <div className="rounded-2xl bg-white p-5 text-[#141518]">
               <p className="m-0 flex min-h-7 items-center justify-between gap-2 text-[16px] font-semibold">
                 Yearly
-                <span className="rounded-full px-2.5 py-0.5 text-[15px] font-semibold" style={{ background: "#F9C832", color: INK }}>
+                <span className="rounded-full px-2.5 py-0.5 text-[14px] font-semibold" style={{ background: "#F9C832", color: INK }}>
                   Save {YEARLY_SAVING_PCT}%
                 </span>
               </p>
@@ -314,7 +314,7 @@ export default function EliteTempoLanding() {
                 a year, ${(PRICE_YEARLY_NUM / 12).toFixed(2)} a month
               </p>
             </div>
-            <div className="rounded-2xl bg-white p-5">
+            <div className="rounded-2xl bg-white p-5 text-[#141518]">
               <p className="m-0 flex min-h-7 items-center text-[16px] font-semibold">Monthly</p>
               <p className={`m-0 mt-2 ${NUM}`}>{PRICE_MONTHLY}</p>
               <p className="m-0 text-[16px]" style={{ color: MUTED }}>a month</p>
@@ -436,7 +436,7 @@ function FeatureSection({
       <div className={bare ? "[&>*]:mt-0" : `${FEATURE_CARD} ${cardClass}`}>{children}</div>
       <div className="mx-auto mt-8 max-w-[34em] text-center">
         <h2 className={H2_SECTION}>{title}</h2>
-        <p className="m-0 mt-3 text-[19px] leading-[1.4]" style={{ color: MUTED }}>
+        <p className="m-0 mt-3 text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
           {body}
         </p>
         <DownloadButton />

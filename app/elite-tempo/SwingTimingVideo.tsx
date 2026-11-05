@@ -112,7 +112,7 @@ export default function SwingTimingVideo({
   const shown = still ? 3 : stage;
 
   return (
-    <div className="mx-auto w-full max-w-[340px] px-[9%] py-[clamp(28px,5vw,48px)] sm:px-0">
+    <div className="mx-auto w-full md:max-w-[440px] md:py-12">
       <video
         ref={video}
         src={still ? undefined : src}
@@ -123,16 +123,16 @@ export default function SwingTimingVideo({
         aria-label={label}
         width={544}
         height={680}
-        className="block aspect-[4/5] w-full rounded-[22px] bg-[#DCDCD6] object-cover"
+        className="block aspect-[4/5] w-full bg-[#DCDCD6] object-cover md:rounded-[22px]"
       />
-      <dl className="m-0 mt-3 grid grid-cols-4 rounded-2xl bg-white px-1 py-3 text-center">
+      <dl className="m-3 grid grid-cols-4 rounded-2xl bg-white px-1 py-3 text-center md:mx-0 md:mb-0">
         {cells.map((c) => {
           const on = shown >= c.at;
           return (
             <div key={c.label} className="min-w-0">
-              <dt className="text-[12px] font-medium text-[#6B6D72]">{c.label}</dt>
+              <dt className="text-[14px] font-medium text-[#6B6D72]">{c.label}</dt>
               <dd
-                className="m-0 mt-1 text-[20px] font-semibold leading-none tracking-[-0.02em] transition-colors duration-300 [font-variant-numeric:tabular-nums]"
+                className="m-0 mt-1 text-[19px] font-semibold leading-none tracking-[-0.02em] transition-colors duration-300 [font-variant-numeric:tabular-nums]"
                 style={{ color: on ? (c.gold ? "#C99A12" : "#141518") : "#D5D5CF" }}
               >
                 {c.value}

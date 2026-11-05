@@ -137,7 +137,7 @@ export function SiteFooter() {
             style={{ color: INK }}
           >
             <EliteTempoMark size={22} fill={INK} />
-            <span className="text-[20px] font-semibold leading-none tracking-[-0.01em]">
+            <span className="text-[19px] font-semibold leading-none tracking-[-0.01em]">
               Elite Tempo
             </span>
           </Link>
@@ -189,7 +189,7 @@ export function SiteFooter() {
         </nav>
       </div>
       <p
-        className="mt-8 max-w-[62em] text-[13px] leading-[1.5]"
+        className="mt-8 max-w-[62em] text-[14px] leading-[1.5]"
         style={{ color: FAINT }}
       >
         {/* Cut from 45 words to 16 (11-04, Pinterest word budget); same meaning. */}
@@ -248,7 +248,7 @@ export function TrialCard({
         {title}
       </h2>
       <p
-        className="mx-auto mt-3 max-w-[30em] text-[17px] leading-[1.5]"
+        className="mx-auto mt-3 max-w-[30em] text-[16px] leading-[1.5]"
         style={{ color: "#4A4B50" }}
       >
         {children}

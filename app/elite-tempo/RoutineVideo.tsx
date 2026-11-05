@@ -8,7 +8,8 @@ import useReducedMotion from "./useReducedMotion";
  * and The R&A recommend. Step names and times were marked by Eric on this clip.
  * The running clock sits on the video in the app's own timer pill; under the video,
  * the current step's name, one at a time.
- * Plays only while on screen; Reduce Motion shows the finished routine. */
+ * The video fills its card on a phone, edge to edge (Eric's rule for every
+ * video). Plays only while on screen; Reduce Motion shows the finished routine. */
 
 export type Step = { at: number; title: string };
 
@@ -92,7 +93,7 @@ export default function RoutineVideo({
   });
 
   return (
-    <div className="mx-auto w-full max-w-[340px] px-[9%] py-[clamp(28px,5vw,48px)] sm:px-0">
+    <div className="mx-auto w-full md:max-w-[440px] md:py-12">
       <div className="relative">
         <video
           ref={video}
@@ -104,13 +105,13 @@ export default function RoutineVideo({
           aria-label={label}
           width={480}
           height={600}
-          className="block aspect-[4/5] w-full rounded-[22px] bg-[#DCDCD6] object-cover"
+          className="block aspect-[4/5] w-full bg-[#DCDCD6] object-cover md:rounded-[22px]"
         />
         {/* The clock out of the limit (Eric chose option A, 11-04): white while the
             routine runs, green with a check once impact lands under the limit. Green
             is used only here, on purpose, to mean "under". */}
         <p
-          className="absolute left-3 top-3 m-0 flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-[15px] font-semibold shadow-[0_1px_2px_rgba(20,21,24,0.08)] transition-colors duration-300 [font-variant-numeric:tabular-nums]"
+          className="absolute left-4 top-4 m-0 flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-[16px] font-semibold shadow-[0_1px_2px_rgba(20,21,24,0.08)] transition-colors duration-300 [font-variant-numeric:tabular-nums]"
           style={{ background: under ? "#2FA35A" : "rgba(255,255,255,0.94)", color: under ? "#FFFFFF" : "#141518" }}
           aria-hidden
         >
@@ -123,8 +124,8 @@ export default function RoutineVideo({
       </div>
       {/* One step at a time, full width, nothing else (Eric, 11-04: thirteen small
           dashes read as clutter on a phone). The name fades in as each step starts. */}
-      <div className="mt-3 rounded-2xl bg-white px-4 py-4 text-center">
-        <p key={done ? "impact" : current} className="et-step m-0 text-[18px] font-semibold leading-snug text-[#141518]" aria-live="polite">
+      <div className="m-3 rounded-2xl bg-white px-4 py-4 text-center md:mx-0 md:mb-0">
+        <p key={done ? "impact" : current} className="et-step m-0 text-[19px] font-semibold leading-snug text-[#141518]" aria-live="polite">
           {done ? "Impact" : current < 0 ? "Ready" : steps[current].title}
         </p>
         <style>{`@keyframes et-step { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } } .et-step { animation: et-step 0.3s ease-out both; } @media (prefers-reduced-motion: reduce) { .et-step { animation: none; } }`}</style>
