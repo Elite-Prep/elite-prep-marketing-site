@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import HeroCarousel from "./HeroCarousel";
+import FloatingHeader from "./FloatingHeader";
 import SwingTimingVideo from "./SwingTimingVideo";
 import RoutineVideo from "./RoutineVideo";
 import TigerCompare from "./TigerCompare";
@@ -171,7 +172,8 @@ const WRAP = "mx-auto max-w-[1240px] px-4";
    is big, so it reads as the most important thing on the page. */
 const H2_SECTION = "m-0 text-[clamp(26px,3vw,34px)] font-semibold leading-[1.15] tracking-[-0.02em] [text-wrap:balance]";
 /* The soft card every feature's picture sits in. */
-const FEATURE_CARD = "overflow-hidden rounded-[28px] bg-[#EDEDE8]";
+/* Darker than it was (#EDEDE8) so the panel reads as a panel on the #F6F6F3 page. */
+const FEATURE_CARD = "overflow-hidden rounded-[28px] bg-[#E6E4DC]";
 const LEDE = "text-[19px] leading-[1.4]";
 const NUM = "text-[30px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums]";
 
@@ -187,6 +189,9 @@ export default function EliteTempoLanding() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }} />
       <style>{IPHONE_CSS}</style>
       <SkipLink />
+      <FloatingHeader>
+        <SiteHeader />
+      </FloatingHeader>
 
       {/* Hero: the promise on a gold wash, three real screens below it. Gold only:
           the green washes were cut 2026-11-04 (site grade: ten section colors down

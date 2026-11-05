@@ -103,8 +103,8 @@ export default function RoutineVideo({
           playsInline
           preload="metadata"
           aria-label={label}
-          width={480}
-          height={600}
+          width={600}
+          height={750}
           className="block aspect-[4/5] w-full bg-[#DCDCD6] object-cover md:rounded-[22px]"
         />
         {/* The clock out of the limit (Eric chose option A, 11-04): white while the

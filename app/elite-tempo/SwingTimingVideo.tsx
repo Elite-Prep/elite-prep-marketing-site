@@ -128,8 +128,8 @@ export default function SwingTimingVideo({
         playsInline
         preload="metadata"
         aria-label={label}
-        width={544}
-        height={680}
+        width={640}
+        height={800}
         className="block aspect-[4/5] w-full bg-[#DCDCD6] object-cover md:rounded-[22px]"
       />
       <dl className="m-3 grid grid-cols-4 rounded-2xl bg-white px-1 py-3 text-center md:mx-0 md:mb-0">
