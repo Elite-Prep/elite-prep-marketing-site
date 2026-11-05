@@ -154,7 +154,7 @@ export default function HeroCarousel({
   return (
     <div
       ref={box}
-      className="relative mt-10 h-[clamp(380px,58vw,640px)] touch-pan-y select-none [perspective:1400px]"
+      className="relative mt-12 h-[clamp(440px,62vw,680px)] touch-pan-y select-none [perspective:1400px]"
       role="region"
       aria-roledescription="carousel"
       aria-label="Elite Tempo app screens"
@@ -182,9 +182,7 @@ export default function HeroCarousel({
         setHeld(false);
       }}
     >
-      {/* The phones fade out at the bottom, so the headline under them starts on a
-          clean line instead of below a hard crop (11-04, pictures first). */}
-      <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black_52%,transparent_84%)]">
+      <div className="absolute inset-0">
         {slides.map((slide, i) => {
           /* Shortest way round the ring, so -2..2 for five screens. */
           let offset = (i - front + count) % count;
@@ -197,7 +195,7 @@ export default function HeroCarousel({
               data-slide
               aria-hidden={offset !== 0}
               onClick={() => offset !== 0 && setFront(i)}
-              className={`absolute left-1/2 top-0 w-[clamp(180px,27vw,350px)] ${offset === 0 ? "" : "cursor-pointer"}`}
+              className={`absolute left-1/2 top-0 w-[clamp(220px,30.8vw,385px)] ${offset === 0 ? "" : "cursor-pointer"}`}
               style={{
                 zIndex: 10 - Math.abs(offset),
                 opacity: step.opacity,
