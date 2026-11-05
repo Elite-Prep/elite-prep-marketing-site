@@ -154,7 +154,7 @@ export default function HeroCarousel({
   return (
     <div
       ref={box}
-      className="relative mt-6 h-[clamp(340px,52vw,600px)] touch-pan-y select-none [perspective:1400px]"
+      className="relative mt-10 h-[clamp(380px,58vw,640px)] touch-pan-y select-none [perspective:1400px]"
       role="region"
       aria-roledescription="carousel"
       aria-label="Elite Tempo app screens"

@@ -3,15 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import useReducedMotion from "./useReducedMotion";
 
-/* Eric's 8 iron, timed the way the app times it (11-04): the video plays, freezes
- * at the top and shows the backswing, freezes at impact and shows the downswing,
- * then finishes the follow-through and shows the total and the tempo. The marks are
- * the app's own (takeaway 0.10s, top 0.85s, impact 1.12s in this clip), so every
- * number is a real reading. The four numbers sit in one strip under the video,
+/* Eric's driver from the app's onboarding (the gray shirt), timed the way the app
+ * times it (11-04): the video plays, freezes at the top and shows the backswing,
+ * freezes at impact and shows the downswing, then finishes the follow-through and
+ * shows the total and the tempo. `marks` are the app's own (takeaway 0.50s, top
+ * 1.15s, impact 1.37s on the original clip) and set the numbers. `freeze` is where
+ * the cut web clip stops: the middle of the exact top and impact frames, checked
+ * frame by frame, so the picture never stops a frame early or late. The four numbers sit in one strip under the video,
  * with the app's own short labels (Back, Down, Total, Tempo). Plays only while on screen; Reduce Motion shows the top of the
  * swing with all four numbers. */
 
 export type SwingMarks = { takeaway: number; top: number; impact: number };
+export type Freeze = { top: number; impact: number; fps: number };
 
 const FREEZE_MS = 1000;
 const HOLD_MS = 2600;
@@ -21,12 +24,14 @@ export default function SwingTimingVideo({
   poster,
   stillPoster,
   marks,
+  freeze,
   label,
 }: {
   src: string;
   poster: string;
   stillPoster: string;
   marks: SwingMarks;
+  freeze: Freeze;
   label: string;
 }) {
   const video = useRef<HTMLVideoElement>(null);
@@ -64,8 +69,10 @@ export default function SwingTimingVideo({
     };
     const watch = () => {
       const t = v.currentTime;
-      if (stageRef.current === 0 && t >= marks.top) freezeAt(marks.top, 1);
-      else if (stageRef.current === 1 && t >= marks.impact) freezeAt(marks.impact, 2);
+      /* Stop as soon as the frame is reached, then land on its middle. */
+      const half = 0.5 / freeze.fps;
+      if (stageRef.current === 0 && t >= freeze.top - half) freezeAt(freeze.top, 1);
+      else if (stageRef.current === 1 && t >= freeze.impact - half) freezeAt(freeze.impact, 2);
       raf = requestAnimationFrame(watch);
     };
     const restart = () => {
@@ -100,7 +107,7 @@ export default function SwingTimingVideo({
       cancelAnimationFrame(raf);
       timers.current.forEach(clearTimeout);
     };
-  }, [still, marks.top, marks.impact]);
+  }, [still, freeze.top, freeze.impact, freeze.fps]);
 
   const shown = still ? 3 : stage;
 
@@ -114,8 +121,8 @@ export default function SwingTimingVideo({
         playsInline
         preload="metadata"
         aria-label={label}
-        width={600}
-        height={750}
+        width={544}
+        height={680}
         className="block aspect-[4/5] w-full rounded-[22px] bg-[#DCDCD6] object-cover"
       />
       <dl className="m-0 mt-3 grid grid-cols-4 rounded-2xl bg-white px-1 py-3 text-center">

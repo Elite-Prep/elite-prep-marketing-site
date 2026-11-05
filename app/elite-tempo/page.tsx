@@ -196,35 +196,24 @@ export default function EliteTempoLanding() {
           id="top"
           className="relative overflow-hidden rounded-[28px]"
           style={{
-            background: "radial-gradient(70% 50% at 50% 30%, #F9C832 0%, rgba(249, 200, 50, 0) 72%), #FFFCF0",
+            background: "radial-gradient(70% 60% at 50% 78%, #F9C832 0%, rgba(249, 200, 50, 0) 72%), #FFFCF0",
           }}
         >
           <SiteHeader />
 
-          {/* Pictures first, then the headline, the way Pinterest opens (11-04). */}
-          <HeroCarousel labels={HERO_SCREENS.map((h) => h.label)} slides={HERO_SCREENS.map((h, i) => <Phone key={h.src} eager priority={i === 0} src={h.src} alt={h.alt} clip={h.clip} />)} />
 
-          <div id="content" className="px-4 pb-[clamp(40px,6vw,72px)] pt-6 text-center">
-            <h1 className="m-0 text-[clamp(38px,9vw,80px)] font-semibold leading-[1.02] tracking-[-0.035em]">
-              {/* The break only holds once both halves fit on a line; on a phone it
-                  stranded a single word on a line of its own. */}
-              Time your entire game
-              <br className="hidden sm:block" /> from pre-shot routine to impact.
+          <div id="content" className="px-4 pt-[clamp(36px,5vw,64px)] text-center">
+            {/* Eric, 11-04: headline first, short; the rating moved to pricing. */}
+            <h1 className="m-0 text-[clamp(40px,9vw,80px)] font-semibold leading-[1.02] tracking-[-0.035em]">
+              Time your entire process.
             </h1>
-            <p className={`mx-auto mt-[22px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
-              Groove your routine and timing so you execute when it matters most.
+            <p className={`mx-auto mt-[18px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
+              Groove your entire game from <span className="whitespace-nowrap">pre-shot</span> routine to impact, so you can execute when it matters most.
             </p>
             <AppStoreBadge className="mt-7" />
-            <p className="mt-3.5 text-[16px]" style={{ color: "#4A4B50" }}>
-              <span style={{ color: INK }} aria-hidden>
-                ★★★★★
-              </span>{" "}
-              {/* Two whole lines on a phone instead of a wrap that strands "free." */}
-              <span className="whitespace-nowrap">Rated 5.0 on the App Store.</span>{" "}
-              <span className="block whitespace-nowrap sm:inline">{TRIAL_DAYS} days free.</span>
-            </p>
           </div>
 
+          <HeroCarousel labels={HERO_SCREENS.map((h) => h.label)} slides={HERO_SCREENS.map((h, i) => <Phone key={h.src} eager priority={i === 0} src={h.src} alt={h.alt} clip={h.clip} />)} />
         </section>
       </div>
 
@@ -250,8 +239,11 @@ export default function EliteTempoLanding() {
           src="/elite-tempo/video/swing.mp4"
           poster="/elite-tempo/video/swing-poster.jpg"
           stillPoster="/elite-tempo/video/swing-top.jpg"
-          marks={{ takeaway: 0.1, top: 0.85, impact: 1.117 }}
-          label="Eric's 8 iron at the range, pausing at the top of the backswing and at impact while its timing is shown."
+          marks={{ takeaway: 0.5, top: 1.15, impact: 1.37 }}
+          /* The clip starts at frame 9 of the original, so top (frame 34) is frame 25
+             and impact (frame 41) is frame 32; each freeze lands mid-frame. */
+          freeze={{ top: 25.5 / 30, impact: 32.5 / 30, fps: 30 }}
+          label="Eric's driver on a sunny tee, pausing at the top of the backswing and at impact while its timing is shown."
         />
       </FeatureSection>
 
@@ -294,6 +286,13 @@ export default function EliteTempoLanding() {
           <h2 className={H2_SECTION}>Time your own swing before you pay a thing.</h2>
           <p className="mt-3 text-[19px] leading-[1.4]" style={{ color: "#4A4B50" }}>
             Free for {TRIAL_DAYS} days. Cancel anytime.
+          </p>
+          {/* Moved from the hero (Eric, 11-04): proof sits next to the price. */}
+          <p className="mt-2 text-[16px]" style={{ color: "#4A4B50" }}>
+            <span style={{ color: INK }} aria-hidden>
+              ★★★★★
+            </span>{" "}
+            Rated 5.0 on the App Store.
           </p>
           <div className="mx-auto mt-8 grid max-w-[560px] grid-cols-2 gap-3 text-left max-[420px]:grid-cols-1">
             <div className="rounded-2xl bg-white p-5">
