@@ -223,8 +223,7 @@ export default function EliteTempoLanding() {
           feature in the same pattern (a picture card, a short heading, one sentence,
           a small download button). Only the picture changes. */}
       <section className="mx-auto max-w-[900px] px-4 pt-[clamp(56px,8vw,96px)] text-center">
-        {/* The two words the product is about, in italics: a deliberate exception to
-            plain headings, asked for by Eric 2026-11-04. */}
+        {/* Plain type; the italics were dropped 11-04 (read as templated). */}
         <h2 className={H2_SECTION}>
           Competing under pressure breaks your timing and routine.
         </h2>
