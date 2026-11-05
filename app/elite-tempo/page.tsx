@@ -17,7 +17,7 @@ import {
   TRIAL_DAYS,
   YEARLY_SAVING_PCT,
 } from "./data/pricing";
-import { SiteFooter, SiteHeader, SkipLink } from "./Chrome";
+import { SiteFooter, SkipLink } from "./Chrome";
 import { preload } from "react-dom";
 import {
   APP_STORE_URL,
@@ -189,9 +189,7 @@ export default function EliteTempoLanding() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }} />
       <style>{IPHONE_CSS}</style>
       <SkipLink />
-      <FloatingHeader>
-        <SiteHeader />
-      </FloatingHeader>
+      <FloatingHeader />
 
       {/* Hero: the promise on a gold wash, three real screens below it. Gold only:
           the green washes were cut 2026-11-04 (site grade: ten section colors down
@@ -204,7 +202,8 @@ export default function EliteTempoLanding() {
             background: "radial-gradient(70% 60% at 50% 78%, #F9C832 0%, rgba(249, 200, 50, 0) 72%), #FFFCF0",
           }}
         >
-          <SiteHeader />
+          {/* The menu is the fixed bar above (FloatingHeader); this keeps its space. */}
+          <div aria-hidden className="h-[calc(64px+env(safe-area-inset-top,0px))]" />
 
 
           <div id="content" className="px-4 pt-[clamp(36px,5vw,64px)] text-center">
@@ -291,7 +290,7 @@ export default function EliteTempoLanding() {
 
       {/* Pricing: the closing section, on a full photo the way Pinterest closes (11-04).
           The photo is Eric teeing off in front of a gallery (his own, 11-04), darkened so white type reads. */}
-      <section id="pricing" className={`${WRAP} pt-[clamp(56px,8vw,96px)]`}>
+      <section id="pricing" className={`${WRAP} scroll-mt-16 pt-[clamp(56px,8vw,96px)]`}>
         <div
           className="overflow-hidden rounded-[28px] bg-[#2A3A26] bg-cover px-[clamp(20px,5vw,64px)] py-[clamp(48px,8vw,96px)] text-center text-white"
           style={{ backgroundImage: "linear-gradient(rgba(20,21,24,0.66), rgba(20,21,24,0.86)), url(/elite-tempo/video/close.jpg?v=2)", backgroundPosition: "56% 40%" }}
