@@ -161,7 +161,9 @@ const HERO_SCREENS: { src: string; label: string; alt: string; clip?: string }[]
   { src: "routine-practice", label: "your routine", alt: "Practicing a driver pre-shot routine in Elite Tempo: look at the target, 13.6 seconds left on the clock." },
   { src: "player", clip: "player", label: "your swing", alt: "A golfer's own swing playing in Elite Tempo with tempo 3.0:1." },
   /* Compare also lives here; the photo cards below show it too. */
-  { src: "compare", label: "you against Tiger", alt: "See the gap in Elite Tempo: a golfer's driver at the top of the swing, stacked under Tiger Woods' 2000 Open driver at the same moment." },
+  /* Eric's pick (11-04): the "Here is your tempo" screen, his swing beside Tiger's,
+     in place of the stacked See the gap screen. */
+  { src: "reveal-tiger", label: "you against Tiger", alt: "Here is your tempo in Elite Tempo: a golfer's swing beside Tiger Woods', tempo 3.0 to 1 against Tiger's 3.9, backswing 0.65 seconds against 0.86." },
   { src: "pros", label: "the pros", alt: "Elite Tempo's Pros tab: tour players with their tempos." },
   { src: "stats", label: "your streak", alt: "Stats in Elite Tempo: a weekly streak of 3 weeks in a row." },
 ];
@@ -265,7 +267,7 @@ export default function EliteTempoLanding() {
 
       {/* Social proof between the features (Eric's wireframe, 11-04). */}
       <ReviewsBand
-        photo="/elite-tempo/video/stock-reviews-preview.jpg"
+        photo="/elite-tempo/video/reviews.jpg"
         reviews={[
           { body: "I was just looking to improve my tempo and was strongly suggested this app. I love the ease of use and effectiveness.", name: "StayDialedIn" },
           { body: "This is a game changer for tempo training. It’s simple to use, smart and actually useful!", name: "@kgrace" },
@@ -307,8 +309,8 @@ export default function EliteTempoLanding() {
           he looked at show none, and the FAQ answers what it costs. */}
       <section id="pricing" className="relative mt-[clamp(56px,8vw,96px)] scroll-mt-16 overflow-hidden">
         <div
-          className="flex min-h-[clamp(560px,62vw,720px)] flex-col items-center justify-center bg-[#2A3A26] bg-cover px-[max(20px,env(safe-area-inset-left,0px))] pb-16 pt-[clamp(48px,6vw,80px)] text-center text-white md:justify-center"
-          style={{ backgroundImage: "linear-gradient(rgba(20,21,24,0.10), rgba(20,21,24,0.30)), url(/elite-tempo/video/stock-close-preview.jpg)", backgroundPosition: "0% 60%" }}
+          className="flex min-h-[clamp(560px,62vw,720px)] flex-col items-center justify-center bg-[#2A3A26] bg-cover px-[max(20px,env(safe-area-inset-left,0px))] py-16 text-center text-white"
+          style={{ backgroundImage: "linear-gradient(rgba(20,21,24,0.78), rgba(20,21,24,0.68)), url(/elite-tempo/video/close.jpg?v=2)", backgroundPosition: "56% 70%" }}
         >
           <h2 className="m-0 max-w-[16em] text-[clamp(32px,4.6vw,56px)] font-semibold leading-[1.05] tracking-[-0.03em] [text-shadow:0_2px_24px_rgba(0,0,0,0.35)] [text-wrap:balance]">
             Time your own swing before you pay a thing.

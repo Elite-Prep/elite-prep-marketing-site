@@ -19,7 +19,7 @@ export default function ReviewsBand({ reviews, photo }: { reviews: Review[]; pho
       <div
         className="flex min-h-[clamp(520px,58vw,680px)] flex-col items-center justify-center bg-[#2A3A26] bg-cover px-[max(20px,env(safe-area-inset-left,0px))] py-16 text-center text-white"
         style={{
-          backgroundImage: `radial-gradient(60% 55% at 50% 48%, rgba(20,21,24,0.62) 0%, rgba(20,21,24,0.30) 70%, rgba(20,21,24,0.12) 100%), url(${photo})`,
+          backgroundImage: `linear-gradient(rgba(20,21,24,0.76), rgba(20,21,24,0.76)), url(${photo})`,
           backgroundPosition: "50% 35%",
         }}
       >
