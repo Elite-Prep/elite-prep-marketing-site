@@ -256,6 +256,17 @@ export default function EliteTempoLanding() {
         />
       </FeatureSection>
 
+      {/* Social proof between the features (Eric's wireframe, 11-04). */}
+      <ReviewsBand
+        photo="/elite-tempo/video/reviews.jpg"
+        reviews={[
+          { body: "I was just looking to improve my tempo and was strongly suggested this app. I love the ease of use and effectiveness.", name: "StayDialedIn" },
+          { body: "This is a game changer for tempo training. It’s simple to use, smart and actually useful!", name: "@kgrace" },
+          { body: "Highly recommend this app for helping you practice your golf swing. So many cool features!", name: "Tiffneyac" },
+          { body: "Super addicting and surprisingly helpful", name: "Boos59" },
+        ]}
+      />
+
       <FeatureSection title="Rehearse your routine. Play faster." body="Film your routine and name each step. Then practice it inside the USGA and R&A’s recommended 40 seconds.">
         <RoutineVideo
           src="/elite-tempo/video/routine.mp4"
@@ -281,18 +292,6 @@ export default function EliteTempoLanding() {
           ]}
         />
       </FeatureSection>
-
-      {/* Social proof between the features (Eric's wireframe, 11-04). */}
-      <ReviewsBand
-        light
-        photo="/elite-tempo/video/reviews.jpg"
-        reviews={[
-          { body: "I was just looking to improve my tempo and was strongly suggested this app. I love the ease of use and effectiveness.", name: "StayDialedIn" },
-          { body: "This is a game changer for tempo training. It’s simple to use, smart and actually useful!", name: "@kgrace" },
-          { body: "Highly recommend this app for helping you practice your golf swing. So many cool features!", name: "Tiffneyac" },
-          { body: "Super addicting and surprisingly helpful", name: "Boos59" },
-        ]}
-      />
 
       {/* The close (Eric, 11-04, from his Figma note "full bleed image behind CTA"):
           his tee shot in front of a gallery, edge to edge, with one line, one "Try for
