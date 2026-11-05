@@ -205,7 +205,7 @@ export default function EliteTempoLanding() {
           <div id="content" className="px-4 pt-[clamp(36px,5vw,64px)] text-center">
             {/* Eric, 11-04: headline first, short; the rating moved to pricing. */}
             <h1 className="m-0 text-[clamp(40px,9vw,80px)] font-semibold leading-[1.02] tracking-[-0.035em]">
-              Time your entire process.
+              Time your entire golf process.
             </h1>
             <p className={`mx-auto mt-[18px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
               Groove your entire game from <span className="whitespace-nowrap">pre-shot</span> routine to impact, so you can trust your game when it matters most.
@@ -226,10 +226,10 @@ export default function EliteTempoLanding() {
         {/* The two words the product is about, in italics: a deliberate exception to
             plain headings, asked for by Eric 2026-11-04. */}
         <h2 className={H2_SECTION}>
-          Competing under pressure breaks your <em className="italic">timing</em> and <em className="italic">routine</em>.
+          Competing under pressure breaks your timing and routine.
         </h2>
         <p className="mx-auto mt-3 max-w-[30em] text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
-          Because they’re difficult to practice. Until now.
+          Now you can practice both.
         </p>
       </section>
 

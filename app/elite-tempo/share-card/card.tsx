@@ -20,13 +20,13 @@ import { MARK_ASPECT, markDataUri } from "../EliteTempoMark";
  * Satori renders WebP poorly, so the three screens are JPEG copies of the hero's
  * WebP files in public/elite-tempo/og, cut to the size they are shown at here. */
 
-export const alt = "Elite Tempo. Time your entire process.";
+export const alt = "Elite Tempo. Time your entire golf process.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const HEADLINE_1 = "Time your entire";
 /* Eric's 11-04 headline: "Time your entire process." */
-const HEADLINE_2 = "process.";
+const HEADLINE_2 = "golf process.";
 const HEADLINE_3 = "";
 const LINE = "Groove your entire game from pre-shot routine to impact, so you can trust your game when it matters most.";
 

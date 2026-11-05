@@ -162,9 +162,9 @@ export const SITE_URL = "https://www.eliteprep.app";
    that cached the old card fetch the new one. */
 export const SHARE_IMAGES = [
   {
-    url: `${ET_SITE_URL}/elite-tempo/share-card?v=6`,
+    url: `${ET_SITE_URL}/elite-tempo/share-card?v=7`,
     width: 1200,
     height: 630,
-    alt: "Elite Tempo. Time your entire process.",
+    alt: "Elite Tempo. Time your entire golf process.",
   },
 ];
