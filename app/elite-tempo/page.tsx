@@ -240,7 +240,7 @@ export default function EliteTempoLanding() {
       {/* Every feature picture is real footage or a real piece of the app, and every
           number is the app's own reading (11-04). No floating labels: Eric found them
           hacky, and the numbers now appear where the app shows them. */}
-      <FeatureSection title="Four numbers captured every time you swing.">
+      <FeatureSection title="Four numbers captured every time you swing." body="Backswing, downswing, total time and tempo.">
         <SwingTimingVideo
           src="/elite-tempo/video/swing.mp4"
           poster="/elite-tempo/video/swing-poster.jpg"
@@ -274,7 +274,7 @@ export default function EliteTempoLanding() {
         ]}
       />
 
-      <FeatureSection title="Rehearse your routine. Play faster." body="Film your routine and name each step. Then practice it inside the recommended 40 seconds.">
+      <FeatureSection title="Rehearse your routine. Play faster." body="Film your routine and name each step. Then practice it inside the USGA and R&A’s recommended 40 seconds.">
         <RoutineVideo
           src="/elite-tempo/video/routine.mp4"
           poster="/elite-tempo/video/routine-poster.jpg"
