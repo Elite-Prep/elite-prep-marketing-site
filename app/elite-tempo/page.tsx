@@ -210,10 +210,10 @@ export default function EliteTempoLanding() {
           <div id="content" className="px-4 pt-[clamp(36px,5vw,64px)] text-center">
             {/* Eric, 11-04: headline first, short; the rating moved to pricing. */}
             <h1 className="m-0 text-[clamp(40px,9vw,80px)] font-semibold leading-[1.02] tracking-[-0.035em]">
-              Time your entire golf process.
+              Time your swing and your routine.
             </h1>
             <p className={`mx-auto mt-[18px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
-              Groove your entire game from <span className="whitespace-nowrap">pre-shot</span> routine to impact, so you can trust your game when it matters most.
+              Groove your <span className="whitespace-nowrap">pre-shot</span> routine and swing timing, so you can trust your game when it matters most.
             </p>
             {/* One button style on the page: the black pill (blind review, 11-04). The
                 App Store badge appears once, in pricing. */}
