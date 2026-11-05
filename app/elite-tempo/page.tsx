@@ -220,42 +220,20 @@ export default function EliteTempoLanding() {
             {/* One button style on the page: the black pill (blind review, 11-04). The
                 App Store badge appears once, in pricing. */}
             <DownloadButton big />
+            {/* The rating sits under the first button (blind review, 11-05). */}
+            <p className="m-0 mt-3 text-[15px] font-medium" style={{ color: "#4A4B50" }}>
+              <span className="text-[#E0A800]" aria-hidden>★★★★★</span> Rated 5.0 on the App Store
+            </p>
           </div>
 
           <HeroCarousel labels={HERO_SCREENS.map((h) => h.label)} slides={HERO_SCREENS.map((h, i) => <Phone key={h.src} eager priority={i === 0} src={h.src} alt={h.alt} clip={h.clip} />)} />
         </section>
       </div>
 
-      {/* From here down, Pinterest's shape (Eric, 11-04): one intro line, then every
-          feature in the same pattern (a picture card, a short heading, one sentence,
-          a small download button). Only the picture changes. */}
-      <section className="mx-auto max-w-[900px] px-4 pt-[clamp(56px,8vw,96px)] text-center">
-        {/* Plain type; the italics were dropped 11-04 (read as templated). */}
-        <h2 className={H2_SECTION}>
-          Competing under pressure affects your timing and routine.
-        </h2>
-        <p className="mx-auto mt-3 max-w-[30em] text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
-          Now you can practice both, so you’re ready when the moment comes.
-        </p>
-      </section>
-
       {/* Every feature picture is real footage or a real piece of the app, and every
           number is the app's own reading (11-04). No floating labels: Eric found them
           hacky, and the numbers now appear where the app shows them. */}
-      <FeatureSection title="Four numbers captured every time you swing." body="Backswing, downswing, total time and tempo.">
-        <SwingTimingVideo
-          src="/elite-tempo/video/swing.mp4"
-          poster="/elite-tempo/video/swing-poster.jpg"
-          stillPoster="/elite-tempo/video/swing-top.jpg"
-          marks={{ takeaway: 0.5, top: 1.15, impact: 1.37 }}
-          /* The clip starts at frame 9 of the original, so top (frame 34) is frame 25
-             and impact (frame 41) is frame 32; each freeze lands mid-frame. */
-          freeze={{ top: 25.5 / 30, impact: 32.5 / 30, fps: 30 }}
-          label="Eric's driver on a sunny tee, pausing at the top of the backswing and at impact while its timing is shown."
-        />
-      </FeatureSection>
-
-      <FeatureSection title="Compare your swing timing to a library of pros.">
+      <FeatureSection bare title="Compare your swing timing to a library of pros.">
         <TigerCompare
           rows={[
             { name: "Tiger Woods", detail: `Driver, ${HERO_SWING.year}`, back: HERO_SWING.back, down: HERO_SWING.down },
@@ -264,17 +242,6 @@ export default function EliteTempoLanding() {
           ]}
         />
       </FeatureSection>
-
-      {/* Social proof between the features (Eric's wireframe, 11-04). */}
-      <ReviewsBand
-        photo="/elite-tempo/video/reviews.jpg"
-        reviews={[
-          { body: "I was just looking to improve my tempo and was strongly suggested this app. I love the ease of use and effectiveness.", name: "StayDialedIn" },
-          { body: "This is a game changer for tempo training. It’s simple to use, smart and actually useful!", name: "@kgrace" },
-          { body: "Highly recommend this app for helping you practice your golf swing. So many cool features!", name: "Tiffneyac" },
-          { body: "Super addicting and surprisingly helpful", name: "Boos59" },
-        ]}
-      />
 
       <FeatureSection title="Rehearse your routine. Play faster." body="Film your routine and name each step. Then practice it inside the USGA and R&A’s recommended 40 seconds.">
         <RoutineVideo
@@ -301,6 +268,30 @@ export default function EliteTempoLanding() {
           ]}
         />
       </FeatureSection>
+
+      <FeatureSection title="Four numbers captured every time you swing." body="Backswing, downswing, total time and tempo.">
+        <SwingTimingVideo
+          src="/elite-tempo/video/swing.mp4"
+          poster="/elite-tempo/video/swing-poster.jpg"
+          stillPoster="/elite-tempo/video/swing-top.jpg"
+          marks={{ takeaway: 0.5, top: 1.15, impact: 1.37 }}
+          /* The clip starts at frame 9 of the original, so top (frame 34) is frame 25
+             and impact (frame 41) is frame 32; each freeze lands mid-frame. */
+          freeze={{ top: 25.5 / 30, impact: 32.5 / 30, fps: 30 }}
+          label="Eric's driver on a sunny tee, pausing at the top of the backswing and at impact while its timing is shown."
+        />
+      </FeatureSection>
+
+      {/* Social proof between the features (Eric's wireframe, 11-04). */}
+      <ReviewsBand
+        photo="/elite-tempo/video/reviews.jpg"
+        reviews={[
+          { body: "I was just looking to improve my tempo and was strongly suggested this app. I love the ease of use and effectiveness.", name: "StayDialedIn" },
+          { body: "This is a game changer for tempo training. It’s simple to use, smart and actually useful!", name: "@kgrace" },
+          { body: "Highly recommend this app for helping you practice your golf swing. So many cool features!", name: "Tiffneyac" },
+          { body: "Super addicting and surprisingly helpful", name: "Boos59" },
+        ]}
+      />
 
       {/* The close (Eric, 11-04, from his Figma note "full bleed image behind CTA"):
           his tee shot in front of a gallery, edge to edge, with one line, one "Try for
@@ -456,7 +447,6 @@ function FeatureSection({
             {body}
           </p>
         )}
-        <DownloadButton />
       </div>
     </section>
   );
