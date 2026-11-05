@@ -224,7 +224,13 @@ const HERO_SCREENS: { src: string; label: string; alt: string; clip?: string }[]
 const WRAP = "mx-auto max-w-[1240px] px-4";
 /* The type scale, cut 2026-11-04 from 17 sizes on the desktop page: 80 hero, 56 every
    section heading, 30 big numbers and quotes, 21 lead lines, 19 body, 16 small. */
-const H2_ONE = "m-0 text-[clamp(36px,4.4vw,56px)] font-semibold leading-[1.05] tracking-[-0.03em] [text-wrap:balance]";
+/* Section headings are small on purpose (Pinterest, 11-04): only the opening headline
+   is big, so it reads as the most important thing on the page. */
+const H2_SECTION = "m-0 text-[clamp(26px,3vw,34px)] font-semibold leading-[1.15] tracking-[-0.02em] [text-wrap:balance]";
+/* The soft card every feature's picture sits in. */
+const FEATURE_CARD = "overflow-hidden rounded-[28px] bg-[#EDEDE8]";
+/* Three rows, picked for spread: Tiger, the slowest tempo and the quickest. */
+const TOUR_ROWS = [GREATS_ROWS[0], GREATS_ROWS[1], GREATS_ROWS[4]];
 const LEDE = "text-[21px] leading-[1.35]";
 const NUM = "text-[30px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums]";
 
@@ -279,76 +285,40 @@ export default function EliteTempoLanding() {
         </section>
       </div>
 
-      {/* Every part of the game, playable. The page's one dark card. */}
-      <section className={`${WRAP} pt-[clamp(72px,10vw,136px)] text-center`}>
-        <h2 className={H2_ONE}>Get four timing numbers from every swing you film.</h2>
-        <DarkTimingPlayer shots={DARK_SHOTS} />
-      </section>
-
-      {/* The problem, in plain type. Short: it was 14 words over three lines. Timing
-          and routine always named together. */}
-      <section className="mx-auto max-w-[900px] px-4 pt-[clamp(72px,10vw,136px)] text-center">
+      {/* From here down, Pinterest's shape (Eric, 11-04): one intro line, then every
+          feature in the same pattern (a picture card, a short heading, one sentence,
+          a small download button). Only the picture changes. */}
+      <section className="mx-auto max-w-[900px] px-4 pt-[clamp(88px,12vw,144px)] text-center">
         {/* The two words the product is about, in italics: a deliberate exception to
             plain headings, asked for by Eric 2026-11-04. */}
-        <h2 className={H2_ONE}>
+        <h2 className={H2_SECTION}>
           Competing under pressure breaks your <em className="italic">timing</em> and <em className="italic">routine</em>.
         </h2>
-        <p className={`mx-auto mt-5 max-w-[30em] ${LEDE}`} style={{ color: MUTED }}>
+        <p className="mx-auto mt-3 max-w-[30em] text-[19px] leading-[1.4]" style={{ color: MUTED }}>
           Because they’re difficult to practice. Until now.
         </p>
       </section>
 
-      {/* Two cards, both white. */}
-      <section className={`${WRAP} pt-[clamp(56px,8vw,96px)]`}>
-        {/* Each card spans three shared rows (title, line, phone), so the phones start
-            at the same height even when one title wraps to two lines. */}
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-x-4">
-          <TallCard title="Time your best swings" src="player" alt="A golfer's own swing playing in Elite Tempo.">
-            Film a swing and groove the timing of your best shots.
-          </TallCard>
-          <TallCard title="Compare to a tour player's timing" src="compare" alt="See the gap in Elite Tempo: a golfer's driver at the top of the swing, stacked under Tiger Woods' 2000 Open driver at the same moment.">
-            See how your timing stacks up to the best players in the world.
-          </TallCard>
-        </div>
-      </section>
+      <FeatureSection bare title="Get four timing numbers from every swing you film." body="Backswing, downswing, total time and tempo. Tap play to feel Tiger's.">
+        <DarkTimingPlayer shots={DARK_SHOTS} />
+      </FeatureSection>
 
-      {/* Routine and pace of play, one card. These were two: a tall "Rehearse your
-          routine" card and a yellow green "Play faster" section told the same story. */}
-      <section className={`${WRAP} pt-4`}>
-        <div className="box-border flex flex-wrap items-center gap-x-[clamp(32px,6vw,80px)] gap-y-8 overflow-hidden rounded-[28px] bg-white px-[clamp(24px,5vw,64px)] pt-[clamp(32px,5vw,64px)]">
-          <div className="min-w-0 flex-[1_1_400px] pb-8">
-            <h2 className={H2_ONE}>Rehearse your routine. Play faster.</h2>
-            <p className={`mt-4 max-w-[26em] ${LEDE}`} style={{ color: MUTED }}>
-              Each step lights up as you reach it. Fit it all inside the 40 seconds the USGA and The R&amp;A recommend.
-            </p>
-            <LottieLoop scene={ROUTINE_SCENE} label="Seven routine steps lighting up one after another, ending in gold at impact." className="mt-8 w-full max-w-[336px]" />
-            <div className="mt-6 max-w-[420px]">
-              <p className={`m-0 ${NUM}`}>{ROUTINE_S}s</p>
-              <LottieLoop scene={TIMER_SCENE} label={`A routine of ${ROUTINE_S} seconds filling the bar, short of the ${PACE_LIMIT_S} second limit.`} className="mt-2 w-full" />
-              <div className="relative mt-2 h-5 text-[16px]" style={{ color: MUTED }}>
-                <span className="absolute left-0">{(PACE_LIMIT_S - ROUTINE_S).toFixed(1)}s to spare</span>
-                <span className="absolute -translate-x-1/2 whitespace-nowrap" style={{ left: `${(PACE_LIMIT_S / TIMER_SCALE_S) * 100}%` }}>
-                  {PACE_LIMIT_S}s limit
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="mx-auto h-[560px] w-[300px] flex-[0_1_300px] self-end">
-            <Phone src="routines-tab" alt="Elite Tempo's Routines tab: a 24.3 second average against the 40 second limit." />
+      <FeatureSection title="Compare to a tour player's timing." body="See how your timing stacks up to the best players in the world.">
+        <div className="flex justify-center px-6 pt-[clamp(28px,5vw,48px)]">
+          <div className="h-[clamp(380px,46vw,500px)] w-[270px] overflow-hidden">
+            <Phone src="compare" alt="See the gap in Elite Tempo: a golfer's driver at the top of the swing, stacked under Tiger Woods' 2000 Open driver at the same moment." />
           </div>
         </div>
-      </section>
+      </FeatureSection>
 
-      {/* Tour timing. On a phone the name and ratio share a line and the bar runs
-          under both, so five rows no longer take two screens. */}
-      <section className={`${WRAP} pt-4`}>
-        <div className="rounded-[28px] bg-white p-[clamp(32px,5vw,64px)]">
-          <h2 className={H2_ONE}>Hear Tiger&apos;s timing. Then train to it.</h2>
-          <p className={`mt-4 max-w-[30em] ${LEDE}`} style={{ color: MUTED }}>
-            Tap play on any swing below. All {SWINGS.length} are hand-timed to 1/100 of a second and ready to train to in the app.
-          </p>
+      <FeatureSection
+        title={<>Hear Tiger&apos;s timing. Then train to it.</>}
+        body={`Tap play on any swing. All ${SWINGS.length} are hand-timed to 1/100 of a second.`}
+        cardClass="bg-white"
+      >
+        <div className="px-[clamp(20px,4vw,56px)] pb-6 pt-2 text-left">
           <TourList
-            rows={GREATS_ROWS.map((g) => ({
+            rows={TOUR_ROWS.map((g) => ({
               slug: g.slug,
               player: g.player,
               detail: `${g.clubLabel}, ${g.year} ${g.event.replace(/^The /, "")}`.trim(),
@@ -357,94 +327,88 @@ export default function EliteTempoLanding() {
               ratio: fmtRatio(g),
             }))}
           />
-          <Link href="/tempos" className="mt-4 inline-flex min-h-11 items-center text-[16px] font-semibold underline underline-offset-4">
+          <Link href="/tempos" className="mt-2 inline-flex min-h-11 items-center text-[16px] font-semibold underline underline-offset-4">
             See all {SWINGS.length} hand-timed swings
           </Link>
         </div>
-      </section>
+      </FeatureSection>
 
-      {/* The smaller features: three tabs over one phone, like Affinity. Replaces a
-          dark green speed section and two big peach and light blue cards. */}
-      <section className={`${WRAP} pt-4`}>
-        <div className="overflow-hidden rounded-[28px] bg-white px-[clamp(24px,5vw,64px)] pt-[clamp(32px,5vw,64px)]">
-          <FeatureList
-            heading={<h2 className={H2_ONE}>Built for range days.</h2>}
-            items={[
-              {
-                label: "Speed",
-                body: "Practice at 75% or 90% to ingrain a swing change or practice off-speed shots.",
-                phone: <Phone src="options" alt="Elite Tempo's Player options with speed set to 90%." />,
-              },
-              {
-                label: "Streak",
-                body: "One range day a week keeps your streak going.",
-                phone: <Phone src="stats" alt="Stats in Elite Tempo: 3 weeks in a row." />,
-              },
-              {
-                label: "Share",
-                body: "Send your four numbers to your coach.",
-                phone: <Phone src="share" alt="An Elite Tempo share card with a swing's four numbers." />,
-              },
-            ]}
-          />
+      <FeatureSection title="Rehearse your routine. Play faster." body="Each step lights up as you reach it, inside the 40 seconds the USGA and The R&A recommend.">
+        {/* One big, readable picture instead of a phone screenshot with small text. */}
+        <div className="mx-auto flex max-w-[560px] flex-col items-center px-6 py-[clamp(36px,6vw,64px)]">
+          <LottieLoop scene={ROUTINE_SCENE} label="Seven routine steps lighting up one after another, ending in gold at impact." className="w-full max-w-[336px]" />
+          <p className="m-0 mt-8 text-[clamp(56px,9vw,80px)] font-semibold leading-none tracking-[-0.03em] [font-variant-numeric:tabular-nums]">{ROUTINE_S}s</p>
+          <div className="mt-6 w-full">
+            <LottieLoop scene={TIMER_SCENE} label={`A routine of ${ROUTINE_S} seconds filling the bar, short of the ${PACE_LIMIT_S} second limit.`} className="w-full" />
+            <div className="relative mt-2 h-5 text-[16px]" style={{ color: MUTED }}>
+              <span className="absolute left-0">{(PACE_LIMIT_S - ROUTINE_S).toFixed(1)}s to spare</span>
+              <span className="absolute -translate-x-1/2 whitespace-nowrap" style={{ left: `${(PACE_LIMIT_S / TIMER_SCALE_S) * 100}%` }}>
+                {PACE_LIMIT_S}s limit
+              </span>
+            </div>
+          </div>
         </div>
+      </FeatureSection>
+
+      <section className={`${WRAP} pt-[clamp(88px,12vw,144px)]`}>
+        <FeatureList
+          cardClass={FEATURE_CARD}
+          title={<h2 className={H2_SECTION}>Built for range days.</h2>}
+          after={<DownloadButton />}
+          items={[
+            {
+              label: "Speed",
+              body: "Practice at 75% or 90% to ingrain a swing change or practice off-speed shots.",
+              phone: <Phone src="options" alt="Elite Tempo's Player options with speed set to 90%." />,
+            },
+            {
+              label: "Streak",
+              body: "One range day a week keeps your streak going.",
+              phone: <Phone src="stats" alt="Stats in Elite Tempo: 3 weeks in a row." />,
+            },
+            {
+              label: "Share",
+              body: "Send your four numbers to your coach.",
+              phone: <Phone src="share" alt="An Elite Tempo share card with a swing's four numbers." />,
+            },
+          ]}
+        />
       </section>
 
-      {/* Why we built it. Moved above the reviews: after the last buy button few
-          people read it. */}
-      <section className="mx-auto max-w-[760px] px-4 pt-[clamp(72px,10vw,136px)]">
-        <p className="m-0 text-[30px] font-semibold leading-[1.22] tracking-[-0.02em]">
+      {/* Why we built it, at reading size: it was seven lines at heading size. */}
+      <section className="mx-auto max-w-[640px] px-4 pt-[clamp(88px,12vw,144px)] text-center">
+        <p className="m-0 text-[21px] leading-[1.45]">
           {/* Eric's three reasons, paraphrased by him 11-04: capture the timing of his best
               shots, compare it to the best players, and drill the routine for pressure. */}
-          I never knew the timing of my best shots. I built Elite Tempo to capture it, see how it
+          “I never knew the timing of my best shots. I built Elite Tempo to capture it, see how it
           compares to the best players in the world, and practice my routine until it repeats
-          under pressure.
+          under pressure.”
         </p>
-        <p className="mt-3.5 text-[16px]" style={{ color: MUTED }}>
+        <p className="mt-3 text-[16px]" style={{ color: MUTED }}>
           Eric, founder
         </p>
       </section>
 
-      {/* Reviews: one big quote, three small ones, no cards. */}
-      <section className={`${WRAP} pt-[clamp(72px,10vw,136px)]`}>
-        <h2 className={`${H2_ONE} text-center`}>What golfers are saying.</h2>
-        <figure className="mx-auto mt-10 max-w-[860px] text-center">
-          <p className="m-0 text-[18px] tracking-[2px]" style={{ color: "#A67700" }} role="img" aria-label="5 stars">
-            ★★★★★
-          </p>
-          <blockquote className="m-0 mt-4 text-[30px] font-semibold leading-[1.25] tracking-[-0.02em]">
-            “{REVIEWS[0].body}”
-          </blockquote>
-          <figcaption className="mt-4 text-[16px]" style={{ color: MUTED }}>
-            {REVIEWS[0].name}, App Store
-          </figcaption>
-        </figure>
-        <div className="mx-auto mt-14 grid max-w-[1080px] grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-x-10 gap-y-8">
-          {REVIEWS.slice(1).map((r) => (
-            <figure key={r.name} className="m-0">
-              <p className="m-0 text-[16px] tracking-[2px]" style={{ color: "#A67700" }} role="img" aria-label="5 stars">
-                ★★★★★
-              </p>
-              <blockquote className="m-0 mt-2 text-[19px] leading-[1.4]">“{r.body}”</blockquote>
-              <figcaption className="mt-2 text-[16px]" style={{ color: MUTED }}>
-                {r.name}, App Store
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+      {/* One review, big. */}
+      <section className="mx-auto max-w-[760px] px-4 pt-[clamp(88px,12vw,144px)] text-center">
+        <p className="m-0 text-[18px] tracking-[2px]" style={{ color: "#A67700" }} role="img" aria-label="5 stars">
+          ★★★★★
+        </p>
+        <blockquote className={`m-0 mt-4 ${H2_SECTION}`}>“{REVIEWS[0].body}”</blockquote>
+        <p className="mt-4 text-[16px]" style={{ color: MUTED }}>
+          {REVIEWS[0].name}, App Store
+        </p>
       </section>
 
-      {/* Pricing: both plans side by side, like Headspace, with the free days above. */}
-      <section id="pricing" className={`${WRAP} pt-[clamp(72px,10vw,136px)]`}>
+      {/* Pricing: the closing section. A full photo goes behind it once the Adobe Stock
+          picture is licensed (Pinterest's sign-up close, 11-04). */}
+      <section id="pricing" className={`${WRAP} pt-[clamp(88px,12vw,144px)]`}>
         <div
-          className="rounded-[28px] px-[clamp(24px,5vw,64px)] py-[clamp(36px,6vw,80px)] text-center"
+          className="rounded-[28px] px-[clamp(24px,5vw,64px)] py-[clamp(40px,7vw,88px)] text-center"
           style={{ background: "radial-gradient(70% 100% at 50% 100%, rgba(249, 200, 50, 0.6) 0%, rgba(249, 200, 50, 0) 75%), #FFFCF0" }}
         >
-          <h2 className={H2_ONE}>
-            Time your own swing
-            <br className="hidden sm:block" /> before you pay a thing.
-          </h2>
-          <p className={`mt-4 ${LEDE}`} style={{ color: "#4A4B50" }}>
+          <h2 className={H2_SECTION}>Time your own swing before you pay a thing.</h2>
+          <p className="mt-3 text-[19px] leading-[1.4]" style={{ color: "#4A4B50" }}>
             Free for {TRIAL_DAYS} days. Then pick a plan. Cancel anytime.
           </p>
           <div className="mx-auto mt-8 grid max-w-[560px] grid-cols-2 gap-3 text-left max-[420px]:grid-cols-1">
@@ -470,14 +434,13 @@ export default function EliteTempoLanding() {
         </div>
       </section>
 
-      {/* FAQ, laid out like Mobbin's: the heading on the left, plain rounded rows
-          on the right, one way out at the end. Native details, so the answers are
-          in the HTML for search engines. */}
-      <section id="faq" className={`${WRAP} pt-[clamp(72px,10vw,120px)]`}>
+      {/* FAQ. The cost question is answered by the section above, so it is only in the
+          structured data now. */}
+      <section id="faq" className={`${WRAP} pt-[clamp(88px,12vw,144px)]`}>
         <div className="grid gap-x-16 gap-y-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:px-[clamp(32px,5vw,64px)]">
-          <h2 className={H2_ONE}>Frequently asked questions</h2>
+          <h2 className={H2_SECTION}>Questions</h2>
           <div>
-            {FAQS.map(({ q, a }) => (
+            {FAQS.filter(({ q }) => !q.startsWith("How much")).map(({ q, a }) => (
               <details key={q} className="et-faq mb-3 rounded-2xl bg-white">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 text-[19px] font-semibold marker:content-none [&::-webkit-details-marker]:hidden">
                   {q}
@@ -490,7 +453,7 @@ export default function EliteTempoLanding() {
                 </p>
               </details>
             ))}
-            <p className="mt-6 text-center text-[16px]" style={{ color: "#6E6F75" }}>
+            <p className="mt-6 text-center text-[16px]" style={{ color: MUTED }}>
               Still have a question?{" "}
               <a href="mailto:ebusalacchi@eliteprep.app" className="underline underline-offset-4" style={{ color: INK }}>
                 Email us
@@ -592,20 +555,47 @@ function Phone({ src, alt, className = "", eager = false, clip, priority = false
   );
 }
 
-/* A tall white card: heading, one line, and the phone rising from the bottom edge.
-   All cards are white since 2026-11-04; each used to carry its own color wash. The
-   card is a subgrid of its parent's rows, so cards side by side line up row by row. */
-function TallCard({ title, src, alt, children }: { title: string; src: string; alt: string; children: ReactNode }) {
+/* The page's one section pattern, copied from Pinterest's home page (11-04): a picture
+   card, then a short heading, one sentence and a small download button, centered.
+   `bare` drops the soft card for a picture that is already a card (the dark player). */
+function FeatureSection({
+  title,
+  body,
+  children,
+  bare = false,
+  cardClass = "",
+}: {
+  title: ReactNode;
+  body: string;
+  children: ReactNode;
+  bare?: boolean;
+  cardClass?: string;
+}) {
   return (
-    <article className="row-span-3 mb-4 grid grid-rows-subgrid overflow-hidden rounded-[28px] bg-white px-8 pt-8">
-      <h2 className="m-0 text-[30px] font-semibold leading-[1.12] tracking-[-0.02em] [text-wrap:balance]">{title}</h2>
-      <p className="m-0 mt-3 text-[19px] leading-[1.35]" style={{ color: MUTED }}>
-        {children}
-      </p>
-      <div className="mt-8 h-[460px] overflow-hidden">
-        <Phone src={src} alt={alt} className="mx-auto w-[270px]" />
+    <section className={`${WRAP} pt-[clamp(88px,12vw,144px)]`}>
+      <div className={bare ? "[&>*]:mt-0" : `${FEATURE_CARD} ${cardClass}`}>{children}</div>
+      <div className="mx-auto mt-8 max-w-[34em] text-center">
+        <h2 className={H2_SECTION}>{title}</h2>
+        <p className="m-0 mt-3 text-[19px] leading-[1.4]" style={{ color: MUTED }}>
+          {body}
+        </p>
+        <DownloadButton />
       </div>
-    </article>
+    </section>
+  );
+}
+
+/* The repeated download button under every feature, the way Pinterest repeats its
+   one red button. Same words as the menu button. */
+function DownloadButton() {
+  return (
+    <a
+      href={APP_STORE_URL}
+      className="mt-6 inline-flex min-h-11 items-center rounded-full px-5 text-[16px] font-semibold text-white no-underline transition hover:brightness-125"
+      style={{ background: INK }}
+    >
+      Download app
+    </a>
   );
 }
 
