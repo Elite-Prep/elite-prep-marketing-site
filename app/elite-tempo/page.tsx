@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import HeroStrip, { type StripImage } from "./HeroStrip";
+import HeroCarousel from "./HeroCarousel";
 import SwingTimingVideo from "./SwingTimingVideo";
 import RoutineVideo from "./RoutineVideo";
 import TigerCompare from "./TigerCompare";
@@ -164,21 +164,6 @@ const HERO_SCREENS: { src: string; label: string; alt: string; clip?: string }[]
   { src: "stats", label: "your streak", alt: "Stats in Elite Tempo: a weekly streak of 3 weeks in a row." },
 ];
 
-/* The hero strip, center first and alternating outward: the most attractive screens
-   (real footage, color) sit nearest the middle; clean list screens sit at the ends.
-   Cropped below the status bar, so no clock shows. Compare was left out (Eric, 11-04). */
-const STRIP: StripImage[] = [
-  { src: "/elite-tempo/strip/swing.jpg", alt: "Elite Tempo playing an 8 iron with its tempo, backswing, downswing and total time.", focus: "50% 0%" },
-  { src: "/elite-tempo/strip/routine.jpg", alt: "Practicing a driver pre-shot routine in Elite Tempo, 13.6 seconds left on the clock.", focus: "50% 0%" },
-  { src: "/elite-tempo/strip/share.jpg", alt: "An Elite Tempo share card: tempo 2.9 to 1.", focus: "50% 20%" },
-  { src: "/elite-tempo/strip/pros.jpg", alt: "Elite Tempo's Pros tab with tour players' tempos.", focus: "50% 0%" },
-  { src: "/elite-tempo/strip/practice.jpg", alt: "Practicing to a driver's timing in Elite Tempo.", focus: "50% 0%" },
-  { src: "/elite-tempo/strip/streak.jpg", alt: "Stats in Elite Tempo: 3 weeks in a row.", focus: "50% 0%" },
-  { src: "/elite-tempo/strip/detail.jpg", alt: "A swing's four numbers in Elite Tempo.", focus: "50% 20%" },
-  { src: "/elite-tempo/strip/payoff.jpg", alt: "A demo swing's timing in Elite Tempo: tempo 3.0 to 1.", focus: "50% 0%" },
-  { src: "/elite-tempo/strip/my-swings.jpg", alt: "My Swings in Elite Tempo: a grid of filmed swings.", focus: "50% 20%" },
-];
-
 const WRAP = "mx-auto max-w-[1240px] px-4";
 /* The type scale, cut 2026-11-04 from 17 sizes on the desktop page: 80 hero, 56 every
    section heading, 30 big numbers and quotes, 21 lead lines, 19 body, 16 small. */
@@ -228,9 +213,7 @@ export default function EliteTempoLanding() {
             <AppStoreBadge className="mt-7" />
           </div>
 
-          {/* Eric's Figma layout (11-04): a full-width looping strip, cards taller toward
-              the middle. The 3D phone ring it replaced is HeroCarousel. */}
-          <HeroStrip images={STRIP} />
+          <HeroCarousel labels={HERO_SCREENS.map((h) => h.label)} slides={HERO_SCREENS.map((h, i) => <Phone key={h.src} eager priority={i === 0} src={h.src} alt={h.alt} clip={h.clip} />)} />
         </section>
       </div>
 
