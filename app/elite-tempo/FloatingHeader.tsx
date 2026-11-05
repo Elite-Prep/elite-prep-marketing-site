@@ -6,7 +6,7 @@ import { APP_STORE_URL, INK } from "./theme";
 
 /* The home page's top bar, Pinterest style (Eric, 11-04): one solid bar flush to
  * the top of the screen from the first frame, never scrolling away, with the app
- * icon, the name, Pricing and the download button. It replaced a floating pill
+ * icon, the name, FAQs and the download button (no Pricing since prices left the page). It replaced a floating pill
  * that left a gap above it, where the page showed through while scrolling. A
  * hairline and soft shadow appear once the page scrolls under it. */
 export default function FloatingHeader() {
@@ -38,10 +38,7 @@ export default function FloatingHeader() {
           <Link href="/tempos" className="hidden min-h-11 items-center rounded-full px-3 text-[15px] font-medium no-underline hover:bg-black/5 md:inline-flex" style={{ color: INK }}>
             Tempo library
           </Link>
-          <Link href="/#pricing" className="inline-flex min-h-11 items-center rounded-full px-2.5 text-[15px] font-medium no-underline hover:bg-black/5 md:px-3" style={{ color: INK }}>
-            Pricing
-          </Link>
-          <Link href="/faq" className="hidden min-h-11 items-center rounded-full px-3 text-[15px] font-medium no-underline hover:bg-black/5 md:inline-flex" style={{ color: INK }}>
+          <Link href="/#faq" className="inline-flex min-h-11 items-center rounded-full px-2.5 text-[15px] font-medium no-underline hover:bg-black/5 md:px-3" style={{ color: INK }}>
             FAQs
           </Link>
           <a

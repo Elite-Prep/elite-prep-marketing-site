@@ -17,7 +17,7 @@ export const TRIAL_CTA = "Download app";
 
 /* The pill header from the home page: the mark and name, the three places people
    look for, and the one button. Below md the library link moves to the footer;
-   Pricing and FAQs stay, because a phone visitor looks for them first. */
+   FAQs stays, because a phone visitor looks for it first (prices left the home page 11-04). */
 export function SiteHeader() {
   return (
     <header className="flex justify-center px-4 pt-4">
@@ -37,13 +37,12 @@ export function SiteHeader() {
           </span>
         </Link>
         {/* Pricing shows on every phone, FAQs from sm, the library link from md.
-            The name always shows: on a 390 wide iPhone, name, Pricing and the button
+            The name always shows: on a 390 wide iPhone, name, FAQs and the button
             are all that fit. */}
         <nav aria-label="Main" className="flex items-center gap-0 md:gap-1">
           {[
             { label: "Tempo library", href: "/tempos", wide: "md" as const },
-            { label: "Pricing", href: "/#pricing", wide: null },
-            { label: "FAQs", href: "/faq", wide: "sm" as const },
+            { label: "FAQs", href: "/faq", wide: null },
           ].map((l) => (
             <Link
               key={l.label}
@@ -83,7 +82,6 @@ const FOOTER_COLUMNS = [
     title: "Product",
     links: [
       { label: "Tempo library", href: "/tempos" },
-      { label: "Pricing", href: "/#pricing" },
       { label: "FAQs", href: "/faq" },
       { label: "How we time swings", href: "/how-we-time-swings" },
     ],
