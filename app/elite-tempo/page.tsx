@@ -233,6 +233,19 @@ export default function EliteTempoLanding() {
       {/* Every feature picture is real footage or a real piece of the app, and every
           number is the app's own reading (11-04). No floating labels: Eric found them
           hacky, and the numbers now appear where the app shows them. */}
+      <FeatureSection title="Four numbers captured every time you swing." body="Backswing, downswing, total time and tempo.">
+        <SwingTimingVideo
+          src="/elite-tempo/video/swing.mp4"
+          poster="/elite-tempo/video/swing-poster.jpg"
+          stillPoster="/elite-tempo/video/swing-top.jpg"
+          marks={{ takeaway: 0.5, top: 1.15, impact: 1.37 }}
+          /* The clip starts at frame 9 of the original, so top (frame 34) is frame 25
+             and impact (frame 41) is frame 32; each freeze lands mid-frame. */
+          freeze={{ top: 25.5 / 30, impact: 32.5 / 30, fps: 30 }}
+          label="Eric's driver on a sunny tee, pausing at the top of the backswing and at impact while its timing is shown."
+        />
+      </FeatureSection>
+
       <FeatureSection bare title="Compare your swing timing to a library of pros.">
         <TigerCompare
           rows={[
@@ -271,6 +284,7 @@ export default function EliteTempoLanding() {
 
       {/* Social proof between the features (Eric's wireframe, 11-04). */}
       <ReviewsBand
+        light
         photo="/elite-tempo/video/reviews.jpg"
         reviews={[
           { body: "I was just looking to improve my tempo and was strongly suggested this app. I love the ease of use and effectiveness.", name: "StayDialedIn" },
@@ -280,19 +294,6 @@ export default function EliteTempoLanding() {
         ]}
       />
 
-      <FeatureSection title="Four numbers captured every time you swing." body="Backswing, downswing, total time and tempo.">
-        <SwingTimingVideo
-          src="/elite-tempo/video/swing.mp4"
-          poster="/elite-tempo/video/swing-poster.jpg"
-          stillPoster="/elite-tempo/video/swing-top.jpg"
-          marks={{ takeaway: 0.5, top: 1.15, impact: 1.37 }}
-          /* The clip starts at frame 9 of the original, so top (frame 34) is frame 25
-             and impact (frame 41) is frame 32; each freeze lands mid-frame. */
-          freeze={{ top: 25.5 / 30, impact: 32.5 / 30, fps: 30 }}
-          label="Eric's driver on a sunny tee, pausing at the top of the backswing and at impact while its timing is shown."
-        />
-      </FeatureSection>
-
       {/* The close (Eric, 11-04, from his Figma note "full bleed image behind CTA"):
           his tee shot in front of a gallery, edge to edge, with one line, one "Try for
           free" button and the App Store rating. The words sit at the top, over the
@@ -301,7 +302,7 @@ export default function EliteTempoLanding() {
       <section id="pricing" className="relative mt-[clamp(56px,8vw,96px)] scroll-mt-16 overflow-hidden">
         <div
           className="flex min-h-[clamp(560px,62vw,720px)] flex-col items-center justify-center bg-[#2A3A26] bg-cover px-[max(20px,env(safe-area-inset-left,0px))] py-16 text-center text-white"
-          style={{ backgroundImage: "linear-gradient(rgba(20,21,24,0.78), rgba(20,21,24,0.68)), url(/elite-tempo/video/close.jpg?v=2)", backgroundPosition: "56% 70%" }}
+          style={{ backgroundImage: "linear-gradient(rgba(20,21,24,0.78), rgba(20,21,24,0.68)), url(/elite-tempo/video/close.jpg?v=3)", backgroundPosition: "56% 70%" }}
         >
           <h2 className="m-0 max-w-[16em] text-[clamp(32px,4.6vw,56px)] font-semibold leading-[1.05] tracking-[-0.03em] [text-shadow:0_2px_24px_rgba(0,0,0,0.35)] [text-wrap:balance]">
             Time your own swing before you pay a thing.
