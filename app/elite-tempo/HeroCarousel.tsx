@@ -211,10 +211,11 @@ export default function HeroCarousel({
           );
         })}
       </div>
-      {/* The dots sit above the phones, in the gap under the App Store badge, so they
-          never cover a screen (blind review, 11-04: on the phones they hid the swing
-          numbers on desktop and the app's play button on iPhone). */}
-      <div className="absolute -top-11 left-1/2 z-20 flex -translate-x-1/2 gap-0">
+      {/* The dots are hidden from sight (three designer reviews, 11-04: above the
+          phones they read as stray marks, and on the phones they covered app controls).
+          The ring still advances on its own and swipes; keyboard and screen reader
+          users still get the dot buttons, which show when focused. */}
+      <div className="sr-only z-20 flex gap-0 focus-within:not-sr-only focus-within:absolute focus-within:-top-11 focus-within:left-1/2 focus-within:-translate-x-1/2">
         {labels.map((label, i) => (
           <button
             key={label}

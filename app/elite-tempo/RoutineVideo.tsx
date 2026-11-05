@@ -124,7 +124,7 @@ export default function RoutineVideo({
       </div>
       {/* One step at a time, full width, nothing else (Eric, 11-04: thirteen small
           dashes read as clutter on a phone). The name fades in as each step starts. */}
-      <div className="px-4 pb-5 pt-4 text-center md:px-0 md:pb-0">
+      <div className="px-4 py-3 text-center md:px-0 md:pb-0">
         <p key={done ? "impact" : current} className="et-step m-0 text-[19px] font-semibold leading-snug text-[#141518]" aria-live="polite">
           {done ? "Impact" : current < 0 ? "Ready" : steps[current].title}
         </p>

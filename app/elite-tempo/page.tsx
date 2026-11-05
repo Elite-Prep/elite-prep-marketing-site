@@ -175,7 +175,6 @@ const H2_SECTION = "m-0 text-[clamp(26px,3vw,34px)] font-semibold leading-[1.15]
 /* Darker than it was (#EDEDE8) so the panel reads as a panel on the #F6F6F3 page. */
 const FEATURE_CARD = "overflow-hidden rounded-[28px] bg-[#E6E4DC]";
 const LEDE = "text-[19px] leading-[1.4]";
-const NUM = "text-[30px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums]";
 
 export default function EliteTempoLanding() {
   /* The front phone's still is the largest thing on a phone screen. Asked for first,
@@ -194,7 +193,8 @@ export default function EliteTempoLanding() {
       {/* Hero: the promise on a gold wash, three real screens below it. Gold only:
           the green washes were cut 2026-11-04 (site grade: ten section colors down
           to cream, white and one dark). */}
-      <div className="p-2.5">
+      {/* 16pt side margin, the same as every section below (designer reviews, 11-04). */}
+      <div className="px-4 pb-2.5 pt-2.5">
         <section
           id="top"
           className="relative overflow-hidden rounded-[28px]"
@@ -288,44 +288,54 @@ export default function EliteTempoLanding() {
         />
       </FeatureSection>
 
-      {/* Pricing: the closing section, on a full photo the way Pinterest closes (11-04).
-          The photo is Eric teeing off in front of a gallery (his own, 11-04), darkened so white type reads. */}
+      {/* Pricing (redesigned 11-04 after three blind designer reviews): plain dark
+          panel, the free trial first, one compact plan card with yearly as the lead
+          row and monthly as a quiet second row, and one full-width button. The two
+          equal "pickable" boxes and the separate App Store badge are gone. */}
       <section id="pricing" className={`${WRAP} scroll-mt-16 pt-[clamp(56px,8vw,96px)]`}>
-        <div
-          className="overflow-hidden rounded-[28px] bg-[#2A3A26] bg-cover px-[clamp(20px,5vw,64px)] py-[clamp(48px,8vw,96px)] text-center text-white"
-          style={{ backgroundImage: "linear-gradient(rgba(20,21,24,0.66), rgba(20,21,24,0.86)), url(/elite-tempo/video/close.jpg?v=2)", backgroundPosition: "56% 40%" }}
-        >
+        <div className="mx-auto max-w-[640px] rounded-[28px] bg-[#141518] px-[clamp(20px,5vw,48px)] py-[clamp(40px,7vw,64px)] text-center text-white">
           <h2 className={H2_SECTION}>Time your own swing before you pay a thing.</h2>
-          <p className="mt-3 text-[19px] leading-[1.4]" style={{ color: "rgba(255,255,255,0.88)" }}>
-            Free for {TRIAL_DAYS} days. Cancel anytime.
+          <p className="m-0 mt-3 text-[22px] font-semibold leading-snug text-[#F9C832] [text-wrap:balance]">
+            Free for {TRIAL_DAYS} days. No card needed.
           </p>
-          {/* Moved from the hero (Eric, 11-04): proof sits next to the price. */}
-          <p className="mt-2 text-[16px]" style={{ color: "rgba(255,255,255,0.88)" }}>
-            <span style={{ color: "#F9C832" }} aria-hidden>
-              ★★★★★
-            </span>{" "}
-            Rated 5.0 on the App Store.
-          </p>
-          <div className="mx-auto mt-8 grid max-w-[560px] grid-cols-2 gap-3 text-left max-[420px]:grid-cols-1">
-            <div className="rounded-2xl bg-white p-5 text-[#141518]" style={{ boxShadow: "inset 0 0 0 2px #F9C832" }}>
-              <p className="m-0 flex min-h-7 items-center justify-between gap-2 text-[16px] font-semibold">
-                Yearly
-                <span className="rounded-full px-2.5 py-0.5 text-[14px] font-semibold" style={{ background: "#F9C832", color: INK }}>
-                  Save {YEARLY_SAVING_PCT}%
-                </span>
-              </p>
-              <p className={`m-0 mt-2 ${NUM}`}>{PRICE_YEARLY}</p>
-              <p className="m-0 text-[16px]" style={{ color: MUTED }}>
-                a year, ${(PRICE_YEARLY_NUM / 12).toFixed(2)} a month
+          <div className="mx-auto mt-7 max-w-[420px] overflow-hidden rounded-2xl bg-white text-left text-[#141518]">
+            <div className="flex items-center justify-between gap-3 px-5 py-4">
+              <div className="min-w-0">
+                <p className="m-0 flex items-center gap-2 text-[17px] font-semibold">
+                  Yearly
+                  <span className="rounded-full px-2 py-0.5 text-[13px] font-semibold" style={{ background: "#F9C832", color: INK }}>
+                    Save {YEARLY_SAVING_PCT}%
+                  </span>
+                </p>
+                <p className="m-0 mt-0.5 text-[15px]" style={{ color: MUTED }}>
+                  ${(PRICE_YEARLY_NUM / 12).toFixed(2)} a month
+                </p>
+              </div>
+              <p className="m-0 shrink-0 text-[24px] font-semibold tracking-[-0.02em] [font-variant-numeric:tabular-nums]">
+                {PRICE_YEARLY}
+                <span className="text-[15px] font-medium" style={{ color: MUTED }}>/yr</span>
               </p>
             </div>
-            <div className="rounded-2xl bg-white p-5 text-[#141518]">
-              <p className="m-0 flex min-h-7 items-center text-[16px] font-semibold">Monthly</p>
-              <p className={`m-0 mt-2 ${NUM}`}>{PRICE_MONTHLY}</p>
-              <p className="m-0 text-[16px]" style={{ color: MUTED }}>a month</p>
+            <div className="flex items-center justify-between gap-3 border-t border-[#ECECE7] px-5 py-3.5">
+              <p className="m-0 text-[16px] font-medium" style={{ color: MUTED }}>Monthly</p>
+              <p className="m-0 text-[17px] font-semibold [font-variant-numeric:tabular-nums]">
+                {PRICE_MONTHLY}
+                <span className="text-[14px] font-medium" style={{ color: MUTED }}>/mo</span>
+              </p>
             </div>
           </div>
-          <AppStoreBadge className="mt-8" />
+          <a
+            href={APP_STORE_URL}
+            className="mx-auto mt-5 flex min-h-[52px] max-w-[420px] items-center justify-center rounded-full bg-white text-[17px] font-semibold text-[#141518] no-underline transition hover:brightness-95"
+          >
+            Start free trial
+          </a>
+          <p className="m-0 mt-4 text-[14px] [text-wrap:balance]" style={{ color: "rgba(255,255,255,0.72)" }}>
+            <span className="text-[#F9C832]" aria-hidden>
+              ★★★★★
+            </span>{" "}
+            Rated 5.0 on the App Store. Cancel anytime.
+          </p>
         </div>
       </section>
 
@@ -336,25 +346,6 @@ export default function EliteTempoLanding() {
 
 /* ── Pieces ─────────────────────────────────────────────────────────────── */
 
-/* Apple's own white badge, downloaded unchanged from their badge tool. Apple asks for
-   the white version on dark backgrounds and does not allow a rebuilt one. */
-function AppStoreBadge({ className = "" }: { className?: string }) {
-  return (
-    <a
-      href={APP_STORE_URL}
-      className={`inline-block transition duration-200 hover:brightness-95 ${className}`}
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/elite-tempo/app-store-badge.svg"
-        alt="Download on the App Store"
-        width={168}
-        height={56}
-        className="block h-14 w-auto"
-      />
-    </a>
-  );
-}
 
 /* The phone frame: a brushed edge, the screen, and the island. */
 const IPHONE_CSS = `
