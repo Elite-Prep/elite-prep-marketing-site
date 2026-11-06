@@ -348,8 +348,8 @@ export default function EliteTempoLanding() {
         <div className="mx-auto max-w-[620px]">
           <h2 className={`${H2_SECTION} text-center`}>FAQ</h2>
           <div className="mt-8 border-t border-[#DCDCD5]">
-            {FAQS.map(({ q, a }, i) => (
-              <details key={q} name="faq" open={i === 0} className="et-faq group border-b border-[#DCDCD5]">
+            {FAQS.map(({ q, a }) => (
+              <details key={q} name="faq" className="et-faq group border-b border-[#DCDCD5]">
                 <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 py-4 text-[17px] font-semibold marker:content-none [&::-webkit-details-marker]:hidden">
                   {q}
                   <span aria-hidden className="relative h-4 w-4 shrink-0">
