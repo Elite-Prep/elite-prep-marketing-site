@@ -231,10 +231,10 @@ export default function EliteTempoLanding() {
           why, on its own white band, so the page breathes before the features. */}
       <section className="mt-[clamp(48px,7vw,88px)] bg-white px-4 py-[clamp(64px,9vw,112px)] text-center">
         <h2 className={`${H2_SECTION} mx-auto max-w-[18em]`}>
-          Not just another generic tempo app.
+          More than just a generic tempo app.
         </h2>
         <p className="mx-auto mt-3 max-w-[30em] text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
-          It times your whole swing and your pre-shot routine, so you can practice both.
+          Track every moment from your pre-shot routine to your full swing. Practice smarter, not just harder.
         </p>
       </section>
 
