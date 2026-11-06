@@ -274,7 +274,7 @@ export default function EliteTempoLanding() {
         ]}
       />
 
-      <FeatureSection title="Rehearse your routine. Play faster." body="Record your whole routine, steps and all. Practice it until it’s perfect, in under the 40 seconds the USGA and R&A recommend.">
+      <FeatureSection title="Rehearse your routine. Play faster." body="Capture every step of your routine. Nail it to perfection in less than 40 seconds, the way the USGA and R&A recommend.">
         {/* The real app playing Eric's routine (latest build, 11-05): his video, the
             step names as he reaches them, 23.9s against the 40-second limit. */}
         <div className="mx-auto w-[min(64%,280px)] py-10 md:w-[300px]">
