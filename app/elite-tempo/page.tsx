@@ -209,7 +209,7 @@ export default function EliteTempoLanding() {
           <div id="content" className="px-4 pt-[clamp(36px,5vw,64px)] text-center">
             {/* Eric, 11-04: headline first, short; the rating moved to pricing. */}
             <h1 className="m-0 text-[clamp(40px,9vw,80px)] font-semibold leading-[1.02] tracking-[-0.035em]">
-              Measure your swing and routine with precision.
+              Measure your swing timing and <span className="whitespace-nowrap">pre-shot</span> routine with precision.
             </h1>
             <p className={`mx-auto mt-[18px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
               Build a consistent <span className="whitespace-nowrap">pre-shot</span> routine and swing tempo you can rely on under pressure.
