@@ -304,6 +304,14 @@ export default function EliteTempoLanding() {
         />
       </FeatureSection>
 
+      {/* Eric, 11-05: the metronome under the routine, as the app shows it today
+          (captured from the latest build in the Simulator). */}
+      <FeatureSection title="Also, a metronome for quick timing practice.">
+        <div className="mx-auto w-[min(64%,280px)] py-10">
+          <Phone src="metronome" alt="The Elite Tempo metronome: tempo 3.0 to 1, backswing 0.79 seconds, downswing 0.26 seconds, total 1.05 seconds, with the takeaway, top and impact line and a play button." />
+        </div>
+      </FeatureSection>
+
       {/* The close (Eric, 11-04, from his Figma note "full bleed image behind CTA"):
           his tee shot in front of a gallery, edge to edge, with one line, one "Try for
           free" button and the App Store rating. The words sit at the top, over the
@@ -314,7 +322,7 @@ export default function EliteTempoLanding() {
           {/* A lazy picture rather than a CSS background, so it waits until it is near
               the screen instead of competing with the hero picture (speed test, 11-05). */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/elite-tempo/video/close.jpg?v=3" alt="" loading="lazy" decoding="async" className="absolute inset-0 -z-10 h-full w-full object-cover" style={{ objectPosition: "56% 70%" }} />
+          <img src="/elite-tempo/video/close.jpg?v=4" alt="" loading="lazy" decoding="async" className="absolute inset-0 -z-10 h-full w-full object-cover" style={{ objectPosition: "56% 70%" }} />
           <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(rgba(20,21,24,0.78),rgba(20,21,24,0.68))]" />
           <h2 className="m-0 max-w-[16em] text-[clamp(32px,4.6vw,56px)] font-semibold leading-[1.05] tracking-[-0.03em] [text-shadow:0_2px_24px_rgba(0,0,0,0.35)] [text-wrap:balance]">
             Time your own swing before you pay a thing.
