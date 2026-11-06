@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import HeroCarousel from "./HeroCarousel";
 import FloatingHeader from "./FloatingHeader";
 import SwingTimingVideo from "./SwingTimingVideo";
-import RoutineVideo from "./RoutineVideo";
+import PhoneVideo from "./PhoneVideo";
 import ReviewsBand from "./ReviewsBand";
 import {
   HERO_SWING,
@@ -148,8 +148,6 @@ const STRUCTURED_DATA = {
 
 /* Eric's driver pre-shot routine in the app: 23.9 seconds from the first step to
    impact, against the 40 seconds the USGA and The R&A recommend. */
-const ROUTINE_S = 23.9;
-const PACE_LIMIT_S = 40;
 
 /* The hero carousel's screens, front first. Two carry a few seconds of real app
    recorded from the Simulator: the routine running its timer and steps, and a
@@ -277,29 +275,15 @@ export default function EliteTempoLanding() {
       />
 
       <FeatureSection title="Rehearse your routine. Play faster." body="Record your whole routine, steps and all. Practice it until it’s perfect, in under the 40 seconds the USGA and R&A recommend.">
-        <RoutineVideo
-          src="/elite-tempo/video/routine.mp4"
-          poster="/elite-tempo/video/routine-poster.jpg"
-          impact={ROUTINE_S}
-          limit={PACE_LIMIT_S}
-          label="Eric's driver pre-shot routine at the range, with each step named as he reaches it."
-          /* Eric marked these himself on the web clip, 11-04 (Routine Step Marker). */
-          steps={[
-            { at: 1.6, title: "Look at target. Pick a start line." },
-            { at: 2.9, title: "Walk in" },
-            { at: 7.3, title: "Set club" },
-            { at: 8.6, title: "Settle stance" },
-            { at: 9.1, title: "Waggle & settle" },
-            { at: 11.4, title: "Hover, waggle and settle" },
-            { at: 14.3, title: "Look at target" },
-            { at: 16.2, title: "Look at target" },
-            { at: 17.2, title: "Waggle" },
-            { at: 18.6, title: "Look and waggle" },
-            { at: 22.8, title: "Gear up" },
-            { at: 22.9, title: "Take club back" },
-            { at: 23.6, title: "Top of backswing" },
-          ]}
-        />
+        {/* The real app playing Eric's routine (latest build, 11-05): his video, the
+            step names as he reaches them, 23.9s against the 40-second limit. */}
+        <div className="mx-auto w-[min(64%,280px)] py-10 md:w-[300px]">
+          <PhoneVideo
+            src="/elite-tempo/app/routine-app.mp4"
+            poster="/elite-tempo/app/routine-app-poster.webp"
+            label="Elite Tempo playing a recorded driver pre-shot routine: the video plays while each step is named, from stand behind the ball to go, finishing at 23.9 seconds, 16.1 seconds under the 40-second limit."
+          />
+        </div>
       </FeatureSection>
 
       {/* Eric, 11-05: the metronome under the routine, as the app shows it today
