@@ -234,10 +234,10 @@ export default function EliteTempoLanding() {
           why, on its own white band, so the page breathes before the features. */}
       <section className="mt-[clamp(48px,7vw,88px)] bg-white px-4 py-[clamp(64px,9vw,112px)] text-center">
         <h2 className={`${H2_SECTION} mx-auto max-w-[18em]`}>
-          Competing under pressure affects your timing and routine.
+          Not just another generic tempo app.
         </h2>
         <p className="mx-auto mt-3 max-w-[30em] text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
-          Now you can practice both, so you’re ready when the moment comes.
+          It times your whole swing and your pre-shot routine, so you can practice both.
         </p>
       </section>
 
@@ -278,7 +278,7 @@ export default function EliteTempoLanding() {
         ]}
       />
 
-      <FeatureSection title="Rehearse your routine. Play faster." body="Film your routine and name each step. Then practice it inside the USGA and R&A’s recommended 40 seconds.">
+      <FeatureSection title="Rehearse your routine. Play faster." body="Record your whole routine, steps and all, and practice it until it’s perfect.">
         <RoutineVideo
           src="/elite-tempo/video/routine.mp4"
           poster="/elite-tempo/video/routine-poster.jpg"
