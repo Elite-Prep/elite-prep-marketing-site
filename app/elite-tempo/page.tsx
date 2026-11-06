@@ -209,10 +209,10 @@ export default function EliteTempoLanding() {
           <div id="content" className="px-4 pt-[clamp(36px,5vw,64px)] text-center">
             {/* Eric, 11-04: headline first, short; the rating moved to pricing. */}
             <h1 className="m-0 text-[clamp(40px,9vw,80px)] font-semibold leading-[1.02] tracking-[-0.035em]">
-              Time your swing and your routine.
+              Measure your swing and routine with precision.
             </h1>
             <p className={`mx-auto mt-[18px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
-              Groove your <span className="whitespace-nowrap">pre-shot</span> routine and swing timing, so you can trust your game when it matters most.
+              Build a consistent <span className="whitespace-nowrap">pre-shot</span> routine and swing tempo you can rely on under pressure.
             </p>
             {/* One button style on the page: the black pill (blind review, 11-04). The
                 App Store badge appears once, in pricing. */}
@@ -231,17 +231,17 @@ export default function EliteTempoLanding() {
           why, on its own white band, so the page breathes before the features. */}
       <section className="mt-[clamp(48px,7vw,88px)] bg-white px-4 py-[clamp(64px,9vw,112px)] text-center">
         <h2 className={`${H2_SECTION} mx-auto max-w-[18em]`}>
-          More than just a generic tempo app.
+          Not your average tempo app.
         </h2>
         <p className="mx-auto mt-3 max-w-[30em] text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
-          Track every moment from your pre-shot routine to your full swing. Practice smarter, not just harder.
+          Track every step from setup to swing. Practice with purpose, not just repetition.
         </p>
       </section>
 
       {/* Every feature picture is real footage or a real piece of the app, and every
           number is the app's own reading (11-04). No floating labels: Eric found them
           hacky, and the numbers now appear where the app shows them. */}
-      <FeatureSection title="Four numbers captured every time you swing." body="Backswing, downswing, total swing duration and tempo.">
+      <FeatureSection title="Get four key stats every swing." body="See your backswing, downswing, total time, and tempo ratio.">
         <SwingTimingVideo
           src="/elite-tempo/video/swing.mp4"
           poster="/elite-tempo/video/swing-poster.jpg"
@@ -257,7 +257,7 @@ export default function EliteTempoLanding() {
       {/* The real Pros library from the latest build (Eric, 11-05), in the same phone and
           card as the metronome. The phone runs off the bottom of the card so the list
           reads as a library that keeps going. */}
-      <FeatureSection title="Compare your swing timing to a library of pros.">
+      <FeatureSection title="Match your timing against pro swings.">
         <div className="mx-auto h-[min(122vw,520px)] w-[min(64%,280px)] pt-10 md:h-[600px] md:w-[300px]">
           <Phone src="pros-library" alt="The Pros library in Elite Tempo: Cameron Young 4.3 to 1, Tiger Woods 3.7 to 1, Rory McIlroy 2.4 to 1, Adam Scott 2.9 to 1, Hideki Matsuyama 4.1 to 1, Justin Thomas 3.2 to 1, Nelly Korda 3.1 to 1, each with its total swing time." />
         </div>
@@ -274,7 +274,7 @@ export default function EliteTempoLanding() {
         ]}
       />
 
-      <FeatureSection title="Rehearse your routine. Play faster." body="Capture every step of your routine. Nail it to perfection in less than 40 seconds, the way the USGA and R&A recommend.">
+      <FeatureSection title="Perfect your routine. Play with pace." body="Capture each step. Master your routine in under 40 seconds, just like the rules recommend.">
         {/* The real app playing Eric's routine (latest build, 11-05): his video, the
             step names as he reaches them, 23.9s against the 40-second limit. */}
         <div className="mx-auto w-[min(64%,280px)] py-10 md:w-[300px]">
@@ -288,7 +288,7 @@ export default function EliteTempoLanding() {
 
       {/* Eric, 11-05: the metronome under the routine, as the app shows it today
           (captured from the latest build in the Simulator). */}
-      <FeatureSection title="Also, a metronome for quick timing practice.">
+      <FeatureSection title="Use the built-in metronome for quick timing practice.">
         <div className="mx-auto w-[min(64%,280px)] py-10">
           <Phone src="metronome" alt="The Elite Tempo metronome: tempo 3.0 to 1, backswing 0.79 seconds, downswing 0.26 seconds, total 1.05 seconds, with the takeaway, top and impact line and a play button." />
         </div>

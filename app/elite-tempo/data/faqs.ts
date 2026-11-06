@@ -8,23 +8,23 @@ import { PRICE_MONTHLY, PRICE_YEARLY, TRIAL_DAYS } from "./pricing";
 export const FAQS: { q: string; a: string }[] = [
   {
     q: "What makes Elite Tempo different?",
-    a: "Elite Tempo captures the total timing and the routine of your best shots, so you can groove them and practice under pressure. We’re not a generic tempo trainer.",
+    a: "Elite Tempo records the timing and routine of your best shots, so you can repeat them when it matters. This is not a generic tempo app.",
   },
   {
     q: "How do I time my pre-shot routine?",
-    a: "Film your routine once and name each step, like picking a target or a practice swing. Elite Tempo times every step and the total against the 40 seconds the USGA and The R&A recommend.",
+    a: "Record your routine once and label each step, like picking a target or taking a practice swing. Elite Tempo times every step and the total, so you can see how you stack up against the 40-second guideline.",
   },
   {
     q: "Can I practice without looking at my phone?",
-    a: "Yes. Leave it in your bag and hear your timing as beats in your headphones. During routine practice, the app hears the strike and tells you whether you were on time.",
+    a: "Yes. Keep your phone in your bag and hear your timing as beats in your headphones.",
   },
   {
     q: "Do I need anything besides my iPhone?",
-    a: "No. Record with the camera or import a clip you already have. Elite Tempo is for iPhone only.",
+    a: "No. Use your camera or import a video you already have. Elite Tempo works on iPhone only.",
   },
   {
     q: `How much does it cost?`,
-    a: `It is free for ${TRIAL_DAYS} days, then ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month. Cancel anytime in your iPhone settings.`,
+    a: `Try it free for ${TRIAL_DAYS} days. After that, it’s ${PRICE_YEARLY} a year or ${PRICE_MONTHLY} a month. Cancel anytime in your iPhone settings.`,
   },
 ];
 
