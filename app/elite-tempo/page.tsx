@@ -4,7 +4,6 @@ import HeroCarousel from "./HeroCarousel";
 import FloatingHeader from "./FloatingHeader";
 import SwingTimingVideo from "./SwingTimingVideo";
 import RoutineVideo from "./RoutineVideo";
-import TigerCompare from "./TigerCompare";
 import ReviewsBand from "./ReviewsBand";
 import {
   HERO_SWING,
@@ -257,14 +256,13 @@ export default function EliteTempoLanding() {
         />
       </FeatureSection>
 
-      <FeatureSection bare title="Compare your swing timing to a library of pros.">
-        <TigerCompare
-          rows={[
-            { name: "Tiger Woods", detail: `Driver, ${HERO_SWING.year}`, back: HERO_SWING.back, down: HERO_SWING.down },
-            /* Eric's favorite driver in the app: takeaway 0.668s, top 1.313s, impact 1.547s. */
-            { name: "You", detail: "Driver", back: 1.313 - 0.668, down: 1.547 - 1.313 },
-          ]}
-        />
+      {/* The real Pros library from the latest build (Eric, 11-05), in the same phone and
+          card as the metronome. The phone runs off the bottom of the card so the list
+          reads as a library that keeps going. */}
+      <FeatureSection title="Compare your swing timing to a library of pros.">
+        <div className="mx-auto h-[min(122vw,520px)] w-[min(64%,280px)] pt-10 md:h-[600px] md:w-[300px]">
+          <Phone src="pros-library" alt="The Pros library in Elite Tempo: Cameron Young 4.3 to 1, Tiger Woods 3.7 to 1, Rory McIlroy 2.4 to 1, Adam Scott 2.9 to 1, Hideki Matsuyama 4.1 to 1, Justin Thomas 3.2 to 1, Nelly Korda 3.1 to 1, each with its total swing time." />
+        </div>
       </FeatureSection>
 
       {/* Social proof between the features (Eric's wireframe, 11-04). */}
