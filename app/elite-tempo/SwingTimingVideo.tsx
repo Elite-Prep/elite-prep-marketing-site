@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import useReducedMotion from "./useReducedMotion";
+import useNear from "./useNear";
 
 /* Eric's driver from the app's onboarding (the gray shirt), timed the way the app
  * times it (11-04): the video plays, freezes at the top and shows the backswing,
@@ -36,6 +37,7 @@ export default function SwingTimingVideo({
 }) {
   const video = useRef<HTMLVideoElement>(null);
   const still = useReducedMotion();
+  const near = useNear(video);
   /* 0 nothing yet, 1 backswing, 2 downswing, 3 total and tempo. */
   const [stage, setStage] = useState(0);
   /* Until the clip first plays, all four numbers show in full; pale gray before
@@ -121,8 +123,8 @@ export default function SwingTimingVideo({
       <div className="relative">
       <video
         ref={video}
-        src={still ? undefined : src}
-        poster={still ? stillPoster : poster}
+        src={still || !near ? undefined : src}
+        poster={!near ? undefined : still ? stillPoster : poster}
         muted
         playsInline
         preload="metadata"

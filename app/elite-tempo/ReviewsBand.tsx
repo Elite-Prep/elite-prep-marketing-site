@@ -19,16 +19,17 @@ export default function ReviewsBand({ reviews, photo, light = false }: { reviews
   return (
     <section aria-roledescription="carousel" aria-label="What golfers say" className="mt-[clamp(56px,8vw,96px)] overflow-hidden">
       <div
-        className={`flex flex-col items-center justify-center px-[max(20px,env(safe-area-inset-left,0px))] text-center ${light ? "py-4 text-[#141518]" : "min-h-[clamp(520px,58vw,680px)] bg-[#2A3A26] bg-cover py-16 text-white"}`}
-        style={
-          light
-            ? undefined
-            : {
-                backgroundImage: `linear-gradient(rgba(20,21,24,0.76), rgba(20,21,24,0.76)), url(${photo})`,
-                backgroundPosition: "50% 35%",
-              }
-        }
+        className={`relative isolate flex flex-col items-center justify-center px-[max(20px,env(safe-area-inset-left,0px))] text-center ${light ? "py-4 text-[#141518]" : "min-h-[clamp(520px,58vw,680px)] bg-[#2A3A26] py-16 text-white"}`}
       >
+        {/* A lazy picture, not a CSS background: a background downloads at once even
+            far down the page, and slowed the hero picture on slow phones (11-05). */}
+        {!light && (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={photo} alt="" loading="lazy" decoding="async" className="absolute inset-0 -z-10 h-full w-full object-cover" style={{ objectPosition: "50% 35%" }} />
+            <div aria-hidden className="absolute inset-0 -z-10 bg-[rgba(20,21,24,0.76)]" />
+          </>
+        )}
         <p className={`m-0 text-[16px] font-semibold ${light ? "text-[#5F6065]" : "text-white/80"}`}>What golfers are saying</p>
         <figure key={i} className="et-quote m-0 mt-6 max-w-[22em]">
           <blockquote className="m-0 text-[clamp(26px,3.6vw,44px)] font-semibold leading-[1.18] tracking-[-0.02em] [text-wrap:balance]">

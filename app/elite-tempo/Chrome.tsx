@@ -168,7 +168,7 @@ export function SiteFooter() {
           <p className="m-0">Time your swing and your routine.</p>
           <p className="m-0">© {new Date().getFullYear()} Elite Prep Inc.</p>
         </div>
-        <p className="m-0 mt-4 max-w-[62em] text-[12px] leading-[1.5] text-white/40">
+        <p className="m-0 mt-4 max-w-[62em] text-[12px] leading-[1.5] text-white/60">
           Elite Tempo is not affiliated with or endorsed by any player, tour or event named on this site.
         </p>
       </div>

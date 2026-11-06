@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import useReducedMotion from "./useReducedMotion";
+import useNear from "./useNear";
 
 /* Eric's driver pre-shot routine in real time (11-04): the step he is on lights up
  * as he reaches it and the clock runs to impact, against the 40 seconds the USGA
@@ -39,6 +40,7 @@ export default function RoutineVideo({
 }) {
   const video = useRef<HTMLVideoElement>(null);
   const still = useReducedMotion();
+  const near = useNear(video);
   const [t, setT] = useState(still ? impact : 0);
 
   useEffect(() => {
@@ -97,8 +99,8 @@ export default function RoutineVideo({
       <div className="relative">
         <video
           ref={video}
-          src={still ? undefined : src}
-          poster={poster}
+          src={still || !near ? undefined : src}
+          poster={!near ? undefined : poster}
           muted
           playsInline
           preload="metadata"

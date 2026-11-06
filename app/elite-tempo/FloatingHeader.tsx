@@ -31,7 +31,7 @@ export default function FloatingHeader() {
       <div className="mx-auto flex h-16 max-w-[1240px] items-center justify-between gap-3 pl-[max(16px,env(safe-area-inset-left,0px))] pr-[max(16px,env(safe-area-inset-right,0px))]">
         <Link href="/" className="flex min-h-11 min-w-0 items-center gap-2.5 no-underline" aria-label="Elite Tempo home" style={{ color: INK }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/elite-tempo/app-icon.png" alt="" width={34} height={34} className="block h-[34px] w-[34px] shrink-0 rounded-[9px] shadow-[0_0_0_0.5px_rgba(20,21,24,0.12)]" />
+          <img src="/elite-tempo/app-icon-96.png" alt="" width={34} height={34} className="block h-[34px] w-[34px] shrink-0 rounded-[9px] shadow-[0_0_0_0.5px_rgba(20,21,24,0.12)]" />
           <span className="truncate text-[17px] font-semibold tracking-[-0.01em]">Elite Tempo</span>
         </Link>
         <nav aria-label="Main" className="flex shrink-0 items-center gap-1 md:gap-2">

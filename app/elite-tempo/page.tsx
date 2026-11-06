@@ -310,10 +310,12 @@ export default function EliteTempoLanding() {
           sky on a phone and on the right over the trees on desktop, so the swing stays clear. No prices on the page; most app sites
           he looked at show none, and the FAQ answers what it costs. */}
       <section id="pricing" className="relative mt-[clamp(56px,8vw,96px)] scroll-mt-16 overflow-hidden">
-        <div
-          className="flex min-h-[clamp(560px,62vw,720px)] flex-col items-center justify-center bg-[#2A3A26] bg-cover px-[max(20px,env(safe-area-inset-left,0px))] py-16 text-center text-white"
-          style={{ backgroundImage: "linear-gradient(rgba(20,21,24,0.78), rgba(20,21,24,0.68)), url(/elite-tempo/video/close.jpg?v=3)", backgroundPosition: "56% 70%" }}
-        >
+        <div className="relative isolate flex min-h-[clamp(560px,62vw,720px)] flex-col items-center justify-center bg-[#2A3A26] px-[max(20px,env(safe-area-inset-left,0px))] py-16 text-center text-white">
+          {/* A lazy picture rather than a CSS background, so it waits until it is near
+              the screen instead of competing with the hero picture (speed test, 11-05). */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/elite-tempo/video/close.jpg?v=3" alt="" loading="lazy" decoding="async" className="absolute inset-0 -z-10 h-full w-full object-cover" style={{ objectPosition: "56% 70%" }} />
+          <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(rgba(20,21,24,0.78),rgba(20,21,24,0.68))]" />
           <h2 className="m-0 max-w-[16em] text-[clamp(32px,4.6vw,56px)] font-semibold leading-[1.05] tracking-[-0.03em] [text-shadow:0_2px_24px_rgba(0,0,0,0.35)] [text-wrap:balance]">
             Time your own swing before you pay a thing.
           </h2>
