@@ -278,7 +278,7 @@ export default function EliteTempoLanding() {
         ]}
       />
 
-      <FeatureSection title="Rehearse your routine. Play faster." body="Record your whole routine, steps and all, and practice it until it’s perfect, all under the USGA and R&A’s recommended 40 seconds.">
+      <FeatureSection title="Rehearse your routine. Play faster." body="Record your whole routine, steps and all. Practice it until it’s perfect, in under the 40 seconds the USGA and R&A recommend.">
         <RoutineVideo
           src="/elite-tempo/video/routine.mp4"
           poster="/elite-tempo/video/routine-poster.jpg"
