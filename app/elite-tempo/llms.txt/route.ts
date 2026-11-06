@@ -51,7 +51,7 @@ below are specific rather than an average.
 
 - Time your own swing: film or import a swing, step through it frame by frame,
   and mark takeaway, top and impact by hand. The app gives four numbers:
-  backswing, downswing, total time and tempo ratio. Marking is manual; the app
+  backswing, downswing, total swing duration and tempo ratio. Marking is manual; the app
   does not detect the swing automatically.
 - Groove that timing: the app plays a swing's timing back as beats at takeaway,
   top and impact, so you can practice to your own best swing.

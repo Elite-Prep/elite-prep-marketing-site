@@ -243,7 +243,7 @@ export default function EliteTempoLanding() {
       {/* Every feature picture is real footage or a real piece of the app, and every
           number is the app's own reading (11-04). No floating labels: Eric found them
           hacky, and the numbers now appear where the app shows them. */}
-      <FeatureSection title="Four numbers captured every time you swing." body="Backswing, downswing, total time and tempo.">
+      <FeatureSection title="Four numbers captured every time you swing." body="Backswing, downswing, total swing duration and tempo.">
         <SwingTimingVideo
           src="/elite-tempo/video/swing.mp4"
           poster="/elite-tempo/video/swing-poster.jpg"

@@ -44,7 +44,7 @@ const FAQS = [
   },
   {
     q: "Can Tour Tempo measure my own swing?",
-    a: "Its App Store listing says you can film or import a swing and count its frames by hand with a frame counter. Elite Tempo also has you mark your swing by hand, frame by frame. It turns your three marks into four numbers (backswing, downswing, total time and tempo) and plays that timing back so you can practice to it.",
+    a: "Its App Store listing says you can film or import a swing and count its frames by hand with a frame counter. Elite Tempo also has you mark your swing by hand, frame by frame. It turns your three marks into four numbers (backswing, downswing, total swing duration and tempo) and plays that timing back so you can practice to it.",
   },
   {
     q: "Is Tour Tempo still worth using?",
@@ -164,7 +164,7 @@ export default function VsTourTempo() {
             points={[
               "Film your best swing, mark takeaway, top and impact frame by frame, and practice to its timing",
               `${SWINGS.length} tour swings hand-timed from tournament footage, ${fmtRatio(fastest)} to ${fmtRatio(slowest)}`,
-              "Your four numbers next to a tour player's: backswing, downswing, total time and tempo",
+              "Your four numbers next to a tour player's: backswing, downswing, total swing duration and tempo",
               "Your pre-shot routine timed step by step against the 40 seconds the USGA and The R&A recommend",
             ]}
           />

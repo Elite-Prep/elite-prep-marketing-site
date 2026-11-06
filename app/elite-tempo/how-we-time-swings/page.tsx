@@ -41,7 +41,7 @@ const TRAIL = [
 const FAQS = [
   {
     q: "How is golf swing tempo measured?",
-    a: "Three marks are read off video: takeaway, the top of the backswing, and impact. Backswing time is top minus takeaway, downswing time is impact minus top, and the tempo ratio is the first divided by the second. Total time is impact minus takeaway. Nothing else goes into the numbers, so anyone can check the math from the three published marks.",
+    a: "Three marks are read off video: takeaway, the top of the backswing, and impact. Backswing time is top minus takeaway, downswing time is impact minus top, and the tempo ratio is the first divided by the second. Total swing duration is impact minus takeaway. Nothing else goes into the numbers, so anyone can check the math from the three published marks.",
   },
   {
     q: "Why do Elite Tempo's numbers differ from the 3:1 rule?",
