@@ -48,6 +48,22 @@ export default function HeroCarousel({
   }, []);
   const still = useReducedMotion();
   const box = useRef<HTMLDivElement>(null);
+
+  /* Once the page has loaded, the side phones trade their small pictures for the
+     full ones, before any of them turns to the front. */
+  useEffect(() => {
+    if (!loaded || !box.current) return;
+    box.current.querySelectorAll<HTMLImageElement>("img[data-full]").forEach((img) => {
+      const full = img.dataset.full;
+      if (!full) return;
+      const next = new Image();
+      next.onload = () => {
+        img.src = full;
+        delete img.dataset.full;
+      };
+      next.src = full;
+    });
+  }, [loaded]);
   const press = useRef<{ x: number; id: number } | null>(null);
 
   useEffect(() => {

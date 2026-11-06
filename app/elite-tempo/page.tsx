@@ -393,6 +393,12 @@ const IPHONE_CSS = `
    screen recording that the hero carousel plays when this phone is in front; the
    still is its poster, so it looks the same until it plays. */
 function Phone({ src, alt, className = "", eager = false, clip, priority = false }: { src: string; alt: string; className?: string; eager?: boolean; clip?: string; priority?: boolean }) {
+  /* The four side phones in the hero start as small 360-wide pictures and the carousel
+     swaps in the full ones after the page loads (speed test, 11-05): five full pictures
+     at once split a weak signal five ways and held the front one back for 5 seconds. */
+  const deferred = eager && !priority;
+  const first = `/elite-tempo/app/${src}${deferred ? "-sm" : ""}.webp`;
+  const full = deferred ? `/elite-tempo/app/${src}.webp` : undefined;
   return (
     <div className={`iphone shrink-0 ${className}`}>
       <div className="iphone-screen">
@@ -412,7 +418,7 @@ function Phone({ src, alt, className = "", eager = false, clip, priority = false
                 until the carousel marks it as really playing. The still is never
                 hidden: when it was, Safari took a frame to redraw it on the way
                 back, and the phone flashed black each time the ring turned. */}
-            <img src={`/elite-tempo/app/${src}.webp`} alt="" aria-hidden width={960} height={2087} className="et-clip-still" fetchPriority={priority ? "high" : eager ? "low" : undefined} />
+            <img src={first} data-full={full} alt="" aria-hidden width={960} height={2087} className="et-clip-still" fetchPriority={priority ? "high" : eager ? "low" : undefined} />
             <video
               data-src={`/elite-tempo/app/${clip}.mp4`}
               aria-label={alt}
@@ -425,7 +431,7 @@ function Phone({ src, alt, className = "", eager = false, clip, priority = false
             />
           </>
         ) : (
-          <img src={`/elite-tempo/app/${src}.webp`} alt={alt} width={960} height={2087} loading={eager ? "eager" : "lazy"} fetchPriority={priority ? "high" : eager ? "low" : undefined} />
+          <img src={first} data-full={full} alt={alt} width={960} height={2087} loading={eager ? "eager" : "lazy"} fetchPriority={priority ? "high" : eager ? "low" : undefined} />
         )}
       </div>
     </div>
