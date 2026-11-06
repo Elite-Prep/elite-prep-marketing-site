@@ -8,7 +8,7 @@ export const metadata = {
   alternates: { canonical: etUrl("/privacy") },
   title: "Elite Tempo Privacy Policy",
   description:
-    "How Elite Tempo handles your data. No login, no account, no advertising or cross-app tracking. Your swing videos stay on your device.",
+    "How Elite Tempo handles your data. Your swings and routines are saved to your private account so they follow you to a new phone. No advertising or cross-app tracking.",
 };
 
 export default function EliteTempoPrivacy() {
@@ -20,7 +20,7 @@ export default function EliteTempoPrivacy() {
           Privacy Policy
         </h1>
         <p className="mb-4 text-[15px]" style={{ color: MUTED }}>
-          Elite Tempo · Effective June 14, 2026 · Updated October 11, 2026
+          Elite Tempo · Effective June 14, 2026 · Updated November 6, 2026
         </p>
         <p className="mb-10 text-[17px] leading-[1.6]" style={{ color: MUTED }}>
           Elite Tempo (&quot;the app,&quot; &quot;we,&quot; &quot;us&quot;) is
@@ -28,20 +28,27 @@ export default function EliteTempoPrivacy() {
           This policy explains what the app collects and why. The short version:
           <strong style={{ color: INK }}>
             {" "}
-            Elite Tempo has no login and no account. Your swing videos stay on
-            your device. We collect anonymous usage statistics and crash reports
-            so we can tell what is working and fix what breaks, and nothing that
-            identifies you unless you choose to give us your email.
+            Your swings and routines, videos included, are saved to your own
+            private Elite Tempo account, so they come back when you log in on a
+            new phone. Only you can see them. We collect usage statistics and
+            crash reports so we can tell what is working and fix what breaks. We
+            never sell your data or use it for advertising.
           </strong>
         </p>
 
         <div className="flex flex-col gap-8 text-[17px] leading-[1.6]" style={{ color: MUTED }}>
-          <Section title="No account, no sign-in">
+          <Section title="Your account">
+            <p className="mb-3">
+              Every copy of the app gets its own private account the first time it
+              opens, with no sign up needed. You can log in or sign up with Apple,
+              Google, or your email at any time, which keeps everything you have
+              saved and lets you use it on another phone.
+            </p>
             <p>
-              Elite Tempo never asks you to create an account or sign in. We do
-              not need your name, email, or any other personal detail for you to
-              use the app or to subscribe. Purchases use the Apple ID already
-              signed in on your device.
+              Your account holds what you tell us during setup (your first name,
+              skill level, and goals), your email if you log in, and the app
+              version, iOS version, device model, language, and time zone. Purchases
+              use the Apple ID already signed in on your device.
             </p>
           </Section>
 
@@ -91,18 +98,19 @@ export default function EliteTempoPrivacy() {
               </li>
               <li>
                 <strong style={{ color: INK }}>
-                  Your swing videos and timings (stored on your device).
+                  Your swings and routines (saved to your account).
                 </strong>{" "}
-                When you record or import a swing in Time Your Swing, the video and
-                its timing data (your marks, duration, tempo ratio, and labels) are
-                stored <strong style={{ color: INK }}>only on your device</strong>,
-                inside the app.{" "}
+                When you record or import a swing or a routine, the video and its
+                details (your marks, steps, tempo, labels, and ratings) are saved on
+                your phone and uploaded to your account, stored with{" "}
+                <strong style={{ color: INK }}>Supabase</strong>.{" "}
                 <strong style={{ color: INK }}>
-                  We do not upload your videos or swing data to any server.
+                  Only you can see them.
                 </strong>{" "}
-                They are not sent to us or to any third party. Videos you record in
-                the app are also saved to your device&apos;s Photos library, with
-                your permission, so you keep the footage.
+                We use them only to keep your library safe and on every phone you
+                log in on. We do not share them, sell them, or use them for
+                advertising. Videos you record in the app are also saved to your
+                device&apos;s Photos library, with your permission.
               </li>
               <li>
                 <strong style={{ color: INK }}>
@@ -209,7 +217,8 @@ export default function EliteTempoPrivacy() {
               <li><strong style={{ color: INK }}>Apple</strong>, as the payment processor and app platform.</li>
               <li>
                 <strong style={{ color: INK }}>Supabase</strong>, our database
-                provider, which stores opt-in contact records for us.
+                provider, which stores your account, your swings and routines, and
+                opt-in contact records for us.
               </li>
               <li>
                 <strong style={{ color: INK }}>TelemetryDeck</strong>, which
@@ -226,10 +235,11 @@ export default function EliteTempoPrivacy() {
           <Section title="Data retention and deletion">
             <ul className="flex list-disc flex-col gap-1.5 pl-5">
               <li>
-                <strong style={{ color: INK }}>On-device data</strong> (swing
-                videos, timings) lives only on your device. Delete a swing in the
-                app to remove its video and data, or delete the app to remove all
-                of it. We never hold a copy.
+                <strong style={{ color: INK }}>Your swings and routines</strong>{" "}
+                are kept in your account until you delete them. Deleting a swing in
+                the app removes it from your account too. Delete your account in
+                Settings to remove your account, your swings and routines, and
+                their videos for good. Logging out removes them from that phone.
               </li>
               <li>
                 <strong style={{ color: INK }}>Usage statistics and crash reports</strong>{" "}
@@ -257,8 +267,8 @@ export default function EliteTempoPrivacy() {
           <Section title="Your choices">
             <ul className="flex list-disc flex-col gap-1.5 pl-5">
               <li>
-                If you do not use the optional email opt-in, we hold nothing that
-                identifies you.
+                Delete your account anytime in Settings, which removes everything
+                saved in it.
               </li>
               <li>Opted in and changed your mind? Unsubscribe or email us to be deleted.</li>
               <li>
