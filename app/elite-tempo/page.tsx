@@ -281,7 +281,7 @@ export default function EliteTempoLanding() {
           <PhoneVideo
             src="/elite-tempo/app/routine-app.mp4"
             poster="/elite-tempo/app/routine-app-poster.webp"
-            label="Elite Tempo playing a recorded driver pre-shot routine: the video plays while each step is named, from stand behind the ball to go, finishing at 23.9 seconds, 16.1 seconds under the 40-second limit."
+            label="Elite Tempo playing a recorded driver pre-shot routine: each step is named as the golfer does it, from standing behind the ball to walking in, settling his feet and looking at the target. The whole routine takes 23.8 seconds, 16.2 seconds under the 40-second limit."
           />
         </div>
       </FeatureSection>
