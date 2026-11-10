@@ -182,11 +182,14 @@ export default function EliteTempoLanding() {
   preload(`/elite-tempo/app/${HERO_SCREENS[0].src}.webp`, { as: "image", fetchPriority: "high" });
   return (
     <main
-      className="min-h-screen overflow-hidden text-[19px] leading-[1.45] antialiased"
+      className="et-sg min-h-screen overflow-hidden text-[19px] leading-[1.45] antialiased"
       style={{ background: "#F6F6F3", color: INK, fontFamily: "-apple-system, 'SF Pro Display', system-ui, 'Helvetica Neue', Arial, sans-serif" }}
     >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }} />
       <style>{IPHONE_CSS}</style>
+      {/* Eric, 11-09: All True's Special Gothic (free, Google Fonts) for all text; headings in caps. */}
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Gothic:wdth,wght@75..125,400..700&display=swap" precedence="default" />
+      <style>{`.et-sg,.et-sg *{font-family:'Special Gothic',system-ui,sans-serif!important}.et-sg h1,.et-sg h2,.et-sg h3{font-family:'Special Gothic',system-ui,sans-serif;text-transform:uppercase;font-weight:600;letter-spacing:0.01em;line-height:1.0}.et-sg h1{font-stretch:90%}`}</style>
       <SkipLink />
       <FloatingHeader />
 
