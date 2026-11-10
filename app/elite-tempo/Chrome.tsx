@@ -165,7 +165,7 @@ export function SiteFooter() {
           </nav>
         </div>
         <div className="mt-10 flex flex-wrap items-end justify-between gap-x-6 gap-y-2 border-t border-white/10 pt-5 text-[13px] text-white/50">
-          <p className="m-0">Time your swing and your routine.</p>
+          <p className="m-0">Measure your timing and pre-shot routine with precision.</p>
           <p className="m-0">© {new Date().getFullYear()} Elite Prep Inc.</p>
         </div>
         <p className="m-0 mt-4 max-w-[62em] text-[12px] leading-[1.5] text-white/60">
