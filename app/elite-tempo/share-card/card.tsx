@@ -20,15 +20,15 @@ import { MARK_ASPECT, markDataUri } from "../EliteTempoMark";
  * Satori renders WebP poorly, so the three screens are JPEG copies of the hero's
  * WebP files in public/elite-tempo/og, cut to the size they are shown at here. */
 
-export const alt = "Elite Tempo. Time your swing and your routine.";
+export const alt = "Elite Tempo. Measure your timing and pre-shot routine with precision.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const HEADLINE_1 = "Time your swing";
+const HEADLINE_1 = "Measure your timing";
 /* Eric's 11-04 headline: "Time your entire process." */
-const HEADLINE_2 = "and your routine.";
-const HEADLINE_3 = "";
-const LINE = "Groove your pre-shot routine and swing timing, so you can trust your game when it matters most.";
+const HEADLINE_2 = "and pre-shot routine";
+const HEADLINE_3 = "with precision.";
+const LINE = "Build a consistent pre-shot routine and swing tempo you can rely on under pressure.";
 
 const FRAME = "linear-gradient(145deg, #9A9A9F 0%, #2A2A2D 22%, #4A4A4F 60%, #18181A 100%)";
 
@@ -104,7 +104,7 @@ export async function renderShareCard() {
             {HEADLINE_3 && <span>{HEADLINE_3}</span>}
           </div>
 
-          <div style={{ display: "flex", marginTop: 26, fontSize: 26, lineHeight: 1.35, color: "#4A4B50", maxWidth: 540 }}>
+          <div style={{ display: "flex", marginTop: 26, fontSize: 26, lineHeight: 1.35, color: "#4A4B50", maxWidth: 590 }}>
             {LINE}
           </div>
 
