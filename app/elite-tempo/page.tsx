@@ -230,16 +230,8 @@ export default function EliteTempoLanding() {
         </section>
       </div>
 
-      {/* A pause between the moving phones and the swing video (Eric, 11-05): the
-          why, on its own white band, so the page breathes before the features. */}
-      <section className="mt-[clamp(48px,7vw,88px)] bg-white px-4 py-[clamp(64px,9vw,112px)] text-center">
-        <h2 className={`${H2_SECTION} mx-auto max-w-[18em]`}>
-          Not your average tempo app.
-        </h2>
-        <p className="mx-auto mt-3 max-w-[30em] text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
-          Track every step from setup to swing. Practice with purpose, not just repetition.
-        </p>
-      </section>
+      {/* The "Not your average tempo app." text band (11-05) is out on this preview:
+          Pinterest has no section without a picture (comparison, 11-15). */}
 
       {/* Every feature picture is real footage or a real piece of the app, and every
           number is the app's own reading (11-04). No floating labels: Eric found them
@@ -260,7 +252,7 @@ export default function EliteTempoLanding() {
       {/* The real Pros library from the latest build (Eric, 11-05), in the same phone and
           card as the metronome. The phone runs off the bottom of the card so the list
           reads as a library that keeps going. */}
-      <FeatureSection title="Match your timing against pro swings.">
+      <FeatureSection title="Match your timing against pro swings." body={`${SWINGS.length} tour swings, timed by hand, next to your own.`}>
         <div className="mx-auto h-[min(122vw,520px)] w-[min(64%,280px)] pt-10 md:h-[600px] md:w-[300px]">
           <Phone src="pros-library" alt="The Pros library in Elite Tempo: Cameron Young 4.3 to 1, Tiger Woods 3.7 to 1, Rory McIlroy 2.4 to 1, Adam Scott 2.9 to 1, Hideki Matsuyama 4.1 to 1, Justin Thomas 3.2 to 1, Nelly Korda 3.1 to 1, each with its total swing time." />
         </div>
@@ -291,7 +283,7 @@ export default function EliteTempoLanding() {
 
       {/* Eric, 11-05: the metronome under the routine, as the app shows it today
           (captured from the latest build in the Simulator). */}
-      <FeatureSection title="Use the built-in metronome for quick timing practice.">
+      <FeatureSection title="Practice with the metronome." body="Set your tempo and swing time, then swing to the tones.">
         <div className="mx-auto w-[min(64%,280px)] py-10">
           <Phone src="metronome" alt="The Elite Tempo metronome: tempo 3.0 to 1, backswing 0.79 seconds, downswing 0.26 seconds, total 1.05 seconds, with the takeaway, top and impact line and a play button." />
         </div>
@@ -442,7 +434,9 @@ function FeatureSection({
   cardClass = "",
 }: {
   title: ReactNode;
-  body?: string;
+  /* Required (Pinterest comparison, 11-15): every section is picture, heading,
+     one line, button, so the eye learns the pattern once. */
+  body: string;
   children: ReactNode;
   bare?: boolean;
   cardClass?: string;
@@ -454,11 +448,10 @@ function FeatureSection({
       <div className={bare ? "[&>*]:mt-0" : `${FEATURE_CARD} ${cardClass}`}>{children}</div>
       <div className="mx-auto mt-8 max-w-[34em] text-center md:mx-0 md:mt-0 md:text-left">
         <h2 className={H2_SECTION}>{title}</h2>
-        {body && (
-          <p className="m-0 mt-3 text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
-            {body}
-          </p>
-        )}
+        <p className="m-0 mt-3 text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
+          {body}
+        </p>
+        <DownloadButton />
       </div>
     </section>
   );
