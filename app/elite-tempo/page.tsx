@@ -286,8 +286,14 @@ export default function EliteTempoLanding() {
         </div>
       </FeatureSection>
 
-      {/* Metronome section out on this preview (Pinterest shows three features; the
-          metronome is a settings screen and the weakest picture). */}
+      {/* The metronome back as the fourth card (Eric, 11-15; Pinterest shows four).
+          Real screen from the latest build, cropped under the takeaway, top and
+          impact line so the picture is the four numbers, not the settings rows. */}
+      <FeatureSection title="Practice with the metronome." body="Set your tempo and swing time, then swing to the tones.">
+        <div className="mx-auto h-[min(94vw,380px)] w-[min(68%,280px)] pt-8 md:h-[420px] md:w-[300px]">
+          <Phone src="metronome" alt="The Elite Tempo metronome: tempo 3.0 to 1, backswing 0.79 seconds, downswing 0.26 seconds, total 1.05 seconds, with the takeaway, top and impact line." />
+        </div>
+      </FeatureSection>
 
       {/* The close (Eric, 11-04, from his Figma note "full bleed image behind CTA"):
           his tee shot in front of a gallery, edge to edge, with one line, one "Try for
