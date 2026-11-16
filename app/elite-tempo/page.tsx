@@ -263,7 +263,13 @@ export default function EliteTempoLanding() {
             3.0:1 against Tiger's 3.9, readable at a glance. The phone runs off the
             card below the numbers. */}
         <div className="mx-auto h-[min(112vw,470px)] w-[min(68%,280px)] pt-8 md:h-[560px] md:w-[320px]">
-          <Phone src="reveal-tiger" alt="Here is your tempo in Elite Tempo: a golfer's swing beside Tiger Woods', tempo 3.0 to 1 against Tiger's 3.9, backswing 0.65 seconds against 0.86." />
+          {/* Recorded from the latest build (11-15): the golfer's swing and Tiger's
+              silhouette loop on one clock, the way the app plays them. */}
+          <PhoneVideo
+            src="/elite-tempo/app/reveal-app.mp4"
+            poster="/elite-tempo/app/reveal-app-poster.webp"
+            label="Here is your tempo in Elite Tempo: a golfer's driver swing playing beside Tiger Woods' silhouette in time, tempo 3.0 to 1 against Tiger's 3.7, backswing 0.65 seconds against 0.73."
+          />
         </div>
       </FeatureSection>
 
