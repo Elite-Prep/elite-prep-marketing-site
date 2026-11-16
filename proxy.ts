@@ -41,6 +41,8 @@ function isEliteTempoHost(hostHeader: string): boolean {
      own *.vercel.app address, so a change can be checked on a phone before it goes
      live. Production never sets it. */
   if (process.env.ET_PREVIEW_HOST === "1" && host.endsWith(".vercel.app")) return true;
+  /* Same flag, a local build opened from a phone on the Wi-Fi by the Mac's address. */
+  if (process.env.ET_PREVIEW_HOST === "1" && /^\d+\.\d+\.\d+\.\d+$/.test(host)) return true;
   return host === "elitetempo.app" || host === "www.elitetempo.app";
 }
 

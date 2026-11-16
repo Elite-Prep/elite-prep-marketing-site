@@ -170,7 +170,7 @@ export default function HeroCarousel({
   return (
     <div
       ref={box}
-      className="relative mt-12 h-[clamp(440px,62vw,680px)] touch-pan-y select-none [perspective:1400px]"
+      className="relative mt-8 h-[clamp(340px,52vw,680px)] touch-pan-y select-none [perspective:1400px]"
       role="region"
       aria-roledescription="carousel"
       aria-label="Elite Tempo app screens"
@@ -211,7 +211,7 @@ export default function HeroCarousel({
               data-slide
               aria-hidden={offset !== 0}
               onClick={() => offset !== 0 && setFront(i)}
-              className={`absolute left-1/2 top-0 w-[clamp(220px,30.8vw,385px)] ${offset === 0 ? "" : "cursor-pointer"}`}
+              className={`absolute left-1/2 top-0 w-[clamp(200px,30.8vw,385px)] ${offset === 0 ? "" : "cursor-pointer"}`}
               style={{
                 zIndex: 10 - Math.abs(offset),
                 opacity: step.opacity,

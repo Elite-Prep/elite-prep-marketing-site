@@ -4,7 +4,6 @@ import HeroCarousel from "./HeroCarousel";
 import FloatingHeader from "./FloatingHeader";
 import SwingTimingVideo from "./SwingTimingVideo";
 import PhoneVideo from "./PhoneVideo";
-import ReviewsBand from "./ReviewsBand";
 import {
   HERO_SWING,
   SWINGS,
@@ -157,20 +156,18 @@ const HERO_SCREENS: { src: string; label: string; alt: string; clip?: string }[]
      design, so this slide is a still until a new clip is recorded. */
   { src: "routine-practice", label: "your routine", alt: "Practicing a driver pre-shot routine in Elite Tempo: look at the target, 13.6 seconds left on the clock." },
   { src: "player", clip: "player", label: "your swing", alt: "A golfer's own swing playing in Elite Tempo with tempo 3.0:1." },
-  /* Compare also lives here; the photo cards below show it too. */
-  /* Eric's pick (11-04): the "Here is your tempo" screen, his swing beside Tiger's,
-     in place of the stacked See the gap screen. */
-  { src: "reveal-tiger", label: "you against Tiger", alt: "Here is your tempo in Elite Tempo: a golfer's swing beside Tiger Woods', tempo 3.0 to 1 against Tiger's 3.9, backswing 0.65 seconds against 0.86." },
+  /* The "Here is your tempo" screen moved to the pros section (11-15). */
   { src: "pros", label: "the pros", alt: "Elite Tempo's Pros tab: tour players with their tempos." },
   { src: "stats", label: "your streak", alt: "Stats in Elite Tempo: a weekly streak of 3 weeks in a row." },
 ];
 
 const WRAP = "mx-auto max-w-[1240px] px-4";
+const HOME_FAQS = ["What makes Elite Tempo different?", "Do I need anything besides my iPhone?", "How much does it cost?"];
 /* The type scale, cut 2026-11-04 from 17 sizes on the desktop page: 80 hero, 56 every
    section heading, 30 big numbers and quotes, 21 lead lines, 19 body, 16 small. */
 /* Section headings are small on purpose (Pinterest, 11-04): only the opening headline
    is big, so it reads as the most important thing on the page. */
-const H2_SECTION = "m-0 text-[clamp(26px,3vw,34px)] font-semibold leading-[1.15] tracking-[-0.02em] [text-wrap:balance]";
+const H2_SECTION = "m-0 text-[clamp(25px,3vw,36px)] font-semibold leading-[1.15] tracking-[-0.02em] [text-wrap:balance]";
 /* The soft card every feature's picture sits in. */
 /* Darker than it was (#EDEDE8) so the panel reads as a panel on the #F6F6F3 page. */
 const FEATURE_CARD = "overflow-hidden rounded-[28px] bg-[#E6E4DC]";
@@ -189,7 +186,7 @@ export default function EliteTempoLanding() {
       <style>{IPHONE_CSS}</style>
       {/* Eric, 11-09: All True's Special Gothic (free, Google Fonts) for all text; headings in caps. */}
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Gothic:wdth,wght@75..125,400..700&display=swap" precedence="default" />
-      <style>{`.et-sg,.et-sg *{font-family:'Special Gothic',system-ui,sans-serif!important}.et-sg h1,.et-sg h2,.et-sg h3{font-family:'Special Gothic',system-ui,sans-serif;text-transform:uppercase;font-weight:600;letter-spacing:0.01em;line-height:1.0}.et-sg h1{font-stretch:90%}`}</style>
+      <style>{`.et-sg,.et-sg *{font-family:'Special Gothic',system-ui,sans-serif!important}.et-sg h1,.et-sg h2,.et-sg h3{font-family:'Special Gothic',system-ui,sans-serif;font-weight:600;letter-spacing:-0.015em;line-height:1.08}`}</style>
       <SkipLink />
       <FloatingHeader />
 
@@ -211,10 +208,10 @@ export default function EliteTempoLanding() {
 
           <div id="content" className="px-4 pt-[clamp(36px,5vw,64px)] text-center">
             {/* Eric, 11-04: headline first, short; the rating moved to pricing. */}
-            <h1 className="m-0 text-[clamp(40px,9vw,80px)] font-semibold leading-[1.02] tracking-[-0.035em]">
-              Measure your timing and <span className="whitespace-nowrap">pre-shot</span> routine with precision.
+            <h1 className="mx-auto m-0 max-w-[11em] text-[clamp(36px,9vw,72px)] font-semibold leading-[1.04] tracking-[-0.03em] [text-wrap:balance]">
+              Time your swing and your routine.
             </h1>
-            <p className={`mx-auto mt-[18px] max-w-[30em] ${LEDE} tracking-[-0.01em]`} style={{ color: "#4A4B50" }}>
+            <p className={`mx-auto mt-4 max-w-[24em] text-[17px] leading-[1.45] [text-wrap:balance]`} style={{ color: "#4A4B50" }}>
               Build a consistent <span className="whitespace-nowrap">pre-shot</span> routine and swing tempo you can rely on under pressure.
             </p>
             {/* One button style on the page: the black pill (blind review, 11-04). The
@@ -249,30 +246,32 @@ export default function EliteTempoLanding() {
         />
       </FeatureSection>
 
+      {/* Social proof in the same card pattern as the features (11-15), between
+          the gray-shirt swing and the pros so the same orange-shirt range shot is
+          never next to the routine video: the range
+          photo at full color, one quote, no arrows. */}
+      <FeatureSection title="“I love the ease of use and effectiveness.”" body="StayDialedIn, App Store">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/elite-tempo/video/reviews.jpg" alt="Eric swinging on the range." loading="lazy" decoding="async" className="block aspect-[4/3] w-full object-cover" style={{ objectPosition: "50% 35%" }} />
+      </FeatureSection>
+
       {/* The real Pros library from the latest build (Eric, 11-05), in the same phone and
           card as the metronome. The phone runs off the bottom of the card so the list
           reads as a library that keeps going. */}
       <FeatureSection title="Match your timing against pro swings." body={`${SWINGS.length} tour swings, timed by hand, next to your own.`}>
-        <div className="mx-auto h-[min(122vw,520px)] w-[min(64%,280px)] pt-10 md:h-[600px] md:w-[300px]">
-          <Phone src="pros-library" alt="The Pros library in Elite Tempo: Cameron Young 4.3 to 1, Tiger Woods 3.7 to 1, Rory McIlroy 2.4 to 1, Adam Scott 2.9 to 1, Hideki Matsuyama 4.1 to 1, Justin Thomas 3.2 to 1, Nelly Korda 3.1 to 1, each with its total swing time." />
+        {/* The app's "Here is your tempo" screen (latest build): one big comparison,
+            3.0:1 against Tiger's 3.9, readable at a glance. The phone runs off the
+            card below the numbers. */}
+        <div className="mx-auto h-[min(112vw,470px)] w-[min(68%,280px)] pt-8 md:h-[560px] md:w-[320px]">
+          <Phone src="reveal-tiger" alt="Here is your tempo in Elite Tempo: a golfer's swing beside Tiger Woods', tempo 3.0 to 1 against Tiger's 3.9, backswing 0.65 seconds against 0.86." />
         </div>
       </FeatureSection>
 
-      {/* Social proof between the features (Eric's wireframe, 11-04). */}
-      <ReviewsBand
-        photo="/elite-tempo/video/reviews.jpg"
-        reviews={[
-          { body: "I was just looking to improve my tempo and was strongly suggested this app. I love the ease of use and effectiveness.", name: "StayDialedIn" },
-          { body: "This is a game changer for tempo training. It’s simple to use, smart and actually useful!", name: "@kgrace" },
-          { body: "Highly recommend this app for helping you practice your golf swing. So many cool features!", name: "Tiffneyac" },
-          { body: "Super addicting and surprisingly helpful", name: "Boos59" },
-        ]}
-      />
 
-      <FeatureSection title="Perfect your routine. Play with pace." body="Capture each step. Master your routine in under 40 seconds, just like the rules recommend.">
+      <FeatureSection title="Perfect your routine. Play with pace." body="Capture each step, then finish inside the 40 seconds the rules recommend.">
         {/* The real app playing Eric's routine (latest build, 11-05): his video, the
             step names as he reaches them, 23.9s against the 40-second limit. */}
-        <div className="mx-auto w-[min(64%,280px)] py-10 md:w-[300px]">
+        <div className="mx-auto w-[min(60%,260px)] py-8 md:w-[300px]">
           <PhoneVideo
             src="/elite-tempo/app/routine-app.mp4"
             poster="/elite-tempo/app/routine-app-poster.webp"
@@ -281,41 +280,32 @@ export default function EliteTempoLanding() {
         </div>
       </FeatureSection>
 
-      {/* Eric, 11-05: the metronome under the routine, as the app shows it today
-          (captured from the latest build in the Simulator). */}
-      <FeatureSection title="Practice with the metronome." body="Set your tempo and swing time, then swing to the tones.">
-        <div className="mx-auto w-[min(64%,280px)] py-10">
-          <Phone src="metronome" alt="The Elite Tempo metronome: tempo 3.0 to 1, backswing 0.79 seconds, downswing 0.26 seconds, total 1.05 seconds, with the takeaway, top and impact line and a play button." />
-        </div>
-      </FeatureSection>
+      {/* Metronome section out on this preview (Pinterest shows three features; the
+          metronome is a settings screen and the weakest picture). */}
 
       {/* The close (Eric, 11-04, from his Figma note "full bleed image behind CTA"):
           his tee shot in front of a gallery, edge to edge, with one line, one "Try for
           free" button and the App Store rating. The words sit at the top, over the
           sky on a phone and on the right over the trees on desktop, so the swing stays clear. No prices on the page; most app sites
           he looked at show none, and the FAQ answers what it costs. */}
-      <section id="pricing" className="relative mt-[clamp(56px,8vw,96px)] scroll-mt-16 overflow-hidden">
-        <div className="relative isolate flex min-h-[clamp(560px,62vw,720px)] flex-col items-center justify-center bg-[#2A3A26] px-[max(20px,env(safe-area-inset-left,0px))] py-16 text-center text-white">
-          {/* A lazy picture rather than a CSS background, so it waits until it is near
-              the screen instead of competing with the hero picture (speed test, 11-05). */}
+      {/* The close, Pinterest's way (11-15): the photo at full color, edge to edge,
+          and the words under it on the page, so nothing has to be darkened to be
+          read. */}
+      <section id="pricing" className="mt-[clamp(56px,8vw,96px)] scroll-mt-16 text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <div className={WRAP}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/elite-tempo/video/close.jpg?v=4" alt="" loading="lazy" decoding="async" className="absolute inset-0 -z-10 h-full w-full object-cover" style={{ objectPosition: "56% 70%" }} />
-          <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(rgba(20,21,24,0.78),rgba(20,21,24,0.68))]" />
-          <h2 className="m-0 max-w-[16em] text-[clamp(32px,4.6vw,56px)] font-semibold leading-[1.05] tracking-[-0.03em] [text-shadow:0_2px_24px_rgba(0,0,0,0.35)] [text-wrap:balance]">
-            Time your own swing before you pay a thing.
-          </h2>
+          <img src="/elite-tempo/video/close.jpg?v=4" alt="Eric hitting a tee shot in front of a gallery." loading="lazy" decoding="async" className="block aspect-[4/3] w-full rounded-[28px] object-cover md:aspect-[16/7]" style={{ objectPosition: "56% 60%" }} />
+          <div className="pt-8">
+          <h2 className={`${H2_SECTION} mx-auto max-w-[14em]`}>Time your own swing before you pay a thing.</h2>
           <a
             href={APP_STORE_URL}
-            className="mt-7 inline-flex min-h-[52px] items-center rounded-full bg-white px-8 text-[17px] font-semibold text-[#141518] no-underline transition hover:brightness-95"
+            className="mt-6 inline-flex min-h-12 items-center rounded-full px-7 text-[17px] font-semibold text-white no-underline transition hover:brightness-125"
+            style={{ background: INK }}
           >
-            Try for free
+            Download app
           </a>
-          <p className="m-0 mt-4 text-[15px] font-medium [text-shadow:0_1px_12px_rgba(0,0,0,0.45)]">
-            <span className="text-[#F9C832]" aria-hidden>
-              ★★★★★
-            </span>{" "}
-            Rated 5.0 on the App Store
-          </p>
+          </div>
         </div>
       </section>
 
@@ -327,7 +317,8 @@ export default function EliteTempoLanding() {
         <div className="mx-auto max-w-[620px]">
           <h2 className={`${H2_SECTION} text-center`}>FAQ</h2>
           <div className="mt-8 border-t border-[#DCDCD5]">
-            {FAQS.map(({ q, a }) => (
+            {/* Three questions here, the rest on /faq (Pinterest comparison, 11-15). */}
+            {FAQS.filter((f) => HOME_FAQS.includes(f.q)).map(({ q, a }) => (
               <details key={q} name="faq" className="et-faq group border-b border-[#DCDCD5]">
                 <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 py-4 text-[17px] font-semibold marker:content-none [&::-webkit-details-marker]:hidden">
                   {q}
@@ -342,6 +333,11 @@ export default function EliteTempoLanding() {
               </details>
             ))}
           </div>
+          <p className="m-0 mt-6 text-center">
+            <a href="/faq" className="text-[17px] font-semibold underline underline-offset-4" style={{ color: INK }}>
+              See all questions
+            </a>
+          </p>
         </div>
       </section>
 
@@ -448,7 +444,7 @@ function FeatureSection({
       <div className={bare ? "[&>*]:mt-0" : `${FEATURE_CARD} ${cardClass}`}>{children}</div>
       <div className="mx-auto mt-8 max-w-[34em] text-center md:mx-0 md:mt-0 md:text-left">
         <h2 className={H2_SECTION}>{title}</h2>
-        <p className="m-0 mt-3 text-[19px] leading-[1.4] [text-wrap:balance]" style={{ color: MUTED }}>
+        <p className="m-0 mt-3 text-[17px] leading-[1.45] [text-wrap:balance]" style={{ color: MUTED }}>
           {body}
         </p>
         <DownloadButton />

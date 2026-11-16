@@ -32,7 +32,7 @@ export default function ReviewsBand({ reviews, photo, light = false }: { reviews
         )}
         <p className={`m-0 text-[16px] font-semibold ${light ? "text-[#5F6065]" : "text-white/80"}`}>What golfers are saying</p>
         <figure key={i} className="et-quote m-0 mt-6 max-w-[22em]">
-          <blockquote className="m-0 text-[clamp(26px,3.6vw,44px)] font-semibold leading-[1.18] tracking-[-0.02em] [text-wrap:balance]">
+          <blockquote className="m-0 text-[clamp(22px,2.8vw,34px)] font-semibold leading-[1.22] tracking-[-0.02em] [text-wrap:balance]">
             “{r.body}”
           </blockquote>
           <figcaption className={`mt-5 text-[16px] ${light ? "text-[#5F6065]" : "text-white/80"}`}>{r.name}, App Store</figcaption>
